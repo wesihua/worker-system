@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.wei.boot</groupId>
-	<artifactId>Spring-Boot</artifactId>
+	<artifactId>worker-system</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
 	<!-- Inherit defaults from Spring Boot -->
