@@ -1,0 +1,9 @@
+target/
+console.log
+.mvn/
+mvnw*
+.DS_Store
+*/.DS_Store
+.classpath
+.project
+.settings/

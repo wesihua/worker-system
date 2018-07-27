@@ -1,0 +1,28 @@
+spring: 
+  application: 
+   name: Spring-Boot
+  http:
+    multipart:
+      maxFileSize: 100Mb
+      maxRequestSize: 100Mb
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/demo?characterEncoding=UTF-8
+    username: root
+    password: weisihua
+    driver-class-name: com.mysql.jdbc.Driver
+    initial-size: 5
+    max-active: 5
+    min-idle: 5
+    max-wait: 60000
+  aop:
+    auto: true #aop支持
+
+logging:
+  file: console.log
+server:
+  port: 8080
+  tomcat: 
+    uri-encoding: UTF-8
+    
+mybatis:
+  mapper-locations: classpath:mybatis/*Mapper.xml
