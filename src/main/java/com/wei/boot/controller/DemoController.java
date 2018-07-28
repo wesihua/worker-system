@@ -31,6 +31,14 @@ public class DemoController {
 	}
 	
 	
+	
+	@RequestMapping("/zxctest")
+	public String home() {
+		return "hello zxc";
+	}
+	
+	
+	
 	@RequestMapping("/demo")
 	public DemoInfo getInfo() {
 		DemoInfoExample example = new DemoInfoExample();
