@@ -33,7 +33,7 @@ public class DemoController {
 	
 	
 	@RequestMapping("/zxctest")
-	public String home() {
+	public String home2() {
 		return "hello zxc";
 	}
 	
