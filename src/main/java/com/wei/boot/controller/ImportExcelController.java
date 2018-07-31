@@ -46,7 +46,7 @@ public class ImportExcelController {
 			try {
 				fileName = file.getOriginalFilename();
 				// 该路径固定
-				filePath = "/Users/weisihua/excel_import";
+				filePath = "/Users/weisihua/excel_import/";
 				File targetFile = new File(filePath);  
 				if(!targetFile.exists()){    
 				    targetFile.mkdirs();    

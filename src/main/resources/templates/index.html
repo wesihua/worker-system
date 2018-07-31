@@ -7,5 +7,10 @@
 <body>
 	我是主页面<a href="error">跳到error页面</a><br/>
 	<a href="/demo">一个json请求</a>
+	<h2>导入excel功能测试</h2>
+	<form name="file" method="post" action="excel/import" enctype="multipart/form-data">
+		请选择excel文件：<input type="file" name="file" /><br/>
+		<input type="submit" value="开始导入" />
+	</form>
 </body>
 </html>
