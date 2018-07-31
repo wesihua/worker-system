@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.wei.boot.mapper.DemoInfoMapper;
 import com.wei.boot.model.DemoInfo;
 import com.wei.boot.model.DemoInfoExample;
+import com.wei.boot.model.Result;
 import com.wei.boot.model.TestUser;
 import com.wei.boot.model.excel.ExcelData;
 import com.wei.boot.model.excel.ExcelRow;
@@ -30,20 +31,17 @@ public class DemoController {
 		return "hello world";
 	}
 	
-	
-	
 	@RequestMapping("/zxctest")
 	public String home2() {
 		return "hello zxc";
 	}
 	
-	
-	
 	@RequestMapping("/demo")
-	public DemoInfo getInfo() {
+	public Result getInfo() {
 		DemoInfoExample example = new DemoInfoExample();
 		example.createCriteria().andNameEqualTo("weisihua");
-		return demoInfoMapper.selectByExample(example).get(0);
+		List<DemoInfo> infos = demoInfoMapper.selectByExample(example);
+		return Result.success(infos);
 	}
 	
 	@RequestMapping("/download")
