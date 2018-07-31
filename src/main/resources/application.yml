@@ -16,6 +16,8 @@ spring:
     max-wait: 60000
   aop:
     auto: true #aop支持
+  thymeleaf: 
+    prefix: classpath:/templates/
 
 logging:
   file: console.log
