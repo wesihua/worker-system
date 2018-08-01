@@ -15,6 +15,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,24 +30,27 @@ import com.wei.boot.model.Result;
  */
 @RestController
 @RequestMapping("/excel")
-public class ImportExcelController {
+public class ExcelImportController {
 	
-	public static final Logger log = LoggerFactory.getLogger(ImportExcelController.class);
+	public static final Logger log = LoggerFactory.getLogger(ExcelImportController.class);
 	
 	private static final String EXCEL_XLS = "xls";
 	
     private static final String EXCEL_XLSX = "xlsx";
+    
+    @Value("${excel.upload.path}")
+    private String import_path;
 	
 	@RequestMapping("/import")
 	public Result importExcel(HttpServletRequest request,@RequestParam("file") MultipartFile file, HttpServletResponse response) {
 		
 			// 首先上传excel文件，后缀 .xls .xlsx
 			String fileName = null;
-			String filePath = null;
+			String filePath = import_path;
 			try {
 				fileName = file.getOriginalFilename();
 				// 该路径固定
-				filePath = "/Users/weisihua/excel_import/";
+				//filePath = "/Users/weisihua/excel_import/";
 				File targetFile = new File(filePath);  
 				if(!targetFile.exists()){    
 				    targetFile.mkdirs();    
