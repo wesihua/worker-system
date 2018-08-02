@@ -30,6 +30,16 @@ mybatis:
   mapper-locations: classpath:mybatis/*Mapper.xml
   
 #自定义属性
+redis:
+  host: 47.97.100.29
+  port: 6379
+  password: weisihua
+  database: 0
+  connectionTimeout: 5000
+  minIdle: 32
+  maxIdle: 64
+  maxTotal: 128
+  testOnBorrow: true
 excel:
   upload:
     path: /opt/excel_import/  #导入excel时，上传到服务器的路径
