@@ -44,3 +44,7 @@ excel:
   upload:
     path: /opt/excel_import/  #导入excel时，上传到服务器的路径
     
+token: 
+  secret: yx_guowen_worker_system #token加密secret
+    
+    

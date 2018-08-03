@@ -50,6 +50,10 @@ public class Result {
 		return new Result(0, message, null);
 	}
 	
+	public static Result fail(int code, String message) {
+		return new Result(code, message, null);
+	}
+	
 	public static Result fail(Exception e) {
 		return new Result(0, e.getMessage(), null);
 	}
