@@ -6,7 +6,7 @@ spring:
       maxFileSize: 100Mb
       maxRequestSize: 100Mb
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/demo?characterEncoding=UTF-8
+    url: jdbc:mysql://47.97.100.29:3306/workersystem_yx?characterEncoding=UTF-8
     username: root
     password: weisihua
     driver-class-name: com.mysql.jdbc.Driver
