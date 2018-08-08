@@ -1,5 +1,7 @@
 package com.wei.boot.model;
 
+import com.wei.boot.exception.NormalException;
+
 /**
  * 接口统一返回对象
  * @author weisihua
@@ -55,11 +57,12 @@ public class Result {
 	}
 	
 	public static Result fail(Exception e) {
-		return new Result(0, e.getMessage(), null);
-	}
-	
-	public Result data(Object data) {
-		return success(data);
+		if(e instanceof NormalException) {
+			return new Result(0, e.getMessage(), null);
+		}
+		else {
+			return new Result(0, "操作失败", null);
+		}
 	}
 	
 	public int getCode() {

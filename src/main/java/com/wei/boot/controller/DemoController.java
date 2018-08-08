@@ -7,13 +7,9 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.wei.boot.mapper.DemoInfoMapper;
-import com.wei.boot.model.DemoInfo;
-import com.wei.boot.model.DemoInfoExample;
 import com.wei.boot.model.Result;
 import com.wei.boot.model.TestUser;
 import com.wei.boot.model.excel.ExcelData;
@@ -23,9 +19,6 @@ import com.wei.boot.util.ExcelUtil;
 @RestController
 public class DemoController {
 
-	@Autowired
-	private DemoInfoMapper demoInfoMapper;
-	
 	@RequestMapping("/hello")
 	public String home() {
 		return "hello world";
@@ -34,14 +27,6 @@ public class DemoController {
 	@RequestMapping("/zxctest")
 	public String home2() {
 		return "hello zxc";
-	}
-	
-	@RequestMapping("/demo")
-	public Result getInfo() {
-		DemoInfoExample example = new DemoInfoExample();
-		example.createCriteria().andNameEqualTo("weisihua");
-		List<DemoInfo> infos = demoInfoMapper.selectByExample(example);
-		return Result.success(infos);
 	}
 	
 	@RequestMapping("/download")
