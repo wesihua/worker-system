@@ -37,6 +37,10 @@ public class RequesHandlerInterceptor implements HandlerInterceptor {
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object arg2) throws Exception {
+		
+		//测试情况，直接跳过拦截
+		return true;
+		/**
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("application/json; charset=utf-8");
 		
@@ -69,6 +73,8 @@ public class RequesHandlerInterceptor implements HandlerInterceptor {
 		jedis.set(userId, "0", "XX", "EX", 30*60);
 		log.info("请求 [ "+path+" ] 验证通过！");
 		return true;
+		
+		**/
 	}
 
 	/**

@@ -24,6 +24,7 @@ import com.wei.boot.service.JobTypeService;
 public class JobTypeController {
 
 	public static final Logger log = LoggerFactory.getLogger(JobTypeController.class);
+	
 	@Autowired
 	private JobTypeService jobTypeService;
 	
