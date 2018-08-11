@@ -122,7 +122,7 @@ public class CommonController {
 	
 	
 	
-	@RequestMapping("/queryAreaByParentCode")
+	@GetMapping("/queryAreaByParentCode")
 	@ApiOperation(value = "根据parentCode查询地区集合")
 	public Result queryAreaByParentCode(@ApiParam(value="地区父code",required = true)String parentCode) {
 		Result result = Result.SUCCESS;

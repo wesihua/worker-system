@@ -46,5 +46,7 @@ excel:
     
 token: 
   secret: yx_guowen_worker_system #token加密secret
+#线上修改为 false  
+swagger: true
     
     

@@ -1,6 +1,8 @@
 package com.wei.boot.config;
 
 import com.google.common.collect.Lists;
+
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ParameterBuilder;
@@ -19,6 +21,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  */
 @Configuration
 @EnableSwagger2
+@ConditionalOnProperty(name = "swagger", havingValue = "true")
 public class SpringfoxConfig {
 
     @Bean
