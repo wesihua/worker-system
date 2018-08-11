@@ -28,23 +28,31 @@ public interface CompanyService {
 	public void deleteCompany(int companyId) throws NormalException;
 	
 	/**
-	 * 根据条件查询企业，可用于联想查询、查询全部企业
-	 * @param company
+	 * 根据名称查询企业，可用于联想查询、查询全部企业
+	 * @param name 为null查询所有
 	 * @return
 	 */
-	public List<Company> queryByCondition(Company company);
+	public List<Company> queryByName(String name);
+	
+	/**
+	 * 根据id查询
+	 * @param companyId
+	 * @return
+	 */
+	Company queryById(int companyId);
 	
 	/**
 	 * 分页查询企业
 	 * @param company
 	 * @return
 	 */
-	public Page<Company> queryCompanyPage(Page<Company> page, Company company);
+	public Page<Company> queryByPage(Page<Company> page, Company company);
 	
 	/**
-	 * 查询企业总数，用于分页
+	 * 导出查询
 	 * @param company
 	 * @return
 	 */
-	public int queryCompanyCount(Company company);
+	public List<Company> query4Export(Company company);
+	
 }

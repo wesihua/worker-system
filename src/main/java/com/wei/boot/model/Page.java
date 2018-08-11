@@ -10,8 +10,6 @@ public class Page<T> {
 	
 	private int totalCount;
 	
-	private int offset;
-	
 	private List<T> data;
 
 	public Page<T> pageData(List<T> data, int totalCount) {
@@ -35,10 +33,6 @@ public class Page<T> {
 		return (getPageNumber() - 1) * getPageSize();
 	}
 
-	public void setOffset(int offset) {
-		this.offset = offset;
-	}
-	
 	public List<T> getData() {
 		return data;
 	}

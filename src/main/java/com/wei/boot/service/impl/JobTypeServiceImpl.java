@@ -42,6 +42,7 @@ public class JobTypeServiceImpl implements JobTypeService {
 		}
 		// 更新
 		else {
+			jobType.setUpdateTime(new Date());
 			jobTypeMapper.updateByPrimaryKeySelective(jobType);
 		}
 	}
