@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,6 +19,9 @@ import com.wei.boot.service.CommonService;
 import com.wei.boot.util.JedisUtil;
 import com.wei.boot.util.JsonUtil;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import redis.clients.jedis.Jedis;
 
 /**
@@ -25,6 +29,8 @@ import redis.clients.jedis.Jedis;
  * @author weisihua
  * 2018年8月9日 下午2:06:42
  */
+
+@Api(value = "地区、字典等常量控制器")
 @RestController
 @RequestMapping("/common")
 public class CommonController {
@@ -39,8 +45,9 @@ public class CommonController {
 	 * @param type
 	 * @return
 	 */
-	@RequestMapping("/queryDicByType")
-	public Result queryDicByType(String type) {
+	@ApiOperation(value = "根据type查询字典项目",notes = "type字段说明")
+	@GetMapping(value = "/queryDicByType")
+	public Result queryDicByType(@ApiParam(value = "字典type",required = true)String type) {
 		Result result = Result.SUCCESS;
 		try {
 			// 先从redis中查询
@@ -62,12 +69,9 @@ public class CommonController {
 		return result;
 	}
 	
-	/**
-	 * 查询所有省份
-	 * @param type
-	 * @return
-	 */
-	@RequestMapping("/queryAllProvince")
+	
+	@GetMapping("/queryAllProvince")
+	@ApiOperation(value = "查询所有省份")
 	public Result queryAllProvince() {
 		Result result = Result.SUCCESS;
 		try {
@@ -91,12 +95,9 @@ public class CommonController {
 	}
 	
 	
-	/**
-	 * 查询地区树
-	 * @param type
-	 * @return
-	 */
-	@RequestMapping("/queryAreaTree")
+	
+	@GetMapping("/queryAreaTree")
+	@ApiOperation(value = "查询地区树")
 	public Result queryAreaTree() {
 		Result result = Result.SUCCESS;
 		try {
@@ -120,13 +121,10 @@ public class CommonController {
 	}
 	
 	
-	/**
-	 * 根据parentCode查询地区集合
-	 * @param type
-	 * @return
-	 */
-	@RequestMapping("/queryAreaByParentCode")
-	public Result queryAreaByParentCode(String parentCode) {
+	
+	@GetMapping("/queryAreaByParentCode")
+	@ApiOperation(value = "根据parentCode查询地区集合")
+	public Result queryAreaByParentCode(@ApiParam(value="地区父code",required = true)String parentCode) {
 		Result result = Result.SUCCESS;
 		try {
 			// 先从redis中查询
