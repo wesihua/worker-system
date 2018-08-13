@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wei.boot.contant.GlobalConstant;
@@ -47,7 +48,7 @@ public class CommonController {
 	 */
 	@ApiOperation(value = "根据type查询字典项目",notes = "type字段说明")
 	@GetMapping(value = "/queryDicByType")
-	public Result queryDicByType(@ApiParam(value = "字典type",required = true)String type) {
+	public Result queryDicByType(@ApiParam(value = "字典type",required = true) @RequestParam String type) {
 		Result result = Result.SUCCESS;
 		try {
 			// 先从redis中查询
@@ -124,7 +125,7 @@ public class CommonController {
 	
 	@GetMapping("/queryAreaByParentCode")
 	@ApiOperation(value = "根据parentCode查询地区集合")
-	public Result queryAreaByParentCode(@ApiParam(value="地区父code",required = true)String parentCode) {
+	public Result queryAreaByParentCode(@ApiParam(value="地区父code",required = true) @RequestParam String parentCode) {
 		Result result = Result.SUCCESS;
 		try {
 			// 先从redis中查询
