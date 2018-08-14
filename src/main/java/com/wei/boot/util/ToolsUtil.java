@@ -1,6 +1,9 @@
 package com.wei.boot.util;
 
+import java.util.List;
 import java.util.UUID;
+
+import com.wei.boot.model.Page;
 
 public class ToolsUtil {
 
@@ -35,4 +38,5 @@ public class ToolsUtil {
     public static String get36UUID() {
         return UUID.randomUUID().toString();
     }
+    
 }

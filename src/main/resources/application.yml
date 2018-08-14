@@ -6,7 +6,7 @@ spring:
       maxFileSize: 100Mb
       maxRequestSize: 100Mb
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/demo?characterEncoding=UTF-8
+    url: jdbc:mysql://47.97.100.29:3306/workersystem_yx?characterEncoding=UTF-8
     username: root
     password: weisihua
     driver-class-name: com.mysql.jdbc.Driver
@@ -28,3 +28,25 @@ server:
     
 mybatis:
   mapper-locations: classpath:mybatis/*Mapper.xml
+  
+#自定义属性
+redis:
+  host: 47.97.100.29
+  port: 6379
+  password: weisihua
+  database: 0
+  connectionTimeout: 5000
+  minIdle: 32
+  maxIdle: 64
+  maxTotal: 128
+  testOnBorrow: true
+excel:
+  upload:
+    path: /opt/excel_import/  #导入excel时，上传到服务器的路径
+    
+token: 
+  secret: yx_guowen_worker_system #token加密secret
+#线上修改为 false  
+swagger: true
+    
+    
