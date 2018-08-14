@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import com.wei.boot.exception.NormalException;
@@ -24,6 +25,7 @@ public class CompanyServiceImpl implements CompanyService {
 	private CompanyMapper companyMapper;
 	
 	@Override
+	@Transactional
 	public void saveCompany(Company company) throws NormalException {
 
 		// 新增
@@ -39,6 +41,7 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 
 	@Override
+	@Transactional
 	public void deleteCompany(int companyId) throws NormalException {
 
 		if(companyId == 0) {

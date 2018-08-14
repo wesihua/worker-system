@@ -12,7 +12,9 @@ import org.springframework.stereotype.Component;
 import com.wei.boot.contant.GlobalConstant;
 import com.wei.boot.model.Area;
 import com.wei.boot.model.Dictionary;
+import com.wei.boot.model.Menu;
 import com.wei.boot.service.CommonService;
+import com.wei.boot.service.MenuService;
 import com.wei.boot.util.JedisUtil;
 import com.wei.boot.util.JsonUtil;
 
@@ -31,23 +33,32 @@ public class MyApplicationRunner implements ApplicationRunner {
 	@Autowired
 	private CommonService commonService;
 	
+	@Autowired
+	private MenuService menuService;
+	
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 
-		log.info("项目启动，将字典数据、地区树形结构放入redis开始");
 		Jedis jedis = JedisUtil.getJedis();
 		// 查询所有字典项,放入redis中
+		log.info("将字典数据放入redis...");
 		List<String> types = commonService.queryAllDicTypes();
 		for(String type : types) {
 			List<Dictionary> dicList = commonService.queryDicByType(type);
 			jedis.set(type, JsonUtil.bean2Json(dicList));
 		}
 		// 查询地区树，放入redis中
+		log.info("将地区树放入redis...");
 		List<Area> areas = commonService.queryAreaTree(0);
 		jedis.set(GlobalConstant.RedisKey.KEY_AREA_TREE, JsonUtil.bean2Json(areas));
 		// 查询所有省份
+		log.info("将所有省份放入redis...");
 		List<Area> province = commonService.queryAllProvince();
 		jedis.set(GlobalConstant.RedisKey.KEY_PROVINCE, JsonUtil.bean2Json(province));
+		// 查询所有菜单树，放入redis
+		log.info("将所有菜单放入redis...");
+		List<Menu> menus = menuService.queryMenuTree(0);
+		jedis.set(GlobalConstant.RedisKey.KEY_MENU, JsonUtil.bean2Json(menus));
 		log.info("配置信息放入redis结束！");
 	}
 

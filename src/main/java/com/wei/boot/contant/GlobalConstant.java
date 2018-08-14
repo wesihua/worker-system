@@ -14,6 +14,7 @@ public interface GlobalConstant {
 	interface RedisKey {
 		String KEY_AREA_TREE = "yx_area_tree";	// 地区树形结构key
 		String KEY_PROVINCE = "yx_province";	// 省份key
+		String KEY_MENU = "yx_menu_tree";		// 菜单树key
 	}
 	/**
 	 * 工种级别
