@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,11 +16,15 @@ import com.wei.boot.model.JobType;
 import com.wei.boot.model.Result;
 import com.wei.boot.service.JobTypeService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 /**
  * 工种controller
  * @author weisihua
  * 2018年8月8日 下午1:46:23
  */
+@Api(value = "工种相关接口")
 @RestController
 @RequestMapping("/jobType")
 public class JobTypeController {
@@ -33,7 +39,8 @@ public class JobTypeController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping("/queryTree")
+	@ApiOperation(value = "查询工种树形结构",notes = "")
+	@GetMapping("/queryTree")
 	public Result queryTree(HttpServletRequest request) {
 		Result result = Result.SUCCESS;
 		try {
@@ -52,7 +59,8 @@ public class JobTypeController {
 	 * @param info
 	 * @return
 	 */
-	@RequestMapping("/saveJobType")
+	@ApiOperation(value = "保存工种",notes = "")
+	@PostMapping("/saveJobType")
 	public Result saveJobType(HttpServletRequest request, JobType info) {
 		Result result = Result.SUCCESS;
 		try {
@@ -70,7 +78,8 @@ public class JobTypeController {
 	 * @param jobTypeId
 	 * @return
 	 */
-	@RequestMapping("/removeJobType")
+	@ApiOperation(value = "删除工种",notes = "")
+	@GetMapping("/removeJobType")
 	public Result removeJobType(HttpServletRequest request, int jobTypeId) {
 		Result result = Result.SUCCESS;
 		try {
@@ -86,7 +95,8 @@ public class JobTypeController {
 	 * 查询父级工种
 	 * @return
 	 */
-	@RequestMapping("/queryRootJobType")
+	@ApiOperation(value = "查询父级工种",notes = "")
+	@GetMapping("/queryRootJobType")
 	public Result queryRootJobType() {
 		Result result = Result.SUCCESS;
 		try {
@@ -105,7 +115,8 @@ public class JobTypeController {
 	 * @param parentId
 	 * @return
 	 */
-	@RequestMapping("/queryByParentId")
+	@ApiOperation(value = "查询子级工种",notes = "")
+	@GetMapping("/queryByParentId")
 	public Result queryByParentId(HttpServletRequest request, int parentId) {
 		Result result = Result.SUCCESS;
 		try {

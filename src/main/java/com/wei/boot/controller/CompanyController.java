@@ -7,7 +7,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wei.boot.model.Company;
@@ -18,6 +22,11 @@ import com.wei.boot.model.excel.ExcelRow;
 import com.wei.boot.service.CompanyService;
 import com.wei.boot.util.ExcelUtil;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
+@Api(value = "公司相关接口")
 @RestController
 @RequestMapping("/company")
 public class CompanyController {
@@ -33,8 +42,10 @@ public class CompanyController {
 	 * @param company
 	 * @return
 	 */
-	@RequestMapping("/queryByPage")
-	public Result queryByPage(Page<Company> page, Company company) {
+	@ApiOperation(value = "公司分页查询",notes = "")
+	@PostMapping("/queryByPage")
+	public Result queryByPage(@ApiParam(value = "分页对象",required = true) @RequestBody Page<Company> page,
+			@ApiParam(value = "公司参数",required = true) @RequestBody  Company company) {
 		Result result = Result.SUCCESS;
 		try {
 			Page<Company> data = companyService.queryByPage(page, company);
@@ -51,8 +62,10 @@ public class CompanyController {
 	 * @param response
 	 * @param company
 	 */
-	@RequestMapping("/query4Export")
-	public void query4Export(HttpServletResponse response, Company company) {
+	@ApiOperation(value = "导出",notes = "")
+	@PostMapping("/query4Export")
+	public void query4Export(HttpServletResponse response, 
+			@ApiParam(value = "公司参数",required = true) @RequestBody  Company company) {
 		try {
 			List<Company> list = companyService.query4Export(company);
 			if(null != list && list.size() > 0) {
@@ -79,8 +92,9 @@ public class CompanyController {
 	 * @param name
 	 * @return
 	 */
-	@RequestMapping("/queryByName")
-	public Result queryByName(String name) {
+	@ApiOperation(value = "根据名称查询",notes = "")
+	@GetMapping("/queryByName")
+	public Result queryByName(@ApiParam(value = "公司名称",required = true) @RequestParam  String name) {
 		Result result = Result.SUCCESS;
 		try {
 			List<Company> list = companyService.queryByName(name);
@@ -98,8 +112,9 @@ public class CompanyController {
 	 * @param name
 	 * @return
 	 */
-	@RequestMapping("/queryDetail")
-	public Result queryDetail(int companyId) {
+	@ApiOperation(value = "根据名称查询",notes = "")
+	@GetMapping("/queryDetail")
+	public Result queryDetail(@ApiParam(value = "公司id",required = true) @RequestParam int companyId) {
 		Result result = Result.SUCCESS;
 		try {
 			Company company = companyService.queryById(companyId);
@@ -115,8 +130,9 @@ public class CompanyController {
 	 * @param company
 	 * @return
 	 */
-	@RequestMapping("/saveCompany")
-	public Result saveCompany(Company company) {
+	@ApiOperation(value = "保存企业信息",notes = "")
+	@PostMapping("/saveCompany")
+	public Result saveCompany(@ApiParam(value = "公司",required = true) @RequestBody Company company) {
 		Result result = Result.SUCCESS;
 		try {
 			companyService.saveCompany(company);
@@ -132,8 +148,9 @@ public class CompanyController {
 	 * @param companyId
 	 * @return
 	 */
-	@RequestMapping("/deleteCompany")
-	public Result deleteCompany(int companyId) {
+	@ApiOperation(value = "删除企业",notes = "")
+	@GetMapping("/deleteCompany")
+	public Result deleteCompany(@ApiParam(value = "公司id",required = true) @RequestParam int companyId) {
 		Result result = Result.SUCCESS;
 		try {
 			companyService.deleteCompany(companyId);

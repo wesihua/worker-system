@@ -28,18 +28,22 @@ import com.wei.boot.util.DateUtils;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * word导出controller
  * 
  * @author weisihua 2018年8月1日 下午5:33:45
  */
+@Api(value = "word导出")
 @RestController
 @RequestMapping("/word")
 public class WordExportController {
 
 	public static final Logger log = LoggerFactory.getLogger(WordExportController.class);
 
+	@ApiOperation(value = "word导出",notes = "")
 	@RequestMapping("/export")
 	public void exportWord(HttpServletRequest request, HttpServletResponse response) {
 		File file = createDoc();

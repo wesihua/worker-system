@@ -23,11 +23,15 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.wei.boot.model.Result;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 /**
  * 导入excel数据
  * @author weisihua
  * 2018年7月30日 上午10:39:55
  */
+@Api(value = "excel导入导出相关接口")
 @RestController
 @RequestMapping("/excel")
 public class ExcelImportController {
@@ -41,6 +45,7 @@ public class ExcelImportController {
     @Value("${excel.upload.path}")
     private String import_path;
 	
+    @ApiOperation(value = "导入",notes = "")
 	@RequestMapping("/import")
 	public Result importExcel(HttpServletRequest request,@RequestParam("file") MultipartFile file, HttpServletResponse response) {
 		
