@@ -317,7 +317,7 @@
   </update>
   
   
-  <insert id="insertList" parameterType="com.wei.boot.model.RoleMenu" >
+  <insert id="insertBatch" parameterType="list" >
     insert into t_sys_role_menu (role_id, menu_id,create_time, create_user)
    	values 
    	<foreach collection="list" item="roleMenu" index="index" separator=",">
