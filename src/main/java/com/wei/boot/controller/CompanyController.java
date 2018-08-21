@@ -1,6 +1,7 @@
 package com.wei.boot.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -44,10 +45,26 @@ public class CompanyController {
 	 */
 	@ApiOperation(value = "公司分页查询",notes = "")
 	@PostMapping("/queryByPage")
-	public Result queryByPage(@ApiParam(value = "分页对象",required = true) @RequestBody Page<Company> page,
-			@ApiParam(value = "公司参数",required = true) @RequestBody  Company company) {
+	public Result queryByPage(@ApiParam(value = "公司参数",required = true) @RequestBody Map<String, Object> map) {
 		Result result = Result.SUCCESS;
 		try {
+			Page<Company> page = new Page<Company>();
+			Company company = new Company();
+			if(map.containsKey("pageNumber")) {
+				page.setPageNumber(Integer.parseInt((String) map.get("pageNumber")));
+			}
+			if(map.containsKey("pageSize")) {
+				page.setPageSize(Integer.parseInt((String) map.get("pageSize")));
+			}
+			if(map.containsKey("companyName")) {
+				company.setName((String) map.get("companyName"));
+			}
+			if(map.containsKey("contactName")) {
+				company.setContactName((String) map.get("contactName"));
+			}
+			if(map.containsKey("contactPhone")) {
+				company.setContactPhone((String) map.get("contactPhone"));
+			}
 			Page<Company> data = companyService.queryByPage(page, company);
 			result.setData(data);
 		} catch (Exception e) {

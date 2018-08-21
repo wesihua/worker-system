@@ -45,6 +45,7 @@ CREATE TABLE t_sys_menu  (
   path varchar(200) NULL                  comment '路径url',
   type int(11) NOT NULL DEFAULT 1         comment '菜单类型 0:文件夹，1:链接',
   parent_id int(11) NOT NULL DEFAULT 0    comment '父级id,根级为0',
+  order int(11) NOT NULL DEFAULT 100		comment '菜单顺序',
   create_time datetime NOT NULL           comment '创建时间',
   create_user int(11) NULL                comment '创建人',
   update_time datetime NULL               comment '更新时间',
@@ -62,6 +63,20 @@ CREATE TABLE t_sys_role_menu  (
   update_user int(11) NULL                comment '更新人',
   PRIMARY KEY (id)
 ) comment='角色-菜单关联表';
+
+CREATE TABLE t_sys_user  (
+  id int(11) NOT NULL AUTO_INCREMENT		comment '用户id',
+  user_name varchar(50) NOT NULL			comment '用户名',
+  password varchar(50) NOT NULL				comment '密码',
+  real_name varchar(50)	NULL				comment '真实姓名',
+  role_id int(11) NOT NULL					comment '所属角色',
+  scope int(11) NULL DEFAULT 0				comment '用户所属平台范围 0:全部,1:pc,2:app',
+  create_time datetime NOT NULL				comment '创建时间',
+  create_user int(11) NULL					comment '创建人',
+  update_time datetime NULL					comment '更新时间',
+  update_user int(11) NULL					comment '更新人',
+  PRIMARY KEY (id)
+) comment='用户表';
 
 CREATE TABLE t_yx_company  (
   id int(11) NOT NULL AUTO_INCREMENT      comment '企业id',

@@ -27,23 +27,9 @@ public interface MenuService {
 	void deleteMenu(int menuId) throws NormalException;
 	
 	/**
-	 * 查询用户菜单树,用于登录后菜单显示
-	 * @param userId
-	 * @return
-	 */
-	List<Menu> queryTreeByUserId(int userId);
-	
-	/**
-	 * 查询角色选中的菜单树
-	 * @param userId
-	 * @return
-	 */
-	List<Menu> queryTreeByUserRoleId(int roleId);
-	
-	/**
 	 * 查询全部菜单树
 	 * @param parentId
 	 * @return
 	 */
-	List<Menu> queryMenuTree(int parentId);
+	List<Menu> queryMenuTree();
 }

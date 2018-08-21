@@ -1,6 +1,7 @@
 package com.wei.boot.model;
 
 import java.util.Date;
+import java.util.List;
 
 public class Role {
     /**
@@ -63,8 +64,21 @@ public class Role {
      * 该角色下用户数量
      */
     private int userCount;
+    
+    /**
+     * 菜单列表树
+     */
+    private List<Menu> menuList;
 
-    public int getUserCount() {
+    public List<Menu> getMenuList() {
+		return menuList;
+	}
+
+	public void setMenuList(List<Menu> menuList) {
+		this.menuList = menuList;
+	}
+
+	public int getUserCount() {
 		return userCount;
 	}
 

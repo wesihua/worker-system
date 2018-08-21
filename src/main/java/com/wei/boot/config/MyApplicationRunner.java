@@ -57,7 +57,7 @@ public class MyApplicationRunner implements ApplicationRunner {
 		jedis.set(GlobalConstant.RedisKey.KEY_PROVINCE, JsonUtil.bean2Json(province));
 		// 查询所有菜单树，放入redis
 		log.info("将所有菜单放入redis...");
-		List<Menu> menus = menuService.queryMenuTree(0);
+		List<Menu> menus = menuService.queryMenuTree();
 		jedis.set(GlobalConstant.RedisKey.KEY_MENU, JsonUtil.bean2Json(menus));
 		log.info("配置信息放入redis结束！");
 	}

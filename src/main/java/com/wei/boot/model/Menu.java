@@ -83,20 +83,6 @@ public class Menu {
      * 角色编辑菜单权限时用到
      */
     private int selected = 0;
-    
-    /**
-     * 是否展示，0:否，1:是
-     * 登录后展示用到
-     */
-    private int show = 0;
-
-    public int getShow() {
-		return show;
-	}
-
-	public void setShow(int show) {
-		this.show = show;
-	}
 
 	public int getSelected() {
 		return selected;

@@ -1,6 +1,9 @@
 spring: 
   application: 
-   name: Spring-Boot
+   name: worker-system
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss #解决restcontroller中日期类型不正确
+    time-zone: GMT+8 #指定时区，解决时间差
   http:
     multipart:
       maxFileSize: 100Mb

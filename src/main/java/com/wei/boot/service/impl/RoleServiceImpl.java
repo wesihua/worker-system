@@ -2,24 +2,32 @@ package com.wei.boot.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
+import com.wei.boot.contant.GlobalConstant;
 import com.wei.boot.exception.NormalException;
 import com.wei.boot.mapper.RoleMapper;
 import com.wei.boot.mapper.RoleMenuMapper;
+import com.wei.boot.mapper.UserMapper;
+import com.wei.boot.model.Menu;
 import com.wei.boot.model.Page;
 import com.wei.boot.model.Role;
 import com.wei.boot.model.RoleExample;
 import com.wei.boot.model.RoleMenu;
 import com.wei.boot.model.RoleMenuExample;
+import com.wei.boot.model.User;
 import com.wei.boot.service.RoleService;
+import com.wei.boot.service.UserService;
+import com.wei.boot.util.JedisUtil;
+import com.wei.boot.util.JsonUtil;
 
+@Service
 public class RoleServiceImpl implements RoleService {
 
 	@Autowired
@@ -28,13 +36,25 @@ public class RoleServiceImpl implements RoleService {
 	@Autowired
 	private RoleMenuMapper roleMenuMapper;
 	
+	@Autowired
+	private UserMapper userMapper;
+	
+	@Autowired
+	private UserService userService;
+	
 	@Override
-	public Page<Role> queryByPage(Page<Role> page, String name) {
-		Map<String, Object> map = new HashMap<String, Object>();
+	public Page<Role> queryByPage(Map<String, Object> map) {
+		Page<Role> page = new Page<Role>();
+		if(map.containsKey("pageNumber")) {
+			page.setPageNumber(Integer.parseInt((String) map.get("pageNumber")));
+		}
+		if(map.containsKey("pageSize")) {
+			page.setPageSize(Integer.parseInt((String) map.get("pageSize")));
+		}
 		map.put("offset", page.getOffset());
 		map.put("pageSize", page.getPageSize());
-		if(!StringUtils.isEmpty(name)) {
-			map.put("name", "%"+name+"%");
+		if(map.containsKey("name")) {
+			map.put("name", "%"+(String) map.get("name")+"%");
 		}
 		int totalCount = roleMapper.selectCount(map);
 		List<Role> list = roleMapper.selectByPage(map);
@@ -85,16 +105,23 @@ public class RoleServiceImpl implements RoleService {
 
 	@Override
 	@Transactional
-	public void addUser(int roleId, String userName) throws NormalException {
-		// 先根据用户名查询用户
-
+	public void addUser(int roleId, int userId) throws NormalException {
+		// 更改用户
+		User user = new User();
+		user.setId(userId);
+		user.setUpdateTime(new Date());
+		user.setRoleId(roleId);
+		userMapper.updateByPrimaryKeySelective(user);
 	}
 
 	@Override
 	@Transactional
-	public void removeUser(int roleId, int userId) throws NormalException {
-		// TODO Auto-generated method stub
-
+	public void removeUser(int userId) throws NormalException {
+		User user = new User();
+		user.setId(userId);
+		user.setUpdateTime(new Date());
+		user.setRoleId(0);
+		userMapper.updateByPrimaryKeySelective(user);
 	}
 
 	@Override
@@ -104,4 +131,40 @@ public class RoleServiceImpl implements RoleService {
 		return roleMapper.selectByExample(example);
 	}
 
+	@Override
+	public List<Menu> queryMenuTreeByRoleId(int roleId) {
+		// 先查询该角色下绑定的所有菜单id
+		RoleMenuExample example = new RoleMenuExample();
+		example.createCriteria().andRoleIdEqualTo(roleId);
+		List<Integer> menuIds = roleMenuMapper.selectByExample(example).stream().map(roleMenu -> roleMenu.getRoleId()).collect(Collectors.toList());
+		// 查询所有菜单树
+		List<Menu> menus = JsonUtil.json2List(JedisUtil.getJedis().get(GlobalConstant.RedisKey.KEY_MENU), Menu.class);
+		revalueMenuTree(menus, menuIds);
+		return menus;
+	}
+	
+	/**
+	 * 重新给菜单树赋 selected 字段的值
+	 * @param menus 菜单树
+	 * @param menuIds 关联的菜单id
+	 * @param flag show/selected
+	 * @return
+	 */
+	private void revalueMenuTree(List<Menu> menus, List<Integer> menuIds) {
+		if(null != menuIds && menuIds.size() > 0) {
+			for(Menu menu : menus) {
+				if(menuIds.contains(menu.getId())) {
+					menu.setSelected(1);
+				}
+				if(null != menu.getChildren() && menu.getChildren().size() > 0) {
+					revalueMenuTree(menu.getChildren(), menuIds);
+				}
+			}
+		}
+	}
+
+	@Override
+	public Page<User> queryUserByPage(Map<String, Object> map) {
+		return userService.queryByPage(map);
+	}
 }
