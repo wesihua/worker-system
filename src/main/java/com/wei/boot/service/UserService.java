@@ -3,6 +3,7 @@ package com.wei.boot.service;
 import java.util.List;
 import java.util.Map;
 
+import com.wei.boot.exception.NormalException;
 import com.wei.boot.model.Menu;
 import com.wei.boot.model.Page;
 import com.wei.boot.model.User;
@@ -27,13 +28,13 @@ public interface UserService {
 	 * 新增用户
 	 * @param user
 	 */
-	void insertUser(User user);
+	void insertUser(User user) throws NormalException;
 	
 	/**
 	 * 更改用户
 	 * @param user
 	 */
-	void updateUser(User user);
+	void updateUser(User user) throws NormalException;
 	
 	/**
 	 * 删除用户
@@ -45,6 +46,6 @@ public interface UserService {
 	 * 更改密码
 	 * @param user
 	 */
-	void changePass(User user);
+	void changePass(int userId, String newPass) throws NormalException;
 	
 }

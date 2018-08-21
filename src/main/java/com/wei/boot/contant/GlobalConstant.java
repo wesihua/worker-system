@@ -36,4 +36,15 @@ public interface GlobalConstant {
 		int CITY = 2;					// 市
 		int COUNTY = 3;					// 县
 	}
+	
+	/**
+	 * 用户所属平台
+	 * @author weisihua
+	 * 2018年8月21日 下午7:37:27
+	 */
+	interface UserScope {
+		int ALL = 0;
+		int PC = 1;
+		int APP = 2;
+	}
 }

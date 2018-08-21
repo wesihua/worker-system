@@ -1,11 +1,14 @@
 package com.wei.boot.service.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
+import com.wei.boot.exception.NormalException;
 import com.wei.boot.mapper.UserMapper;
 import com.wei.boot.model.Menu;
 import com.wei.boot.model.Page;
@@ -50,28 +53,41 @@ public class UserServiceImpl implements UserService {
 		return page;
 	}
 
-	@Override
-	public void insertUser(User user) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
-	public void updateUser(User user) {
-		// TODO Auto-generated method stub
-		
+	public void updateUser(User user) throws NormalException {
+		user.setUpdateTime(new Date());
+		userMapper.updateByPrimaryKeySelective(user);
 	}
 
 	@Override
 	public void deleteUser(int userId) {
-		// TODO Auto-generated method stub
+		userMapper.deleteByPrimaryKey(userId);
+	}
+
+	@Override
+	public void changePass(int userId, String newPass) throws NormalException {
+		User user = userMapper.selectByPrimaryKey(userId);
+		if(null != user) {
+			if(StringUtils.isEmpty(user.getPassword())) {
+				throw new NormalException("请输入密码！");
+			}
+			if(newPass.equals(user.getPassword())) {
+				throw new NormalException("该密码与原密码相同！");
+			}
+			User bean = new User();
+			bean.setId(userId);
+			bean.setPassword(newPass);
+			bean.setUpdateTime(new Date());
+			userMapper.updateByPrimaryKeySelective(bean);
+		}
 		
 	}
 
 	@Override
-	public void changePass(User user) {
-		// TODO Auto-generated method stub
-		
+	public void insertUser(User user) throws NormalException {
+		user.setCreateTime(new Date());
+		userMapper.insertSelective(user);
 	}
 
 }
