@@ -1,4 +1,4 @@
-package com.wei.boot.controller;
+package com.wei.boot.controller.pc;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

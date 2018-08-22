@@ -1,4 +1,4 @@
-package com.wei.boot.controller;
+package com.wei.boot.controller.pc;
 
 import java.util.List;
 
@@ -171,20 +171,4 @@ public class UserController {
 		return result;
 	}
 	
-	/**
-	 * 更改密码
-	 * @param userId
-	 * @param newPass
-	 * @return
-	 */
-	@PostMapping("/changePass")
-	public Result changePass(int userId, String newPass) {
-		Result result = Result.SUCCESS;
-		try {
-			userService.changePass(userId, newPass);
-		} catch (Exception e) {
-			result = Result.fail(e);
-		}
-		return result;
-	}
 }

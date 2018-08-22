@@ -16,6 +16,7 @@ public interface GlobalConstant {
 		String KEY_AREA_TREE = "yx_area_tree";	// 地区树形结构key
 		String KEY_PROVINCE = "yx_province";	// 省份key
 		String KEY_MENU = "yx_menu_tree";		// 菜单树key
+		String KEY_TOKEN_PREFIX = "yx_token_";	// 用来存放token的key值。格式为：yx_token_ + userId
 	}
 	/**
 	 * 工种级别

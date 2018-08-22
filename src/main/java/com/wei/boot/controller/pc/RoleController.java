@@ -1,4 +1,4 @@
-package com.wei.boot.controller;
+package com.wei.boot.controller.pc;
 
 import java.util.List;
 import java.util.Map;

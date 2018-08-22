@@ -70,6 +70,13 @@ public class RoleServiceImpl implements RoleService {
 	@Override
 	@Transactional
 	public void insertRole(Role role) throws NormalException {
+		// 先判定角色是否存在
+		RoleExample example = new RoleExample();
+		example.createCriteria().andNameEqualTo(role.getName());
+		List<Role> roleList = roleMapper.selectByExample(example);
+		if(null != roleList && roleList.size() > 0) {
+			throw new NormalException("该角色名已存在！");
+		}
 		role.setCreateTime(new Date());
 		roleMapper.insertSelective(role);
 	}
@@ -77,6 +84,13 @@ public class RoleServiceImpl implements RoleService {
 	@Override
 	@Transactional
 	public void updateRole(Role role) throws NormalException {
+		// 先判定角色是否存在
+		RoleExample example = new RoleExample();
+		example.createCriteria().andNameEqualTo(role.getName());
+		List<Role> roleList = roleMapper.selectByExample(example);
+		if(null != roleList && roleList.size() > 0) {
+			throw new NormalException("该角色名已存在！");
+		}
 		role.setUpdateTime(new Date());
 		roleMapper.updateByPrimaryKeySelective(role);
 	}

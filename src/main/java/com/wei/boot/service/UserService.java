@@ -53,4 +53,5 @@ public interface UserService {
 	 */
 	void changePass(int userId, String newPass) throws NormalException;
 	
+	User queryById(int userId);
 }

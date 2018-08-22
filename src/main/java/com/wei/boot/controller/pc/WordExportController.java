@@ -1,4 +1,4 @@
-package com.wei.boot.controller;
+package com.wei.boot.controller.pc;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;

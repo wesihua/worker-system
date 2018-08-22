@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import com.wei.boot.exception.NormalException;
@@ -73,17 +74,28 @@ public class UserServiceImpl implements UserService {
 
 
 	@Override
+	@Transactional
 	public void updateUser(User user) throws NormalException {
+		// 先查询用户是否已存在
+		if(StringUtils.isEmpty(user.getUserName())) {
+			throw new NormalException("用户名不能为空！");
+		}
+		List<User> userList = queryByUserName(user.getUserName());
+		if(null != userList && userList.size() > 0) {
+			throw new NormalException("该用户名已存在！");
+		}
 		user.setUpdateTime(new Date());
 		userMapper.updateByPrimaryKeySelective(user);
 	}
 
 	@Override
+	@Transactional
 	public void deleteUser(int userId) {
 		userMapper.deleteByPrimaryKey(userId);
 	}
 
 	@Override
+	@Transactional
 	public void changePass(int userId, String newPass) throws NormalException {
 		User user = userMapper.selectByPrimaryKey(userId);
 		if(null != user) {
@@ -103,7 +115,16 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Transactional
 	public void insertUser(User user) throws NormalException {
+		// 先查询用户是否已存在
+		if(StringUtils.isEmpty(user.getUserName())) {
+			throw new NormalException("用户名不能为空！");
+		}
+		List<User> userList = queryByUserName(user.getUserName());
+		if(null != userList && userList.size() > 0) {
+			throw new NormalException("该用户名已存在！");
+		}
 		user.setCreateTime(new Date());
 		userMapper.insertSelective(user);
 	}
@@ -113,6 +134,11 @@ public class UserServiceImpl implements UserService {
 		UserExample example = new UserExample();
 		example.createCriteria().andUserNameLike("%"+userName+"%");
 		return userMapper.selectByExample(example);
+	}
+
+	@Override
+	public User queryById(int userId) {
+		return userMapper.selectByPrimaryKey(userId);
 	}
 
 }
