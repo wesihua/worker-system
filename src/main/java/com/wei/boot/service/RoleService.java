@@ -1,7 +1,6 @@
 package com.wei.boot.service;
 
 import java.util.List;
-import java.util.Map;
 
 import com.wei.boot.exception.NormalException;
 import com.wei.boot.model.Menu;
@@ -21,20 +20,21 @@ public interface RoleService {
 	 * @param name
 	 * @return
 	 */
-	Page<Role> queryByPage(Map<String, Object> map);
+	Page<Role> queryByPage(Page<Role> page, Role role);
 	
 	/**
 	 * 查询该角色下所有的用户
 	 * @param map
 	 * @return
 	 */
-	Page<User> queryUserByPage(Map<String, Object> map);
+	Page<User> queryUserByPage(Page<User> page, User user);
 	
 	/**
 	 * 查询所有角色
 	 * @return
 	 */
 	List<Role> queryAll();
+	
 	/**
 	 * 新增角色
 	 * @throws NormalException

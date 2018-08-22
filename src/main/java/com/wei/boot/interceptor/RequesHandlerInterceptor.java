@@ -21,8 +21,6 @@ public class RequesHandlerInterceptor implements HandlerInterceptor {
 
 	public static final Logger log = LoggerFactory.getLogger(RequesHandlerInterceptor.class);
 	
-	private static final String TOKEN_NAME = "Authorization";
-	
 	@Override
 	public void afterCompletion(HttpServletRequest arg0, HttpServletResponse arg1, Object arg2, Exception arg3)
 			throws Exception {
@@ -77,27 +75,4 @@ public class RequesHandlerInterceptor implements HandlerInterceptor {
 		**/
 	}
 
-	/**
-	 * 获取前端传递过来的token
-	 * @param request
-	 * @return
-	 */
-	private String getToken(HttpServletRequest request) {
-		String token = null;
-		// 先从cookie中获取
-		Cookie[] cookies = request.getCookies();
-		if(null != cookies && cookies.length == 0) {
-			for(Cookie cookie : cookies) {
-				if(TOKEN_NAME.equals(cookie.getName())) {
-					token = cookie.getValue();
-					break;
-				}
-			}
-		}
-		// 再从header中获取
-		if(null == token) {
-			token = request.getHeader(TOKEN_NAME);
-		}
-		return token;
-	}
 }

@@ -101,4 +101,6 @@ public interface UserMapper {
     List<User> selectByPage(Map<String, Object> map);
     
     int selectCount(Map<String, Object> map);
+    
+    List<Integer> selectMenuIdByUserId(int userId);
 }

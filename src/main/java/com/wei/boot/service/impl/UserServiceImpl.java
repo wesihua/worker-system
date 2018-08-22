@@ -1,6 +1,7 @@
 package com.wei.boot.service.impl;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,10 +10,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.wei.boot.exception.NormalException;
+import com.wei.boot.mapper.MenuMapper;
 import com.wei.boot.mapper.UserMapper;
 import com.wei.boot.model.Menu;
+import com.wei.boot.model.MenuExample;
 import com.wei.boot.model.Page;
 import com.wei.boot.model.User;
+import com.wei.boot.model.UserExample;
 import com.wei.boot.service.UserService;
 
 @Service
@@ -21,31 +25,45 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserMapper userMapper;
 	
+	@Autowired
+	private MenuMapper menuMapper;
+	
 	@Override
-	public List<Menu> queryTreeByUserId(int userId) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Menu> queryUserMenu(int userId) {
+		List<Integer> menuIds = userMapper.selectMenuIdByUserId(userId);
+		List<Menu> menuList = queryByMenuIds(0, menuIds);
+		return menuList;
+	}
+	
+	/**
+	 * 递归菜单树
+	 * @param parentId
+	 * @param menuIds
+	 * @return
+	 */
+	private List<Menu> queryByMenuIds(int parentId, List<Integer> menuIds) {
+		 MenuExample example = new MenuExample();
+		 example.createCriteria().andParentIdEqualTo(parentId).andIdIn(menuIds);
+		 List<Menu> menuList = menuMapper.selectByExample(example);
+		 if(null != menuList && menuList.size() > 0) {
+			 menuList.stream().forEach(each -> each.setChildren(queryByMenuIds(each.getId(), menuIds)));
+		 }
+		 return menuList;
 	}
 
 	@Override
-	public Page<User> queryByPage(Map<String, Object> map) {
-		Page<User> page = new Page<User>();
-		if(map.containsKey("pageNumber")) {
-			page.setPageNumber(Integer.parseInt((String) map.get("pageNumber")));
-		}
-		if(map.containsKey("pageSize")) {
-			page.setPageSize(Integer.parseInt((String) map.get("pageSize")));
-		}
+	public Page<User> queryByPage(Page<User> page, User user) {
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("offset", page.getOffset());
 		map.put("pageSize", page.getPageSize());
-		if(map.containsKey("userName")) {
-			map.put("userName", "%"+(String) map.get("userName")+"%");
+		if(!StringUtils.isEmpty(user.getUserName())) {
+			map.put("userName", "%"+user.getUserName()+"%");
 		}
-		if(map.containsKey("realName")) {
-			map.put("realName", "%"+(String) map.get("realName")+"%");
+		if(!StringUtils.isEmpty(user.getRealName())) {
+			map.put("realName", "%"+user.getRealName()+"%");
 		}
-		if(map.containsKey("roleId")) {
-			map.put("roleId", Integer.parseInt((String) map.get("roleId")));
+		if(user.getRoleId() != 0) {
+			map.put("roleId", user.getRoleId());
 		}
 		int totalCount = userMapper.selectCount(map);
 		List<User> list = userMapper.selectByPage(map);
@@ -88,6 +106,13 @@ public class UserServiceImpl implements UserService {
 	public void insertUser(User user) throws NormalException {
 		user.setCreateTime(new Date());
 		userMapper.insertSelective(user);
+	}
+
+	@Override
+	public List<User> queryByUserName(String userName) {
+		UserExample example = new UserExample();
+		example.createCriteria().andUserNameLike("%"+userName+"%");
+		return userMapper.selectByExample(example);
 	}
 
 }

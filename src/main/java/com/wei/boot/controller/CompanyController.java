@@ -1,8 +1,6 @@
 package com.wei.boot.controller;
 
 import java.util.List;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
@@ -44,27 +42,10 @@ public class CompanyController {
 	 * @return
 	 */
 	@ApiOperation(value = "公司分页查询",notes = "")
-	@PostMapping("/queryByPage")
-	public Result queryByPage(@ApiParam(value = "公司参数",required = true) @RequestBody Map<String, Object> map) {
+	@PostMapping("/list")
+	public Result list(Page<Company> page, Company company) {
 		Result result = Result.SUCCESS;
 		try {
-			Page<Company> page = new Page<Company>();
-			Company company = new Company();
-			if(map.containsKey("pageNumber")) {
-				page.setPageNumber(Integer.parseInt((String) map.get("pageNumber")));
-			}
-			if(map.containsKey("pageSize")) {
-				page.setPageSize(Integer.parseInt((String) map.get("pageSize")));
-			}
-			if(map.containsKey("companyName")) {
-				company.setName((String) map.get("companyName"));
-			}
-			if(map.containsKey("contactName")) {
-				company.setContactName((String) map.get("contactName"));
-			}
-			if(map.containsKey("contactPhone")) {
-				company.setContactPhone((String) map.get("contactPhone"));
-			}
 			Page<Company> data = companyService.queryByPage(page, company);
 			result.setData(data);
 		} catch (Exception e) {
@@ -80,11 +61,12 @@ public class CompanyController {
 	 * @param company
 	 */
 	@ApiOperation(value = "导出",notes = "")
-	@PostMapping("/query4Export")
-	public void query4Export(HttpServletResponse response, 
-			@ApiParam(value = "公司参数",required = true) @RequestBody  Company company) {
+	@PostMapping("/export")
+	public void export(HttpServletResponse response, Company company) {
 		try {
-			List<Company> list = companyService.query4Export(company);
+			Page<Company> page = new Page<Company>();
+			page.setPageSize(20000);
+			List<Company> list = companyService.queryByPage(page, company).getData();
 			if(null != list && list.size() > 0) {
 				ExcelRow headers = ExcelUtil.excelHeaders("企业名称","地址","所属行业","联系人","联系电话");
 				ExcelData data = new ExcelData();

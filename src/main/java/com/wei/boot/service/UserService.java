@@ -1,7 +1,6 @@
 package com.wei.boot.service;
 
 import java.util.List;
-import java.util.Map;
 
 import com.wei.boot.exception.NormalException;
 import com.wei.boot.model.Menu;
@@ -15,14 +14,20 @@ public interface UserService {
 	 * @param userId
 	 * @return
 	 */
-	List<Menu> queryTreeByUserId(int userId);
+	List<Menu> queryUserMenu(int userId);
 	
 	/**
 	 * 分页查询
 	 * @param map
 	 * @return
 	 */
-	Page<User> queryByPage(Map<String, Object> map);
+	Page<User> queryByPage(Page<User> page, User user);
+	
+	/**
+	 * 根据用户名查询
+	 * @return
+	 */
+	List<User> queryByUserName(String userName);
 	
 	/**
 	 * 新增用户

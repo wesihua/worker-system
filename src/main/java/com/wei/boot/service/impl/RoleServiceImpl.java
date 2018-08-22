@@ -2,6 +2,7 @@ package com.wei.boot.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -9,6 +10,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import com.wei.boot.contant.GlobalConstant;
 import com.wei.boot.exception.NormalException;
@@ -22,6 +24,7 @@ import com.wei.boot.model.RoleExample;
 import com.wei.boot.model.RoleMenu;
 import com.wei.boot.model.RoleMenuExample;
 import com.wei.boot.model.User;
+import com.wei.boot.model.UserExample;
 import com.wei.boot.service.RoleService;
 import com.wei.boot.service.UserService;
 import com.wei.boot.util.JedisUtil;
@@ -43,21 +46,23 @@ public class RoleServiceImpl implements RoleService {
 	private UserService userService;
 	
 	@Override
-	public Page<Role> queryByPage(Map<String, Object> map) {
-		Page<Role> page = new Page<Role>();
-		if(map.containsKey("pageNumber")) {
-			page.setPageNumber(Integer.parseInt((String) map.get("pageNumber")));
-		}
-		if(map.containsKey("pageSize")) {
-			page.setPageSize(Integer.parseInt((String) map.get("pageSize")));
-		}
+	public Page<Role> queryByPage(Page<Role> page, Role role) {
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("offset", page.getOffset());
 		map.put("pageSize", page.getPageSize());
-		if(map.containsKey("name")) {
-			map.put("name", "%"+(String) map.get("name")+"%");
+		if(!StringUtils.isEmpty(role.getName())) {
+			map.put("name", "%"+role.getName()+"%");
 		}
 		int totalCount = roleMapper.selectCount(map);
 		List<Role> list = roleMapper.selectByPage(map);
+		if(null != list && list.size() > 0) {
+			for(Role info : list) {
+				UserExample example = new UserExample();
+				example.createCriteria().andRoleIdEqualTo(info.getId());
+				List<User> userList = userMapper.selectByExample(example);
+				info.setUserCount(userList.size());
+			}
+		}
 		page.pageData(list, totalCount);
 		return page;
 	}
@@ -164,7 +169,7 @@ public class RoleServiceImpl implements RoleService {
 	}
 
 	@Override
-	public Page<User> queryUserByPage(Map<String, Object> map) {
-		return userService.queryByPage(map);
+	public Page<User> queryUserByPage(Page<User> page, User user) {
+		return userService.queryByPage(page, user);
 	}
 }

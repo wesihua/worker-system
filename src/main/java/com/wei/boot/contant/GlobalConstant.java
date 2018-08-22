@@ -9,7 +9,8 @@ public interface GlobalConstant {
 
 	int ILLEGAL_REQUEST = 1001;				// 非法请求
 	int TOKEN_EXPIRED = 1002;				// token过期
-
+	
+	String TOKEN_NAME = "Authorization";
 	
 	interface RedisKey {
 		String KEY_AREA_TREE = "yx_area_tree";	// 地区树形结构key
