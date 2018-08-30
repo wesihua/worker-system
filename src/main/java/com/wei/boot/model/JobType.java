@@ -68,10 +68,22 @@ public class JobType {
      */
     private Integer updateUser;
     
+    /**
+     * 是否选中 0:否，1:是
+     */
+    private int selected;
     
     private List<JobType> children;
 
-    public List<JobType> getChildren() {
+    public int getSelected() {
+		return selected;
+	}
+
+	public void setSelected(int selected) {
+		this.selected = selected;
+	}
+
+	public List<JobType> getChildren() {
 		return children;
 	}
 

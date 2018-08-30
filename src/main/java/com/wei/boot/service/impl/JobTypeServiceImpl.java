@@ -69,10 +69,16 @@ public class JobTypeServiceImpl implements JobTypeService {
 	}
 
 	@Override
-	public List<JobType> selectAllTree(int parentId) {
-		List<JobType> roots = selectByParentId(parentId);
-		roots.stream().forEach(each -> each.setChildren(selectAllTree(each.getId())));
+	public List<JobType> selectAllTree() {
+		List<JobType> roots = selectTreeByParentId(0);
 		return roots;
 	}
 
+	public List<JobType> selectTreeByParentId(int parentId) {
+		JobTypeExample example = new JobTypeExample();
+		example.createCriteria().andParentIdEqualTo(parentId);
+		List<JobType> roots = jobTypeMapper.selectByExample(example);
+		roots.stream().forEach(each -> each.setChildren(selectTreeByParentId(each.getId())));
+		return roots;
+	}
 }

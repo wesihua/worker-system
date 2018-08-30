@@ -44,7 +44,7 @@ public class JobTypeController {
 	public Result queryTree(HttpServletRequest request) {
 		Result result = Result.SUCCESS;
 		try {
-			List<JobType> list = jobTypeService.selectAllTree(0);
+			List<JobType> list = jobTypeService.selectAllTree();
 			result.setData(list);
 		} catch (Exception e) {
 			log.error("查询树形工种失败", e);

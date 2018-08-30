@@ -46,6 +46,6 @@ public interface JobTypeService {
 	 * @return
 	 * @throws Exception
 	 */
-	List<JobType> selectAllTree(int parentId);
+	List<JobType> selectAllTree();
 	
 }
