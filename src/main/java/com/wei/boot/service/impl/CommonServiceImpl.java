@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.wei.boot.contant.GlobalConstant;
 import com.wei.boot.mapper.AreaMapper;
@@ -13,6 +14,10 @@ import com.wei.boot.model.AreaExample;
 import com.wei.boot.model.Dictionary;
 import com.wei.boot.model.DictionaryExample;
 import com.wei.boot.service.CommonService;
+import com.wei.boot.util.JedisUtil;
+import com.wei.boot.util.JsonUtil;
+
+import redis.clients.jedis.Jedis;
 
 @Service
 public class CommonServiceImpl implements CommonService {
@@ -67,6 +72,49 @@ public class CommonServiceImpl implements CommonService {
 			}
 		}
 		return areas;
+	}
+
+	@Override
+	public String queryDicText(String type, int code) {
+		String text = "";
+		if(StringUtils.isEmpty(type)) {
+			return text;
+		}
+		// 先从redis中查询
+		Jedis jedis = JedisUtil.getJedis();
+		String jsonStr = jedis.get(type);
+		// 如果为空则从数据库中查询
+		if(!StringUtils.isEmpty(jsonStr)) {
+			List<Dictionary> list = JsonUtil.json2List(jsonStr, Dictionary.class);
+			for(Dictionary dic : list) {
+				if(code == dic.getCode()) {
+					text = dic.getName();
+					break;
+				}
+			}
+		}
+		else {
+			DictionaryExample example = new DictionaryExample();
+			example.createCriteria().andTypeEqualTo(type).andCodeEqualTo(code);
+			List<Dictionary> dicList = dictionaryMapper.selectByExample(example);
+			if(dicList != null && dicList.size() > 0) {
+				text = dicList.get(0).getName();
+			}
+		}
+		return text;
+	}
+
+	@Override
+	public Area queryAreaByCode(int code) {
+		AreaExample example = new AreaExample();
+		example.createCriteria().andCodeEqualTo(code);
+		List<Area> list = areaMapper.selectByExample(example);
+		if(null != list && list.size() > 0) {
+			return list.get(0);
+		}
+		else {
+			return null;
+		}
 	}
 
 }

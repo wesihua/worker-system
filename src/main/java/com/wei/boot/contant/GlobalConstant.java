@@ -49,4 +49,33 @@ public interface GlobalConstant {
 		int PC = 1;
 		int APP = 2;
 	}
+	
+	/**
+	 * 人才信息来源
+	 * @author weisihua
+	 * 2018年9月6日 下午5:39:10
+	 */
+	interface Source {
+		int APP = 0;
+		int PC = 1;
+		int IMPORT = 2;
+		int QRCODE = 3;
+	}
+	
+	/**
+	 * 字典type
+	 * @author weisihua
+	 * 2018年9月6日 上午11:33:03
+	 */
+	interface DictionaryType {
+		String GENDER = "gender";				// 性别
+		String NATION = "nation";				// 民族
+		String MARITAL_STATUS = "marital_status";// 婚姻状态
+		String DEGREE = "degree";				// 学历
+		String WORK_STATUS = "work_status";		// 工作状态
+		String WORKER_SOUCE = "worker_souce";	// 人才信息来源
+		String NIGHT_WORK = "night_work";		// 是否接受夜班
+		String EXPECT_SALARY = "expect_salary";	// 期望薪资
+		String LANGUAGE_LEVEL = "language_level";//外语能力
+	}
 }

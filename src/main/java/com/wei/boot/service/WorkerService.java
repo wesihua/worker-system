@@ -62,21 +62,21 @@ public interface WorkerService {
 	 * @param educationList
 	 * @throws NormalException
 	 */
-	void updateEducation(List<WorkerEducation> educationList) throws NormalException;
+	void updateEducation(int workerId, List<WorkerEducation> educationList) throws NormalException;
 	
 	/**
 	 * 更新工作经历信息
 	 * @param experienceList
 	 * @throws NormalException
 	 */
-	void updateExperience(List<WorkerExperience> experienceList) throws NormalException;
+	void updateExperience(int workerId, List<WorkerExperience> experienceList) throws NormalException;
 	
 	/**
 	 * 更新工种信息
 	 * @param jobTypeList
 	 * @throws NormalException
 	 */
-	void updateJobType(List<WorkerJobType> jobTypeList) throws NormalException;
+	void updateJobType(int workerId, List<WorkerJobType> jobTypeList) throws NormalException;
 	
 	/**
 	 * 查询该人的工种信息树
@@ -84,4 +84,19 @@ public interface WorkerService {
 	 * @return
 	 */
 	List<JobType> querySelectedJobType(int workerId);
+	
+	/**
+	 * 更该人才信息-app特供
+	 * @param worker
+	 * @throws NormalException
+	 */
+	void updateWorker4App(Worker worker) throws NormalException;
+	
+	/**
+	 * 分页查询-app特供
+	 * @param page
+	 * @param worker
+	 * @return
+	 */
+	Page<Worker> queryByPage4App(Page<Worker> page, Worker worker);
 }

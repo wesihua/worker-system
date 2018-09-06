@@ -1,6 +1,5 @@
 package com.wei.boot.mapper;
 
-import com.wei.boot.model.User;
 import com.wei.boot.model.Worker;
 import com.wei.boot.model.WorkerExample;
 import java.util.List;

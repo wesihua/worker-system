@@ -39,4 +39,15 @@ public interface CommonService {
 	 * @return
 	 */
 	List<Area> queryAreaTree(int parentCode);
+	
+	/**
+	 * 查询字典text
+	 * @param type
+	 * @param code
+	 * @return
+	 */
+	String queryDicText(String type, int code);
+	
+	
+	Area queryAreaByCode(int code);
 }
