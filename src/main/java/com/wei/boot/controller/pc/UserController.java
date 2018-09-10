@@ -106,6 +106,25 @@ public class UserController {
 	}
 	
 	/**
+	 * 获取登录的用户信息
+	 * @param request
+	 * @return
+	 */
+	@GetMapping("/queryUserInfo")
+	public Result queryUserInfo(HttpServletRequest request) {
+		Result result = Result.SUCCESS;
+		try {
+			int userId = ToolsUtil.getUserId(request);
+			User user = userService.queryById(userId);
+			result.setData(user);
+		} catch (Exception e) {
+			log.error("查询失败", e);
+			result = Result.fail(e);
+		}
+		return result;
+	}
+	
+	/**
 	 * 登录后查询用户菜单，用于展示
 	 * @return
 	 */

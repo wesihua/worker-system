@@ -12,13 +12,11 @@ import io.swagger.annotations.ApiOperation;
  * @author weisihua
  * 2018年7月31日 上午11:17:06
  */
-@Api(value = "页面跳转")
 @Controller
 public class PageForwardController {
 
 	public static final Logger log = LoggerFactory.getLogger(PageForwardController.class);
 	
-	@ApiOperation(value = "进入登录页面",notes = "login")
 	@GetMapping("/")
 	public String index() throws Exception {
 		log.info("进入登录页面");
@@ -27,10 +25,16 @@ public class PageForwardController {
 		return "login";
 	}
 	
-	@ApiOperation(value = "进入页面index",notes = "index")
-	@GetMapping("/index")
-	public String test() {
-		log.info("进入页面index");
-		return "index";
+	@GetMapping("/home")
+	public String home() throws Exception {
+		return "home";
+	}
+	@GetMapping("/welcome")
+	public String welcome() throws Exception {
+		return "welcome";
+	}
+	@GetMapping("/welcome2")
+	public String welcome2() throws Exception {
+		return "welcome2";
 	}
 }

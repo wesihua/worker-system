@@ -46,10 +46,11 @@ public class AccountController {
 	/**
 	 * 登录
 	 * @param user
+	 * @param flag 0:pc,1:app
 	 * @return
 	 */
 	@GetMapping("/login")
-	public Result login(User user,HttpServletResponse response) {
+	public Result login(User user,String flag, HttpServletResponse response) {
 		Result result = Result.SUCCESS;
 		Jedis jedis = JedisUtil.getJedis();
 		if(StringUtils.isEmpty(user.getUserName())) {
@@ -70,11 +71,18 @@ public class AccountController {
 				return Result.fail("密码输入不正确！");
 			}
 			// 登录成功，生产token并返回
-			String token = MD5Util.MD5Upper32(secret+"_"+user.getUserName()+"_"+user.getPassword());
-			jedis.set(GlobalConstant.RedisKey.KEY_TOKEN_PREFIX+user.getId(), token, "NX", "EX", 30*60);// 30分钟有效期，用来存放token
-			jedis.set(token, user.getId().toString(), "NX", "EX", 30*60);// 30分钟有效期，用来存放userId
+			String token = "";
+			if("0".equals(flag)) {
+				token = MD5Util.MD5Upper32(secret+"_"+currentUser.getUserName()+"_"+currentUser.getPassword())+"_pc";
+			}
+			else {
+				token = MD5Util.MD5Upper32(secret+"_"+currentUser.getUserName()+"_"+currentUser.getPassword())+"_app";
+			}
+			jedis.set(GlobalConstant.RedisKey.KEY_TOKEN_PREFIX+currentUser.getId(), token, "NX", "EX", 30*60);// 30分钟有效期，用来存放token
+			jedis.set(token, currentUser.getId().toString(), "NX", "EX", 30*60);// 30分钟有效期，用来存放userId
 			// 将token放入cookie中
 			Cookie cookie = new Cookie(GlobalConstant.TOKEN_NAME, token);
+			cookie.setPath("/");
 			response.addCookie(cookie);
 			
 			result = Result.success(token);
@@ -91,11 +99,12 @@ public class AccountController {
 	 * @return
 	 */
 	@GetMapping("/logout")
-	public Result logout(HttpServletRequest request, String userId) {
+	public Result logout(HttpServletRequest request) {
 		Result result = Result.SUCCESS;
 		Jedis jedis = JedisUtil.getJedis();
 		try {
-			if(jedis.exists(GlobalConstant.RedisKey.KEY_TOKEN_PREFIX+userId)) {
+			int userId = ToolsUtil.getUserId(request);
+			if(userId != 0 && jedis.exists(GlobalConstant.RedisKey.KEY_TOKEN_PREFIX+userId)) {
 				String token = jedis.get(GlobalConstant.RedisKey.KEY_TOKEN_PREFIX+userId);
 				if(jedis.exists(token)) {
 					jedis.del(token);

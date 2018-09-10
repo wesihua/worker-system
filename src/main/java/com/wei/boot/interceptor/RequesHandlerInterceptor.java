@@ -25,9 +25,9 @@ public class RequesHandlerInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object arg2) throws Exception {
 		
 		//测试情况，直接跳过拦截
-		return true;
+		//return true;
 		
-		/**
+		///**
 		
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("application/json; charset=utf-8");
@@ -36,7 +36,8 @@ public class RequesHandlerInterceptor implements HandlerInterceptor {
 		String path = request.getRequestURL().toString();
 		String servletPath = request.getServletPath();
 		log.info("拦截到请求URL： [ "+path+" ]，开始验证权限...");
-		if("/login".equals(servletPath) || "/logout".equals(servletPath) || "/error".equals(servletPath)) {
+		if("/".equals(servletPath) || "/logout".equals(servletPath) || "/error".equals(servletPath)
+				|| "/account/login".equals(servletPath) || "/home.html".equals(servletPath)) {
 			return true;
 		}
 		// 首先确认token是否传递
@@ -52,7 +53,6 @@ public class RequesHandlerInterceptor implements HandlerInterceptor {
 			log.error("请求 [ "+path+" ]验证失败， token已过期");
 			String responseStr = JsonUtil.bean2Json(Result.fail(GlobalConstant.TOKEN_EXPIRED, "token已过期，请重新登录"));
 			response.getWriter().write(responseStr);
-			//response.sendRedirect("/");
 			return false;
 		}
 		// 开始验证token是否正确,不正确说明用户重新登录了，这时将原来的请求下线
@@ -62,7 +62,6 @@ public class RequesHandlerInterceptor implements HandlerInterceptor {
 			log.error("请求 [ "+path+" ]验证失败， token已过期");
 			String responseStr = JsonUtil.bean2Json(Result.fail(GlobalConstant.TOKEN_EXPIRED, "token已过期，请重新登录"));
 			response.getWriter().write(responseStr);
-			//response.sendRedirect("/");
 			return false;
 		}
 		// token验证通过，将token有效时间重置
@@ -71,7 +70,7 @@ public class RequesHandlerInterceptor implements HandlerInterceptor {
 		log.info("请求 [ "+path+" ] 验证通过！");
 		return true;
 		
-		**/
+		//**/
 	}
 
 	@Override

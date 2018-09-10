@@ -21,7 +21,7 @@ import com.wei.boot.service.WorkerService;
 import com.wei.boot.util.CheckUtils;
 import com.wei.boot.util.ToolsUtil;
 
-@RestController
+@RestController("appWorkerController")
 @RequestMapping("/app/worker")
 public class WorkerController {
 

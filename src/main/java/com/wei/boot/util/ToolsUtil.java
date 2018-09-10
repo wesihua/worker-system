@@ -6,6 +6,8 @@ import java.util.UUID;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.util.StringUtils;
+
 import com.wei.boot.contant.GlobalConstant;
 
 import redis.clients.jedis.Jedis;
@@ -53,7 +55,7 @@ public class ToolsUtil {
 		String token = null;
 		// 先从cookie中获取
 		Cookie[] cookies = request.getCookies();
-		if(null != cookies && cookies.length == 0) {
+		if(null != cookies && cookies.length > 0) {
 			for(Cookie cookie : cookies) {
 				if(GlobalConstant.TOKEN_NAME.equals(cookie.getName())) {
 					token = cookie.getValue();
@@ -76,7 +78,13 @@ public class ToolsUtil {
 	public static int getUserId(HttpServletRequest request) {
 		Jedis jedis = JedisUtil.getJedis();
 		String token = getToken(request);
-		return Integer.parseInt(jedis.get(token));
+		if(jedis.exists(token)) {
+			String tokenStr = jedis.get(token);
+			if(!StringUtils.isEmpty(tokenStr)) {
+				return Integer.parseInt(tokenStr);
+			}
+		}
+		return 0;
 	}
 	
 	/**

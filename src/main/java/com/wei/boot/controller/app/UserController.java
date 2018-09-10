@@ -1,7 +1,5 @@
 package com.wei.boot.controller.app;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -16,7 +14,7 @@ import com.wei.boot.model.User;
 import com.wei.boot.service.UserService;
 import com.wei.boot.util.ToolsUtil;
 
-@RestController
+@RestController("appUserController")
 @RequestMapping("/app/user")
 public class UserController {
 
@@ -31,7 +29,7 @@ public class UserController {
 	 * @return
 	 */
 	@GetMapping("/queryUserInfo")
-	public Result queryByUserName(HttpServletRequest request) {
+	public Result queryUserInfo(HttpServletRequest request) {
 		Result result = Result.SUCCESS;
 		try {
 			int userId = ToolsUtil.getUserId(request);

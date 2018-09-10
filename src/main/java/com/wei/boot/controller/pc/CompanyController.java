@@ -42,7 +42,7 @@ public class CompanyController {
 	 * @return
 	 */
 	@ApiOperation(value = "公司分页查询",notes = "")
-	@PostMapping("/list")
+	@GetMapping("/list")
 	public Result list(Page<Company> page, Company company) {
 		Result result = Result.SUCCESS;
 		try {

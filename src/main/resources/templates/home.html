@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>国文人力</title>
+<link href="css/public.css" rel="stylesheet" />
+<link href="css/nav.css" rel="stylesheet" />
+<link href="css/home.css" rel="stylesheet" />
+
+<link href="css/public-box1.css" rel="stylesheet" />
+<link href="css/public-box2.css" rel="stylesheet" />
+<link href="css/font-awesome.min.css" rel="stylesheet" />
+
+<link href="css/user-manage-box3.css" rel="stylesheet" />
+
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="js/home.js"></script>
+</head>
+<body>
+	<div id="header">
+		<div class="header-content">
+			<img class="logo" /><span class="logo-word">国文人力</span>
+			<div class="person-info">
+				<span class="name" id="userName"></span> <span class="login-out" id="logout">退出</span>
+			</div>
+
+		</div>
+	</div>
+	<div id="main">
+		<div id="nav">
+		<!--  
+			<ul>
+				<li>
+					<div class="f on">首页</div>
+				</li>
+				<li>
+					<div class="f">用户管理</div>
+					<div class="s">
+						<div class="s-n">新增用户</div>
+						<div class="s-n">详情</div>
+						<div class="s-n">编辑</div>
+					</div>
+				</li>
+			</ul>
+			-->
+		</div>
+		<div id="content">
+			<iframe name="content" id="myframe" frameborder="0" scrolling="no"
+				width="100%" height="100%" src="welcome.html" onload="handleFrame(this,event)"></iframe>
+		</div>
+	</div>
+<!--******************************* 以下是弹窗html代码块 *******************************************************************-->	
+	<!-- alert提示框 -->
+	<div id="public-box2" style="display:none;">
+		<div class="mask"></div>
+		<div class="box-content">
+			<div class="head"><span class="title">提示</span><span class="close fa fa-close" id="alert_close"></span></div>
+			<div class="middle">
+				<div class="box-word" id="alert_msg">提示文字</div>
+			</div>
+			<div class="bottom">
+				<span id="public-bottom2">确定</span>
+			</div>
+		</div>
+	</div>
+	<!-- confirm提示框 -->
+	<div id="public-box1" style="display:none;">
+		<div class="mask"></div>
+		<div class="box-content">
+			<div class="head"><span class="title">提示</span><span class="close fa fa-close" id="confirm_close"></span></div>
+			<div class="middle">
+				<div class="box-word" id="confirm_msg">提示文字</div>
+			</div>
+			<div class="bottom">
+				<span id="public-bottom1">取消</span>
+				<span id="public-bottom2" class="confirm_sure">确定</span>
+			</div>
+		</div>
+	</div>
+	<!-- 用户编辑 -->
+	<div id="user-manage-box3" style="display:none;">
+		<div class="mask"></div>
+		<div class="box-content">
+			<div class="head"><span class="title">工作内容</span><span class="close fa fa-close"></span></div>
+			<div class="middle">
+				<div class="input-block clearFix">
+					<span class="name">工作公司</span>
+					<input class="pt" id="firm"/>
+			     </div>
+			     <div class="input-block clearFix">
+					<span class="name">起止日期</span>
+					<input class="time" id="startDate"/>
+					<span class="line"></span>
+					<input class="time" id="endDate"/>
+				</div>
+				<div class="input-block clearFix">
+					<span class="name">月工资&nbsp;&nbsp;&nbsp;</span>
+					<input class="pt" />
+				</div>
+				
+				<div class="input-block clearFix">
+					<span class="name t">工作内容</span>
+					<textarea class="workText" name=""></textarea>
+				</div>
+			</div>
+			<div class="bottom">
+				<span id="public-bottom1">取消</span>
+				<span id="public-bottom2" class="user_add_sure">完成</span>
+			</div>
+		</div>
+	</div>
+	
+<!--******************************* 以上是弹窗html代码块 *******************************************************************-->	
+</body>
+</html>

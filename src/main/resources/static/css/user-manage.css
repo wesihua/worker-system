@@ -1,0 +1,86 @@
+#user-manage .chaxun {
+  background-color: #f8f8f8;
+  padding: 20px;
+  margin-bottom: 20px; }
+  #user-manage .chaxun .select1 {
+    height: 40px;
+    margin-bottom: 10px; }
+    #user-manage .chaxun .select1 input {
+      height: 40px;
+      line-height: 40px;
+      background-color: #e8e8e8;
+      width: 140px;
+      padding-left: 20px;
+      margin-right: 20px;
+      vertical-align: top; }
+    #user-manage .chaxun .select1 select {
+      height: 40px;
+      width: 140px;
+      text-align: center;
+      background-color: #e8e8e8;
+      border: none;
+      margin-right: 20px;
+      padding-left: 20px; }
+  #user-manage .chaxun .select2 {
+    height: 40px;
+    line-height: 40px;
+    /*       input{
+                height:40px;
+                line-height: 40px;
+                background-color:#e8e8e8;
+                width: 150px;
+                padding-left: 20px;
+            }
+            .line{
+                display: inline-block;
+                background-color:#e8e8e8;
+                width: 10px;
+                height: 2px;
+                margin: 0px 3px;
+            }
+ */ }
+    #user-manage .chaxun .select2 input {
+      height: 40px;
+      line-height: 40px;
+      background-color: #e8e8e8;
+      width: 140px;
+      padding-left: 20px;
+      margin-right: 20px;
+      vertical-align: top; }
+    #user-manage .chaxun .select2 select {
+      height: 40px;
+      width: 160px;
+      text-align: center;
+      background-color: #e8e8e8;
+      border: none;
+      margin-right: 20px;
+      padding-left: 20px; }
+    #user-manage .chaxun .select2 .button {
+      display: inline-block;
+      padding: 0px 30px;
+      line-height: 40px;
+      cursor: pointer;
+      color: #FFFFFF;
+      background-color: #01aaff;
+      border-radius: 5px; }
+
+#user-manage table {
+  width: 100%;
+  border-collapse: collapse; }
+  #user-manage table tr th {
+    text-align: center;
+    height: 40px;
+    font-weight: normal;
+    border: 1px solid #e2e2e2;
+    font-size: 12px; }
+  #user-manage table tr td {
+    text-align: center;
+    height: 40px;
+    font-weight: normal;
+    border: 1px solid #e2e2e2;
+    font-size: 14px; }
+    #user-manage table tr td .delete, #user-manage table tr td .des {
+      margin: 0px 5px;
+      cursor: pointer; }
+      #user-manage table tr td .delete:hover, #user-manage table tr td .des:hover {
+        color: #5595d6; }

@@ -17,6 +17,8 @@ spring:
     max-active: 5
     min-idle: 5
     max-wait: 60000
+  resources: 
+    static-locations: classpath:/static
   aop:
     auto: true #aop支持
   thymeleaf: 

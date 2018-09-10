@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
 		if(!StringUtils.isEmpty(user.getRealName())) {
 			map.put("realName", "%"+user.getRealName()+"%");
 		}
-		if(user.getRoleId() != 0) {
+		if(null != user.getRoleId() && user.getRoleId() != 0) {
 			map.put("roleId", user.getRoleId());
 		}
 		int totalCount = userMapper.selectCount(map);
