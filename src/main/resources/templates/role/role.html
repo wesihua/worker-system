@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>账号管理</title>
+<link href="../css/public.css" rel="stylesheet"/>
+<link href="../css/font-awesome.min.css" rel="stylesheet"/>
+<link href="../css/juese-manage.css" rel="stylesheet"/>
+
+<link href="../css/jquery.pagination.css" rel="stylesheet"/>
+<script src="../js/jquery-3.3.1.min.js"></script>
+<script src="../js/jquery.pagination.min.js"></script>
+<script src="../js/role/role.js"></script>
+</head>
+<body>
+	<div id="content">
+		<div id="juese-manage">
+			<div class="a-m-nav">
+				<span class="title">角色管理</span> <span class="control" id="add-role">新增角色</span>
+			</div>
+			<div class="a-m-content">
+				<div class="input-area">
+					<input class="pt" placeholder="搜索角色" id="roleName"/>
+					<sapn id="public-bottom2">查询</sapn>
+				</div>
+				<table cellpadding="0" cellspacing="0">
+					<thead>
+						<tr>
+							<th>角色名称</th>
+							<th>包含账号数量</th>
+							<th>创建日期</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+
+				<div id="public-fanye">
+					<span class="result" id="totalCount"></span>
+					<div class="f-content">
+						<div id="pagination1" class="page fl"></div>
+						<div class="info fl">
+							<p>
+								当前页数：<span id="currentPage">1</span>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 新增/编辑角色弹窗 -->
+	<div id="dialog-content" style="display:none;">
+		<div id="juese-manage-box1">
+			<div class="mask"></div>
+			<div class="box-content">
+				<div class="head"><span class="title">新增角色</span><span class="close fa fa-close" id="close-dialog"></span></div>
+				<div class="middle">
+					<div class="input-block"><span class="name">角色名称</span><input class="pt" /></div>
+				</div>
+				<div class="bottom">
+					<span id="public-bottom1" class="cancel-dialog">取消</span>
+					<span id="public-bottom2">确定</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

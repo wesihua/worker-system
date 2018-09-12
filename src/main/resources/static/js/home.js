@@ -163,7 +163,7 @@ function initIframeHeight(height) {
  */
 function alert(msg){
 	if(!msg){
-		msg = "请加入提示信息！";
+		msg = "网络发生异常！";
 	}
 	$("#alert_msg").text(msg);
 	$("#public-box2").show();
@@ -174,7 +174,7 @@ function alert(msg){
  */
 function confirm(msg,func){
 	if(!msg){
-		msg = "请加入提示信息！";
+		msg = "网络发生异常！";
 	}
 	$("#confirm_msg").text(msg);
 	$("#public-box1").show();

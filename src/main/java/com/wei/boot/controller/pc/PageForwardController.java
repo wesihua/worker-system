@@ -17,13 +17,6 @@ public class PageForwardController {
 
 	public static final Logger log = LoggerFactory.getLogger(PageForwardController.class);
 	
-	@GetMapping("/")
-	public String index() throws Exception {
-		log.info("进入登录页面");
-		//throw new Exception("休息休息");//如果任何地方有异常，则跳转到默认error页面
-		
-		return "login";
-	}
 	
 	@GetMapping("/home")
 	public String home() throws Exception {
@@ -33,8 +26,8 @@ public class PageForwardController {
 	public String welcome() throws Exception {
 		return "welcome";
 	}
-	@GetMapping("/welcome2")
+	@GetMapping("/role/index")
 	public String welcome2() throws Exception {
-		return "welcome2";
+		return "role/role";
 	}
 }
