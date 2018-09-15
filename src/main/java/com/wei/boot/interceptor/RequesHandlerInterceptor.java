@@ -25,9 +25,9 @@ public class RequesHandlerInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object arg2) throws Exception {
 		
 		//测试情况，直接跳过拦截
-		//return true;
+//		return true;
 		
-		///**
+//		/**
 		
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("application/json; charset=utf-8");
@@ -70,7 +70,7 @@ public class RequesHandlerInterceptor implements HandlerInterceptor {
 		log.info("请求 [ "+path+" ] 验证通过！");
 		return true;
 		
-		//**/
+//		**/
 	}
 
 	@Override
