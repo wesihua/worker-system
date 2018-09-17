@@ -4,8 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 
 /**
  * 页面跳转demo
@@ -19,27 +17,31 @@ public class PageForwardController {
 	
 	
 	@GetMapping("/home")
-	public String home() throws Exception {
+	public String home() {
 		return "home";
 	}
 	@GetMapping("/welcome")
-	public String welcome() throws Exception {
+	public String welcome() {
 		return "welcome";
 	}
 	@GetMapping("/role/index")
-	public String roleIndex() throws Exception {
+	public String roleIndex() {
 		return "role/role";
 	}
 	@GetMapping("/user/index")
-	public String userIndex() throws Exception {
+	public String userIndex() {
 		return "user/user";
 	}
 	@GetMapping("/company/index")
-	public String companyIndex() throws Exception {
+	public String companyIndex() {
 		return "company/company";
 	}
 	@GetMapping("/worker/index")
-	public String workerIndex() throws Exception {
+	public String workerIndex() {
 		return "worker/worker";
+	}
+	@GetMapping("/jobtype/index")
+	public String jobtypeIndex() {
+		return "jobtype/jobtype";
 	}
 }

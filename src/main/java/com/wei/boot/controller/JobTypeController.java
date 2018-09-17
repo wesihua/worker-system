@@ -41,7 +41,7 @@ public class JobTypeController {
 	 */
 	@ApiOperation(value = "查询工种树形结构",notes = "")
 	@GetMapping("/queryTree")
-	public Result queryTree(HttpServletRequest request) {
+	public Result queryTree() {
 		Result result = Result.SUCCESS;
 		try {
 			List<JobType> list = jobTypeService.selectAllTree();
@@ -60,8 +60,8 @@ public class JobTypeController {
 	 * @return
 	 */
 	@ApiOperation(value = "保存工种",notes = "")
-	@PostMapping("/saveJobType")
-	public Result saveJobType(HttpServletRequest request, JobType info) {
+	@GetMapping("/saveJobType")
+	public Result saveJobType(JobType info) {
 		Result result = Result.SUCCESS;
 		try {
 			jobTypeService.saveJobType(info);
@@ -80,7 +80,7 @@ public class JobTypeController {
 	 */
 	@ApiOperation(value = "删除工种",notes = "")
 	@GetMapping("/removeJobType")
-	public Result removeJobType(HttpServletRequest request, int jobTypeId) {
+	public Result removeJobType(int jobTypeId) {
 		Result result = Result.SUCCESS;
 		try {
 			jobTypeService.deleteJobType(jobTypeId);
@@ -117,7 +117,7 @@ public class JobTypeController {
 	 */
 	@ApiOperation(value = "查询子级工种",notes = "")
 	@GetMapping("/queryByParentId")
-	public Result queryByParentId(HttpServletRequest request, int parentId) {
+	public Result queryByParentId(int parentId) {
 		Result result = Result.SUCCESS;
 		try {
 			List<JobType> list = jobTypeService.selectByParentId(parentId);

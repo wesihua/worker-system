@@ -37,6 +37,9 @@ public class JobTypeServiceImpl implements JobTypeService {
 					throw new NormalException("二级工种请选择上级工种");
 				}
 			}
+			else {
+				jobType.setParentId(0);
+			}
 			jobType.setCreateTime(new Date());
 			jobTypeMapper.insert(jobType);
 		}
@@ -52,6 +55,9 @@ public class JobTypeServiceImpl implements JobTypeService {
 	public void deleteJobType(int id) throws NormalException {
 
 		jobTypeMapper.deleteByPrimaryKey(id);
+		JobTypeExample example = new JobTypeExample();
+		example.createCriteria().andParentIdEqualTo(id);
+		jobTypeMapper.deleteByExample(example);
 	}
 
 	@Override
