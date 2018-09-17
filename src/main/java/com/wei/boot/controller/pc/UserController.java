@@ -125,6 +125,24 @@ public class UserController {
 	}
 	
 	/**
+	 * 获取登录的用户信息
+	 * @param request
+	 * @return
+	 */
+	@GetMapping("/queryById")
+	public Result queryById(int userId) {
+		Result result = Result.SUCCESS;
+		try {
+			User user = userService.queryById(userId);
+			result.setData(user);
+		} catch (Exception e) {
+			log.error("查询失败", e);
+			result = Result.fail(e);
+		}
+		return result;
+	}
+	
+	/**
 	 * 登录后查询用户菜单，用于展示
 	 * @return
 	 */
@@ -147,12 +165,13 @@ public class UserController {
 	 * @param user
 	 * @return
 	 */
-	@PostMapping("/addUser")
+	@GetMapping("/addUser")
 	public Result addUser(User user) {
 		Result result = Result.SUCCESS;
 		try {
 			userService.insertUser(user);
 		} catch (Exception e) {
+			log.error("新增用户失败", e);
 			result = Result.fail(e);
 		}
 		return result;
@@ -163,12 +182,13 @@ public class UserController {
 	 * @param user
 	 * @return
 	 */
-	@PostMapping("/updateUser")
+	@GetMapping("/updateUser")
 	public Result updateUser(User user) {
 		Result result = Result.SUCCESS;
 		try {
 			userService.updateUser(user);
 		} catch (Exception e) {
+			log.error("更新用户失败", e);
 			result = Result.fail(e);
 		}
 		return result;
@@ -179,12 +199,13 @@ public class UserController {
 	 * @param userId
 	 * @return
 	 */
-	@PostMapping("/deleteUser")
+	@GetMapping("/deleteUser")
 	public Result deleteUser(int userId) {
 		Result result = Result.SUCCESS;
 		try {
 			userService.deleteUser(userId);
 		} catch (Exception e) {
+			log.error("删除用户失败", e);
 			result = Result.fail(e);
 		}
 		return result;

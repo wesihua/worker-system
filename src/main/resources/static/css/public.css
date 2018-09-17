@@ -34,8 +34,8 @@ input, textarea {
 #nav {
   width: 170px;
   float: left;
-  background: #01aaff;
-  color: #ffffff; }
+  background: rgb(45, 58, 75);
+  color: rgb(255, 255, 255); }
   #nav ul {
     list-style: none; }
     #nav ul li {

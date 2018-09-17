@@ -401,7 +401,7 @@
     <include refid="Base_Column_List" />
     from t_yx_company
     <where>
-    	id &gt; #{offset,jdbcType=INTEGER}
+    	id &lt;= (select id from t_yx_company order by id desc limit #{offset,jdbcType=INTEGER},1)
     	<if test="companyName != null">
     		and name like #{companyName,jdbcType=VARCHAR}
     	</if>

@@ -58,10 +58,11 @@ public class Result {
 	
 	public static Result fail(Exception e) {
 		if(e instanceof NormalException) {
-			return new Result(0, e.getMessage(), null);
+			//return new Result(0, e.getMessage(), null);
+			return fail(e.getMessage());
 		}
 		else {
-			return new Result(0, "操作失败", null);
+			return fail("操作失败！");
 		}
 	}
 	

@@ -10,21 +10,15 @@ $(function(){
 	userInfo();
 	
 	// alert提示框click事件
-	$("#public-bottom2").click(function(){
-		$("#public-box2").hide();
-	});
 	$("#alert_close").click(function(){
-		$("#public-box2").hide();
+		closeAlert();
 	});
 	// confirm提示框click事件
 	$("#public-bottom1").click(function(){
-		$("#public-box1").hide();
-	});
-	$("#public-bottom2").click(function(){
-		$("#public-box1").hide();
+		closeConfirm()
 	});
 	$("#confirm_close").click(function(){
-		$("#public-box1").hide();
+		closeConfirm()
 	});
 	// 退出登录
 	$("#logout").click(function(){
@@ -60,16 +54,18 @@ function loadMenu(){
 					}
 					else{
 						if(menu.name != "首页"){
-							menuHtml+="<ul><li onClick=\"loadPage('"+menu.path+"')\"><div class=\"f\">"+menu.name+"</div></li>";
+							if(menu.path){
+								menuHtml+="<ul><li onClick=\"loadPage('"+menu.path+"')\"><div class=\"f\">"+menu.name+"</div></li>";
+							}
+							else{
+								menuHtml+="<ul><li><div class=\"f\">"+menu.name+"</div></li>";
+							}
 						}
 					}
 				}
 				menuHtml+="</ul>";
 				$("#nav").html(menuHtml);
 			}
-		},
-		error: function(data){
-			alert(data.msg);
 		}
 	});
 }
@@ -95,9 +91,6 @@ function userInfo(){
 			if(data.code == 1){
 				$("#userName").text(data.data.userName);
 			}
-		},
-		error: function(data){
-			alert(data.msg);
 		}
 	});
 }
@@ -117,9 +110,6 @@ function logout(){
 			else{
 				alert("退出登录失败！");
 			}
-		},
-		error: function(data){
-			alert(data.msg);
 		}
 	});
 }
@@ -161,24 +151,32 @@ function initIframeHeight(height) {
 /**
  * alert提示框
  */
-function alert(msg){
+function alert(msg,f){
 	if(!msg){
 		msg = "网络发生异常！";
 	}
 	$("#alert_msg").text(msg);
 	$("#public-box2").show();
+	if(f){
+		$(".alert_sure").click(f);
+	}
+	else{
+		$(".alert_sure").click(function(){
+			$("#public-box2").hide();
+		});
+	}
 }
 
 /**
  * confirm提示框
  */
-function confirm(msg,func){
+function confirm(msg,f){
 	if(!msg){
 		msg = "网络发生异常！";
 	}
 	$("#confirm_msg").text(msg);
 	$("#public-box1").show();
-	$(".confirm_sure").click(func);
+	$(".confirm_sure").click(f);
 }
 /**
  * 关闭confirm
@@ -186,4 +184,14 @@ function confirm(msg,func){
  */
 function closeConfirm(){
 	$("#public-box1").hide();
+}
+function closeAlert(){
+	$("#public-box2").hide();
+}
+/**
+ * 关闭弹窗
+ * @returns
+ */
+function closeDialog(){
+	$("#dialog").hide();
 }

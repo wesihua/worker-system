@@ -130,8 +130,8 @@ public class CompanyController {
 	 * @return
 	 */
 	@ApiOperation(value = "保存企业信息",notes = "")
-	@PostMapping("/saveCompany")
-	public Result saveCompany(@ApiParam(value = "公司",required = true) @RequestBody Company company) {
+	@GetMapping("/saveCompany")
+	public Result saveCompany(Company company) {
 		Result result = Result.SUCCESS;
 		try {
 			companyService.saveCompany(company);

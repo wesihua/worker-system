@@ -6,7 +6,7 @@ public class Page<T> {
 
 	private int pageNumber = 1;
 	
-	private int pageSize = 10;
+	private int pageSize = 8;
 	
 	private int totalCount;
 	

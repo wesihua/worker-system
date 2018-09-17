@@ -82,7 +82,10 @@ public class UserServiceImpl implements UserService {
 		}
 		List<User> userList = queryByUserName(user.getUserName());
 		if(null != userList && userList.size() > 0) {
-			throw new NormalException("该用户名已存在！");
+			User currentUser = userList.get(0);
+			if(user.getId().intValue() != currentUser.getId().intValue()) {
+				throw new NormalException("该用户名已存在！");
+			}
 		}
 		user.setUpdateTime(new Date());
 		userMapper.updateByPrimaryKeySelective(user);

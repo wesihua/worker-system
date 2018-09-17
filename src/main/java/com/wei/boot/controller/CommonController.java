@@ -50,9 +50,10 @@ public class CommonController {
 	@GetMapping(value = "/queryDicByType")
 	public Result queryDicByType(@ApiParam(value = "字典type",required = true) @RequestParam String type) {
 		Result result = Result.SUCCESS;
+		Jedis jedis = null;
 		try {
+			jedis = JedisUtil.getJedis();
 			// 先从redis中查询
-			Jedis jedis = JedisUtil.getJedis();
 			String jsonStr = jedis.get(type);
 			// 如果为空则从数据库中查询
 			if(StringUtils.isEmpty(jsonStr)) {
@@ -67,6 +68,9 @@ public class CommonController {
 			log.error("查询字典项目失败", e);
 			result = Result.fail("查询字典项目失败");
 		}
+		finally {
+			jedis.close();
+		}
 		return result;
 	}
 	
@@ -75,9 +79,10 @@ public class CommonController {
 	@ApiOperation(value = "查询所有省份")
 	public Result queryAllProvince() {
 		Result result = Result.SUCCESS;
+		Jedis jedis = null;
 		try {
 			// 先从redis中查询
-			Jedis jedis = JedisUtil.getJedis();
+			jedis = JedisUtil.getJedis();
 			String jsonStr = jedis.get(GlobalConstant.RedisKey.KEY_PROVINCE);
 			// 如果为空则从数据库中查询
 			if(StringUtils.isEmpty(jsonStr)) {
@@ -92,6 +97,9 @@ public class CommonController {
 			log.error("查询省份失败", e);
 			result = Result.fail("查询省份失败");
 		}
+		finally {
+			jedis.close();
+		}
 		return result;
 	}
 	
@@ -101,9 +109,10 @@ public class CommonController {
 	@ApiOperation(value = "查询地区树")
 	public Result queryAreaTree() {
 		Result result = Result.SUCCESS;
+		Jedis jedis = null;
 		try {
 			// 先从redis中查询
-			Jedis jedis = JedisUtil.getJedis();
+			jedis = JedisUtil.getJedis();
 			String jsonStr = jedis.get(GlobalConstant.RedisKey.KEY_AREA_TREE);
 			// 如果为空则从数据库中查询
 			if(StringUtils.isEmpty(jsonStr)) {
@@ -118,6 +127,9 @@ public class CommonController {
 			log.error("查询地区树失败", e);
 			result = Result.fail("查询地区树失败");
 		}
+		finally {
+			jedis.close();
+		}
 		return result;
 	}
 	
@@ -127,9 +139,10 @@ public class CommonController {
 	@ApiOperation(value = "根据parentCode查询地区集合")
 	public Result queryAreaByParentCode(@ApiParam(value="地区父code",required = true) @RequestParam String parentCode) {
 		Result result = Result.SUCCESS;
+		Jedis jedis = null;
 		try {
 			// 先从redis中查询
-			Jedis jedis = JedisUtil.getJedis();
+			jedis = JedisUtil.getJedis();
 			String jsonStr = jedis.get(GlobalConstant.RedisKey.KEY_AREA_TREE);
 			// 如果为空则从数据库中查询
 			if(StringUtils.isEmpty(jsonStr)) {
@@ -145,6 +158,9 @@ public class CommonController {
 		} catch (Exception e) {
 			log.error("查询地区子集失败", e);
 			result = Result.fail("查询地区子集失败");
+		}
+		finally {
+			jedis.close();
 		}
 		return result;
 	}

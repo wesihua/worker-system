@@ -2,6 +2,7 @@ package com.wei.boot.controller.pc;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -58,7 +59,7 @@ public class RoleController {
 	 * @param response
 	 * @param role
 	 */
-	@PostMapping("/export")
+	@GetMapping("/export")
 	public void export(HttpServletResponse response, Role role) {
 		try {
 			Page<Role> page = new Page<Role>();
@@ -122,12 +123,13 @@ public class RoleController {
 	 * @param role
 	 * @return
 	 */
-	@PostMapping("/addRole")
+	@GetMapping("/addRole")
 	public Result addRole(Role role) {
 		Result result = Result.SUCCESS;
 		try {
 			roleService.insertRole(role);
 		} catch (Exception e) {
+			log.error("新增角色失败", e);
 			result = Result.fail(e);
 		}
 		return result;
@@ -138,12 +140,13 @@ public class RoleController {
 	 * @param role
 	 * @return
 	 */
-	@PostMapping("/updateRole")
+	@GetMapping("/updateRole")
 	public Result updateRole(Role role) {
 		Result result = Result.SUCCESS;
 		try {
 			roleService.updateRole(role);
 		} catch (Exception e) {
+			log.error("更改角色名称失败", e);
 			result = Result.fail(e);
 		}
 		return result;
@@ -154,12 +157,13 @@ public class RoleController {
 	 * @param roleId
 	 * @return
 	 */
-	@PostMapping("/deleteRole")
+	@GetMapping("/deleteRole")
 	public Result deleteRole(int roleId) {
 		Result result = Result.SUCCESS;
 		try {
 			roleService.deleteRole(roleId);
 		} catch (Exception e) {
+			log.error("删除角色失败", e);
 			result = Result.fail(e);
 		}
 		return result;
@@ -174,11 +178,13 @@ public class RoleController {
 	public Result modifyMenuRight(@RequestBody Map<String, Object> map) {
 		Result result = Result.SUCCESS;
 		try {
-			int roleId = (int) map.get("roleId");
+			int roleId = Integer.parseInt((String) map.get("roleId"));
 			@SuppressWarnings("unchecked")
-			List<Integer> menuIds = (List<Integer>) map.get("menuIds");
+			List<Object> objList = (List<Object>) map.get("menuIds");
+			List<Integer> menuIds = objList.stream().map(each -> Integer.parseInt((String) each)).collect(Collectors.toList());
 			roleService.modifyMenuRight(roleId, menuIds);
 		} catch (Exception e) {
+			log.error("修改角色菜单权限失败", e);
 			result = Result.fail(e);
 		}
 		return result;
@@ -190,12 +196,13 @@ public class RoleController {
 	 * @param userId
 	 * @return
 	 */
-	@PostMapping("/addUser")
+	@GetMapping("/addUser")
 	public Result addUser(int roleId, int userId) {
 		Result result = Result.SUCCESS;
 		try {
 			roleService.addUser(roleId, userId);
 		} catch (Exception e) {
+			log.error("角色下新增用户失败", e);
 			result = Result.fail(e);
 		}
 		return result;
@@ -206,12 +213,13 @@ public class RoleController {
 	 * @param userId
 	 * @return
 	 */
-	@PostMapping("/removeUser")
+	@GetMapping("/removeUser")
 	public Result removeUser(int userId) {
 		Result result = Result.SUCCESS;
 		try {
 			roleService.removeUser(userId);
 		} catch (Exception e) {
+			log.error("角色下移除失败", e);
 			result = Result.fail(e);
 		}
 		return result;
@@ -229,7 +237,7 @@ public class RoleController {
 			List<Menu> list = roleService.queryMenuTreeByRoleId(roleId);
 			result.setData(list);
 		} catch (Exception e) {
-			log.error("查询失败", e);
+			log.error("查询已配置菜单树失败", e);
 			result = Result.fail(e);
 		}
 		return result;

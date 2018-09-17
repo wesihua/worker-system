@@ -52,7 +52,7 @@ public class AccountController {
 	@GetMapping("/login")
 	public Result login(User user,String flag, HttpServletResponse response) {
 		Result result = Result.SUCCESS;
-		Jedis jedis = JedisUtil.getJedis();
+		Jedis jedis = null;
 		if(StringUtils.isEmpty(user.getUserName())) {
 			return Result.fail("用户名不能为空！");
 		}
@@ -60,6 +60,7 @@ public class AccountController {
 			return Result.fail("密码不能为空！");
 		}
 		try {
+			jedis = JedisUtil.getJedis();
 			// 查询用户信息
 			List<User> userList = userService.queryByUserName(user.getUserName());
 			if(null == userList || userList.size() == 0) {
@@ -90,6 +91,9 @@ public class AccountController {
 			log.error("登录失败", e);
 			result = Result.fail("登录失败！");
 		}
+		finally {
+			jedis.close();
+		}
 		return result;
 	}
 	
@@ -101,8 +105,9 @@ public class AccountController {
 	@GetMapping("/logout")
 	public Result logout(HttpServletRequest request) {
 		Result result = Result.SUCCESS;
-		Jedis jedis = JedisUtil.getJedis();
+		Jedis jedis = null;
 		try {
+			jedis = JedisUtil.getJedis();
 			int userId = ToolsUtil.getUserId(request);
 			if(userId != 0 && jedis.exists(GlobalConstant.RedisKey.KEY_TOKEN_PREFIX+userId)) {
 				String token = jedis.get(GlobalConstant.RedisKey.KEY_TOKEN_PREFIX+userId);
@@ -114,6 +119,9 @@ public class AccountController {
 		} catch (Exception e) {
 			log.error("退出登录失败", e);
 			result = Result.fail("退出登录失败！");
+		}
+		finally {
+			jedis.close();
 		}
 		return result;
 	}

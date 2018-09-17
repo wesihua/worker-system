@@ -321,7 +321,7 @@
     <include refid="Base_Column_List" />
     from t_sys_role
     <where>
-    	id &gt; #{offset,jdbcType=INTEGER}
+    	id &lt;= (select id from t_sys_role order by id desc limit #{offset,jdbcType=INTEGER},1)
     	<if test="name != null">
     		and name like #{name,jdbcType=VARCHAR}
     	</if>

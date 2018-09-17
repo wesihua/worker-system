@@ -101,6 +101,7 @@ public class CommonServiceImpl implements CommonService {
 				text = dicList.get(0).getName();
 			}
 		}
+		jedis.close();
 		return text;
 	}
 

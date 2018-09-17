@@ -623,7 +623,7 @@
 		t_yx_worker t,t_sys_user u 
 	<where>
 		t.create_user = u.id
-		and t.id &gt; #{offset,jdbcType=INTEGER}
+		and t.id &lt;= (select id from t_yx_worker order by id desc limit #{offset,jdbcType=INTEGER},1)
 		<if test="idcard != null">
 			and t.idcard = #{idcard,jdbcType=VARCHAR}
 		</if>

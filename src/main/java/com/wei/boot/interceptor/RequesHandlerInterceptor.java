@@ -67,6 +67,7 @@ public class RequesHandlerInterceptor implements HandlerInterceptor {
 		// token验证通过，将token有效时间重置
 		jedis.set(GlobalConstant.RedisKey.KEY_TOKEN_PREFIX+userId, token, "NX", "EX", 30*60);// 30分钟有效期，用来存放token
 		jedis.set(token, userId, "NX", "EX", 30*60);// 30分钟有效期，用来存放userId
+		jedis.close();
 		log.info("请求 [ "+path+" ] 验证通过！");
 		return true;
 		

@@ -11,10 +11,12 @@ public class NormalException extends Exception {
 	public NormalException(int code, String message) {
 		super(message);
 		this.code = code;
+		this.message = message;
 	}
 
 	public NormalException(String message) {
 		super(message);
+		this.message = message;
 	}
 	
 	public int getCode() {

@@ -11,24 +11,12 @@
 <body>
 <div>
 	欢迎光临本系统<br/><br/>
-	<button onclick="parent.alert('弹出提示文字试试看什么效果')">打开alert提示框</button><br/><hr/>
-	<button id="showConfirm">打开confirm提示框</button>
-	<button id="userDialog">打开弹窗</button>
 	<button id="send">模拟一个请求</button>
 </div>
 
 </body>
 <script>
-$(document).ajaxSuccess(function(event, xhr, settings){
-	if(xhr.responseJSON.code == 1002){
-		top.location.href="/";
-	}
-});
-$("#showConfirm").click(function(){
-	parent.confirm("你确定删除本条信息？",function(){
-		console.log(1);
-	});
-});
+
 $("#send").click(function(){
 	$.ajax({
 		url:"/user/queryUserInfo",
@@ -42,16 +30,6 @@ $("#send").click(function(){
 		}
 	});
 });
-$("#userDialog").click(function(){
-	parent.$("#user-manage-box3").show();
-});
-parent.$(".user_add_sure").click(function(){
-	var firm = parent.$("#firm").val();
-	var startDate = parent.$("#startDate").val();
-	var endDate = parent.$("#endDate").val();
-	console.log(firm);
-	console.log(startDate);
-	console.log(startDate);
-});
+
 </script>
 </html>

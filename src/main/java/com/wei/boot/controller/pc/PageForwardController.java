@@ -27,7 +27,19 @@ public class PageForwardController {
 		return "welcome";
 	}
 	@GetMapping("/role/index")
-	public String welcome2() throws Exception {
+	public String roleIndex() throws Exception {
 		return "role/role";
+	}
+	@GetMapping("/user/index")
+	public String userIndex() throws Exception {
+		return "user/user";
+	}
+	@GetMapping("/company/index")
+	public String companyIndex() throws Exception {
+		return "company/company";
+	}
+	@GetMapping("/worker/index")
+	public String workerIndex() throws Exception {
+		return "worker/worker";
 	}
 }

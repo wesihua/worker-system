@@ -30,6 +30,8 @@ import com.wei.boot.service.UserService;
 import com.wei.boot.util.JedisUtil;
 import com.wei.boot.util.JsonUtil;
 
+import redis.clients.jedis.Jedis;
+
 @Service
 public class RoleServiceImpl implements RoleService {
 
@@ -89,7 +91,10 @@ public class RoleServiceImpl implements RoleService {
 		example.createCriteria().andNameEqualTo(role.getName());
 		List<Role> roleList = roleMapper.selectByExample(example);
 		if(null != roleList && roleList.size() > 0) {
-			throw new NormalException("该角色名已存在！");
+			Role realRole = roleList.get(0);
+			if(role.getId().intValue() != realRole.getId().intValue()) {
+				throw new NormalException("该角色名已存在！");
+			}
 		}
 		role.setUpdateTime(new Date());
 		roleMapper.updateByPrimaryKeySelective(role);
@@ -99,6 +104,10 @@ public class RoleServiceImpl implements RoleService {
 	@Transactional
 	public void deleteRole(int roleId) throws NormalException {
 		roleMapper.deleteByPrimaryKey(roleId);
+		// 删除关联权限
+		RoleMenuExample example = new RoleMenuExample();
+		example.createCriteria().andRoleIdEqualTo(roleId);
+		roleMenuMapper.deleteByExample(example);
 	}
 
 	@Override
@@ -111,7 +120,7 @@ public class RoleServiceImpl implements RoleService {
 			roleMenuMapper.deleteByExample(example);
 			// 再新增权限
 			List<RoleMenu> list = new ArrayList<RoleMenu>();
-			for(int menuId : menuIds) {
+			for(Integer menuId : menuIds) {
 				RoleMenu roleMenu = new RoleMenu();
 				roleMenu.setRoleId(roleId);
 				roleMenu.setMenuId(menuId);
@@ -153,12 +162,14 @@ public class RoleServiceImpl implements RoleService {
 	@Override
 	public List<Menu> queryMenuTreeByRoleId(int roleId) {
 		// 先查询该角色下绑定的所有菜单id
+		Jedis jedis = JedisUtil.getJedis();
 		RoleMenuExample example = new RoleMenuExample();
 		example.createCriteria().andRoleIdEqualTo(roleId);
-		List<Integer> menuIds = roleMenuMapper.selectByExample(example).stream().map(roleMenu -> roleMenu.getRoleId()).collect(Collectors.toList());
+		List<Integer> menuIds = roleMenuMapper.selectByExample(example).stream().map(roleMenu -> roleMenu.getMenuId()).collect(Collectors.toList());
 		// 查询所有菜单树
-		List<Menu> menus = JsonUtil.json2List(JedisUtil.getJedis().get(GlobalConstant.RedisKey.KEY_MENU), Menu.class);
+		List<Menu> menus = JsonUtil.json2List(jedis.get(GlobalConstant.RedisKey.KEY_MENU), Menu.class);
 		revalueMenuTree(menus, menuIds);
+		jedis.close();
 		return menus;
 	}
 	
