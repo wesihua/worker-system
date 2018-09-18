@@ -3,6 +3,8 @@ package com.wei.boot.mapper;
 import com.wei.boot.model.OrderWorker;
 import com.wei.boot.model.OrderWorkerExample;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface OrderWorkerMapper {
@@ -93,4 +95,8 @@ public interface OrderWorkerMapper {
      * @mbggenerated Sat Sep 15 21:48:23 CST 2018
      */
     int updateByPrimaryKey(OrderWorker record);
+
+	int selectCount(Map<String, Object> map);
+
+	List<OrderWorker> selectByPage(Map<String, Object> map);
 }

@@ -3,6 +3,8 @@ package com.wei.boot.mapper;
 import com.wei.boot.model.Demand;
 import com.wei.boot.model.DemandExample;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface DemandMapper {
@@ -93,4 +95,8 @@ public interface DemandMapper {
      * @mbggenerated Sun Sep 16 21:59:24 CST 2018
      */
     int updateByPrimaryKey(Demand record);
+
+	int selectCount(Map<String, Object> map);
+
+	List<Demand> selectByPage(Map<String, Object> map);
 }

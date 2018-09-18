@@ -7,11 +7,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.wei.boot.model.Company;
 import com.wei.boot.model.Demand;
 import com.wei.boot.model.DemandQuery;
+import com.wei.boot.model.OrderWorker;
 import com.wei.boot.model.Page;
 import com.wei.boot.model.Result;
 import com.wei.boot.service.DemandService;
@@ -53,19 +54,53 @@ public class DemandController {
 		return result;
 	}
 	
-	@ApiOperation(value = "根据条件查需求单",notes = "")
+	@ApiOperation(value = "根据条件查需求单列表",notes = "")
 	@PostMapping("/queryDemand")
 	public Result queryDemand(@ApiParam(value = "用工需求条件",required = true) @RequestBody DemandQuery demandQuery,
 			@ApiParam(value = "分页条件",required = true) @RequestBody  Page<Demand> page) {
 		Result result = Result.SUCCESS;
 		try {
 			Page<Demand> data = demandService.queryDemand(page,demandQuery);
+			result.setData(data);
 		} catch (Exception e) {
-			log.error("查询失败", e);
-			result = Result.fail("保存用工需求信息失败！");
+			log.error("查询需求单列表失败", e);
+			result = Result.fail("查询需求单列表失败！");
 		}
 		return result;
 	}
+	
+	@ApiOperation(value = "需求单详情",notes = "")
+	@GetMapping("/demandDetail")
+	public Result demandDetail(@ApiParam(value = "需求单id",required = true) @RequestParam Integer demandId) {
+		Result result = Result.SUCCESS;
+		try {
+			Demand demand = demandService.queryDemandById(demandId);
+			result.setData(demand);
+		} catch (Exception e) {
+			log.error("查询需求单详情失败", e);
+			result = Result.fail("查询需求单详情失败！");
+		}
+		return result;
+	}
+	
+	@ApiOperation(value = "需求单工种签约列表",notes = "")
+	@PostMapping("/orderWorkerList")
+	public Result orderWorkerList(@ApiParam(value = "需求单工种Id",required = true) @RequestParam Integer demandJobId,
+			@ApiParam(value = "分页条件",required = true) @RequestBody  Page<OrderWorker> page) {
+		Result result = Result.SUCCESS;
+		try {
+			Page<OrderWorker> data = demandService.queryOrderWorker(page,demandJobId);
+			result.setData(data);
+		} catch (Exception e) {
+			log.error("查询需求单工种签约列表失败", e);
+			result = Result.fail("查询需求单工种签约列表失败！");
+		}
+		return result;
+	}
+	
+	
+	
+	
 	
 	
 	
