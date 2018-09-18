@@ -6,10 +6,12 @@
 <link href="../css/public.css" rel="stylesheet" />
 <link href="../css/font-awesome.min.css" rel="stylesheet" />
 <link href="../css/user-manage.css" rel="stylesheet"/>
-
+<link rel="stylesheet" href="../datepicker/css/datepicker.css"/>
 <link href="../css/jquery.pagination.css" rel="stylesheet" />
 <script src="../js/jquery-3.3.1.min.js"></script>
 <script src="../js/jquery.pagination.min.js"></script>
+<script src="../datepicker/js/plugins/moment.min.js"></script>
+<script src="../datepicker/js/datepicker.all.js"></script>
 <script src="../js/worker/worker.js"></script>
 </head>
 <body>
@@ -27,6 +29,17 @@
 						<input placeholder="搜索身份证号" id="idcard"/> 
 					</div>
 					<div class="select2">
+						来源
+						<select id="source">
+							<option></option>
+						</select> 
+						<div class="c-datepicker-date-editor J-datepicker-range mt10">
+				          <i class="c-datepicker-range__icon kxiconfont icon-clock"></i>
+				          <input placeholder="开始日期" name="" class="c-datepicker-data-input" />-
+				          <input placeholder="结束日期" name="" class="c-datepicker-data-input" />
+				        </div> 
+					</div>
+					<div class="select2">
 						一级工种
 						<select id="firstId">
 							<option value="">选择一级工种</option>
@@ -39,23 +52,8 @@
 						<select id="createUser">
 							<option></option>
 						</select> 
+						<span class="button" id="query">查询</span>
 					</div>
-					<div class="select2">
-						来源
-						<select id="source">
-							<option></option>
-						</select> 
-						录入开始时间
-						<select id="beginTime">
-							<option></option>
-						</select> 
-						录入结束时间
-						<select id="endTime">
-							<option></option>
-						</select> 
-						<span class="button">查询</span>
-					</div>
-
 				</div>
 				<table cellpadding="0" cellspacing="0">
 					<thead>

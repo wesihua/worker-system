@@ -34,7 +34,9 @@ import com.wei.boot.model.WorkerJobTypeExample;
 import com.wei.boot.service.CommonService;
 import com.wei.boot.service.JobTypeService;
 import com.wei.boot.service.WorkerService;
+import com.wei.boot.util.CheckUtils;
 import com.wei.boot.util.DateUtils;
+import com.wei.boot.util.ToolsUtil;
 
 @Service
 public class WorkerServiceImpl implements WorkerService {
@@ -103,7 +105,7 @@ public class WorkerServiceImpl implements WorkerService {
 					List<JobType> jobTypeInfoList = jobTypeMapper.selectByExample(jtExample);
 					if(null != jobTypeInfoList && jobTypeInfoList.size() > 0) {
 						String jobTypeName = jobTypeInfoList.stream().map(each -> each.getName()).collect(Collectors.toList()).toString();
-						info.setJobTypeName(jobTypeName);
+						info.setJobTypeName(jobTypeName.substring(1, jobTypeName.length()-1));
 						//info.setJobTypeList(jobTypeList);
 					}
 				}
@@ -328,8 +330,8 @@ public class WorkerServiceImpl implements WorkerService {
 			String sexName = commonService.queryDicText(GlobalConstant.DictionaryType.GENDER, worker.getSex());
 			worker.setSexName(sexName);
 			// 翻译出生日期
-			String birthdayName = DateUtils.formatDate(worker.getBirthday(), "yyyy-MM-dd");
-			worker.setBirthdayName(birthdayName);
+			//String birthdayName = DateUtils.formatDate(worker.getBirthday(), "yyyy-MM-dd");
+			//worker.setBirthdayName(birthdayName);
 			// 翻译出生地
 			Area area = commonService.queryAreaByCode(worker.getBirthplaceCode());
 			if(null != area) {
@@ -362,8 +364,20 @@ public class WorkerServiceImpl implements WorkerService {
 			String sourceName = commonService.queryDicText(GlobalConstant.DictionaryType.WORKER_SOUCE, worker.getSouce());
 			worker.setSourceName(sourceName);
 			// 翻译创建时间
-			String createTimeName = DateUtils.formatDate(worker.getCreateTime(), "yyyy-MM-dd");
-			worker.setCreateTimeName(createTimeName);
+			//String createTimeName = DateUtils.formatDate(worker.getCreateTime(), "yyyy-MM-dd");
+			//worker.setCreateTimeName(createTimeName);
+			
+			// 翻译年龄
+			String birthday = null;
+			if(!StringUtils.isEmpty(worker.getIdcard()) && CheckUtils.isIdCard(worker.getIdcard())) {
+				birthday = DateUtils.formatDate(DateUtils.parseDate(worker.getIdcard().substring(6, 14)), "yyyy-MM-dd");
+			}
+			if(null != worker.getBirthday() && null == birthday) {
+				birthday = DateUtils.formatDate(worker.getBirthday(), "yyyy-MM-dd");
+			}
+			if(null != birthday) {
+				worker.setAge(ToolsUtil.getAgeFromBirthTime(birthday));
+			}
 		}
 	}
 	
@@ -372,9 +386,6 @@ public class WorkerServiceImpl implements WorkerService {
 			// 翻译性别
 			String sexName = commonService.queryDicText(GlobalConstant.DictionaryType.GENDER, worker.getSex());
 			worker.setSexName(sexName);
-			// 翻译出生日期
-			String birthdayName = DateUtils.formatDate(worker.getBirthday(), "yyyy-MM-dd");
-			worker.setBirthdayName(birthdayName);
 			// 翻译出生地
 			Area area = commonService.queryAreaByCode(worker.getBirthplaceCode());
 			if(null != area) {
@@ -407,8 +418,6 @@ public class WorkerServiceImpl implements WorkerService {
 			//String sourceName = commonService.queryDicText(GlobalConstant.DictionaryType.WORKER_SOUCE, worker.getSouce());
 			//worker.setSourceName(sourceName);
 			// 翻译创建时间
-			String createTimeName = DateUtils.formatDate(worker.getCreateTime(), "yyyy-MM-dd");
-			worker.setCreateTimeName(createTimeName);
 		}
 	}
 

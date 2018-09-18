@@ -8,12 +8,34 @@ $(function(){
 	// 进入页面自动查询
 	query(1);
 	//按钮事件绑定
-	$("#public-bottom2").click(function(){
+	$("#query").click(function(){
 		query(1);
 	});
 	$("#add-worker").click(function(){
 		addCompany();
 	});
+	
+	$('.J-datepicker-range').datePicker({
+        hasShortcut: true,
+        isRange: true,
+        shortcutOptions: [{
+          name: '昨天',
+          day: '-1,-1',
+          time: '00:00:00,23:59:59'
+        },{
+          name: '最近一周',
+          day: '-7,0',
+          time:'00:00:00,'
+        }, {
+          name: '最近一个月',
+          day: '-30,0',
+          time: '00:00:00,'
+        }, {
+          name: '最近三个月',
+          day: '-90, 0',
+          time: '00:00:00,'
+        }]
+      });
 });
 
 /**
@@ -50,7 +72,7 @@ function query(currentPage){
 									"	<td>"+worker.idcard+"</td>"+
 									"	<td>"+worker.sexName+"</td>"+
 									"	<td>"+worker.age+"</td>"+
-									"	<td>"+worker.title+"</td>"+
+									"	<td>"+(worker.title == null ? "" : worker.title)+"</td>"+
 									"	<td>"+worker.jobTypeName+"</td>"+
 									"	<td>"+worker.workStatusName+"</td>"+
 									"	<td>"+worker.createUserName+"</td>"+

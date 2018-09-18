@@ -86,7 +86,6 @@ public class WorkerController {
 					row.add(info.getTitle());
 					row.add(info.getSourceName());
 					row.add(info.getCreateUserName());
-					row.add(info.getCreateTimeName());
 					data.add(row);
 				}
 				ExcelUtil.exportExcel(headers, data, "人才信息.xlsx", response);

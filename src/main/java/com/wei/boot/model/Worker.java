@@ -240,8 +240,6 @@ public class Worker {
     
     private String sexName;
     
-    private String birthdayName;
-    
     private String birthplaceName;
     
     private String maritalStatusName;
@@ -260,24 +258,12 @@ public class Worker {
     
     private String sourceName;
     
-    private String createTimeName;
-    
     private String createUserName;
     
     private int age;
 
 
 	public int getAge() {
-		String birthday = null;
-		if(!StringUtils.isEmpty(getIdcard())) {
-			birthday = DateUtils.formatDate(DateUtils.parseDate(getIdcard().substring(6, 14)), "yyyy-MM-dd");
-		}
-		if(null != getBirthday() && null == birthday) {
-			birthday = DateUtils.formatDate(getBirthday(), "yyyy-MM-dd");
-		}
-		if(null != birthday) {
-			return ToolsUtil.getAgeFromBirthTime(birthday);
-		}
 		return age;
 	}
 
@@ -339,14 +325,6 @@ public class Worker {
 
 	public void setSexName(String sexName) {
 		this.sexName = sexName;
-	}
-
-	public String getBirthdayName() {
-		return birthdayName;
-	}
-
-	public void setBirthdayName(String birthdayName) {
-		this.birthdayName = birthdayName;
 	}
 
 	public String getBirthplaceName() {
@@ -419,14 +397,6 @@ public class Worker {
 
 	public void setSourceName(String sourceName) {
 		this.sourceName = sourceName;
-	}
-
-	public String getCreateTimeName() {
-		return createTimeName;
-	}
-
-	public void setCreateTimeName(String createTimeName) {
-		this.createTimeName = createTimeName;
 	}
 
 	public String getCreateUserName() {
