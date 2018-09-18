@@ -86,12 +86,8 @@ public class WorkerServiceImpl implements WorkerService {
 		if(null != worker.getCreateUser() && worker.getCreateUser() != 0) {
 			map.put("createUser", worker.getCreateUser());
 		}
-		if(worker.getFirstId() != 0) {
-			map.put("firstId", worker.getFirstId());
-		}
-		if(worker.getSecondId() != 0) {
-			map.put("secondId", worker.getSecondId());
-		}
+		map.put("firstId", worker.getFirstId());
+		map.put("secondId", worker.getSecondId());
 		
 		List<Worker> workerList = workerMapper.selectByPage(map);
 		if(null != workerList && workerList.size() > 0) {

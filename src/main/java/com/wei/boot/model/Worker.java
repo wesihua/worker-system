@@ -229,9 +229,9 @@ public class Worker {
     
     private String endTime;
     
-    private int firstId;	// 查询条件-工种大类
+    private Integer firstId;	// 查询条件-工种大类
     
-    private int secondId;	// 查询条件-工种小类
+    private Integer secondId;	// 查询条件-工种小类
     
     private List<WorkerJobType> jobTypeList;	// 工种集合，用于新增/编辑时接收参数
     
@@ -301,19 +301,19 @@ public class Worker {
 		this.jobTypeName = jobTypeName;
 	}
 
-	public int getFirstId() {
+	public Integer getFirstId() {
 		return firstId;
 	}
 
-	public void setFirstId(int firstId) {
+	public void setFirstId(Integer firstId) {
 		this.firstId = firstId;
 	}
 
-	public int getSecondId() {
+	public Integer getSecondId() {
 		return secondId;
 	}
 
-	public void setSecondId(int secondId) {
+	public void setSecondId(Integer secondId) {
 		this.secondId = secondId;
 	}
 

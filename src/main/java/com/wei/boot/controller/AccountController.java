@@ -20,6 +20,7 @@ import com.wei.boot.contant.GlobalConstant;
 import com.wei.boot.model.Result;
 import com.wei.boot.model.User;
 import com.wei.boot.service.UserService;
+import com.wei.boot.util.DateUtils;
 import com.wei.boot.util.JedisUtil;
 import com.wei.boot.util.MD5Util;
 import com.wei.boot.util.ToolsUtil;
@@ -50,7 +51,7 @@ public class AccountController {
 	 * @return
 	 */
 	@GetMapping("/login")
-	public Result login(User user,String flag, HttpServletResponse response) {
+	public Result login(User user, HttpServletResponse response) {
 		Result result = Result.SUCCESS;
 		Jedis jedis = null;
 		if(StringUtils.isEmpty(user.getUserName())) {
@@ -72,12 +73,14 @@ public class AccountController {
 				return Result.fail("密码输入不正确！");
 			}
 			// 登录成功，生产token并返回
-			String token = "";
-			if("0".equals(flag)) {
-				token = MD5Util.MD5Upper32(secret+"_"+currentUser.getUserName()+"_"+currentUser.getPassword())+"_pc";
-			}
-			else {
-				token = MD5Util.MD5Upper32(secret+"_"+currentUser.getUserName()+"_"+currentUser.getPassword())+"_app";
+			String token = MD5Util.MD5Upper32(secret+"_"+currentUser.getUserName()+"_"+currentUser.getPassword()+"_"+DateUtils.getCurTime());
+			// 先删除老的token
+			if(jedis.exists(GlobalConstant.RedisKey.KEY_TOKEN_PREFIX+currentUser.getId())) {
+				String oldToken = jedis.get(GlobalConstant.RedisKey.KEY_TOKEN_PREFIX+currentUser.getId());
+				if(jedis.exists(oldToken)) {
+					jedis.del(oldToken);
+				}
+				jedis.del(GlobalConstant.RedisKey.KEY_TOKEN_PREFIX+currentUser.getId());
 			}
 			jedis.set(GlobalConstant.RedisKey.KEY_TOKEN_PREFIX+currentUser.getId(), token, "NX", "EX", 30*60);// 30分钟有效期，用来存放token
 			jedis.set(token, currentUser.getId().toString(), "NX", "EX", 30*60);// 30分钟有效期，用来存放userId
@@ -132,7 +135,7 @@ public class AccountController {
 	 * @param newPass
 	 * @return
 	 */
-	@PostMapping("/changePass")
+	@GetMapping("/changePass")
 	public Result changePass(int userId, String newPass) {
 		Result result = Result.SUCCESS;
 		try {

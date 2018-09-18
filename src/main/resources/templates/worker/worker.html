@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title></title>
+<link href="../css/public.css" rel="stylesheet" />
+<link href="../css/font-awesome.min.css" rel="stylesheet" />
+<link href="../css/user-manage.css" rel="stylesheet"/>
+
+<link href="../css/jquery.pagination.css" rel="stylesheet" />
+<script src="../js/jquery-3.3.1.min.js"></script>
+<script src="../js/jquery.pagination.min.js"></script>
+<script src="../js/worker/worker.js"></script>
+</head>
+<body>
+	<div id="content">
+		<div id="content-nav">
+			<span class="name">用户管理</span> <span class="control">导出列表</span> <span
+				class="control">新增用工</span>
+		</div>
+		<div id="content-area">
+			<div id="user-manage">
+				<div class="chaxun">
+					<div class="select1">
+						<input placeholder="搜索姓名" id="workerName"/> 
+						<input placeholder="搜索手机号" id="telephone"/> 
+						<input placeholder="搜索身份证号" id="idcard"/> 
+					</div>
+					<div class="select2">
+						一级工种
+						<select id="firstId">
+							<option value="">选择一级工种</option>
+						</select> 
+						二级工种
+						<select id="secondId">
+							<option value="">选择二级工种</option>
+						</select>
+						创建人
+						<select id="createUser">
+							<option></option>
+						</select> 
+					</div>
+					<div class="select2">
+						来源
+						<select id="source">
+							<option></option>
+						</select> 
+						录入开始时间
+						<select id="beginTime">
+							<option></option>
+						</select> 
+						录入结束时间
+						<select id="endTime">
+							<option></option>
+						</select> 
+						<span class="button">查询</span>
+					</div>
+
+				</div>
+				<table cellpadding="0" cellspacing="0">
+					<thead>
+						<tr>
+							<th>姓名</th>
+							<th>手机号</th>
+							<th>身份证号</th>
+							<th>性别</th>
+							<th>年龄</th>
+							<th>职称</th>
+							<th>擅长工种</th>
+							<th>工作状态</th>
+							<th>录入人员</th>
+							<th>来源</th>
+							<th>录入日期</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

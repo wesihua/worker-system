@@ -42,7 +42,7 @@ function parentJobTypeInfo(){
 					var jobtype = data.data[i];
 					content += "<option value=\""+jobtype.id+"\">"+jobtype.name+"</option>";
 				}
-				$("#parentId").empty().append(content);
+				parent.$("#parentId").empty().append(content);
 			}
 		}
 	});

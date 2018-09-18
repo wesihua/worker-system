@@ -624,25 +624,25 @@
 	<where>
 		t.create_user = u.id
 		and t.id &lt;= (select id from t_yx_worker order by id desc limit #{offset,jdbcType=INTEGER},1)
-		<if test="idcard != null">
+		<if test="idcard != null and idcard != ''">
 			and t.idcard = #{idcard,jdbcType=VARCHAR}
 		</if>
-		<if test="telephone != null">
+		<if test="telephone != null and telephone != ''">
 			and t.phone = #{telephone,jdbcType=VARCHAR}
 		</if>
-		<if test="name != null">
+		<if test="name != null and name != ''">
 			and t.name like #{name,jdbcType=VARCHAR}
 		</if>
-		<if test="beginTime != null">
+		<if test="beginTime != null and beginTime != ''">
 			and t.create_time &gt;= #{beginTime,jdbcType=VARCHAR}
 		</if>
-		<if test="endTime != null">
+		<if test="endTime != null and endTime != ''">
 			and t.create_time &lt;= #{endTime,jdbcType=VARCHAR}
 		</if>
-		<if test="source != null">
+		<if test="source != null and source != ''">
 			and t.source = #{source,jdbcType=INTEGER}
 		</if>
-		<if test="createUser != null">
+		<if test="createUser != null and createUser != ''">
 			and t.create_user = #{createUser,jdbcType=INTEGER}
 		</if>
 		<if test="firstId != null">
