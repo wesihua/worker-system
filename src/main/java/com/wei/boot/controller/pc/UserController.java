@@ -104,6 +104,23 @@ public class UserController {
 		}
 		return result;
 	}
+	/**
+	 * 根据用户名查询
+	 * @param userName
+	 * @return
+	 */
+	@GetMapping("/queryByRealName")
+	public Result queryByRealName(String realName) {
+		Result result = Result.SUCCESS;
+		try {
+			List<User> list = userService.queryByRealName(realName);
+			result.setData(list);
+		} catch (Exception e) {
+			log.error("查询失败", e);
+			result = Result.fail(e);
+		}
+		return result;
+	}
 	
 	/**
 	 * 获取登录的用户信息

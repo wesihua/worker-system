@@ -14,6 +14,36 @@ $(function(){
 	$("#add-worker").click(function(){
 		addCompany();
 	});
+	// 初始化来源
+	initSelect("source","worker_souce");
+	// 初始化一级工种
+	initFirstIdSelect("firstId");
+	// 二级工种联动
+	$("#firstId").change(function(){
+		var firstId = this.value;
+		if(!firstId){
+			$("#"+id).empty().html("<option value=\"\">---请选择---</option>");
+		}
+		$.ajax({
+			url:"/jobType/queryByParentId",
+			type:"get",
+			dataType:"json",
+			data:{parentId:firstId},
+			success:function(data){
+				if(data.code == 1){
+					var dics = data.data;
+					var content = "<option value=\"\">---请选择---</option>";
+					for(var i=0; i<dics.length; i++){
+						var dic = dics[i];
+						content += "<option value=\""+dic.code+"\">"+dic.name+"</option>";
+					}
+					$("#secondId").empty().html(content);
+				}
+			}
+		});
+	});
+	// 初始化创建人
+	initSourceSelect("source");
 	
 	$('.J-datepicker-range').datePicker({
         hasShortcut: true,
@@ -114,7 +144,66 @@ function openDialog(id){
 	});
 }
 
-function addCompany(){
+function initSelect(id,type){
+	$.ajax({
+		url:"/common/queryDicByType",
+		type:"get",
+		dataType:"json",
+		data:{type:type},
+		success:function(data){
+			if(data.code == 1){
+				var dics = data.data;
+				var content = "<option value=\"\">---请选择---</option>";
+				for(var i=0; i<dics.length; i++){
+					var dic = dics[i];
+					content += "<option value=\""+dic.code+"\">"+dic.name+"</option>";
+				}
+				$("#"+id).empty().html(content);
+			}
+		}
+	});
+}
+
+function initSourceSelect(id){
+	$.ajax({
+		url:"/user/queryByRealName",
+		type:"get",
+		dataType:"json",
+		success:function(data){
+			if(data.code == 1){
+				var dics = data.data;
+				var content = "<option value=\"\">---请选择---</option>";
+				for(var i=0; i<dics.length; i++){
+					var dic = dics[i];
+					content += "<option value=\""+dic.id+"\">"+dic.realName+"</option>";
+				}
+				$("#"+id).empty().html(content);
+			}
+		}
+	});
+}
+
+function initFirstIdSelect(id){
+	$.ajax({
+		url:"/jobType/queryRootJobType",
+		type:"get",
+		dataType:"json",
+		success:function(data){
+			if(data.code == 1){
+				var dics = data.data;
+				var content = "<option value=\"\">---请选择---</option>";
+				for(var i=0; i<dics.length; i++){
+					var dic = dics[i];
+					content += "<option value=\""+dic.id+"\">"+dic.name+"</option>";
+				}
+				$("#"+id).empty().html(content);
+			}
+		}
+	});
+}
+
+
+function addWorker(){
 	openDialog("add-company-dialog");
 	top.$(".add-company").click(function(){
 		var companyName = top.$("#companyName").val();
@@ -168,7 +257,7 @@ function addCompany(){
 	});
 }
 
-function updateCompany(companyId){
+function updateWorker(companyId){
 	$.ajax({
 		url:"/company/queryDetail",
 		type:"get",
@@ -244,7 +333,7 @@ function updateCompany(companyId){
 	
 }
 
-function deleteCompany(companyId){
+function deleteWorker(companyId){
 	var b = confirm("是否删除该企业？");
 	if(b){
 		$.ajax({

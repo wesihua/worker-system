@@ -138,6 +138,15 @@ public class UserServiceImpl implements UserService {
 		example.createCriteria().andUserNameLike("%"+userName+"%");
 		return userMapper.selectByExample(example);
 	}
+	
+	@Override
+	public List<User> queryByRealName(String realName) {
+		UserExample example = new UserExample();
+		if(!StringUtils.isEmpty(realName)) {
+			example.createCriteria().andRealNameLike("%"+realName+"%");
+		}
+		return userMapper.selectByExample(example);
+	}
 
 	@Override
 	public User queryById(int userId) {

@@ -30,6 +30,12 @@ public interface UserService {
 	List<User> queryByUserName(String userName);
 	
 	/**
+	 * 根据用户名查询
+	 * @return
+	 */
+	List<User> queryByRealName(String userName);
+	
+	/**
 	 * 新增用户
 	 * @param user
 	 */
