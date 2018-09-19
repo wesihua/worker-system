@@ -17,8 +17,7 @@
 <body>
 	<div id="content">
 		<div id="content-nav">
-			<span class="name">用户管理</span> <span class="control">导出列表</span> <span
-				class="control">新增用工</span>
+			<span class="name">用户管理</span> <span class="control">导出列表</span> <span class="control" id="add-worker">新增用工</span>
 		</div>
 		<div id="content-area">
 			<div id="user-manage">
@@ -30,9 +29,7 @@
 					</div>
 					<div class="select2">
 						来源
-						<select id="source">
-							<option></option>
-						</select> 
+						<select id="source"></select> 
 						<div class="c-datepicker-date-editor J-datepicker-range mt10">
 				          <i class="c-datepicker-range__icon kxiconfont icon-clock"></i>
 				          <input placeholder="开始日期" name="" class="c-datepicker-data-input" id="beginTime"/>-
@@ -49,9 +46,7 @@
 							<option value="">选择二级工种</option>
 						</select>
 						创建人
-						<select id="createUser">
-							<option></option>
-						</select> 
+						<select id="createUser"></select> 
 						<span class="button" id="query">查询</span>
 					</div>
 				</div>

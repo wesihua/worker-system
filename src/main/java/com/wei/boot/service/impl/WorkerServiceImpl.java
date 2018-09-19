@@ -82,7 +82,7 @@ public class WorkerServiceImpl implements WorkerService {
 		if(!StringUtils.isEmpty(worker.getEndTime())) {
 			map.put("endTime", worker.getEndTime());
 		}
-		if(null != worker.getSouce() && worker.getSouce() != 0) {
+		if(null != worker.getSouce()) {
 			map.put("source", worker.getSouce());
 		}
 		if(null != worker.getCreateUser() && worker.getCreateUser() != 0) {

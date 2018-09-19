@@ -639,10 +639,10 @@
 		<if test="endTime != null and endTime != ''">
 			and t.create_time &lt;= #{endTime,jdbcType=VARCHAR}
 		</if>
-		<if test="source != null and source != ''">
-			and t.source = #{source,jdbcType=INTEGER}
+		<if test="source != null">
+			and t.souce = #{source,jdbcType=INTEGER}
 		</if>
-		<if test="createUser != null and createUser != ''">
+		<if test="createUser != null">
 			and t.create_user = #{createUser,jdbcType=INTEGER}
 		</if>
 		<if test="firstId != null">
@@ -679,7 +679,7 @@
 			and t.create_time &lt;= #{endTime,jdbcType=VARCHAR}
 		</if>
 		<if test="source != null">
-			and t.source = #{source,jdbcType=INTEGER}
+			and t.souce = #{source,jdbcType=INTEGER}
 		</if>
 		<if test="createUser != null">
 			and t.create_user = #{createUser,jdbcType=INTEGER}
