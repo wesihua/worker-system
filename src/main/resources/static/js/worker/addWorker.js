@@ -12,7 +12,7 @@ $(function(){
 		query(1);
 	});
 	$("#add-worker").click(function(){
-		location.href="/worker/add"
+		addCompany();
 	});
 	// 初始化来源
 	initSelect("source","worker_souce");
