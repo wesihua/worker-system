@@ -56,8 +56,8 @@ public class DemandController {
 	
 	@ApiOperation(value = "根据条件查需求单列表",notes = "")
 	@PostMapping("/queryDemand")
-	public Result queryDemand(@ApiParam(value = "用工需求条件",required = true) @RequestBody DemandQuery demandQuery,
-			@ApiParam(value = "分页条件",required = true) @RequestBody  Page<Demand> page) {
+	public Result queryDemand(@ApiParam(value = "用工需求条件",required = true)  DemandQuery demandQuery,
+			@ApiParam(value = "分页条件",required = true)   Page<Demand> page) {
 		Result result = Result.SUCCESS;
 		try {
 			Page<Demand> data = demandService.queryDemand(page,demandQuery);

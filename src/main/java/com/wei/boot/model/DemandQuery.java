@@ -13,8 +13,18 @@ public class DemandQuery {
 	// 录单时间范围-结束时间
 	private Date createEndTime;
 	
+	private Date createTime;
+	
 	// 订单状态
 	private Integer state;
+	
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
 	
 	public Integer getState() {
 		return state;

@@ -40,8 +40,14 @@ public class PageForwardController {
 	public String workerIndex() {
 		return "worker/worker";
 	}
+	
 	@GetMapping("/jobtype/index")
 	public String jobtypeIndex() {
 		return "jobtype/jobtype";
+	}
+	
+	@GetMapping("/signing/index")
+	public String signingIndex() {
+		return "signing/demand";
 	}
 }
