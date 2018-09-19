@@ -137,11 +137,11 @@ function initIframeHeight(height) {
 	var subbody = subdoc.body;
 	var realHeight = subbody.clientHeight+20;// = getIframePageHeight("myframe");
 	// 谷歌浏览器特殊处理
-	/*if (userAgent.indexOf("Chrome") > -1) {
+	if (userAgent.indexOf("Chrome") > -1) {
 		realHeight = subdoc.documentElement.scrollHeight;
 	} else {
 		realHeight = subbody.scrollHeight;
-	}*/
+	}
 	if (realHeight < height) {
 		$(myframe).height(height);
 	} else {
