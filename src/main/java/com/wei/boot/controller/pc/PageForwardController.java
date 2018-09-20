@@ -3,6 +3,7 @@ package com.wei.boot.controller.pc;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 
 /**
@@ -54,5 +55,16 @@ public class PageForwardController {
 	@GetMapping("/signing/index")
 	public String signingIndex() {
 		return "signing/demand";
+	}
+	
+	@GetMapping("/signing/demandDetail")
+	public String demandDetail(Integer demandId,ModelMap map) {
+		map.addAttribute("demandId", demandId);
+		return "signing/detail";
+	}
+	
+	@GetMapping("/signing/addDemand")
+	public String addDemand() {
+		return "signing/addDemand";
 	}
 }

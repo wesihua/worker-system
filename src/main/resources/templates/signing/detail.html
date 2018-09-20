@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>待处理详情</title>
+<link href="../css/public.css" rel="stylesheet" />
+<link href="../css/font-awesome.min.css" rel="stylesheet" />
+<link href="../css/already-qiandan-des.css" rel="stylesheet" />
+<link href="../css/jquery.pagination.css" rel="stylesheet" />
+<script src="../js/jquery-3.3.1.min.js"></script>
+<script src="../js/jquery.pagination.min.js"></script>
+<script src="../js/signing/detail.js"></script>
+
+</head>
+<body>
+
+	<div id="content">
+		<div id="already-qiandan-des">
+			<div class="a-m-nav">
+				<span class="title">签约详情</span>
+			</div>
+			<div class="qiandan-add-content">
+				<div class="input-block">
+					<span class="name">签约日期</span> 
+					<span class="word">2018-09-01</span>
+				</div>
+				<div class="input-block">
+					<span class="name">收入总金额</span> 
+					<span class="word">惺惺惜惺惺说明</span>
+				</div>
+				<div class="input-block">
+					<span class="name">业务人员</span> 
+					<span class="word">xxxx公司</span>
+				</div>
+				<div class="input-block">
+					<span class="name">企业客户</span> 
+					<span class="word">xxxx公司</span>
+				</div>
+				<div class="input-block">
+					<span class="name">备注说明</span> 
+					<span class="word">xxxx公司</span>
+				</div>
+
+				<div class="input-block">
+					<span class="name">签约用工</span>
+				</div>
+				<div class="table-area">
+					<table cellpadding="0" cellspacing="0">
+						<tr>
+							<th>用工工种</th>
+							<th>到岗日期</th>
+							<th>工作地区</th>
+							<th width="300">用工要求</th>
+							<th>用工人数</th>
+							<th>签约人数</th>
+							<th width="120">操作</th>
+						</tr>
+						<tr>
+							<td>水电工</td>
+							<td>11</td>
+							<td>2018-09-01</td>
+							<td>799787</td>
+							<td>300</td>
+							<td>33300</td>
+							<td><span class="jiedan">查看签约列表</span></td>
+
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<input type="hidden" name="demandId" th:value="${demandId}"/>
+</body>
+</html>

@@ -15,9 +15,19 @@ public class DemandQuery {
 	
 	private Date createTime;
 	
+	private String createTimeStr;
+	
 	// 订单状态
 	private Integer state;
 	
+	public String getCreateTimeStr() {
+		return createTimeStr;
+	}
+
+	public void setCreateTimeStr(String createTimeStr) {
+		this.createTimeStr = createTimeStr;
+	}
+
 	public Date getCreateTime() {
 		return createTime;
 	}

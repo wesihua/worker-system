@@ -6,32 +6,25 @@ $(function(){
 		}
 	});
 	// 进入页面自动查询
-	query(1);
-	//按钮事件绑定
-	$("#public-bottom2").click(function(){
-		query(1);
-	});
+	queryDetail();
+	
 });
 
 /**
  * 查询
  * @returns
  */
-function query(currentPage){
-	var companyId = $("#companyId").val();
-	var createTime = $("#createTime").val();
-	var state = $("input:hidden[name='state']").val();
+function queryDetail(){
+	
+	var demandId = $("input:hidden[name='demandId']").val();
 	$.ajax({
-		url:"/demand/queryDemand",
-		type:"post",
-		data:{companyId:companyId,
-			createTimeStr:createTime, 
-			state:state,
-			pageNumber:currentPage},
+		url:"/demand/demandDetail",
+		type:"get",
+		data:{demandId:demandId},
 		dataType:"json",
 		success:function(data){
 			if(data.code == 1){
-				var firmArr = data.data.data;
+				var state = data.data.state;
 				var tableContent="";
 				
 				if(state == 0){
@@ -46,20 +39,20 @@ function query(currentPage){
 									"	<th width='120'>备注说明</th>"+
 									"	<th width='150'>操作</th>"+
 									"</tr>";
-					for(var i=0; i<firmArr.length; i++){
-						var firm = firmArr[i];
-						tableContent+=  "<tr>"+
-										"	<td>"+firm.demandNumber+"</td>"+
-										"	<td>"+firm.createTime+"</td>"+
-										"	<td>"+firm.demandNumber+"企业客户</td>"+
-										"	<td>"+firm.demandNumber+"用工工种</td>"+
-										"	<td>"+firm.demandNumber+"用工人数</td>"+
-										"	<td>"+firm.demandNumber+"状态</td>"+
-										"	<td>"+firm.demandNumber+"录单人员</td>"+
-										"	<td width='120'>"+firm.description+"</td>"+
-										"   <td><span class=\"des\" onClick=\"demandDetail("+firm.id+")\">详情</span><span class=\"jiedan\" onClick=\"undertakeDemand("+firm.id+")\">接单</span><span class=\"delete \" onClick=\"closeDemand("+firm.id+")\">关单</span></td>"+
-										"</tr>";
-					}
+//					for(var i=0; i<firmArr.length; i++){
+//						var firm = firmArr[i];
+//						tableContent+=  "<tr>"+
+//										"	<td>"+firm.demandNumber+"</td>"+
+//										"	<td>"+firm.createTime+"</td>"+
+//										"	<td>"+firm.demandNumber+"企业客户</td>"+
+//										"	<td>"+firm.demandNumber+"用工工种</td>"+
+//										"	<td>"+firm.demandNumber+"用工人数</td>"+
+//										"	<td>"+firm.demandNumber+"状态</td>"+
+//										"	<td>"+firm.demandNumber+"录单人员</td>"+
+//										"	<td width='120'>"+firm.description+"</td>"+
+//										"   <td><span class=\"des\" onClick=\"demandDetail("+firm.id+")\">详情</span><span class=\"jiedan\" onClick=\"undertakeDemand("+firm.id+")\">接单</span><span class=\"delete \" onClick=\"closeDemand("+firm.id+")\">关单</span></td>"+
+//										"</tr>";
+//					}
 				}
 				
 				if(state == 1){
@@ -175,13 +168,8 @@ function query(currentPage){
  * @returns
  */
 function demandDetail(demandId){
-	
-	window.location.href= "/signing/demandDetail?demandId=" + demandId;
-}
-
-function addDemand(){
-	
-	window.location.href= "/signing/addDemand";
+	var url = "signing/demandDetail?demandId=" + demandId;
+	$("#myframe").attr("src",url);
 }
 
 /**

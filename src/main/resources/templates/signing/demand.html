@@ -17,8 +17,9 @@
 	<div id="content">
 		<div id="qiandan-manage">
 			<div class="a-m-nav">
-				<span class="title">签单管理</span> <span class="control">新增需求单</span> <span
-					class="control">导出列表</span>
+				<span class="title">签单管理</span> 
+				<span class="control" onclick="addDemand()">新增需求单</span> 
+				<span class="control">导出列表</span>
 			</div>
 			<div class="qiandan-content">
 				<ul class="qiandan-nav">
@@ -30,8 +31,8 @@
 				<!-- 待处理部分 -->
 				<div class="wait-handle" >
 					<div class="search-area clearFix">
-						<input placeholder="搜索企业名称" class="" name="companyId"/> 
-						<input placeholder="录单日期" class="" name="createTime"/> <span class="public-bottom2">查询</span>
+						<input placeholder="搜索企业名称" class="" id="companyId" name="companyId"/> 
+						<input placeholder="录单日期" class="" id="createTime" name="createTime"/> <span id="public-bottom2" class="public-bottom2">查询</span>
 						<input name="state" type="hidden" value="0"/>
 					</div>
 					<div class="table-area">
@@ -171,10 +172,8 @@
 								<th>已签约人数</th>
 								<th>状态</th>
 								<th>录单人员</th>
-
 								<th>操作人员</th>
 								<th>关单说明</th>
-
 								<th width="80">操作</th>
 							</tr>
 							<tr>
