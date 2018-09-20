@@ -5,125 +5,160 @@ $(function(){
 			top.location.href="/";
 		}
 	});
-	// 进入页面自动查询
-	query(1);
-	//按钮事件绑定
-	$("#query").click(function(){
-		query(1);
-	});
 	$("#add-worker").click(function(){
-		addCompany();
+		addWorker();
 	});
-	// 初始化来源
-	initSelect("source","worker_souce");
-	// 初始化一级工种
-	initFirstIdSelect("firstId");
-	// 二级工种联动
-	$("#firstId").change(function(){
-		var firstId = this.value;
-		if(!firstId){
-			$("#"+id).empty().html("<option value=\"\">---请选择---</option>");
-		}
+	// 初始化民族
+	initSelect("nation","nation");
+	// 初始化性别
+	initSelect("sex","gender");
+	// 初始化婚姻状况
+	initSelect("maritalStatus","marital_status");
+	// 初始化工资要求
+	initSelect("expectSalary","expect_salary");
+	// 初始化工作状态
+	initSelect("workStatus","work_status");
+	// 初始化语言能力
+	initSelect("languageLevel","language_level");
+	// 初始化是否接受夜班
+	initSelect("nightWork","night_work");
+	// 初始化学历
+	initSelect("degree","degree");
+	// 初始化工资要求
+	initSelect("exp_salary","expect_salary");
+	// 初始化工种
+	$("#jobtype").click(function(){
+		editMenuRight();
+	});
+	// 初始化省份
+	initProvinceSelect();
+	// 初始化时间控件
+	$('.J-yearMonthPicker-single').datePicker({
+        format: 'YYYY-MM-DD'
+    });
+	$("#add-education").click(function(){
+		openEducationDialog();
+	});
+	$("#add-experience").click(function(){
+		openExperienceDialog();
+	});
+	// 市区联动
+	$("#province").change(function(){
+		var parentCode = this.value;
 		$.ajax({
-			url:"/jobType/queryByParentId",
+			url:"/common/queryAreaByParentCode",
 			type:"get",
 			dataType:"json",
-			data:{parentId:firstId},
+			data:{parentCode:parentCode},
 			success:function(data){
 				if(data.code == 1){
 					var dics = data.data;
 					var content = "<option value=\"\">---请选择---</option>";
 					for(var i=0; i<dics.length; i++){
 						var dic = dics[i];
-						content += "<option value=\""+dic.id+"\">"+dic.name+"</option>";
+						content += "<option value=\""+dic.code+"\">"+dic.name+"</option>";
 					}
-					$("#secondId").empty().html(content);
+					$("#birthplaceCode").empty().html(content);
 				}
 			}
 		});
 	});
-	// 初始化创建人
-	initCreateUserSelect("createUser");
-	
-	$('.J-datepicker-range').datePicker({
-        hasShortcut: true,
-        isRange: true,
-        shortcutOptions: [{
-          name: '昨天',
-          day: '-1,-1',
-          time: '00:00:00,23:59:59'
-        },{
-          name: '最近一周',
-          day: '-7,0',
-          time:'00:00:00,'
-        }, {
-          name: '最近一个月',
-          day: '-30,0',
-          time: '00:00:00,'
-        }, {
-          name: '最近三个月',
-          day: '-90, 0',
-          time: '00:00:00,'
-        }]
-      });
+	$("#province2").change(function(){
+		var parentCode = this.value;
+		$.ajax({
+			url:"/common/queryAreaByParentCode",
+			type:"get",
+			dataType:"json",
+			data:{parentCode:parentCode},
+			success:function(data){
+				if(data.code == 1){
+					var dics = data.data;
+					var content = "<option value=\"\">---请选择---</option>";
+					for(var i=0; i<dics.length; i++){
+						var dic = dics[i];
+						content += "<option value=\""+dic.code+"\">"+dic.name+"</option>";
+					}
+					$("#workplaceCode").empty().html(content);
+				}
+			}
+		});
+	});
+
 });
 
-/**
- * 查询
- * @returns
- */
-function query(currentPage){
-	var workerName = $("#workerName").val();
-	var telephone = $("#telephone").val();
-	var idcard = $("#idcard").val();
-	var firstId = $("#firstId").val();
-	var secondId = $("#secondId").val();
-	var createUser = $("#createUser").val();
-	var source = $("#source").val();
-	//var workStatus = $("#workStatus").val();
-	var beginTime = $("#beginTime").val();
-	var endTime = $("#endTime").val();
+function editMenuRight(){
+	// 暂存roleId
+	var workerId = $("#workerId").val();
+	var url = null;
+	if(workerId){
+		url = "/worker/querySelectedJobType";
+	}
+	else{
+		url = "/jobType/queryTree";
+	}
 	$.ajax({
-		url:"/worker/list",
+		url:url,
 		type:"get",
-		data:{name:workerName,telephone:telephone,idcard:idcard,createUser:createUser,
-			souce:source,firstId:firstId,secondId:secondId,beginTime:beginTime,
-			endTime:endTime,pageNumber:currentPage},
 		dataType:"json",
+		data:{workerId:workerId},
 		success:function(data){
 			if(data.code == 1){
-				var workerArr = data.data.data;
-				var tableContent="";
-				for(var i=0; i<workerArr.length; i++){
-					var worker = workerArr[i];
-					tableContent+=  "<tr>"+
-									"	<td>"+worker.name+"</td>"+
-									"	<td>"+worker.telephone+"</td>"+
-									"	<td>"+worker.idcard+"</td>"+
-									"	<td>"+worker.sexName+"</td>"+
-									"	<td>"+worker.age+"</td>"+
-									"	<td>"+(worker.title == null ? "" : worker.title)+"</td>"+
-									"	<td>"+worker.jobTypeName+"</td>"+
-									"	<td>"+worker.workStatusName+"</td>"+
-									"	<td>"+worker.createUserName+"</td>"+
-									"	<td>"+worker.sourceName+"</td>"+
-									"	<td>"+worker.createTime+"</td>"+
-									"	<td><span class=\"des\" onClick=\"updateWorker("+worker.id+")\">编辑</span>" +
-									"<span class=\"delete\" onClick=\"deleteWorker("+worker.id+")\">删除</span>" +
-									"<span class=\"delete\" onClick=\"downloadResume("+worker.id+")\">导出简历</span>" +
-									"<span class=\"delete\" onClick=\"detailWorker("+worker.id+")\">详情</span></td>"+
-									"</tr>";
-				}
-				$("tbody").empty().append(tableContent);
-				$("#totalCount").text(data.data.totalCount+"个结果");
-				$("#pagination1").pagination({
-					currentPage: data.data.pageNumber,
-					totalPage: data.data.pageCount,
-					callback: function(current) {
-						query(current);
+				var jobtypeList = data.data;
+				var content = "";
+				for(var i=0; i<jobtypeList.length; i++){
+					var jobtype = jobtypeList[i];
+					if(jobtype.children.length > 0){
+						content += "<div class=\"select\">"+
+									"	<div class=\"s\">"+
+									"		<div class=\"workType\">"+
+									"			<input type=\"checkbox\" name=\"parentMenu\" id=\""+jobtype.id+"\" "+(jobtype.selected == 0 ? "" : "checked=\"checked\"")+"/><span>"+jobtype.name+"</span>"+
+									"		</div>"+
+									"	</div>";
+						for(var j=0; j<jobtype.children.length; j++){
+							var subjobtype = jobtype.children[j];
+							content += "	<div class=\"s two\">"+
+										"		<div class=\"workType\">"+
+										"			<input type=\"checkbox\" name=\"subMenu_"+jobtype.id+"\" id=\""+subjobtype.id+"\" "+(subjobtype.selected == 0 ? "" : "checked=\"checked\"")+" /><span>"+subjobtype.name+"</span>"+
+										"		</div>"+
+										"	</div>";
+						}
+									
+						content += "</div>";
 					}
-				});
+					else{
+						content += "<div class=\"select\">"+
+									"	<div class=\"s\">"+
+									"		<div class=\"workType\">"+
+									"			<input type=\"checkbox\" name=\"parentMenu\" id=\""+jobtype.id+"\" "+(jobtype.selected == 0 ? "" : "checked=\"checked\"")+" /><span>"+jobtype.name+"</span>"+
+									"		</div>"+
+									"	</div>"+
+									"</div>";
+					}
+				}
+				$("#jobtype-content").empty().html(content);
+				openDialog("dialog-jobtype-content");
 			}
+			
+			parent.$("input[type=checkbox]").click(function(){
+				var name = this.name;
+				if(name.indexOf("parentMenu") != -1){
+					var id = this.id;
+					if($(this).is(":checked")){
+						parent.$("input[name=subMenu_"+id+"]").prop('checked',true);
+				    }else{
+				    	parent.$("input[name=subMenu_"+id+"]").prop('checked',false);
+				    }
+				}
+				if(name.indexOf("subMenu") != -1){
+					var parentId = name.substring(8);
+					if($(this).is(":checked")){
+						parent.$("#"+parentId).prop('checked',true);
+				    }
+				}
+			});
+			parent.$(".save-menuright").click(function(){
+				saveMenuRight();
+			});
 		}
 	});
 }
@@ -135,13 +170,50 @@ function query(currentPage){
 function openDialog(id){
 	var content = $("#"+id).html();
 	top.$("#dialog").html(content);
-	top.$("#dialog").show();
+	top.$("#dialog").fadeIn(300);
 	// 因为弹窗页面是重新渲染到top页面的。所以事件绑定只能在渲染之后。否则不起作用！
 	top.$(".cancel-dialog").click(function(){
 		top.closeDialog();
 	});
 	top.$("#close-dialog").click(function(){
 		top.closeDialog();
+	});
+}
+
+function openEducationDialog(){
+	openDialog("dialog-education-content");
+	parent.$('.J-yearMonthPicker-single').datePicker({
+        format: 'YYYY-MM'
+    });
+	parent.$(".add-education-content").click(function(){
+		top.closeDialog();
+		var school = parent.$("#school").val();
+		var degree = parent.$("#degree").find("option:selected").text();
+		var beginTime = parent.$("#beginTime").val();
+		var endTime = parent.$("#endTime").val();
+		var discipline = parent.$("#discipline").val();
+		// 拼接学历展示的内容
+		var content = "<div class=\"history\">"+
+							"<span class=\"delete fa fa-close\" onClick=\"removeEducationDialog()\"></span>"+
+							"<ul>"+
+							"	<li><span class=\"name\">学校</span> <span class=\"content\" id=\"school_text\">"+school+"</span></li>"+
+							"	<li><span class=\"name\">学历</span> <span class=\"content\" id=\"degree_text\">"+degree+"</span></li>"+
+							"	<li><span class=\"name\">起止日期</span> <span class=\"content\" id=\"schoolTime_text\">"+beginTime+"-"+endTime+"</span></li>"+
+							"	<li><span class=\"name\">专业名称</span> <span class=\"content\" id=\"discipline_text\">"+discipline+"</span></li>"+
+							"</ul>"+
+						"</div>";
+		$("#education-list").append(content);
+	});
+}
+function removeEducationDialog(){
+	alert($(this).parent().html());
+	//$(this).parents(".history").remove();
+}
+
+function openExperienceDialog(){
+	openDialog("dialog-experience-content");
+	parent.$('.J-yearMonthPicker-single').datePicker({
+		format: 'YYYY-MM-DD'
 	});
 }
 
@@ -164,10 +236,9 @@ function initSelect(id,type){
 		}
 	});
 }
-
-function initCreateUserSelect(id){
+function initProvinceSelect(){
 	$.ajax({
-		url:"/user/queryByRealName",
+		url:"/common/queryAllProvince",
 		type:"get",
 		dataType:"json",
 		success:function(data){
@@ -176,32 +247,15 @@ function initCreateUserSelect(id){
 				var content = "<option value=\"\">---请选择---</option>";
 				for(var i=0; i<dics.length; i++){
 					var dic = dics[i];
-					content += "<option value=\""+dic.id+"\">"+dic.realName+"</option>";
+					content += "<option value=\""+dic.code+"\">"+dic.name+"</option>";
 				}
-				$("#"+id).empty().html(content);
+				$("#province").empty().html(content);
+				$("#province2").empty().html(content);
 			}
 		}
 	});
 }
 
-function initFirstIdSelect(id){
-	$.ajax({
-		url:"/jobType/queryRootJobType",
-		type:"get",
-		dataType:"json",
-		success:function(data){
-			if(data.code == 1){
-				var dics = data.data;
-				var content = "<option value=\"\">---请选择---</option>";
-				for(var i=0; i<dics.length; i++){
-					var dic = dics[i];
-					content += "<option value=\""+dic.id+"\">"+dic.name+"</option>";
-				}
-				$("#"+id).empty().html(content);
-			}
-		}
-	});
-}
 
 
 function addWorker(){
@@ -256,101 +310,4 @@ function addWorker(){
 			}
 		});
 	});
-}
-
-function updateWorker(companyId){
-	$.ajax({
-		url:"/company/queryDetail",
-		type:"get",
-		data:{companyId:companyId},
-		dataType:"json",
-		success:function(data){
-			if(data.code == 1){
-				var firm = data.data;
-				// 打开页面
-				openDialog("add-company-dialog");
-				parent.$("#companyName").val(firm.name);
-				parent.$("#industry").val(firm.industry);
-				parent.$("#address").val(firm.address);
-				parent.$("#contactName").val(firm.contactName);
-				parent.$("#contactPhone").val(firm.contactPhone);
-				parent.$("#description").val(firm.description);
-				
-				top.$(".add-company").click(function(){
-					var companyId = firm.id;
-					var companyName = top.$("#companyName").val();
-					var industry = parent.$("#industry").val();
-					var contactName = parent.$("#contactName").val();
-					var contactPhone = parent.$("#contactPhone").val();
-					var address = parent.$("#address").val();
-					var description = parent.$("#description").val();
-					
-					if(companyName == null || companyName.length == 0){
-						alert("企业名称不能为空！");
-						return false;
-					}
-					if(companyName.length > 100){
-						alert("企业名称长度不能超过100个字！");
-						return false;
-					}
-					if(!contactName){
-						alert("联系人不能为空！");
-						return false;
-					}
-					if(contactName.length > 30){
-						alert("联系人长度不能超过30个字！");
-						return false;
-					}
-					if(!contactPhone){
-						alert("联系电话不能为空！");
-						return false;
-					}
-					if(contactPhone.length > 20){
-						alert("联系电话长度不能超过20个字！");
-						return false;
-					}
-					$.ajax({
-						url:"/company/saveCompany",
-						type:"get",
-						dataType:"json",
-						data:{id:companyId,name:companyName,industry:industry,address:address,contactName:contactName,
-							contactPhone:contactPhone,description:description},
-						success:function(data){
-							if(data.code == 1){
-								top.closeDialog();
-								alert("更新企业成功！");
-								query(1);
-							}
-							else{
-								alert("更新企业失败！原因："+data.msg);
-							}
-						}
-					});
-				});
-				
-			}
-		}
-	});
-	
-}
-
-function deleteWorker(companyId){
-	var b = confirm("是否删除该企业？");
-	if(b){
-		$.ajax({
-			url:"/company/deleteCompany",
-			type:"get",
-			dataType:"json",
-			data:{companyId:companyId},
-			success:function(data){
-				if(data.code == 1){
-					alert("删除企业成功！");
-					query(1);
-				}
-				else{
-					alert("删除企业失败！原因："+data.msg);
-				}
-			}
-		});
-	}
 }

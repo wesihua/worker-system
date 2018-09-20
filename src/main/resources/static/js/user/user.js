@@ -86,7 +86,7 @@ function loadAllRole(){
 function openDialog(id){
 	var content = $("#"+id).html();
 	top.$("#dialog").html(content);
-	top.$("#dialog").show();
+	top.$("#dialog").fadeIn(300);
 	// 因为弹窗页面是重新渲染到top页面的。所以事件绑定只能在渲染之后。否则不起作用！
 	top.$(".cancel-dialog").click(function(){
 		top.closeDialog();
