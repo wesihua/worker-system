@@ -40,7 +40,7 @@
 							<span class="name"><i>*</i>身份证号</span> <input class="inputValue" id="idcard"/>
 						</div>
 						<div class="inut-b">
-							<span class="name">工作年限</span> <input class="inputValue" id="work_year" placeholder="请输入数字"/>
+							<span class="name">工作年限</span> <input class="inputValue" id="workYear" placeholder="请输入数字"/>
 						</div>
 						<div class="inut-b">
 							<span class="name">婚姻状态</span> 
@@ -107,11 +107,11 @@
 						<div class="inut-b">
 							<span class="name"><i>*</i>性别</span>
 							<select name="" class="selectControl" id="sex">
-								<option value="">男</option>
+								<option value="">---请选择---</option>
 							</select>
 						</div>
 						<div class="inut-b">
-							<span class="name"><i>*</i>擅长工种</span> <input class="inputValue" id="jobtype"/>
+							<span class="name"><i>*</i>擅长工种</span> <input class="inputValue" readonly="readonly" id="jobtype"/>
 						</div>
 						<div class="inut-b">
 							<span class="name"><i>*</i>期望职位</span> <input class="inputValue" id="position"/>
@@ -139,50 +139,11 @@
 						<sapn class="name">教育经历</sapn>
 						<span class="button" id="add-education">添加</span>
 					</div>
-					<div class="history">
-						<span class="delete fa fa-close"></span>
-						<ul>
-							<li><span class="name">学校</span> <span class="content" id="school_text"></span>
-							</li>
-							<li><span class="name">学历</span> <span class="content" id="degree_text"></span>
-							</li>
-							<li><span class="name">起止日期</span> <span class="content" id="schoolTime_text"></span>
-							</li>
-							<li><span class="name">专业名称</span> <span class="content" id="discipline_text"></span>
-							</li>
-						</ul>
-					</div>
 				</div>
-				<div class="party2">
+				<div class="party2" id="experience-list">
 					<div class="nav-tip">
 						<sapn class="name">工作经历</sapn>
 						<span class="button" id="add-experience">添加</span>
-					</div>
-					<div class="history">
-						<span class="delete fa fa-close"></span>
-						<ul>
-							<li><span class="name">工作公司</span> <span class="content">没有没有</span>
-							</li>
-							<li><span class="name">起止时间</span> <span class="content">没有没有</span>
-							</li>
-							<li><span class="name">月工资</span> <span class="content">没有没有</span>
-							</li>
-							<li><span class="name">工作内容</span> <span class="content">没有没有</span>
-							</li>
-						</ul>
-					</div>
-					<div class="history">
-						<span class="delete fa fa-close"></span>
-						<ul>
-							<li><span class="name">工作公司</span> <span class="content">没有没有</span>
-							</li>
-							<li><span class="name">起止时间</span> <span class="content">没有没有</span>
-							</li>
-							<li><span class="name">月工资</span> <span class="content">没有没有</span>
-							</li>
-							<li><span class="name">工作内容</span> <span class="content">上班加上班加上班加上班加上班加上班加上班加上班加上班加上班加上班加上班加上班加上班加上班加上班加上班加上班加上班加上班加上班加上班加上班加上班加班</span>
-							</li>
-						</ul>
 					</div>
 				</div>
 				<div class="footer-button">
@@ -220,7 +181,7 @@
 				</div>
 				<div class="bottom">
 					<span id="public-bottom1" class="cancel-dialog">取消</span> 
-					<span id="public-bottom2" class="save-menuright">确定</span>
+					<span id="public-bottom2" class="add-jobtype">确定</span>
 				</div>
 			</div>
 		</div>
@@ -275,11 +236,11 @@
 				<div class="middle">
 					<div class="input-block clearFix">
 						<span class="name">工作公司</span>
-						<input class="pt" id="company"/>
+						<input class="pt" id="exp_company"/>
 				     </div>
 					<div class="input-block clearFix">
 						<span class="name">职位</span>
-						<input class="pt" id="position"/>
+						<input class="pt" id="exp_position"/>
 				     </div>
 				     <div class="input-block clearFix">
 						<span class="name">起止日期</span>
@@ -307,7 +268,7 @@
 				</div>
 				<div class="bottom">
 					<span id="public-bottom1" class="cancel-dialog">取消</span>
-					<span id="public-bottom2">完成</span>
+					<span id="public-bottom2" class="add-experience-content">完成</span>
 				</div>
 			</div>
 		</div>

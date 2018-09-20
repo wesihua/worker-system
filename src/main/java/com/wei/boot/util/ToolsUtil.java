@@ -76,15 +76,24 @@ public class ToolsUtil {
 	 * @return
 	 */
 	public static int getUserId(HttpServletRequest request) {
-		Jedis jedis = JedisUtil.getJedis();
-		String token = getToken(request);
-		if(jedis.exists(token)) {
-			String tokenStr = jedis.get(token);
-			if(!StringUtils.isEmpty(tokenStr)) {
-				return Integer.parseInt(tokenStr);
+		Jedis jedis = null;
+		int userId = 0;
+		try {
+			jedis = JedisUtil.getJedis();
+			String token = getToken(request);
+			if(jedis.exists(token)) {
+				String tokenStr = jedis.get(token);
+				if(!StringUtils.isEmpty(tokenStr)) {
+					userId = Integer.parseInt(tokenStr);
+				}
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		return 0;
+		finally {
+			jedis.close();
+		}
+		return userId;
 	}
 	
 	/**
