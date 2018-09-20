@@ -18,6 +18,7 @@
 </head>
 
 <body>
+<input type="hidden" id="workerId"/>
 	<div id="content">
 		<div id="content-nav">
 			<span class="name">新增用工</span>
@@ -27,79 +28,127 @@
 				<div class="party1 clearFix">
 					<div class="base-info">
 						<div class="inut-b">
-							<span class="name"><i>*</i>姓名</span> <input class="inputValue" />
+							<span class="name"><i>*</i>姓名</span> <input class="inputValue" id="name"/>
 						</div>
 						<div class="inut-b">
-							<span class="name"><i>*</i>手机号</span> <input class="inputValue" />
+							<span class="name"><i>*</i>手机号</span> <input class="inputValue" id="telephone"/>
 						</div>
 						<div class="inut-b">
-							<span class="name"><i>*</i>身份证号</span> <input class="inputValue" />
+							<span class="name"><i>*</i>邮箱</span> <input class="inputValue" id="email"/>
 						</div>
 						<div class="inut-b">
-							<span class="name">出生日期</span> <input class="inputValue"
-								type="text" name="USER_AGE" id="USER_AGE"
-								placeholder="请填写你的出生日期" />
+							<span class="name"><i>*</i>身份证号</span> <input class="inputValue" id="idcard"/>
 						</div>
 						<div class="inut-b">
-							<span class="name"><i>*</i>籍贯</span> <input class="inputValue" />
+							<span class="name">工作年限</span> <input class="inputValue" id="work_year" placeholder="请输入数字"/>
 						</div>
 						<div class="inut-b">
-							<span class="name">工作年限</span> <input class="inputValue" />
-						</div>
-						<div class="inut-b">
-							<span class="name">婚姻状态</span> <select name=""
-								class="selectControl">
-								<option value="">结婚</option>
+							<span class="name">婚姻状态</span> 
+							<select name="" class="selectControl" id="maritalStatus">
+								<option value="">---请选择---</option>
 							</select>
 						</div>
 						<div class="inut-b">
-							<span class="name"><i>*</i>擅长工种</span> <input class="inputValue" />
+							<span class="name">工资要求</span>
+							<select name="" class="selectControl" id="expectSalary">
+								<option value="">---请选择---</option>
+							</select>
 						</div>
 						<div class="inut-b">
-							<span class="name"><i>*</i>工作地区</span> <input class="inputValue" />
+							<span class="name">工作状态</span> 
+							<select name="" class="selectControl" id="workStatus">
+								<option value="">---请选择---</option>
+							</select>
 						</div>
 						<div class="inut-b">
-							<span class="name"><i>*</i>工资要求</span> <input class="inputValue" />
+							<span class="name">语言能力</span> 
+							<select name="" class="selectControl" id="languageLevel">
+								<option value="">---请选择---</option>
+							</select>
 						</div>
 						<div class="inut-b">
-							<span class="name">工作状态</span> <select name=""
-								class="selectControl">
-								<option value="">工作状态</option>
+							<span class="name">接受夜班</span> 
+							<select name="" class="selectControl" id="nightWork">
+								<option value="">---请选择---</option>
+							</select>
+						</div>
+						<div class="inut-b" style="height:100px;">
+							<span class="name">籍贯</span>
+							<select name="" class="selectControl" id="province">
+								<option value="">---请选择---</option>
+							</select>
+							-
+							<select name="" class="selectControl" id="birthplaceCode">
+								<option value="">---请选择---</option>
+							</select>
+						</div>
+						<div class="inut-b" style="height:100px;">
+							<span class="name">工作地区</span>
+							<select name="" class="selectControl" id="province2">
+								<option value="">---请选择---</option>
+							</select>
+							-
+							<select name="" class="selectControl" id="workplaceCode">
+								<option value="">---请选择---</option>
 							</select>
 						</div>
 					</div>
 					<div class="base-info">
 						<div class="inut-b">
-							<span class="name">民族</span> <input class="inputValue" />
+							<span class="name">民族</span>
+							<select name="" class="selectControl" id="nation">
+								<option value="">---请选择---</option>
+							</select>
 						</div>
 						<div class="inut-b">
-							<span class="name"><i>*</i>期望职位</span> <input class="inputValue" />
+							<span class="name"><i>*</i>职称</span> <input class="inputValue" id="title"/>
+						</div>
+						
+						<div class="inut-b">
+							<span class="name"><i>*</i>性别</span>
+							<select name="" class="selectControl" id="sex">
+								<option value="">男</option>
+							</select>
 						</div>
 						<div class="inut-b">
-							<span class="name"><i>*</i>通讯地址</span> <input class="inputValue" />
+							<span class="name"><i>*</i>擅长工种</span> <input class="inputValue" id="jobtype"/>
+						</div>
+						<div class="inut-b">
+							<span class="name"><i>*</i>期望职位</span> <input class="inputValue" id="position"/>
+						</div>
+						<div class="inut-b">
+							<span class="name"><i>*</i>联系地址</span> <input class="inputValue" id="address"/>
+						</div>
+						<div class="inut-b">
+							<span class="name">出生日期</span> 
+							<div class="c-datepicker-date-editor c-datepicker-single-editor J-yearMonthPicker-single mt10">
+								<i class="c-datepicker-range__icon kxiconfont icon-clock"></i> 
+								<input type="text" autocomplete="off" placeholder="选择年月" class="c-datepicker-data-input" id="birthday" />
+							</div>
 						</div>
 						<div class="jianjie">
 							<span class="name">工作意向</span>
-							<textarea class="textarea"></textarea>
+							<textarea class="textarea" id="workExpect"></textarea>
 						</div>
+						
 					</div>
 
 				</div>
-				<div class="party2">
+				<div class="party2" id="education-list">
 					<div class="nav-tip">
-						<sapn class="name">学历</sapn>
-						<span class="button">添加</span>
+						<sapn class="name">教育经历</sapn>
+						<span class="button" id="add-education">添加</span>
 					</div>
 					<div class="history">
 						<span class="delete fa fa-close"></span>
 						<ul>
-							<li><span class="name">学校类型</span> <span class="content">没有没有</span>
+							<li><span class="name">学校</span> <span class="content" id="school_text"></span>
 							</li>
-							<li><span class="name">所在学校</span> <span class="content">没有没有</span>
+							<li><span class="name">学历</span> <span class="content" id="degree_text"></span>
 							</li>
-							<li><span class="name">起止日期</span> <span class="content">没有没有</span>
+							<li><span class="name">起止日期</span> <span class="content" id="schoolTime_text"></span>
 							</li>
-							<li><span class="name">专业名称</span> <span class="content">没有没有</span>
+							<li><span class="name">专业名称</span> <span class="content" id="discipline_text"></span>
 							</li>
 						</ul>
 					</div>
@@ -107,7 +156,7 @@
 				<div class="party2">
 					<div class="nav-tip">
 						<sapn class="name">工作经历</sapn>
-						<span class="button">添加</span>
+						<span class="button" id="add-experience">添加</span>
 					</div>
 					<div class="history">
 						<span class="delete fa fa-close"></span>
@@ -137,13 +186,131 @@
 					</div>
 				</div>
 				<div class="footer-button">
-					<span class="qx">取消</span> <span class="qd">完成</span>
+					<span class="qx" id="cancel">取消</span> <span class="qd" id="add-worker">确定</span>
 				</div>
 
 			</div>
 		</div>
 
 	</div>
-
+	<!-- 选择工种弹窗 -->
+	<div id="dialog-jobtype-content" style="display: none;">
+		<div id="user-manage-box1">
+			<div class="mask"></div>
+			<div class="box1-content">
+				<div class="head">
+					<span class="title">选择工种</span><span class="close fa fa-close" id="close-dialog"></span>
+				</div>
+				<div class="middle" id="jobtype-content">
+					<div class="select">
+						<div class="s">
+							<div class="workType">
+								<input type="checkbox" /><span>一级菜单</span>
+							</div>
+						</div>
+						<div class="s two">
+							<div class="workType">
+								<input type="checkbox" /><span>二级</span>
+							</div>
+							<div class="workType">
+								<input type="checkbox" /><span>二级</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="bottom">
+					<span id="public-bottom1" class="cancel-dialog">取消</span> 
+					<span id="public-bottom2" class="save-menuright">确定</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 教育经历弹窗 -->
+	<div id="dialog-education-content" style="display: none;">
+		<div id="user-manage-box2">
+			<div class="mask"></div>
+			<div class="box2-content">
+				<div class="head"><span class="title">教育经历</span><span class="close fa fa-close" id="close-dialog"></span></div>
+				<div class="middle">
+					<div class="input-block clearFix">
+						<span class="name">学校</span>
+						<input class="pt" id="school"/>
+					</div>
+					<div class="input-block clearFix">
+						<span class="name">学历</span>
+						<select class="select" id="degree">
+							<option value=""></option>
+						</select>
+				     </div>
+					<div class="input-block clearFix">
+						<span class="name">起止日期</span>
+						<div class="c-datepicker-date-editor c-datepicker-single-editor J-yearMonthPicker-single mt10">
+							<i class="c-datepicker-range__icon kxiconfont icon-clock"></i> 
+							<input type="text" autocomplete="off" placeholder="选择年月" class="c-datepicker-data-input" id="beginTime" />
+						</div>
+						<span class="line"></span>
+						<div class="c-datepicker-date-editor c-datepicker-single-editor J-yearMonthPicker-single mt10">
+							<i class="c-datepicker-range__icon kxiconfont icon-clock"></i> 
+							<input type="text" autocomplete="off" placeholder="选择年月" class="c-datepicker-data-input" id="endTime" />
+						</div>
+					</div>
+					<div class="input-block clearFix">
+						<span class="name">专业名称</span>
+						<input class="pt" id="discipline"/>
+					</div>
+				</div>
+				<div class="bottom">
+					<span id="public-bottom1" class="cancel-dialog">取消</span>
+					<span id="public-bottom2" class="add-education-content">完成</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 工作经历弹窗 -->
+	<div id="dialog-experience-content" style="display: none;">
+		<div id="user-manage-box3">
+			<div class="mask"></div>
+			<div class="box-content">
+				<div class="head"><span class="title">工作经历</span><span class="close fa fa-close" id="close-dialog"></span></div>
+				<div class="middle">
+					<div class="input-block clearFix">
+						<span class="name">工作公司</span>
+						<input class="pt" id="company"/>
+				     </div>
+					<div class="input-block clearFix">
+						<span class="name">职位</span>
+						<input class="pt" id="position"/>
+				     </div>
+				     <div class="input-block clearFix">
+						<span class="name">起止日期</span>
+						<div class="c-datepicker-date-editor c-datepicker-single-editor J-yearMonthPicker-single mt10">
+							<i class="c-datepicker-range__icon kxiconfont icon-clock"></i> 
+							<input type="text" autocomplete="off" placeholder="选择年月" class="c-datepicker-data-input" id="exp_beginTime" />
+						</div>
+						<span class="line"></span>
+						<div class="c-datepicker-date-editor c-datepicker-single-editor J-yearMonthPicker-single mt10">
+							<i class="c-datepicker-range__icon kxiconfont icon-clock"></i> 
+							<input type="text" autocomplete="off" placeholder="选择年月" class="c-datepicker-data-input" id="exp_endTime" />
+						</div>
+					</div>
+					<div class="input-block clearFix">
+						<span class="name">月工资&nbsp;&nbsp;&nbsp;</span>
+						<select class="select" id="exp_salary">
+							<option value=""></option>
+						</select>
+					</div>
+					
+					<div class="input-block clearFix">
+						<span class="name t">工作内容</span>
+						<textarea class="workText" name="" id="exp_description"></textarea>
+					</div>
+				</div>
+				<div class="bottom">
+					<span id="public-bottom1" class="cancel-dialog">取消</span>
+					<span id="public-bottom2">完成</span>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>
