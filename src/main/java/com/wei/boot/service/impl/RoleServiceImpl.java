@@ -162,14 +162,21 @@ public class RoleServiceImpl implements RoleService {
 	@Override
 	public List<Menu> queryMenuTreeByRoleId(int roleId) {
 		// 先查询该角色下绑定的所有菜单id
-		Jedis jedis = JedisUtil.getJedis();
-		RoleMenuExample example = new RoleMenuExample();
-		example.createCriteria().andRoleIdEqualTo(roleId);
-		List<Integer> menuIds = roleMenuMapper.selectByExample(example).stream().map(roleMenu -> roleMenu.getMenuId()).collect(Collectors.toList());
-		// 查询所有菜单树
-		List<Menu> menus = JsonUtil.json2List(jedis.get(GlobalConstant.RedisKey.KEY_MENU), Menu.class);
-		revalueMenuTree(menus, menuIds);
-		jedis.close();
+		Jedis jedis = null;
+		List<Menu> menus = null;
+		try {
+			jedis = JedisUtil.getJedis();
+			RoleMenuExample example = new RoleMenuExample();
+			example.createCriteria().andRoleIdEqualTo(roleId);
+			List<Integer> menuIds = roleMenuMapper.selectByExample(example).stream().map(roleMenu -> roleMenu.getMenuId()).collect(Collectors.toList());
+			// 查询所有菜单树
+			menus = JsonUtil.json2List(jedis.get(GlobalConstant.RedisKey.KEY_MENU), Menu.class);
+			revalueMenuTree(menus, menuIds);
+		} finally {
+			jedis.close();
+		}
+		
+		
 		return menus;
 	}
 	

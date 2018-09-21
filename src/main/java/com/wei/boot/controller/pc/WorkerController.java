@@ -8,7 +8,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -81,7 +83,7 @@ public class WorkerController {
 					row.add(info.getIdcard());
 					row.add(info.getSexName());
 					row.add(info.getAge());	// 由身份证号计算得出
-					row.add(info.getJobTypeName());
+					row.add(info.getJobtypeName());
 					row.add(info.getWorkYear());
 					row.add(info.getTitle());
 					row.add(info.getSourceName());
@@ -118,8 +120,8 @@ public class WorkerController {
 	 * @param worker
 	 * @return
 	 */
-	@RequestMapping("/addWorker")
-	public Result addWorker(Worker worker,HttpServletRequest request) {
+	@PostMapping("/addWorker")
+	public Result addWorker(@RequestBody Worker worker,HttpServletRequest request) {
 		Result result = Result.SUCCESS;
 		try {
 			int userId = ToolsUtil.getUserId(request);
@@ -138,7 +140,7 @@ public class WorkerController {
 	 * @param workerId
 	 * @return
 	 */
-	@RequestMapping("/deleteWorker")
+	@GetMapping("/deleteWorker")
 	public Result deleteWorker(int workerId) {
 		Result result = Result.SUCCESS;
 		try {

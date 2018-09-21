@@ -22,6 +22,7 @@
     <result column="work_status" property="workStatus" jdbcType="INTEGER" />
     <result column="nation" property="nation" jdbcType="INTEGER" />
     <result column="position" property="position" jdbcType="VARCHAR" />
+    <result column="jobtype_name" property="jobtypeName" jdbcType="VARCHAR" />
     <result column="address" property="address" jdbcType="VARCHAR" />
     <result column="language_level" property="languageLevel" jdbcType="INTEGER" />
     <result column="work_expect" property="workExpect" jdbcType="VARCHAR" />
@@ -111,7 +112,7 @@
     -->
     id, name, photo, sex, telephone, idcard, birthday, birthplace_code, work_year, marital_status, 
     workplace_code, expect_salary, work_status, nation, position, address, language_level, 
-    work_expect, email, title, night_work, souce, create_time, create_user, update_time, 
+    work_expect, email, title, night_work, souce, jobtype_name, create_time, create_user, update_time, 
     update_user
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wei.boot.model.WorkerExample" >
@@ -187,10 +188,10 @@
       #{souce,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=INTEGER}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.wei.boot.model.Worker" >
-    <selectKey resultType="int" order="AFTER" keyProperty="id">
-        SELECT LAST_INSERT_ID()
-    </selectKey>
+  <insert id="insertSelective" parameterType="com.wei.boot.model.Worker">
+	  <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+	      select LAST_INSERT_ID()
+	  </selectKey>
     insert into t_yx_worker
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -271,6 +272,9 @@
       <if test="updateUser != null" >
         update_user,
       </if>
+      <if test="jobtypeName != null" >
+        jobtype_name,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -350,6 +354,9 @@
       </if>
       <if test="updateUser != null" >
         #{updateUser,jdbcType=INTEGER},
+      </if>
+      <if test="jobtypeName != null" >
+        #{jobtypeName,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -575,6 +582,9 @@
       <if test="updateUser != null" >
         update_user = #{updateUser,jdbcType=INTEGER},
       </if>
+      <if test="jobtypeName != null" >
+        jobtype_name = #{jobtypeName,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -616,7 +626,7 @@
   <select id="selectByPage" resultMap="BaseResultMap" parameterType="map" >
   	SELECT
 		t.id, t.name, t.photo, t.sex, t.telephone, t.idcard, t.birthday, t.birthplace_code, t.work_year, t.marital_status, 
-		t.workplace_code, t.expect_salary, t.work_status, t.nation, t.position, t.address, t.language_level, 
+		t.workplace_code, t.expect_salary, t.work_status, t.nation, t.position, t.address, t.language_level, jobtype_name,
 		t.work_expect, t.email, t.title, t.night_work, t.souce, t.create_time, t.create_user, t.update_time, t.update_user,
 		u.real_name 
 	FROM

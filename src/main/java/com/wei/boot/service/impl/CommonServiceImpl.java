@@ -81,27 +81,32 @@ public class CommonServiceImpl implements CommonService {
 			return text;
 		}
 		// 先从redis中查询
-		Jedis jedis = JedisUtil.getJedis();
-		String jsonStr = jedis.get(type);
-		// 如果为空则从数据库中查询
-		if(!StringUtils.isEmpty(jsonStr)) {
-			List<Dictionary> list = JsonUtil.json2List(jsonStr, Dictionary.class);
-			for(Dictionary dic : list) {
-				if(code == dic.getCode()) {
-					text = dic.getName();
-					break;
+		Jedis jedis = null;
+		try {
+			jedis = JedisUtil.getJedis();
+			String jsonStr = jedis.get(type);
+			// 如果为空则从数据库中查询
+			if(!StringUtils.isEmpty(jsonStr)) {
+				List<Dictionary> list = JsonUtil.json2List(jsonStr, Dictionary.class);
+				for(Dictionary dic : list) {
+					if(code == dic.getCode()) {
+						text = dic.getName();
+						break;
+					}
 				}
 			}
-		}
-		else {
-			DictionaryExample example = new DictionaryExample();
-			example.createCriteria().andTypeEqualTo(type).andCodeEqualTo(code);
-			List<Dictionary> dicList = dictionaryMapper.selectByExample(example);
-			if(dicList != null && dicList.size() > 0) {
-				text = dicList.get(0).getName();
+			else {
+				DictionaryExample example = new DictionaryExample();
+				example.createCriteria().andTypeEqualTo(type).andCodeEqualTo(code);
+				List<Dictionary> dicList = dictionaryMapper.selectByExample(example);
+				if(dicList != null && dicList.size() > 0) {
+					text = dicList.get(0).getName();
+				}
 			}
+		} finally {
+			jedis.close();
 		}
-		jedis.close();
+		
 		return text;
 	}
 

@@ -31,11 +31,15 @@
 							<span class="name"><i>*</i>姓名</span> <input class="inputValue" id="name"/>
 						</div>
 						<div class="inut-b">
-							<span class="name"><i>*</i>手机号</span> <input class="inputValue" id="telephone"/>
+							<span class="name"><i>*</i>联系电话</span> <input class="inputValue" id="telephone"/>
 						</div>
 						<div class="inut-b">
-							<span class="name"><i>*</i>邮箱</span> <input class="inputValue" id="email"/>
+							<span class="name"><i>*</i>性别</span>
+							<select name="" class="selectControl" id="sex">
+								<option value="">---请选择---</option>
+							</select>
 						</div>
+						
 						<div class="inut-b">
 							<span class="name"><i>*</i>身份证号</span> <input class="inputValue" id="idcard"/>
 						</div>
@@ -95,29 +99,27 @@
 					</div>
 					<div class="base-info">
 						<div class="inut-b">
+							<span class="name">邮箱</span> <input class="inputValue" id="email"/>
+						</div>
+						<div class="inut-b">
 							<span class="name">民族</span>
 							<select name="" class="selectControl" id="nation">
 								<option value="">---请选择---</option>
 							</select>
 						</div>
 						<div class="inut-b">
-							<span class="name"><i>*</i>职称</span> <input class="inputValue" id="title"/>
+							<span class="name">职称</span> <input class="inputValue" id="title"/>
 						</div>
 						
 						<div class="inut-b">
-							<span class="name"><i>*</i>性别</span>
-							<select name="" class="selectControl" id="sex">
-								<option value="">---请选择---</option>
-							</select>
+							<span class="name">擅长工种</span> <input class="inputValue" readonly="readonly" id="jobtype"/>
+							<input type="hidden" id="jobtype_value" />
 						</div>
 						<div class="inut-b">
-							<span class="name"><i>*</i>擅长工种</span> <input class="inputValue" readonly="readonly" id="jobtype"/>
+							<span class="name">期望职位</span> <input class="inputValue" id="position"/>
 						</div>
 						<div class="inut-b">
-							<span class="name"><i>*</i>期望职位</span> <input class="inputValue" id="position"/>
-						</div>
-						<div class="inut-b">
-							<span class="name"><i>*</i>联系地址</span> <input class="inputValue" id="address"/>
+							<span class="name">联系地址</span> <input class="inputValue" id="address"/>
 						</div>
 						<div class="inut-b">
 							<span class="name">出生日期</span> 

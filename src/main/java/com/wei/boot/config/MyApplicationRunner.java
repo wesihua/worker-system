@@ -39,28 +39,32 @@ public class MyApplicationRunner implements ApplicationRunner {
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 
-		Jedis jedis = JedisUtil.getJedis();
-		// 查询所有字典项,放入redis中
-		log.info("将字典数据放入redis...");
-		List<String> types = commonService.queryAllDicTypes();
-		for(String type : types) {
-			List<Dictionary> dicList = commonService.queryDicByType(type);
-			jedis.set(type, JsonUtil.bean2Json(dicList));
+		Jedis jedis = null;
+		try {
+			jedis = JedisUtil.getJedis();
+			// 查询所有字典项,放入redis中
+			log.info("将字典数据放入redis...");
+			List<String> types = commonService.queryAllDicTypes();
+			for(String type : types) {
+				List<Dictionary> dicList = commonService.queryDicByType(type);
+				jedis.set(type, JsonUtil.bean2Json(dicList));
+			}
+			// 查询地区树，放入redis中
+			log.info("将地区树放入redis...");
+			List<Area> areas = commonService.queryAreaTree(0);
+			jedis.set(GlobalConstant.RedisKey.KEY_AREA_TREE, JsonUtil.bean2Json(areas));
+			// 查询所有省份
+			log.info("将所有省份放入redis...");
+			List<Area> province = commonService.queryAllProvince();
+			jedis.set(GlobalConstant.RedisKey.KEY_PROVINCE, JsonUtil.bean2Json(province));
+			// 查询所有菜单树，放入redis
+			log.info("将所有菜单放入redis...");
+			List<Menu> menus = menuService.queryMenuTree();
+			jedis.set(GlobalConstant.RedisKey.KEY_MENU, JsonUtil.bean2Json(menus));
+			log.info("配置信息放入redis结束！");
+		} finally {
+			jedis.close();
 		}
-		// 查询地区树，放入redis中
-		log.info("将地区树放入redis...");
-		List<Area> areas = commonService.queryAreaTree(0);
-		jedis.set(GlobalConstant.RedisKey.KEY_AREA_TREE, JsonUtil.bean2Json(areas));
-		// 查询所有省份
-		log.info("将所有省份放入redis...");
-		List<Area> province = commonService.queryAllProvince();
-		jedis.set(GlobalConstant.RedisKey.KEY_PROVINCE, JsonUtil.bean2Json(province));
-		// 查询所有菜单树，放入redis
-		log.info("将所有菜单放入redis...");
-		List<Menu> menus = menuService.queryMenuTree();
-		jedis.set(GlobalConstant.RedisKey.KEY_MENU, JsonUtil.bean2Json(menus));
-		jedis.close();
-		log.info("配置信息放入redis结束！");
 	}
 
 }

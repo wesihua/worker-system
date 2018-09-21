@@ -1,5 +1,7 @@
 package com.wei.boot.model;
 
+import org.springframework.dao.DuplicateKeyException;
+
 import com.wei.boot.exception.NormalException;
 
 /**
@@ -60,6 +62,9 @@ public class Result {
 		if(e instanceof NormalException) {
 			//return new Result(0, e.getMessage(), null);
 			return fail(e.getMessage());
+		}
+		else if(e instanceof DuplicateKeyException) {
+			return fail("身份证号重复，该人已存在！");
 		}
 		else {
 			return fail("操作失败！");

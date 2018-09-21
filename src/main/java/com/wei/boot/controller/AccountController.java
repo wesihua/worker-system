@@ -145,4 +145,21 @@ public class AccountController {
 		}
 		return result;
 	}
+	/**
+	 * 更改密码
+	 * @param userId
+	 * @param newPass
+	 * @return
+	 */
+	@GetMapping("/app/changePass")
+	public Result changePass(HttpServletRequest request, String newPass) {
+		Result result = Result.SUCCESS;
+		try {
+			int userId = ToolsUtil.getUserId(request);
+			userService.changePass(userId, newPass);
+		} catch (Exception e) {
+			result = Result.fail(e);
+		}
+		return result;
+	}
 }

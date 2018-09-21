@@ -3,8 +3,10 @@ package com.wei.boot.model;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.util.StringUtils;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.wei.boot.util.DateUtils;
 import com.wei.boot.util.ToolsUtil;
 
@@ -63,6 +65,7 @@ public class Worker {
      *
      * @mbggenerated Thu Aug 30 11:23:45 CST 2018
      */
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date birthday;
 
     /**
@@ -217,6 +220,8 @@ public class Worker {
      */
     private Integer updateUser;
     
+    private String jobtypeName;
+    
     
     private List<WorkerEducation> educationList;
     
@@ -236,32 +241,39 @@ public class Worker {
     private List<WorkerJobType> jobTypeList;	// 工种集合，用于新增/编辑时接收参数
     
     /*********************** 以下是翻译字段 **********************/
-    private String jobTypeName; // 工种名称，以,分隔
     
-    private String sexName;
+    private String sexName = "";
     
-    private String birthplaceName;
+    private String birthplaceName = "";
     
-    private String maritalStatusName;
+    private String maritalStatusName = "";
     
-    private String workplaceName;
+    private String workplaceName = "";
     
-    private String expectSalaryName;
+    private String expectSalaryName = "";
     
-    private String workStatusName;
+    private String workStatusName = "";
     
-    private String nationName;
+    private String nationName = "";
     
-    private String languageLevelName;
+    private String languageLevelName = "";
     
-    private String nightWorkName;
+    private String nightWorkName = "";
     
-    private String sourceName;
+    private String sourceName = "";
     
-    private String createUserName;
+    private String createUserName = "";
     
     private int age;
 
+
+	public String getJobtypeName() {
+		return jobtypeName;
+	}
+
+	public void setJobtypeName(String jobtypeName) {
+		this.jobtypeName = jobtypeName;
+	}
 
 	public int getAge() {
 		return age;
@@ -277,14 +289,6 @@ public class Worker {
 
 	public void setJobTypeList(List<WorkerJobType> jobTypeList) {
 		this.jobTypeList = jobTypeList;
-	}
-
-	public String getJobTypeName() {
-		return jobTypeName;
-	}
-
-	public void setJobTypeName(String jobTypeName) {
-		this.jobTypeName = jobTypeName;
 	}
 
 	public Integer getFirstId() {

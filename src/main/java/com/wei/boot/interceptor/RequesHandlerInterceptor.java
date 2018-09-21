@@ -26,7 +26,6 @@ public class RequesHandlerInterceptor implements HandlerInterceptor {
 		
 		//测试情况，直接跳过拦截
 //		return true;
-		boolean b = false;
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("application/json; charset=utf-8");
 		
@@ -65,16 +64,9 @@ public class RequesHandlerInterceptor implements HandlerInterceptor {
 				return false;
 			}
 			// token验证通过，将token有效时间重置
-			if(jedis.exists(GlobalConstant.RedisKey.KEY_TOKEN_PREFIX+userId)) {
-				jedis.del(GlobalConstant.RedisKey.KEY_TOKEN_PREFIX+userId);
-				jedis.set(GlobalConstant.RedisKey.KEY_TOKEN_PREFIX+userId, token, "NX", "EX", 30*60);// 30分钟有效期，用来存放token
-			}
-			if(jedis.exists(token)) {
-				jedis.del(token);
-				jedis.set(token, userId, "NX", "EX", 30*60);// 30分钟有效期，用来存放userId
-			}
+			jedis.set(GlobalConstant.RedisKey.KEY_TOKEN_PREFIX+userId, token, "XX", "EX", 30*60);// 30分钟有效期，用来存放token
+			jedis.set(token, userId, "XX", "EX", 30*60);// 30分钟有效期，用来存放userId
 			log.info("请求 [ "+path+" ] 验证通过！");
-			b = true;
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -82,7 +74,7 @@ public class RequesHandlerInterceptor implements HandlerInterceptor {
 		finally {
 			jedis.close();
 		}
-		return b;
+		return true;
 	}
 
 	@Override
