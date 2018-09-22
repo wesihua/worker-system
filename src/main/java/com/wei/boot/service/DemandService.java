@@ -1,9 +1,15 @@
 package com.wei.boot.service;
 
+import java.util.List;
+import java.util.Map;
+
 import com.wei.boot.model.Demand;
 import com.wei.boot.model.DemandQuery;
+import com.wei.boot.model.DemandStateStatistic;
 import com.wei.boot.model.OrderWorker;
 import com.wei.boot.model.Page;
+
+import io.swagger.models.auth.In;
 
 /**
  * 用工需求接口
@@ -42,4 +48,6 @@ public interface DemandService {
 	public Page<OrderWorker> queryOrderWorker(Page<OrderWorker> page, Integer demandJobId);
 	
 	public void closeDemand(Demand demand);
+	
+	public List<DemandStateStatistic> statisticsByState();
 }

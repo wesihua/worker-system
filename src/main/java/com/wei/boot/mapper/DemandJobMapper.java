@@ -3,6 +3,8 @@ package com.wei.boot.mapper;
 import com.wei.boot.model.DemandJob;
 import com.wei.boot.model.DemandJobExample;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface DemandJobMapper {
@@ -93,4 +95,5 @@ public interface DemandJobMapper {
      * @mbggenerated Sat Sep 15 21:46:36 CST 2018
      */
     int updateByPrimaryKey(DemandJob record);
+	
 }

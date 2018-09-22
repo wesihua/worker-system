@@ -1,5 +1,8 @@
 package com.wei.boot.controller.pc;
 
+import java.util.List;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.wei.boot.model.Demand;
 import com.wei.boot.model.DemandQuery;
+import com.wei.boot.model.DemandStateStatistic;
 import com.wei.boot.model.OrderWorker;
 import com.wei.boot.model.Page;
 import com.wei.boot.model.Result;
@@ -116,10 +120,18 @@ public class DemandController {
 		return result;
 	}
 	
-	
-	
-	
-	
-	
+	@ApiOperation(value = "根据状态分组统计",notes = "")
+	@GetMapping("/statisticsByState")
+	public Result statisticsByState() {
+		Result result = Result.SUCCESS;
+		try {
+			List<DemandStateStatistic> statisticsByState = demandService.statisticsByState();
+			result.setData(statisticsByState);
+		} catch (Exception e) {
+			log.error("分组统计失败", e);
+			result = Result.fail("分组统计失败！");
+		}
+		return result;
+	}
 	
 }

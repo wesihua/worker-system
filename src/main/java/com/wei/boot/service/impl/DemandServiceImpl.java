@@ -1,5 +1,7 @@
 package com.wei.boot.service.impl;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wei.boot.mapper.DemandJobMapper;
 import com.wei.boot.mapper.DemandMapper;
 import com.wei.boot.mapper.OrderWorkerMapper;
@@ -19,6 +27,7 @@ import com.wei.boot.model.Demand;
 import com.wei.boot.model.DemandJob;
 import com.wei.boot.model.DemandJobExample;
 import com.wei.boot.model.DemandQuery;
+import com.wei.boot.model.DemandStateStatistic;
 import com.wei.boot.model.OrderWorker;
 import com.wei.boot.model.Page;
 import com.wei.boot.service.DemandService;
@@ -36,6 +45,9 @@ public class DemandServiceImpl implements DemandService {
 	
 	@Autowired
 	private OrderWorkerMapper orderWorkerMapper;
+	
+	@Autowired
+	private ObjectMapper objectMapper;
 
 	@Override
 	@Transactional
@@ -133,6 +145,31 @@ public class DemandServiceImpl implements DemandService {
 		demandDb.setState(3);
 		demandMapper.updateByPrimaryKey(demandDb);
 	}
+
+
+	
+	
+	@Override
+	public List<DemandStateStatistic> statisticsByState() {
+		List<DemandStateStatistic> list = new ArrayList<>();
+		try {
+			
+			List<Map<String, String>> baseList = demandMapper.statisticsByState();
+
+			for (Map<String, String> map : baseList) {
+				DemandStateStatistic readValue = objectMapper.readValue(objectMapper.writeValueAsString(map),
+						DemandStateStatistic.class);
+				list.add(readValue);
+			}
+		} catch (Exception e) {
+		}
+		
+		return list;
+	}
+	
+	
+	
+
 
 
 }

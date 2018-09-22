@@ -2,6 +2,8 @@ package com.wei.boot.mapper;
 
 import com.wei.boot.model.Demand;
 import com.wei.boot.model.DemandExample;
+import com.wei.boot.model.DemandStateStatistic;
+
 import java.util.List;
 import java.util.Map;
 
@@ -99,4 +101,6 @@ public interface DemandMapper {
 	int selectCount(Map<String, Object> map);
 
 	List<Demand> selectByPage(Map<String, Object> map);
+
+	List<Map<String, String>> statisticsByState();
 }

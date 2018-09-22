@@ -6,15 +6,14 @@ $(function(){
 		}
 	});
 	
-	
+	// 统计信息
+	statisticsByState();
 	// 进入页面自动查询
 	query(1);
 	//按钮事件绑定
 	$("#public-bottom2").click(function(){
 		query(1);
 	});
-	
-	
 });
 
 /**
@@ -22,6 +21,7 @@ $(function(){
  * @returns
  */
 function query(currentPage){
+	
 	var companyId = $("#companyId").val();
 	var createTime = $("#createTime").val();
 	var state = $("input:hidden[name='state']").val();
@@ -38,7 +38,8 @@ function query(currentPage){
 				var firmArr = data.data.data;
 				var tableContent="";
 				
-				if(state == 0){
+				if(state == 0 && firmArr.length > 0){
+					
 					tableContent+= "<tr>"+
 									"	<th>单号</th>"+
 									"	<th>录单日期</th>"+
@@ -50,6 +51,7 @@ function query(currentPage){
 									"	<th width='120'>备注说明</th>"+
 									"	<th width='150'>操作</th>"+
 									"</tr>";
+					
 					for(var i=0; i<firmArr.length; i++){
 						var firm = firmArr[i];
 						tableContent+=  "<tr>"+
@@ -66,7 +68,7 @@ function query(currentPage){
 					}
 				}
 				
-				if(state == 1){
+				if(state == 1 && firmArr.length > 0){
 					tableContent+= "<tr>"+
 									"	<th>单号</th>"+
 									"	<th>录单日期</th>"+
@@ -98,7 +100,7 @@ function query(currentPage){
 					}
 				}
 				
-				if(state == 2){
+				if(state == 2 && firmArr.length > 0){
 					tableContent+= "<tr>"+
 									"	<th>单号</th>"+
 									"	<th>签约日期</th>"+
@@ -126,7 +128,7 @@ function query(currentPage){
 					}
 				}
 				
-				if(state == 3){
+				if(state == 3 && firmArr.length > 0){
 					tableContent+= "<tr>"+
 									"	<th>单号</th>"+
 									"	<th>录单日期</th>"+
@@ -227,6 +229,8 @@ function closeDemand(demandId){
 			success:function(data){
 				if(data.code == 1){
 					top.closeDialog();
+					query(1);
+					statisticsByState();
 					alert("关单成功！");
 				}
 				else{
@@ -235,9 +239,35 @@ function closeDemand(demandId){
 			}
 		});
 	});
+}
 
+
+function statisticsByState() {
 	
+	// 所有的数置空
+	$("#count-state-0").text(0);
+	$("#count-state-1").text(0);
+	$("#count-state-2").text(0);
+	$("#count-state-3").text(0);
 	
+	$.ajax({
+		url : "/demand/statisticsByState",
+		type : "get",
+		dataType : "json",
+		success : function(data) {
+			if (data.code == 1) {
+				var countList = data.data;
+				
+				if(countList!= null && countList.length > 0){
+					for(var i=0; i<countList.length; i++){
+						var countObj = countList[i];
+						$("#count-state-" + countObj.state).text(countObj.count);
+						console.log(countObj);
+					}
+				}
+			}
+		}
+	});
 }
 
 

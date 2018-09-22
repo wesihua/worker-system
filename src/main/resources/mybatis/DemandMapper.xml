@@ -499,4 +499,12 @@
     	</if>
     </where>
   </select>
+
+  <select id="statisticsByState" resultType="java.util.Map">
+  		<![CDATA[
+            SELECT state, COUNT(t_yx_demand.id) as count FROM t_yx_demand GROUP BY state;
+        ]]>
+		
+  </select>
+  
 </mapper>
