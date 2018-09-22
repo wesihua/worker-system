@@ -99,6 +99,24 @@ public class DemandController {
 	}
 	
 	
+	@ApiOperation(value = "关单",notes = "")
+	@GetMapping("/closeDemand")
+	public Result closeDemand(@ApiParam(value = "需求单id",required = true) @RequestParam Integer demandId,
+			@ApiParam(value = "关单原因",required = true) @RequestParam String closeReason) {
+		Result result = Result.SUCCESS;
+		try {
+			Demand demand = new Demand();
+			demand.setId(demandId);
+			demand.setCloseReason(closeReason);
+			demandService.closeDemand(demand);
+		} catch (Exception e) {
+			log.error("关单失败", e);
+			result = Result.fail("关单失败！");
+		}
+		return result;
+	}
+	
+	
 	
 	
 	

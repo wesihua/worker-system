@@ -123,5 +123,16 @@ public class DemandServiceImpl implements DemandService {
 		return page;
 	}
 
+	@Override
+	public void closeDemand(Demand demand) {
+		// TODO Auto-generated method stub
+		Integer demandId = demand.getId();
+		Demand demandDb = demandMapper.selectByPrimaryKey(demandId);
+		demandDb.setCloseTime(new Date());
+		demandDb.setCloseReason(demand.getCloseReason());
+		demandDb.setState(3);
+		demandMapper.updateByPrimaryKey(demandDb);
+	}
+
 
 }

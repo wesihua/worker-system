@@ -5,12 +5,16 @@ $(function(){
 			top.location.href="/";
 		}
 	});
+	
+	
 	// 进入页面自动查询
 	query(1);
 	//按钮事件绑定
 	$("#public-bottom2").click(function(){
 		query(1);
 	});
+	
+	
 });
 
 /**
@@ -155,7 +159,12 @@ function query(currentPage){
 										"</tr>";
 					}
 				}
+				
 				$("table").empty().append(tableContent);
+				// 初始化时间控件
+				$('.J-yearMonthPicker-single').datePicker({
+			        format: 'YYYY-MM-DD'
+			    });
 				$("#totalCount").text(data.data.totalCount+"个结果");
 				$("#pagination1").pagination({
 					currentPage: data.data.pageNumber,
@@ -199,7 +208,36 @@ function undertakeDemand(demandId){
  * @returns
  */
 function closeDemand(demandId){
-	alert("closeDemand" + demandId);
+	openDialog("close-demand-dialog");
+	// 每次打开清空上次的内容
+	top.$("#close-demand-textarea").val(null);
+	top.$("#confirm-close-demand").click(function(){
+		var closeReason = top.$("#close-demand-textarea").val();
+		if(closeReason == null || closeReason.length == 0){
+			alert("关单原因不能为空！");
+			return false;
+		}
+		
+		$.ajax({
+			url:"/demand/closeDemand",
+			type:"get",
+			dataType:"json",
+			data:{demandId:demandId,
+				closeReason:closeReason},
+			success:function(data){
+				if(data.code == 1){
+					top.closeDialog();
+					alert("关单成功！");
+				}
+				else{
+					alert("关单失败！原因："+data.msg);
+				}
+			}
+		});
+	});
+
+	
+	
 }
 
 
@@ -218,6 +256,10 @@ function signings(demandId){
  * @returns
  */
 function stateChange(obj){
+	// 清空company  清空时间控件
+	$("#companyId").val('');
+	$("#createTime").val('');
+	
 	// 修改样式
 	var thisObj=$(obj);
 	thisObj.addClass("on");

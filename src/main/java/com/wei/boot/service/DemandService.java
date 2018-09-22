@@ -41,5 +41,5 @@ public interface DemandService {
 	 */
 	public Page<OrderWorker> queryOrderWorker(Page<OrderWorker> page, Integer demandJobId);
 	
-	
+	public void closeDemand(Demand demand);
 }
