@@ -1,6 +1,5 @@
 package com.wei.boot.service.impl;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -15,11 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.wei.boot.contant.GlobalConstant;
 import com.wei.boot.mapper.DemandJobMapper;
 import com.wei.boot.mapper.DemandMapper;
 import com.wei.boot.mapper.OrderWorkerMapper;
@@ -68,7 +64,7 @@ public class DemandServiceImpl implements DemandService {
 			demandJobList.stream().forEach(demandJob -> {
 				demandJob.setDemandId(demandId);
 				demandJob.setCreateTime(createTime);
-				//demandJob.setCreateUser(createUser);
+				demandJob.setCreateUser(demand.getCreateUser());
 				// 到岗时间
 				demandJob.setRequireTime(createTime);
 				demandJobMapper.insertSelective(demandJob);
@@ -137,25 +133,20 @@ public class DemandServiceImpl implements DemandService {
 
 	@Override
 	public void closeDemand(Demand demand) {
-		// TODO Auto-generated method stub
 		Integer demandId = demand.getId();
 		Demand demandDb = demandMapper.selectByPrimaryKey(demandId);
 		demandDb.setCloseTime(new Date());
 		demandDb.setCloseReason(demand.getCloseReason());
-		demandDb.setState(3);
+		demandDb.setState(GlobalConstant.DemandState.CLOSE);
+		demandDb.setCloseUser(demand.getCloseUser());
 		demandMapper.updateByPrimaryKey(demandDb);
 	}
-
-
-	
 	
 	@Override
 	public List<DemandStateStatistic> statisticsByState() {
 		List<DemandStateStatistic> list = new ArrayList<>();
 		try {
-			
 			List<Map<String, String>> baseList = demandMapper.statisticsByState();
-
 			for (Map<String, String> map : baseList) {
 				DemandStateStatistic readValue = objectMapper.readValue(objectMapper.writeValueAsString(map),
 						DemandStateStatistic.class);
@@ -163,8 +154,18 @@ public class DemandServiceImpl implements DemandService {
 			}
 		} catch (Exception e) {
 		}
-		
 		return list;
+	}
+
+	@Override
+	public void undertakeDemand(Demand demand) {
+		// TODO Auto-generated method stub
+		Integer demandId = demand.getId();
+		Demand demandDb = demandMapper.selectByPrimaryKey(demandId);
+		demandDb.setUndertakeTime(new Date());
+		demandDb.setState(GlobalConstant.DemandState.PROCESSING);
+		demandDb.setUndertakeUser(demand.getUndertakeUser());
+		demandMapper.updateByPrimaryKey(demandDb);
 	}
 	
 	

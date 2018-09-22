@@ -1,11 +1,12 @@
 package com.wei.boot.controller.pc;
 
 import java.util.List;
-import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +21,8 @@ import com.wei.boot.model.OrderWorker;
 import com.wei.boot.model.Page;
 import com.wei.boot.model.Result;
 import com.wei.boot.service.DemandService;
+import com.wei.boot.util.ToolsUtil;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -47,9 +50,12 @@ public class DemandController {
 	 */
 	@ApiOperation(value = "保存企业用工需求信息",notes = "")
 	@PostMapping("/saveDemand")
-	public Result saveDemand(@ApiParam(value = "用工需求",required = true) @RequestBody Demand demand) {
+	public Result saveDemand(@ApiParam(value = "用工需求",required = true) @RequestBody Demand demand,
+			HttpServletRequest request) {
 		Result result = Result.SUCCESS;
 		try {
+			int userId = ToolsUtil.getUserId(request);
+			demand.setCreateUser(userId);
 			demandService.saveDemand(demand);
 		} catch (Exception e) {
 			log.error("保存失败", e);
@@ -103,15 +109,38 @@ public class DemandController {
 	}
 	
 	
+	@ApiOperation(value = "接单",notes = "")
+	@GetMapping("/undertake")
+	public Result undertake(@ApiParam(value = "需求单id",required = true) @RequestParam Integer demandId,
+			HttpServletRequest request) {
+		Result result = Result.SUCCESS;
+		try {
+			int userId = ToolsUtil.getUserId(request);
+			Demand demand = new Demand();
+			demand.setId(demandId);
+			demand.setUndertakeUser(userId);
+			demandService.undertakeDemand(demand);
+		} catch (Exception e) {
+			log.error("接单失败", e);
+			result = Result.fail("接单失败！");
+		}
+		return result;
+	}
+	
+	
+	
 	@ApiOperation(value = "关单",notes = "")
 	@GetMapping("/closeDemand")
 	public Result closeDemand(@ApiParam(value = "需求单id",required = true) @RequestParam Integer demandId,
-			@ApiParam(value = "关单原因",required = true) @RequestParam String closeReason) {
+			@ApiParam(value = "关单原因",required = true) @RequestParam String closeReason,
+			HttpServletRequest request) {
 		Result result = Result.SUCCESS;
 		try {
+			int userId = ToolsUtil.getUserId(request);
 			Demand demand = new Demand();
 			demand.setId(demandId);
 			demand.setCloseReason(closeReason);
+			demand.setCloseUser(userId);
 			demandService.closeDemand(demand);
 		} catch (Exception e) {
 			log.error("关单失败", e);

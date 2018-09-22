@@ -5,12 +5,15 @@
 <title>新增需求单</title>
 <link href="../css/public.css" rel="stylesheet" />
 <link href="../css/font-awesome.min.css" rel="stylesheet" />
+<link href="../datepicker/css/datepicker.css" rel="stylesheet"/>
 <link href="../css/qiandan-manage-add.css" rel="stylesheet" />
 <link href="../css/qiandan-manage-box2.css" rel="stylesheet" />
 <link href="../css/jquery.pagination.css" rel="stylesheet" />
 <script src="../js/jquery-3.3.1.min.js"></script>
 <script src="../js/jquery.pagination.min.js"></script>
 <script src="../js/signing/addDemand.js"></script>
+<script src="../datepicker/js/plugins/moment.min.js"></script>
+<script src="../datepicker/js/datepicker.all.js"></script>
 </head>
 <body>
 	<div id="content">
@@ -51,7 +54,7 @@
 							<td>300</td>
 							<td>33300</td>
 							<td>江苏南京</td>
-							<td><span class="des">编辑</span><span class="delete" onclick="deleteJob(this)">移除</span></td>
+							<td><span class="des" onclick="editJob(this)">编辑</span><span class="delete" onclick="deleteJob(this)">移除</span></td>
 						</tr>
 					</table>
 				</div>
@@ -69,37 +72,40 @@
 				</div>
 				<div class="middle">
 					<div class="input-block">
-						<span class="name">用工工种</span><input class="pt" />
+						<span class="name">用工工种</span><input class="pt select-job-type" id="jobTypeId"/>
 					</div>
 					<div class="input-block">
-						<span class="name">用工人数</span><input class="pt" />
+						<span class="name">用工人数</span><input class="pt" id="workerCount"/>
 					</div>
 					<div class="input-block">
-						<span class="name">到岗日期</span><input class="pt" />
+						<span class="name">到岗日期</span>
+						<div class="c-datepicker-date-editor c-datepicker-single-editor J-yearMonthPicker-single mt10">
+								<input autocomplete="off" type="text" placeholder="选择到岗日期" class="pt c-datepicker-data-input" id="requireTime" name="createTime"/>
+						</div>
 					</div>
 					<div class="input-block">
 						<span class="name">月工资&nbsp;&nbsp;&nbsp;&nbsp;</span><input
-							class="pt" />
+							class="pt" id="salary"/>
 					</div>
 					<div class="input-block">
-						<span class="name">工作地区</span> <select class="se">
+						<span class="name">工作地区</span> <select class="se" id="workArea">
 							<option value="">1</option>
 							<option value="">2</option>
 						</select>
 					</div>
 					<div class="input-block">
 						<span class="name">用工要求</span>
-						<textarea class="textarea"></textarea>
+						<textarea class="textarea" id="requirement"></textarea>
 					</div>
 				</div>
 				<div class="bottom">
 					<span id="public-bottom1" class="cancel-dialog">取消</span> 
-					<span id="public-bottom2">完成</span>
+					<span id="public-bottom2" class="add-job-type-content">完成</span>
 				</div>
 			</div>
 		</div>
 	</div>
-
+	
 	</div>
 </body>
 </html>

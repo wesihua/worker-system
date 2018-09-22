@@ -201,7 +201,21 @@ function addDemand(){
  * @returns
  */
 function undertakeDemand(demandId){
-	alert("undertakeDemand" + demandId);
+	$.ajax({
+		url : "/demand/undertake",
+		type : "get",
+		dataType : "json",
+		data:{demandId:demandId},
+		success : function(data) {
+			if (data.code == 1) {
+				statisticsByState();
+				alert("接单成功！");
+			}
+		},
+		error: function(data){
+			alert(data.msg);
+		}
+	});
 }
 
 /**
@@ -231,10 +245,10 @@ function closeDemand(demandId){
 					top.closeDialog();
 					query(1);
 					statisticsByState();
-					alert("关单成功！");
+					alertD("关单成功！");
 				}
 				else{
-					alert("关单失败！原因："+data.msg);
+					alertD("关单失败！原因："+data.msg);
 				}
 			}
 		});
@@ -277,7 +291,7 @@ function statisticsByState() {
  * @returns
  */
 function signings(demandId){
-	alert("signings" + demandId);
+	alertD("signings" + demandId);
 }
 
 /**
@@ -299,6 +313,12 @@ function stateChange(obj){
 	// 修改state值
     var state=thisObj.attr("state"); 
 	$("input:hidden[name='state']").val(state);
+	if(state == 3){
+		$("#createTime").attr('placeholder','关单日期');
+	}else{
+		$("#createTime").attr('placeholder','录单日期');
+	}
+	
 	query(1);
 }
 

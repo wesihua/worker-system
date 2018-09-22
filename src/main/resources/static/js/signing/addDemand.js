@@ -23,6 +23,71 @@ function deleteJob(obj){
 
 function addJob(){
 	openDialog("add-job-dialog");
+	parent.$('.J-yearMonthPicker-single').datePicker({
+        format: 'YYYY-MM-DD'
+    });
+	
+	parent.$(".add-job-type-content").click(function(){
+		top.closeDialog();
+		
+		var jobTypeId = parent.$("#jobTypeId").val();
+		var workerCount = parent.$("#workerCount").val();
+		var salary = parent.$("#salary").val();
+		var requireTime = parent.$("#requireTime").val();
+		var workArea = parent.$("#workArea").val();
+		var requirement = parent.$("#requirement").val();
+		var content = "<tr>"+
+					  "  <td id='jobTypeId'>"+jobTypeId+"</td>"+
+					  "  <td id='workerCount'>"+workerCount+"</td>"+
+					  "  <td id='salary'>"+salary+"</td>"+
+					  "  <td id='requireTime'>"+requireTime+"</td>"+
+					  "  <td id='workArea'>"+workArea+"</td>"+
+					  "  <td id='requirement'>"+requirement+"</td>"+
+					  "  <td><span class=\"des\" onclick=\"editJob(this)\">编辑</span><span class=\"delete\" onclick=\"deleteJob(this)\">移除</span></td>"+
+					  "</tr>";
+		$("table").append(content);
+	});
+}
+
+function editJob(obj){
+	openDialog("add-job-dialog");
+	parent.$('.J-yearMonthPicker-single').datePicker({
+        format: 'YYYY-MM-DD'
+    });
+	
+	var trobj = $(obj).parent().parent();
+	var jobTypeId =  trobj.children("#jobTypeId").html();
+	var workerCount =  trobj.children("#workerCount").html();
+	var salary =  trobj.children("#salary").html();
+	var requireTime =  trobj.children("#requireTime").html();
+	var workArea =  trobj.children("#workArea").html();
+	var requirement =  trobj.children("#requirement").html();
+	parent.$("#jobTypeId").val(jobTypeId);
+	parent.$("#workerCount").val(workerCount);
+	parent.$("#salary").val(salary);
+	parent.$("#requireTime").val(requireTime);
+	parent.$("#workArea").val(workArea);
+	parent.$("#requirement").val(requirement);
+	
+	parent.$(".add-job-type-content").click(function(){
+		
+		
+		var jobTypeId_ = parent.$("#jobTypeId").val();
+		var workerCount_ = parent.$("#workerCount").val();
+		var salary_ = parent.$("#salary").val();
+		var requireTime_ = parent.$("#requireTime").val();
+		var workArea_ = parent.$("#workArea").val();
+		var requirement_ = parent.$("#requirement").val();
+		top.closeDialog();
+		
+		trobj.children("#jobTypeId").html(jobTypeId_);
+		trobj.children("#workerCount").html(workerCount_);
+		trobj.children("#salary").html(salary_);
+		trobj.children("#requireTime").html(requireTime_);
+		trobj.children("#workArea").html(workArea_);
+		trobj.children("#requirement").html(requirement_);
+		
+	});
 }
 
 
@@ -43,6 +108,8 @@ function openDialog(id){
 	top.$("#close-dialog").click(function(){
 		top.closeDialog();
 	});
+	
+	
 }
 
 function addCompany(){

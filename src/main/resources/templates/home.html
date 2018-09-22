@@ -47,7 +47,7 @@
 	</div>
 <!--******************************* 以下是弹窗html代码块 *******************************************************************-->	
 	<!-- alert提示框 -->
-	<div id="public-box2" style="display:none;">
+	<div id="public-box2" style="display:none;z-index:1000">
 		<div class="mask"></div>
 		<div class="box-content">
 			<div class="head"><span class="title">提示</span><span class="close fa fa-close" id="alert_close"></span></div>
@@ -60,7 +60,7 @@
 		</div>
 	</div>
 	<!-- confirm提示框 -->
-	<div id="public-box1" style="display:none;">
+	<div id="public-box1" style="display:none;z-index:1000">
 		<div class="mask"></div>
 		<div class="box-content">
 			<div class="head"><span class="title">提示</span><span class="close fa fa-close" id="confirm_close"></span></div>
@@ -74,7 +74,7 @@
 		</div>
 	</div>
 	<!-- 业务逻辑弹窗 -->
-	<div id="dialog" style="display:none;"></div>
+	<div id="dialog" style="display:none;z-index:9"></div>
 	
 <!--******************************* 以上是弹窗html代码块 *******************************************************************-->	
 </body>

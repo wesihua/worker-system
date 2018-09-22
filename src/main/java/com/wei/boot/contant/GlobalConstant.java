@@ -78,4 +78,11 @@ public interface GlobalConstant {
 		String EXPECT_SALARY = "expect_salary";	// 期望薪资
 		String LANGUAGE_LEVEL = "language_level";//外语能力
 	}
+	
+	interface DemandState {
+		int PENDING = 0;
+		int PROCESSING = 1;
+		int SIGNING = 2;
+		int CLOSE = 3;
+	}
 }
