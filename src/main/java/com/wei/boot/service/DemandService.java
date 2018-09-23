@@ -63,4 +63,16 @@ public interface DemandService {
 	 * @param demand
 	 */
 	public void undertakeDemand(Demand demand);
+
+	/**
+	 * 删除签约用工
+	 * @param orderWorkerId
+	 */
+	public void deleteOrderWorker(Integer orderWorkerId);
+
+	/**
+	 * 编辑签约用工
+	 * @param orderWorker
+	 */
+	public void editOrderWorker(OrderWorker orderWorker);
 }

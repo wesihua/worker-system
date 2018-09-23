@@ -243,8 +243,6 @@ public class DemandServiceImpl implements DemandService {
 				translateOrderWorker(orderWorker);
 			}
 		}
-		
-		
 		page.pageData(list, totalCount);
 		DemandJob demandJob = queryDemandJobById(demandJobId);
 		jobTypeModel.setDemandJob(demandJob);
@@ -307,6 +305,24 @@ public class DemandServiceImpl implements DemandService {
 		demandDb.setState(GlobalConstant.DemandState.PROCESSING);
 		demandDb.setUndertakeUser(demand.getUndertakeUser());
 		demandMapper.updateByPrimaryKey(demandDb);
+	}
+
+	@Override
+	public void deleteOrderWorker(Integer orderWorkerId) {
+		// TODO Auto-generated method stub
+		orderWorkerMapper.deleteByPrimaryKey(orderWorkerId);
+	}
+
+	@Override
+	public void editOrderWorker(OrderWorker orderWorker) {
+		// TODO Auto-generated method stub
+		OrderWorker orderWorkerDb = orderWorkerMapper.selectByPrimaryKey(orderWorker.getId());
+		orderWorkerDb.setBusinessIncome(orderWorker.getBusinessIncome());
+		orderWorkerDb.setUpdateTime(new Date());
+		orderWorkerDb.setUpdateUser(orderWorker.getUpdateUser());
+		orderWorkerDb.setArriveWorkTime(orderWorker.getArriveWorkTime());
+		orderWorkerDb.setSignSalary(orderWorker.getSignSalary());
+		orderWorkerMapper.updateByPrimaryKey(orderWorker);
 	}
 
 }

@@ -86,6 +86,10 @@ input,select, textarea {
     height: 80px;
     line-height: 80px;
     margin: 0px auto; }
+    #header .header-content .logo-word{
+      font-size:20px;
+      font-weight:bold;
+    }
     #header .header-content .person-info {
       float: right;
       font-weight: bold; }
@@ -93,6 +97,12 @@ input,select, textarea {
         margin-right: 30px; }
       #header .header-content .person-info .login-out {
         cursor: pointer; }
+        #header .header-content .person-info .login-out .fa-sign-out{
+          margin-right:5px;
+        }
+        #header .header-content .person-info .login-out:hover{
+          color:#409eff;
+        }
 
 #content {
   width:auto;
@@ -180,10 +190,6 @@ input,select, textarea {
     border:1px solid  #b3d8ff;
   padding: 0px 15px;
   cursor: pointer;
-  .h42{
-    height:42px;
-    line-height:42px;
-  } 
 }
 .public-small-bottom.h42{
   height:40px;
@@ -199,3 +205,20 @@ input,select, textarea {
     background-color: #409eff;
     border-color: #409eff;
   }
+
+ 
+/* 每个页面正页的导航 */
+  .public-single-page-nav {
+  height: 60px;
+  line-height: 60px;
+  border-bottom:1px solid #dbdbdb;
+  padding: 0px 20px; }
+  .public-single-page-nav  .title{
+    font-size:16px;
+    font-weight:bold;
+  }
+  .public-single-page-nav  .public-small-bottom {
+    float: right;
+    margin-left: 30px;
+    margin-top:13px;
+    cursor: pointer; }

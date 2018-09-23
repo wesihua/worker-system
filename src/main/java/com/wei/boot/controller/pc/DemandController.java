@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -104,6 +103,34 @@ public class DemandController {
 		} catch (Exception e) {
 			log.error("查询需求单工种签约列表失败", e);
 			result = Result.fail("查询需求单工种签约列表失败！");
+		}
+		return result;
+	}
+	
+	@ApiOperation(value = "删除签约用工",notes = "")
+	@GetMapping("/deleteOrderWorker")
+	public Result deleteOrderWorker(@RequestParam Integer orderWorkerId) {
+		Result result = Result.SUCCESS;
+		try {
+			demandService.deleteOrderWorker(orderWorkerId);
+		} catch (Exception e) {
+			log.error("删除签约用工失败", e);
+			result = Result.fail("删除签约用工失败！");
+		}
+		return result;
+	}
+	
+	@ApiOperation(value = "编辑签约用工",notes = "")
+	@PostMapping("/editOrderWorker")
+	public Result editOrderWorker(OrderWorker orderWorker,HttpServletRequest request) {
+		Result result = Result.SUCCESS;
+		try {
+			int userId = ToolsUtil.getUserId(request);
+			orderWorker.setUpdateUser(userId);
+			demandService.editOrderWorker(orderWorker);
+		} catch (Exception e) {
+			log.error("编辑签约用工失败", e);
+			result = Result.fail("编辑签约用工失败！");
 		}
 		return result;
 	}
