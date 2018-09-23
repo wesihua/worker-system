@@ -19,14 +19,14 @@ function query(pageNum) {
 
     var tableContent="";
     tableContent += "<tr>" +
-        "	<th>单号</th>" +
-        "	<th>录单日期</th>" +
-        "	<th>企业客户</th>" +
-        "	<th>用工工种</th>" +
-        "	<th>用工人数</th>" +
-        "	<th>状态</th>" +
-        "	<th>录单人员</th>" +
-        "	<th width='120'>备注说明</th>" +
+        "	<th>用工姓名</th>" +
+        "	<th>籍贯</th>" +
+        "	<th>身份证号</th>" +
+        "	<th>联系电话</th>" +
+        "	<th>擅长工种</th>" +
+        "	<th>签约月工资（元）</th>" +
+        "	<th>到岗日期</th>" +
+        "	<th width='120'>业务收入（元）</th>" +
         "	<th width='150'>操作</th>" +
         "</tr>";
 
