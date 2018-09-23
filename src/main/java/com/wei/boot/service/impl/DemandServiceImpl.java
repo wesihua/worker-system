@@ -19,16 +19,21 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wei.boot.contant.GlobalConstant;
 import com.wei.boot.mapper.DemandJobMapper;
 import com.wei.boot.mapper.DemandMapper;
+import com.wei.boot.mapper.JobTypeMapper;
 import com.wei.boot.mapper.OrderWorkerMapper;
+import com.wei.boot.model.Area;
+import com.wei.boot.model.Company;
 import com.wei.boot.model.Demand;
 import com.wei.boot.model.DemandJob;
 import com.wei.boot.model.DemandJobExample;
 import com.wei.boot.model.DemandQuery;
 import com.wei.boot.model.DemandStateStatistic;
+import com.wei.boot.model.JobType;
 import com.wei.boot.model.OrderWorker;
 import com.wei.boot.model.Page;
 import com.wei.boot.model.Worker;
 import com.wei.boot.service.CommonService;
+import com.wei.boot.service.CompanyService;
 import com.wei.boot.service.DemandService;
 import com.wei.boot.util.CheckUtils;
 import com.wei.boot.util.DateUtils;
@@ -53,6 +58,12 @@ public class DemandServiceImpl implements DemandService {
 	
 	@Autowired
 	private CommonService commonService;
+	
+	@Autowired
+	private CompanyService companyService;
+	
+	@Autowired
+	private JobTypeMapper jobTypeMapper;
 
 	@Override
 	@Transactional
@@ -116,20 +127,54 @@ public class DemandServiceImpl implements DemandService {
 		// 需求单
 		Demand demand = demandMapper.selectByPrimaryKey(demandId);
 		
+		// 翻译需求
+		translateDemand(demand);
+		
 		DemandJobExample example  = new DemandJobExample();
 		example.createCriteria().andDemandIdEqualTo(demandId);
 		// 需求单工种
 		List<DemandJob> demandJobList = demandJobMapper.selectByExample(example );
 		if(!CollectionUtils.isEmpty(demandJobList)) {
-			
+			demandJobList.stream().forEach(demandJob->{
+				translateDemandJob(demand,demandJob);
+			});
 		}
 		demand.setDemandJobList(demandJobList);
 		
 		return demand;
 	}
 	
+	private void translateDemandJob(Demand demand, DemandJob demandJob) {
+		if(null != demandJob) {
+			// 用工地区
+			Area area = commonService.queryAreaByCode(demandJob.getWorkArea());
+			
+			demandJob.setWorkAreaName(area == null ? "": area.getName());
+			// 工种名字
+			JobType jobType = jobTypeMapper.selectByPrimaryKey(demandJob.getWorkArea());
+			demandJob.setJobTypeName(jobType == null ? "": jobType.getName());
+			
+			// TODO 修改签约人数
+		}
+		
+	}
+
 	private void translateDemand(Demand demand) {
 		if(null != demand) {
+			// 公司名称
+			Company company = companyService.queryById(demand.getCompanyId());
+			demand.setCompanyName(company == null ? "":company.getName());
+			// 关单人
+			demand.setCloseUserName(commonService.queryUserName(demand.getCloseUser()));
+			// 创建人
+			demand.setCreateUserName(commonService.queryUserName(demand.getCreateUser()));
+			// 操作人员
+			demand.setUndertakeUserName(commonService.queryUserName(demand.getUndertakeUser()));
+			
+			if(Objects.equals(GlobalConstant.DemandState.SIGNING, demand.getState())) {
+				// TODO  收入总额
+				demand.setTotalIncome(0);
+			}
 			
 		}
 	}

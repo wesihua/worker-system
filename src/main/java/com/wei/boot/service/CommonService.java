@@ -50,4 +50,11 @@ public interface CommonService {
 	
 	
 	Area queryAreaByCode(int code);
+	
+	/**
+	 * 查询用户名字
+	 * @param id
+	 * @return
+	 */
+	String queryUserName(int id);
 }
