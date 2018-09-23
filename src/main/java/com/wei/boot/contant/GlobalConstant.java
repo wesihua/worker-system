@@ -78,6 +78,7 @@ public interface GlobalConstant {
 		String NIGHT_WORK = "night_work";		// 是否接受夜班
 		String EXPECT_SALARY = "expect_salary";	// 期望薪资
 		String LANGUAGE_LEVEL = "language_level";//外语能力
+		String DEMAND_STATE= "demand_state"; // 需求单状态
 	}
 	
 	interface DemandState {
