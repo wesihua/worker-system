@@ -17,6 +17,8 @@ body {
 
 input,select, textarea {
   background-color:#f8f8f8;
+  border:1px solid #dcdfe6;
+  border-radius:5px;
   outline: none; }
 
 /*清除浮动*/
@@ -177,7 +179,15 @@ input,select, textarea {
     background: #ecf5ff;
     border:1px solid  #b3d8ff;
   padding: 0px 15px;
-  cursor: pointer; 
+  cursor: pointer;
+  .h42{
+    height:42px;
+    line-height:42px;
+  } 
+}
+.public-small-bottom.h42{
+  height:42px;
+  line-height:42px;
 }
 .public-small-bottom .fa{
    font-style:normal;

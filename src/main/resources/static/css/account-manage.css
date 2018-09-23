@@ -3,9 +3,14 @@
   line-height: 60px;
   border-bottom: 1px solid #cccccc;
   padding: 0px 20px; }
+  #account-manage .a-m-nav .title{
+    font-weight: bold; 
+      font-size:16px;
+  }
   #account-manage .a-m-nav .control {
     float: right;
     margin-left: 30px;
+    margin-top:13px;
     cursor: pointer; }
 
 #account-manage .a-m-content {
@@ -16,14 +21,14 @@
     #account-manage .a-m-content .input-area .pt, #account-manage .a-m-content .input-area .se {
       width: 200px;
       height: 40px;
-      background-color: #cccccc;
+      text-indent: 5px;
       margin-right: 20px; }
     #account-manage .a-m-content .input-area .se option {
       height: 40px;
       line-height: 40px; }
-    #account-manage .a-m-content .input-area #public-bottom2 {
+    /* #account-manage .a-m-content .input-area #public-bottom2 {
       float: right;
-      margin-top: 20px; }
+      margin-top: 20px; } */
   #account-manage .a-m-content table {
     width: 100%;
     border-collapse: collapse; }

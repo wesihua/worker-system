@@ -20,6 +20,9 @@
       #user-manage-control .party1 .base-info .inut-b .c-datepicker-date-editor .c-datepicker-data-input{
         background-color:#f8f8f8;
       }
+      #user-manage-control .party1 .base-info .inut-b .c-datepicker-date-editor .c-datepicker-range__icon{
+        margin-top:4px;
+      }
       #user-manage-control .party1 .base-info .inut-b .name {
         position: absolute;
         left: 0px;
@@ -47,7 +50,7 @@
         border:1px solid #dcdfe6;
         border-radius: 5px;       
         text-indent: 10px;
-        border: none; }
+        }
         #user-manage-control .party1 .base-info .inut-b .selectControl.mt{
           margin-bottom:10px;
         }
@@ -65,9 +68,8 @@
         float: left; }
       #user-manage-control .party1 .base-info .jianjie .textarea {
         display: inline-block;
-        width: 290px;
-        padding: 10px;
-        background: #e8e8e8;
+        width: 278px;
+        padding: 5px;
         line-height: 20px;
         height: 250px;
         resize: none; }
@@ -85,14 +87,14 @@
     #user-manage-control .party2 .nav-tip .name {
       display: inline-block;
       width: 90px; }
-    #user-manage-control .party2 .nav-tip .button {
+    /* #user-manage-control .party2 .nav-tip .button {
       display: inline-block;
       line-height: 40px;
       padding: 0px 30px;
       background: #01aaff;
       color: #FFFFFF;
       border-radius: 5px;
-      cursor: pointer; }
+      cursor: pointer; } */
   #user-manage-control .party2 .history {
     position: relative;
     left: 0px;
@@ -145,21 +147,14 @@
           line-height: 22px; }
 
 #user-manage-control .footer-button {
+  padding:20px 0px;
+  border-top:1px solid #dcdfe6;
   text-align: center; }
   #user-manage-control .footer-button span {
     margin: 0px 40px;
     padding: 0px 30px;
     border-radius: 5px;
     cursor: pointer; }
-  #user-manage-control .footer-button span.qx {
-    display: inline-block;
-    border: 1px solid #e8e8e8;
-    line-height: 40px; }
-  #user-manage-control .footer-button span.qd {
-    display: inline-block;
-    background-color: #5595d6;
-    color: #FFFFFF;
-    line-height: 40px; }
 
 #user-manage-control .recod-info {
   color: #a0a0a0; }
