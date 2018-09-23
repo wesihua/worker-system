@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wei.boot.contant.GlobalConstant;
@@ -26,7 +27,12 @@ import com.wei.boot.model.DemandQuery;
 import com.wei.boot.model.DemandStateStatistic;
 import com.wei.boot.model.OrderWorker;
 import com.wei.boot.model.Page;
+import com.wei.boot.model.Worker;
+import com.wei.boot.service.CommonService;
 import com.wei.boot.service.DemandService;
+import com.wei.boot.util.CheckUtils;
+import com.wei.boot.util.DateUtils;
+import com.wei.boot.util.ToolsUtil;
 
 @Service
 public class DemandServiceImpl implements DemandService {
@@ -44,6 +50,9 @@ public class DemandServiceImpl implements DemandService {
 	
 	@Autowired
 	private ObjectMapper objectMapper;
+	
+	@Autowired
+	private CommonService commonService;
 
 	@Override
 	@Transactional
@@ -111,8 +120,18 @@ public class DemandServiceImpl implements DemandService {
 		example.createCriteria().andDemandIdEqualTo(demandId);
 		// 需求单工种
 		List<DemandJob> demandJobList = demandJobMapper.selectByExample(example );
+		if(!CollectionUtils.isEmpty(demandJobList)) {
+			
+		}
 		demand.setDemandJobList(demandJobList);
+		
 		return demand;
+	}
+	
+	private void translateDemand(Demand demand) {
+		if(null != demand) {
+			
+		}
 	}
 
 	@Override

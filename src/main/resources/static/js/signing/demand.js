@@ -245,10 +245,10 @@ function closeDemand(demandId){
 					top.closeDialog();
 					query(1);
 					statisticsByState();
-					alertD("关单成功！");
+					alert("关单成功！");
 				}
 				else{
-					alertD("关单失败！原因："+data.msg);
+					alert("关单失败！原因："+data.msg);
 				}
 			}
 		});
@@ -291,7 +291,7 @@ function statisticsByState() {
  * @returns
  */
 function signings(demandId){
-	alertD("signings" + demandId);
+	alert("signings" + demandId);
 }
 
 /**
