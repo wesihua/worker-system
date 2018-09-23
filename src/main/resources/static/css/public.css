@@ -10,7 +10,7 @@ input, textarea {
   border: none; }
 
 body {
-  font-size: 16px;
+  font-size: 12px;
   color: #333;
   font-family: Arial, Helvetica, sans-serif;
   background-color: #f8f8f8; }
@@ -34,8 +34,8 @@ input, textarea {
 #nav {
   width: 170px;
   float: left;
-  background: rgb(45, 58, 75);
-  color: rgb(255, 255, 255); }
+  background: #01aaff;
+  color: #ffffff; }
   #nav ul {
     list-style: none; }
     #nav ul li {
@@ -109,19 +109,24 @@ input, textarea {
   #content #content-area {
     padding: 0px 20px 0px; }
 
-#public-fanye {
+#public-fanye, .public-fanye {
   height: 34px;
   margin-top: 30px; }
-  #public-fanye .f-content {
+  #public-fanye .f-content, .public-fanye .f-content {
     float: right; }
-  #public-fanye .page {
+    #public-fanye .f-content input, .public-fanye .f-content input {
+      height: 24px !important;
+      line-height: 24px;
+      text-align: center;
+      border: 1px solid #c5b7b7; }
+  #public-fanye .page, .public-fanye .page {
     margin: 0px !important; }
-  #public-fanye .info {
+  #public-fanye .info, .public-fanye .info {
     display: none; }
-    #public-fanye .info.f1 {
+    #public-fanye .info.f1, .public-fanye .info.f1 {
       display: none; }
 
-#public-bottom1 {
+#public-bottom1, .public-bottom1 {
   display: inline-block;
   border-radius: 5px;
   height: 40px;
@@ -132,7 +137,7 @@ input, textarea {
   border: 1px solid #cccccc;
   cursor: pointer; }
 
-#public-bottom2 {
+#public-bottom2, .public-bottom2 {
   display: inline-block;
   border-radius: 5px;
   height: 40px;
@@ -141,4 +146,15 @@ input, textarea {
   color: #ffffff;
   background-color: #1E9FFF;
   padding: 0px 30px;
+  cursor: pointer; }
+
+.public-small-bottom {
+  display: inline-block;
+  border-radius: 5px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  color: #ffffff;
+  background-color: #1E9FFF;
+  padding: 0px 20px;
   cursor: pointer; }
