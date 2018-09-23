@@ -26,7 +26,7 @@ function queryDetail(){
 			if(data.code == 1){
 				var state = data.data.state;
 				var tableContent="";
-				
+				var firmArr = data.data.demandJobList;
 				if(state == 0){
 					tableContent+= "<tr>"+
 									"	<th>单号</th>"+
@@ -39,20 +39,20 @@ function queryDetail(){
 									"	<th width='120'>备注说明</th>"+
 									"	<th width='150'>操作</th>"+
 									"</tr>";
-//					for(var i=0; i<firmArr.length; i++){
-//						var firm = firmArr[i];
-//						tableContent+=  "<tr>"+
-//										"	<td>"+firm.demandNumber+"</td>"+
-//										"	<td>"+firm.createTime+"</td>"+
-//										"	<td>"+firm.demandNumber+"企业客户</td>"+
-//										"	<td>"+firm.demandNumber+"用工工种</td>"+
-//										"	<td>"+firm.demandNumber+"用工人数</td>"+
-//										"	<td>"+firm.demandNumber+"状态</td>"+
-//										"	<td>"+firm.demandNumber+"录单人员</td>"+
-//										"	<td width='120'>"+firm.description+"</td>"+
-//										"   <td><span class=\"des\" onClick=\"demandDetail("+firm.id+")\">详情</span><span class=\"jiedan\" onClick=\"undertakeDemand("+firm.id+")\">接单</span><span class=\"delete \" onClick=\"closeDemand("+firm.id+")\">关单</span></td>"+
-//										"</tr>";
-//					}
+					for(var i=0; i<firmArr.length; i++){
+						var firm = firmArr[i];
+						tableContent+=  "<tr>"+
+										"	<td>"+firm.demandNumber+"</td>"+
+										"	<td>"+firm.createTime+"</td>"+
+										"	<td>"+firm.demandNumber+"企业客户</td>"+
+										"	<td>"+firm.demandNumber+"用工工种</td>"+
+										"	<td>"+firm.demandNumber+"用工人数</td>"+
+										"	<td>"+firm.demandNumber+"状态</td>"+
+										"	<td>"+firm.demandNumber+"录单人员</td>"+
+										"	<td width='120'>"+firm.description+"</td>"+
+										"   <td><span class=\"des\" onClick=\"demandDetail("+firm.id+")\">详情</span><span class=\"jiedan\" onClick=\"undertakeDemand("+firm.id+")\">接单</span><span class=\"delete \" onClick=\"closeDemand("+firm.id+")\">关单</span></td>"+
+										"</tr>";
+					}
 				}
 				
 				if(state == 1){
@@ -149,14 +149,14 @@ function queryDetail(){
 					}
 				}
 				$("table").empty().append(tableContent);
-				$("#totalCount").text(data.data.totalCount+"个结果");
-				$("#pagination1").pagination({
-					currentPage: data.data.pageNumber,
-					totalPage: data.data.pageCount,
-					callback: function(current) {
-						query(current);
-					}
-				});
+//				$("#totalCount").text(data.data.totalCount+"个结果");
+//				$("#pagination1").pagination({
+//					currentPage: data.data.pageNumber,
+//					totalPage: data.data.pageCount,
+//					callback: function(current) {
+//						query(current);
+//					}
+//				});
 			}
 		}
 	});

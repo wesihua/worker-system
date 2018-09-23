@@ -138,8 +138,51 @@ public class Demand {
     private List<DemandJob> demandJobList;
     
     
+ /*********************** 以下是翻译字段 **********************/
+    
+    private String companyName = "";
+    
+    private String createUserName = "";
+    
+    private String undertakeUserName = "";
+    
+    private String closeUserName = "";
+    
+    public String getCompanyName() {
+		return companyName;
+	}
 
-    public List<DemandJob> getDemandJobList() {
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
+	public String getCreateUserName() {
+		return createUserName;
+	}
+
+	public void setCreateUserName(String createUserName) {
+		this.createUserName = createUserName;
+	}
+
+	public String getUndertakeUserName() {
+		return undertakeUserName;
+	}
+
+	public void setUndertakeUserName(String undertakeUserName) {
+		this.undertakeUserName = undertakeUserName;
+	}
+
+	public String getCloseUserName() {
+		return closeUserName;
+	}
+
+	public void setCloseUserName(String closeUserName) {
+		this.closeUserName = closeUserName;
+	}
+	
+	/**************** 以上是翻译字段  ***************************/
+
+	public List<DemandJob> getDemandJobList() {
 		return demandJobList;
 	}
 
