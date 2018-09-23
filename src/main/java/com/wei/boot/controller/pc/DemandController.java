@@ -95,8 +95,7 @@ public class DemandController {
 	
 	@ApiOperation(value = "需求单工种签约列表",notes = "")
 	@PostMapping("/orderWorkerList")
-	public Result orderWorkerList(@ApiParam(value = "需求单工种Id",required = true) @RequestParam Integer demandJobId,
-			@ApiParam(value = "分页条件",required = true) @RequestBody  Page<OrderWorker> page) {
+	public Result orderWorkerList(@RequestParam Integer demandJobId,Page<OrderWorker> page) {
 		Result result = Result.SUCCESS;
 		try {
 			Page<OrderWorker> data = demandService.queryOrderWorker(page,demandJobId);

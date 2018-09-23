@@ -29,122 +29,98 @@ function queryDetail(){
 				var firmArr = data.data.demandJobList;
 				if(state == 0){
 					tableContent+= "<tr>"+
-									"	<th>单号</th>"+
-									"	<th>录单日期</th>"+
-									"	<th>企业客户</th>"+
 									"	<th>用工工种</th>"+
 									"	<th>用工人数</th>"+
-									"	<th>状态</th>"+
-									"	<th>录单人员</th>"+
-									"	<th width='120'>备注说明</th>"+
-									"	<th width='150'>操作</th>"+
+									"	<th>到岗日期</th>"+
+									"	<th>月工资（元）</th>"+
+									"	<th>工作地区</th>"+
+									"	<th>用工要求</th>"+
 									"</tr>";
 					for(var i=0; i<firmArr.length; i++){
 						var firm = firmArr[i];
 						tableContent+=  "<tr>"+
-										"	<td>"+firm.demandNumber+"</td>"+
-										"	<td>"+firm.createTime+"</td>"+
-										"	<td>"+firm.demandNumber+"企业客户</td>"+
-										"	<td>"+firm.demandNumber+"用工工种</td>"+
-										"	<td>"+firm.demandNumber+"用工人数</td>"+
-										"	<td>"+firm.demandNumber+"状态</td>"+
-										"	<td>"+firm.demandNumber+"录单人员</td>"+
-										"	<td width='120'>"+firm.description+"</td>"+
-										"   <td><span class=\"des\" onClick=\"demandDetail("+firm.id+")\">详情</span><span class=\"jiedan\" onClick=\"undertakeDemand("+firm.id+")\">接单</span><span class=\"delete \" onClick=\"closeDemand("+firm.id+")\">关单</span></td>"+
+										"	<td>"+firm.jobTypeName+"</td>"+
+										"	<td>"+firm.workerCount+"</td>"+
+										"	<td>"+firm.requireTime+"</td>"+
+										"	<td>"+firm.salary+"</td>"+
+										"	<td>"+firm.workAreaName +"</td>"+
+										"	<td>"+firm.requirement+"</td>"+
 										"</tr>";
 					}
 				}
 				
 				if(state == 1){
 					tableContent+= "<tr>"+
-									"	<th>单号</th>"+
-									"	<th>录单日期</th>"+
-									"	<th>接单时间</th>"+
-									"	<th>企业客户</th>"+
 									"	<th>用工工种</th>"+
-									"	<th>用工总人数</th>"+
-									"	<th>状态</th>"+
-									"	<th>录单人员</th>"+
-									"	<th>操作人员</th>"+
-									"	<th width='120'>备注说明</th>"+
-									"	<th width='150'>操作</th>"+
+									"	<th>到岗日期</th>"+
+									"	<th>月工资（元）</th>"+
+									"	<th>工作地区</th>"+
+									"	<th>用工要求</th>"+
+									"	<th>用工人数</th>"+
+									"	<th>已分配人数</th>"+
+									"	<th>操作</th>"+
 									"</tr>";
 					for(var i=0; i<firmArr.length; i++){
 						var firm = firmArr[i];
 						tableContent+=  "<tr>"+
-										"	<td>"+firm.demandNumber+"</td>"+
-										"	<td>"+firm.createTime+"</td>"+
-										"	<td>"+firm.demandNumber+"接单时间</td>"+
-										"	<td>"+firm.demandNumber+"企业客户</td>"+
-										"	<td>"+firm.demandNumber+"用工工种</td>"+
-										"	<td>"+firm.demandNumber+"用工人数</td>"+
-										"	<td>"+firm.demandNumber+"状态</td>"+
-										"	<td>"+firm.demandNumber+"录单人员</td>"+
-										"	<td>"+firm.demandNumber+"操作人员</td>"+
-										"	<td width='120'>"+firm.description+"</td>"+
-										"   <td><span class=\"des\" onClick=\"demandDetail("+firm.id+")\">详情</span><span class=\"jiedan\" onClick=\"signings("+firm.id+")\">接单</span><span class=\"delete \" onClick=\"closeDemand("+firm.id+")\">关单</span></td>"+
+										"	<td>"+firm.jobTypeName+"</td>"+
+										"	<td>"+firm.requireTime+"</td>"+
+										"	<td>"+firm.salary+"</td>"+
+										"	<td>"+firm.workAreaName +"</td>"+
+										"	<td>"+firm.requirement+"</td>"+
+										"	<td>"+firm.workerCount+"</td>"+
+										"	<td>"+firm.assignCount+"</td>"+
+										"	<td><span class=\"des\" onClick=\"workerList("+firm.id+")\">分配用工</span></td>"+
 										"</tr>";
 					}
 				}
 				
 				if(state == 2){
 					tableContent+= "<tr>"+
-									"	<th>单号</th>"+
-									"	<th>签约日期</th>"+
-									"	<th>企业客户</th>"+
-									"	<th>收入总金额（元）</th>"+
+									"	<th>用工工种</th>"+
+									"	<th>到岗日期</th>"+
+									"	<th>工作地区</th>"+
+									"	<th>用工要求</th>"+
 									"	<th>用工人数</th>"+
-									"	<th>已签人数</th>"+
-									"	<th>操作人员</th>"+
-									"	<th>状态</th>"+
-									"	<th width='150'>操作</th>"+
+									"	<th>签约人数</th>"+
+									"	<th>操作</th>"+
 									"</tr>";
 					for(var i=0; i<firmArr.length; i++){
 						var firm = firmArr[i];
 						tableContent+=  "<tr>"+
-										"	<td>"+firm.demandNumber+"</td>"+
-										"	<td>"+firm.createTime+"</td>"+
-										"	<td>"+firm.demandNumber+"企业客户</td>"+
-										"	<td>"+firm.demandNumber+"收入总金额（元）</td>"+
-										"	<td>"+firm.demandNumber+"用工人数</td>"+
-										"	<td>"+firm.demandNumber+"已签人数</td>"+
-										"	<td>"+firm.demandNumber+"操作人员</td>"+
-										"	<td width='120'>"+firm.description+"状态</td>"+
-										"   <td><span class=\"des\" onClick=\"demandDetail("+firm.id+")\">详情</span><span class=\"delete \" onClick=\"closeDemand("+firm.id+")\">关单</span></td>"+
+										"	<td>"+firm.jobTypeName+"</td>"+
+										"	<td>"+firm.requireTime+"</td>"+
+										"	<td>"+firm.workAreaName +"</td>"+
+										"	<td>"+firm.requirement+"</td>"+
+										"	<td>"+firm.workerCount+"</td>"+
+										"	<td>"+firm.signingCount+"</td>"+
+										"	<td><span class=\"des\" onClick=\"demandDetail("+firm.id+")\">查看签约列表</span></td>"+
 										"</tr>";
 					}
 				}
 				
 				if(state == 3){
 					tableContent+= "<tr>"+
-									"	<th>单号</th>"+
-									"	<th>录单日期</th>"+
-									"	<th>关单时间</th>"+
-									"	<th>企业客户</th>"+
 									"	<th>用工工种</th>"+
+									"	<th>到岗日期</th>"+
+									"	<th>月工资（元）</th>"+
+									"	<th>工作地区</th>"+
+									"	<th>用工要求</th>"+
 									"	<th>用工人数</th>"+
-									"	<th>已签约人数</th>"+
-									"	<th>状态</th>"+
-									"	<th>录单人员</th>"+
-									"	<th>操作人员</th>"+
-									"	<th>关单说明</th>"+
-									"	<th width='80'>操作</th>"+
+									"	<th>签约人数</th>"+
+									"	<th>操作</th>"+
 									"</tr>";
 					for(var i=0; i<firmArr.length; i++){
 						var firm = firmArr[i];
 						tableContent+=  "<tr>"+
-										"	<td>"+firm.demandNumber+"</td>"+
-										"	<td>"+firm.createTime+"</td>"+
-										"	<td>"+firm.createTime+"关单时间</td>"+
-										"	<td>"+firm.demandNumber+"企业客户</td>"+
-										"	<td>"+firm.demandNumber+"用工工种</td>"+
-										"	<td>"+firm.demandNumber+"用工人数</td>"+
-										"	<td>"+firm.createTime+"已签约人数</td>"+
-										"	<td>"+firm.demandNumber+"状态</td>"+
-										"	<td>"+firm.demandNumber+"录单人员</td>"+
-										"	<td>"+firm.createTime+"操作人员</td>"+
-										"	<td>"+firm.createTime+"关单说明</td>"+
-										"   <td><span class=\"des\" onClick=\"demandDetail("+firm.id+")\">详情</span></td>"+
+										"	<td>"+firm.jobTypeName+"</td>"+
+										"	<td>"+firm.requireTime+"</td>"+
+										"	<td>"+firm.salary+"</td>"+
+										"	<td>"+firm.workAreaName +"</td>"+
+										"	<td>"+firm.requirement+"</td>"+
+										"	<td>"+firm.workerCount+"</td>"+
+										"	<td>"+firm.signingCount+"</td>"+
+										"	<td><span class=\"des\" onClick=\"demandDetail("+firm.id+")\">查看签约列表</span></td>"+
 										"</tr>";
 					}
 				}
@@ -167,9 +143,8 @@ function queryDetail(){
  * @param demandId
  * @returns
  */
-function demandDetail(demandId){
-	var url = "signing/demandDetail?demandId=" + demandId;
-	$("#myframe").attr("src",url);
+function workerList(jobTypeId){
+	window.location.href = "/signing/workerList?jobTypeId=" + jobTypeId;
 }
 
 /**
