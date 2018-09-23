@@ -28,13 +28,16 @@ input, textarea {
   clear: both; }
 
 #main {
-  width: 1200px;
+  min-width: 1300px;
+  padding-left:200px;
   margin: 0px auto; }
 
 #nav {
+  float:left;
+  margin-left:-200px;
   width: 170px;
   float: left;
-  background: #01aaff;
+  background: #474b4d;
   color: #ffffff; }
   #nav ul {
     list-style: none; }
@@ -46,29 +49,29 @@ input, textarea {
         line-height: 40px;
         cursor: pointer; }
         #nav ul li .f.on, #nav ul li .f:hover {
-          background-color: #008bd1;
-          color: #FFFFFF; }
+          background-color: #222222;
+    color: #ffda00; }
       #nav ul li .s .s-n {
         padding-left: 60px;
         line-height: 40px;
         cursor: pointer; }
         #nav ul li .s .s-n.on, #nav ul li .s .s-n:hover {
-          background-color: #5595d6;
-          color: #FFFFFF; }
+          background-color: #222222;
+          color: #ffda00; }
       #nav ul li .s .t .t-a {
         padding-left: 60px;
         line-height: 30px;
         cursor: pointer; }
         #nav ul li .s .t .t-a.on, #nav ul li .s .t .t-a:hover {
-          background-color: #5595d6;
-          color: #FFFFFF; }
+          background-color: #222222;
+    color: #ffda00;}
       #nav ul li .s .t .t-b {
         padding-left: 70px;
         line-height: 40px;
         cursor: pointer; }
         #nav ul li .s .t .t-b.on, #nav ul li .s .t .t-b:hover {
-          background-color: #5595d6;
-          color: #FFFFFF; }
+          background-color: #222222;
+    color: #ffda00;}
 
 #header {
   height: 80px;
@@ -89,8 +92,9 @@ input, textarea {
         cursor: pointer; }
 
 #content {
-  width: 1000px;
-  float: right;
+  /* width: 1000px; */
+  width:auto;
+  /* float: right; */
   background: #ffffff;
   min-height: 100px;
   padding-bottom: 50px; }
@@ -143,10 +147,17 @@ input, textarea {
   height: 40px;
   line-height: 40px;
   text-align: center;
-  color: #ffffff;
-  background-color: #1E9FFF;
+  color: #409eff;
+    background: #ecf5ff;
+    border:1px solid  #b3d8ff;
   padding: 0px 30px;
   cursor: pointer; }
+
+  #public-bottom2:hover,.public-bottom2:hover{
+    color: #fff;
+    background-color: #409eff;
+    border-color: #409eff;
+  }
 
 .public-small-bottom {
   display: inline-block;
@@ -154,7 +165,14 @@ input, textarea {
   height: 30px;
   line-height: 30px;
   text-align: center;
-  color: #ffffff;
-  background-color: #1E9FFF;
+  color: #409eff;
+    background: #ecf5ff;
+    border:1px solid  #b3d8ff;
   padding: 0px 20px;
   cursor: pointer; }
+
+  .public-small-bottom:hover{
+    color: #fff;
+    background-color: #409eff;
+    border-color: #409eff;
+  }
