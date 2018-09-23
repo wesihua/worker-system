@@ -23,14 +23,15 @@
 			</div>
 			<div class="qiandan-add-content">
 				<div class="input-block">
-					<span class="name">企业客户</span> <select>
-						<option>1</option>
-						<option>2</option>
+					<span class="name">企业客户</span> 
+					<select id="companyId">
+						<option value="1">1</option>
+						<option value="2">2</option>
 					</select>
 				</div>
 				<div class="input-block">
 					<span class="name">备注说明</span>
-					<textarea></textarea>
+					<textarea id="description"></textarea>
 				</div>
 				<div class="input-block">
 					<span class="name">签约用工</span><span class="public-bottom2" onclick="addJob()">添加用工</span>
@@ -47,7 +48,7 @@
 
 							<th width="150">操作</th>
 						</tr>
-						<tr>
+					<!--  	<tr class="tr-body">
 							<td>水电工</td>
 							<td>11</td>
 							<td>2018-09-01</td>
@@ -55,7 +56,7 @@
 							<td>33300</td>
 							<td>江苏南京</td>
 							<td><span class="des" onclick="editJob(this)">编辑</span><span class="delete" onclick="deleteJob(this)">移除</span></td>
-						</tr>
+						</tr> -->
 					</table>
 				</div>
 				<div class="control-botton">
@@ -72,7 +73,7 @@
 				</div>
 				<div class="middle">
 					<div class="input-block">
-						<span class="name">用工工种</span><input class="pt select-job-type" id="jobTypeId"/>
+						<span class="name">用工工种</span><input class="pt select-job-type" id="jobTypeName"/>
 					</div>
 					<div class="input-block">
 						<span class="name">用工人数</span><input class="pt" id="workerCount"/>
@@ -88,9 +89,9 @@
 							class="pt" id="salary"/>
 					</div>
 					<div class="input-block">
-						<span class="name">工作地区</span> <select class="se" id="workArea">
-							<option value="">1</option>
-							<option value="">2</option>
+						<span class="name">工作地区</span> <select class="se" id="workAreaName">
+							<option value="1">1</option>
+							<option value="2">2</option>
 						</select>
 					</div>
 					<div class="input-block">

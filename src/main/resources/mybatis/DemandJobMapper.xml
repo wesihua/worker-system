@@ -12,7 +12,7 @@
     <result column="job_type_id" property="jobTypeId" jdbcType="INTEGER" />
     <result column="worker_count" property="workerCount" jdbcType="INTEGER" />
     <result column="salary" property="salary" jdbcType="VARCHAR" />
-    <result column="require_time" property="requireTime" jdbcType="TIMESTAMP" />
+    <result column="require_time" property="requireTime" jdbcType="DATE" />
     <result column="work_area" property="workArea" jdbcType="INTEGER" />
     <result column="gender" property="gender" jdbcType="VARCHAR" />
     <result column="age" property="age" jdbcType="VARCHAR" />
