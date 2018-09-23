@@ -15,7 +15,8 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   background-color: #f8f8f8; }
 
-input, textarea {
+input,select, textarea {
+  background-color:#f8f8f8;
   outline: none; }
 
 /*清除浮动*/
@@ -28,7 +29,7 @@ input, textarea {
   clear: both; }
 
 #main {
-  min-width: 1300px;
+  min-width: 1000px;
   padding-left:200px;
   margin: 0px auto; }
 
@@ -76,7 +77,7 @@ input, textarea {
 #header {
   height: 80px;
   background: #ffffff;
-  margin-bottom: 40px;
+  margin-bottom:30px;
   border-bottom: 1px solid #eaeaea; }
   #header .header-content {
     width: 1200px;
@@ -92,9 +93,7 @@ input, textarea {
         cursor: pointer; }
 
 #content {
-  /* width: 1000px; */
   width:auto;
-  /* float: right; */
   background: #ffffff;
   min-height: 100px;
   padding-bottom: 50px; }
@@ -102,12 +101,15 @@ input, textarea {
     height: 60px;
     line-height: 60px;
     padding: 0px 20px 0px;
-    border-bottom: 1px solid #F8F8F8;
+    border-bottom: 1px solid #d5d5d5;
     margin-bottom: 20px; }
     #content #content-nav .name {
-      font-weight: bold; }
+      font-weight: bold; 
+      font-size:16px;
+    }
     #content #content-nav .control {
       float: right;
+      margin-top:13px;
       margin-left: 30px;
       cursor: pointer; }
   #content #content-area {
@@ -153,7 +155,13 @@ input, textarea {
   padding: 0px 30px;
   cursor: pointer; }
 
-  #public-bottom2:hover,.public-bottom2:hover{
+  #public-bottom2 .fa, .public-bottom2 .fa{
+    font-style:normal;
+    margin-right:5px;
+    vertical-align: middle;
+ }
+
+  #public-bottom2:hover,.public-bottom2:hover, #public-bottom2.on,.public-bottom2.on{
     color: #fff;
     background-color: #409eff;
     border-color: #409eff;
@@ -168,10 +176,15 @@ input, textarea {
   color: #409eff;
     background: #ecf5ff;
     border:1px solid  #b3d8ff;
-  padding: 0px 20px;
-  cursor: pointer; }
+  padding: 0px 15px;
+  cursor: pointer; 
+}
+.public-small-bottom .fa{
+   font-style:normal;
+   margin-right:5px;
+}
 
-  .public-small-bottom:hover{
+  .public-small-bottom:hover,.public-small-bottom.on{
     color: #fff;
     background-color: #409eff;
     border-color: #409eff;

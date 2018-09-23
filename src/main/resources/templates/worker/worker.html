@@ -17,7 +17,7 @@
 <body>
 	<div id="content">
 		<div id="content-nav">
-			<span class="name">用户管理</span> <span class="control">导出列表</span> <span class="control" id="add-worker">新增用工</span>
+			<span class="name">用户管理</span> <span class="control public-small-bottom"><i class="fa fa-cloud-download"></i>导出列表</span> <span class="control public-small-bottom" id="add-worker"><i class="fa fa-plus"></i>新增用工</span>
 		</div>
 		<div id="content-area">
 			<div id="user-manage">
@@ -28,7 +28,7 @@
 						<input placeholder="搜索身份证号" id="idcard"/> 
 					</div>
 					<div class="select2">
-						来源
+						<span class="n">来源</span>
 						<select id="source"></select> 
 						<div class="c-datepicker-date-editor J-datepicker-range mt10">
 				          <i class="c-datepicker-range__icon kxiconfont icon-clock"></i>
@@ -37,34 +37,34 @@
 				        </div> 
 					</div>
 					<div class="select2">
-						一级工种
+						<span class="n">一级工种</span>
 						<select id="firstId">
 							<option value="">选择一级工种</option>
 						</select> 
-						二级工种
+						<span class="n">二级工种</span>
 						<select id="secondId">
 							<option value="">选择二级工种</option>
 						</select>
-						创建人
+						<span class="n">创建人</span>
 						<select id="createUser"></select> 
-						<span class="button" id="query">查询</span>
+						<span class="public-small-bottom on" id="query"><i class="fa fa-search"></i>查询</span>
 					</div>
 				</div>
 				<table cellpadding="0" cellspacing="0">
 					<thead>
 						<tr>
-							<th>姓名</th>
-							<th>手机号</th>
-							<th>身份证号</th>
-							<th>性别</th>
-							<th>年龄</th>
-							<th>职称</th>
+							<th width="70">姓名</th>
+							<th width="90">手机号</th>
+							<th width="144">身份证号</th>
+							<th width="30">性别</th>
+							<th width="30">年龄</th>
+							<th width="70">职称</th>
 							<th>擅长工种</th>
-							<th>工作状态</th>
-							<th>录入人员</th>
-							<th>来源</th>
-							<th>录入日期</th>
-							<th>操作</th>
+							<th width="68">工作状态</th>
+							<th width="63">录入人员</th>
+							<th width="50">来源</th>
+							<th width="85">录入日期</th>
+							<th width="180">操作</th>
 						</tr>
 					</thead>
 					<tbody></tbody>
