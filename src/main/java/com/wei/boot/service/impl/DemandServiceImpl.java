@@ -21,6 +21,7 @@ import com.wei.boot.mapper.DemandJobMapper;
 import com.wei.boot.mapper.DemandMapper;
 import com.wei.boot.mapper.JobTypeMapper;
 import com.wei.boot.mapper.OrderWorkerMapper;
+import com.wei.boot.mapper.WorkerMapper;
 import com.wei.boot.model.Area;
 import com.wei.boot.model.Company;
 import com.wei.boot.model.Demand;
@@ -31,6 +32,8 @@ import com.wei.boot.model.DemandStateStatistic;
 import com.wei.boot.model.JobType;
 import com.wei.boot.model.OrderWorker;
 import com.wei.boot.model.Page;
+import com.wei.boot.model.Worker;
+import com.wei.boot.model.signing.JobTypeModel;
 import com.wei.boot.service.CommonService;
 import com.wei.boot.service.CompanyService;
 import com.wei.boot.service.DemandService;
@@ -60,6 +63,9 @@ public class DemandServiceImpl implements DemandService {
 	
 	@Autowired
 	private JobTypeMapper jobTypeMapper;
+	
+	@Autowired
+	private WorkerMapper workerMapper;
 
 	@Override
 	@Transactional
@@ -217,7 +223,10 @@ public class DemandServiceImpl implements DemandService {
 	}
 
 	@Override
-	public Page<OrderWorker> queryOrderWorker(Page<OrderWorker> page, Integer demandJobId) {
+	public JobTypeModel queryOrderWorker(Page<OrderWorker> page, Integer demandJobId) {
+		
+		JobTypeModel jobTypeModel = new JobTypeModel();
+		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		if(Objects.nonNull(demandJobId)) {
@@ -228,8 +237,39 @@ public class DemandServiceImpl implements DemandService {
 		map.put("pageSize", page.getPageSize());
 		map.put("offset", page.getOffset());
 		List<OrderWorker> list = orderWorkerMapper.selectByPage(map);
+		
+		if(!CollectionUtils.isEmpty(list)) {
+			for (OrderWorker orderWorker : list) {
+				translateOrderWorker(orderWorker);
+			}
+		}
+		
+		
 		page.pageData(list, totalCount);
-		return page;
+		DemandJob demandJob = queryDemandJobById(demandJobId);
+		jobTypeModel.setDemandJob(demandJob);
+		jobTypeModel.setPageData(page);
+		
+		return jobTypeModel;
+	}
+
+	private void translateOrderWorker(OrderWorker orderWorker) {
+		Worker worker = workerMapper.selectByPrimaryKey(orderWorker.getWorkerId());
+		// 翻译出生地
+		if(Objects.nonNull( worker.getBirthplaceCode())) {
+			Area area = commonService.queryAreaByCode(worker.getBirthplaceCode());
+			if(Objects.nonNull(area)) {
+				worker.setBirthplaceName(area.getName());
+			}
+		}
+		orderWorker.setWorker(worker);
+	}
+
+	private DemandJob queryDemandJobById(Integer demandJobId) {
+		DemandJob demandJob = demandJobMapper.selectByPrimaryKey(demandJobId);
+		String jobTypeName = queryJobTypeName(demandJob.getJobTypeId());
+		demandJob.setJobTypeName(jobTypeName);
+		return demandJob;
 	}
 
 	@Override
@@ -268,10 +308,5 @@ public class DemandServiceImpl implements DemandService {
 		demandDb.setUndertakeUser(demand.getUndertakeUser());
 		demandMapper.updateByPrimaryKey(demandDb);
 	}
-	
-	
-	
-
-
 
 }

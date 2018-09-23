@@ -6,6 +6,7 @@ import com.wei.boot.model.DemandQuery;
 import com.wei.boot.model.DemandStateStatistic;
 import com.wei.boot.model.OrderWorker;
 import com.wei.boot.model.Page;
+import com.wei.boot.model.signing.JobTypeModel;
 
 /**
  * 用工需求接口
@@ -41,7 +42,9 @@ public interface DemandService {
 	 * @param demandJobId
 	 * @return
 	 */
-	public Page<OrderWorker> queryOrderWorker(Page<OrderWorker> page, Integer demandJobId);
+	public JobTypeModel queryOrderWorker(Page<OrderWorker> page, Integer demandJobId);
+	
+	
 	
 	/**
 	 * 关单

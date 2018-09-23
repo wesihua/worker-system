@@ -186,12 +186,10 @@ function query(currentPage){
  * @returns
  */
 function demandDetail(demandId){
-	
 	window.location.href= "/signing/demandDetail?demandId=" + demandId;
 }
 
 function addDemand(){
-	
 	window.location.href= "/signing/addDemand";
 }
 
@@ -300,7 +298,7 @@ function statisticsByState() {
  * @returns
  */
 function signings(demandId){
-	alert("signings" + demandId);
+	window.location.href= "/signing/demandDetail?demandId=" + demandId;
 }
 
 /**
