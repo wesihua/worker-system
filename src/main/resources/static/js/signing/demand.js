@@ -57,11 +57,11 @@ function query(currentPage){
 						tableContent+=  "<tr>"+
 										"	<td>"+firm.demandNumber+"</td>"+
 										"	<td>"+firm.createTime+"</td>"+
-										"	<td>"+firm.demandNumber+"企业客户</td>"+
-										"	<td>"+firm.demandNumber+"用工工种</td>"+
-										"	<td>"+firm.demandNumber+"用工人数</td>"+
-										"	<td>"+firm.demandNumber+"状态</td>"+
-										"	<td>"+firm.demandNumber+"录单人员</td>"+
+										"	<td>"+firm.companyName+"</td>"+
+										"	<td>"+firm.jobTypeName+"</td>"+
+										"	<td>"+firm.workCount+"</td>"+
+										"	<td>"+firm.stateName+"</td>"+
+										"	<td>"+firm.createUserName+"</td>"+
 										"	<td width='120'>"+firm.description+"</td>"+
 										"   <td><span class=\"des\" onClick=\"demandDetail("+firm.id+")\">详情</span><span class=\"jiedan\" onClick=\"undertakeDemand("+firm.id+")\">接单</span><span class=\"delete \" onClick=\"closeDemand("+firm.id+")\">关单</span></td>"+
 										"</tr>";
@@ -87,15 +87,15 @@ function query(currentPage){
 						tableContent+=  "<tr>"+
 										"	<td>"+firm.demandNumber+"</td>"+
 										"	<td>"+firm.createTime+"</td>"+
-										"	<td>"+firm.demandNumber+"接单时间</td>"+
-										"	<td>"+firm.demandNumber+"企业客户</td>"+
-										"	<td>"+firm.demandNumber+"用工工种</td>"+
-										"	<td>"+firm.demandNumber+"用工人数</td>"+
-										"	<td>"+firm.demandNumber+"状态</td>"+
-										"	<td>"+firm.demandNumber+"录单人员</td>"+
-										"	<td>"+firm.demandNumber+"操作人员</td>"+
+										"	<td>"+firm.undertakeTime+"</td>"+
+										"	<td>"+firm.companyName+"</td>"+
+										"	<td>"+firm.jobTypeName+"</td>"+
+										"	<td>"+firm.workCount+"</td>"+
+										"	<td>"+firm.stateName+"</td>"+
+										"	<td>"+firm.createUserName+"</td>"+
+										"	<td>"+firm.undertakeUserName+"</td>"+
 										"	<td width='120'>"+firm.description+"</td>"+
-										"   <td><span class=\"des\" onClick=\"demandDetail("+firm.id+")\">详情</span><span class=\"jiedan\" onClick=\"signings("+firm.id+")\">接单</span><span class=\"delete \" onClick=\"closeDemand("+firm.id+")\">关单</span></td>"+
+										"   <td><span class=\"des\" onClick=\"demandDetail("+firm.id+")\">详情</span><span class=\"jiedan\" onClick=\"signings("+firm.id+")\">签约</span><span class=\"delete \" onClick=\"closeDemand("+firm.id+")\">关单</span></td>"+
 										"</tr>";
 					}
 				}
@@ -117,12 +117,12 @@ function query(currentPage){
 						tableContent+=  "<tr>"+
 										"	<td>"+firm.demandNumber+"</td>"+
 										"	<td>"+firm.createTime+"</td>"+
-										"	<td>"+firm.demandNumber+"企业客户</td>"+
-										"	<td>"+firm.demandNumber+"收入总金额（元）</td>"+
-										"	<td>"+firm.demandNumber+"用工人数</td>"+
-										"	<td>"+firm.demandNumber+"已签人数</td>"+
-										"	<td>"+firm.demandNumber+"操作人员</td>"+
-										"	<td width='120'>"+firm.description+"状态</td>"+
+										"	<td>"+firm.companyName+"</td>"+
+										"	<td>"+firm.totalIncome+"（元）</td>"+
+										"	<td>"+firm.workCount+"</td>"+
+										"	<td>"+firm.signingCount+"</td>"+
+										"	<td>"+firm.undertakeUserName+"</td>"+
+										"	<td width='120'>"+firm.stateName+"</td>"+
 										"   <td><span class=\"des\" onClick=\"demandDetail("+firm.id+")\">详情</span><span class=\"delete \" onClick=\"closeDemand("+firm.id+")\">关单</span></td>"+
 										"</tr>";
 					}
@@ -148,15 +148,15 @@ function query(currentPage){
 						tableContent+=  "<tr>"+
 										"	<td>"+firm.demandNumber+"</td>"+
 										"	<td>"+firm.createTime+"</td>"+
-										"	<td>"+firm.createTime+"关单时间</td>"+
-										"	<td>"+firm.demandNumber+"企业客户</td>"+
-										"	<td>"+firm.demandNumber+"用工工种</td>"+
-										"	<td>"+firm.demandNumber+"用工人数</td>"+
-										"	<td>"+firm.createTime+"已签约人数</td>"+
-										"	<td>"+firm.demandNumber+"状态</td>"+
-										"	<td>"+firm.demandNumber+"录单人员</td>"+
-										"	<td>"+firm.createTime+"操作人员</td>"+
-										"	<td>"+firm.createTime+"关单说明</td>"+
+										"	<td>"+firm.closeTime+"</td>"+
+										"	<td>"+firm.companyName+"</td>"+
+										"	<td>"+firm.jobTypeName+"</td>"+
+										"	<td>"+firm.workCount+"</td>"+
+										"	<td>"+firm.createTime+"</td>"+
+										"	<td>"+firm.stateName+"</td>"+
+										"	<td>"+firm.createUserName+"</td>"+
+										"	<td>"+firm.undertakeUserName+"</td>"+
+										"	<td>"+firm.closeReason+"</td>"+
 										"   <td><span class=\"des\" onClick=\"demandDetail("+firm.id+")\">详情</span></td>"+
 										"</tr>";
 					}
@@ -201,6 +201,15 @@ function addDemand(){
  * @returns
  */
 function undertakeDemand(demandId){
+	confirm("确认接单？",comfirmUndertake(demandId));
+}
+
+/**
+ * 接单
+ * @param demandId
+ * @returns
+ */
+function comfirmUndertake(demandId){
 	$.ajax({
 		url : "/demand/undertake",
 		type : "get",

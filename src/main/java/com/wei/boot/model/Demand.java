@@ -150,7 +150,59 @@ public class Demand {
     
     private int totalIncome;
     
-    public int getTotalIncome() {
+    /**
+     * 工种名字  ,号隔开
+     */
+    private String jobTypeName = "";
+    
+    /**
+     * 状态名字
+     */
+    private String stateName = "";
+    
+    /**
+     * 工人人数
+     */
+    private int workCount;
+    
+    /**
+     * 签约人数
+     */
+    private int signingCount;
+    
+    public String getJobTypeName() {
+		return jobTypeName;
+	}
+
+	public void setJobTypeName(String jobTypeName) {
+		this.jobTypeName = jobTypeName;
+	}
+
+	public String getStateName() {
+		return stateName;
+	}
+
+	public void setStateName(String stateName) {
+		this.stateName = stateName;
+	}
+
+	public int getWorkCount() {
+		return workCount;
+	}
+
+	public void setWorkCount(int workCount) {
+		this.workCount = workCount;
+	}
+
+	public int getSigningCount() {
+		return signingCount;
+	}
+
+	public void setSigningCount(int signingCount) {
+		this.signingCount = signingCount;
+	}
+
+	public int getTotalIncome() {
 		return totalIncome;
 	}
 

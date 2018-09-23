@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>签约用工列表</title>
+<link href="../css/public.css" rel="stylesheet"/>
+<link href="../css/font-awesome.min.css" rel="stylesheet"/>
+<link href="../css/qiandan-user-list.css" rel="stylesheet"/>
+<link href="../css/jquery.pagination.css" rel="stylesheet"/>
+<script src="../js/jquery-3.3.1.min.js"></script>
+<script src="../js/jquery.pagination.min.js"></script>
+<script src="../js/signing/workerList.js"></script>
+
+</head>
+<body>
+    <div id="content">
+        <div id="qiandan-user-list">
+            <div class="a-m-nav">
+                <span class="title">水电工</span><span>（需求56人）</span>
+                <span class="public-small-bottom">添加</span>
+            </div>
+            <div class="qiandan-add-content">
+                <div class="table-area">
+                        <table cellpadding="0" cellspacing="0">
+                            <tr>
+                                <th>用工姓名</th>
+                                <th>籍贯</th>
+                                <th>身份证号</th>
+                                <th>联系电话</th>
+                                <th>擅长工种</th>
+                                <th>签约月工资（元）</th>
+                                <th>到岗日期</th>
+                                <th width="100">业务收入（元）</th>
+                                
+                                <th width="150">操作</th>
+                            </tr>
+                            <tr>
+                                <td>水电工</td>
+                                <td>11</td>
+                                <td>2018-09-01</td>
+                                <td>300</td>
+                                <td>33300</td>
+                                <td>江苏南京</td>
+                                <td>3434535</td>
+                                <td>3434535</td>
+                                <td><span class="des">移除</span><span class="jiedan">编辑</span></td>
+                            </tr>
+                            </table>
+                    </div>
+                    <!-- 分页处理部分 -->
+                    <div class="public-fanye">
+                            <span class="result">103个结果</span>
+                            <div class="f-content">
+                                <div id="pagination1" class="page fl"></div>
+                                <div class="info fl">
+                                    <p>当前页数：<span id="current1">1</span></p>
+                                </div>
+                            </div>
+                    </div>
+
+                    <div class="control-botton">
+                        <span class="public-bottom1">取消</span>
+                        <span class="public-bottom2">完成</span>
+                    </div>
+
+            </div>
+
+        </div>
+
+    </div>
+	<input type="hidden" name="jobTypeId" th:value="${jobTypeId}"/>
+</body>
+</html>

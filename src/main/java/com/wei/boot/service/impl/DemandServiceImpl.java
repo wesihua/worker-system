@@ -31,13 +31,9 @@ import com.wei.boot.model.DemandStateStatistic;
 import com.wei.boot.model.JobType;
 import com.wei.boot.model.OrderWorker;
 import com.wei.boot.model.Page;
-import com.wei.boot.model.Worker;
 import com.wei.boot.service.CommonService;
 import com.wei.boot.service.CompanyService;
 import com.wei.boot.service.DemandService;
-import com.wei.boot.util.CheckUtils;
-import com.wei.boot.util.DateUtils;
-import com.wei.boot.util.ToolsUtil;
 
 @Service
 public class DemandServiceImpl implements DemandService {
@@ -116,6 +112,12 @@ public class DemandServiceImpl implements DemandService {
 		map.put("pageSize", page.getPageSize());
 		map.put("offset", page.getOffset());
 		List<Demand> list = demandMapper.selectByPage(map);
+		if(!CollectionUtils.isEmpty(list)) {
+			list.stream().forEach(demand->{
+				translateDemand(demand);
+			});
+		}
+		
 		page.pageData(list, totalCount);
 		return page;
 		
@@ -130,10 +132,7 @@ public class DemandServiceImpl implements DemandService {
 		// 翻译需求
 		translateDemand(demand);
 		
-		DemandJobExample example  = new DemandJobExample();
-		example.createCriteria().andDemandIdEqualTo(demandId);
-		// 需求单工种
-		List<DemandJob> demandJobList = demandJobMapper.selectByExample(example );
+		List<DemandJob> demandJobList = queryDemandJobByDemandId(demandId);
 		if(!CollectionUtils.isEmpty(demandJobList)) {
 			demandJobList.stream().forEach(demandJob->{
 				translateDemandJob(demand,demandJob);
@@ -143,6 +142,14 @@ public class DemandServiceImpl implements DemandService {
 		
 		return demand;
 	}
+
+	private List<DemandJob> queryDemandJobByDemandId(Integer demandId) {
+		DemandJobExample example  = new DemandJobExample();
+		example.createCriteria().andDemandIdEqualTo(demandId);
+		// 需求单工种
+		List<DemandJob> demandJobList = demandJobMapper.selectByExample(example );
+		return demandJobList;
+	}
 	
 	private void translateDemandJob(Demand demand, DemandJob demandJob) {
 		if(null != demandJob) {
@@ -150,13 +157,25 @@ public class DemandServiceImpl implements DemandService {
 			Area area = commonService.queryAreaByCode(demandJob.getWorkArea());
 			
 			demandJob.setWorkAreaName(area == null ? "": area.getName());
+			
 			// 工种名字
-			JobType jobType = jobTypeMapper.selectByPrimaryKey(demandJob.getWorkArea());
-			demandJob.setJobTypeName(jobType == null ? "": jobType.getName());
+			String jobTypeName = queryJobTypeName(demandJob.getJobTypeId());
+			
+			demandJob.setJobTypeName(jobTypeName);
 			
 			// TODO 修改签约人数
 		}
 		
+	}
+
+	/**
+	 * 查工种名字
+	 * @param jobTypeId
+	 * @return
+	 */
+	private String queryJobTypeName(Integer jobTypeId) {
+		JobType jobType = jobTypeMapper.selectByPrimaryKey(jobTypeId);
+		return jobType == null ? "": jobType.getName();
 	}
 
 	private void translateDemand(Demand demand) {
@@ -176,6 +195,24 @@ public class DemandServiceImpl implements DemandService {
 				demand.setTotalIncome(0);
 			}
 			
+			// 状态
+			demand.setStateName(commonService.queryDicText(GlobalConstant.DictionaryType.DEMAND_STATE, demand.getState()));
+			
+			// 工种 // 用工人数
+			List<DemandJob> demandJobList = queryDemandJobByDemandId(demand.getId());
+			
+			List<String> jobNames = new ArrayList<>();
+			Integer workerCount = 0;
+			if(!CollectionUtils.isEmpty(demandJobList)) {
+				for (DemandJob job : demandJobList) {
+					workerCount = workerCount + job.getWorkerCount();
+					jobNames.add(queryJobTypeName(job.getJobTypeId()));
+				}
+				
+				demand.setWorkCount(workerCount);
+				demand.setJobTypeName(StringUtils.collectionToDelimitedString(jobNames, "、"));
+			}
+			// 
 		}
 	}
 
