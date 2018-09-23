@@ -20,6 +20,7 @@ import com.wei.boot.model.DemandStateStatistic;
 import com.wei.boot.model.OrderWorker;
 import com.wei.boot.model.Page;
 import com.wei.boot.model.Result;
+import com.wei.boot.model.signing.JobTypeModel;
 import com.wei.boot.service.DemandService;
 import com.wei.boot.util.ToolsUtil;
 
@@ -98,7 +99,7 @@ public class DemandController {
 	public Result orderWorkerList(@RequestParam Integer demandJobId,Page<OrderWorker> page) {
 		Result result = Result.SUCCESS;
 		try {
-			Page<OrderWorker> data = demandService.queryOrderWorker(page,demandJobId);
+			JobTypeModel data = demandService.queryOrderWorker(page,demandJobId);
 			result.setData(data);
 		} catch (Exception e) {
 			log.error("查询需求单工种签约列表失败", e);
