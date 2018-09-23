@@ -17,7 +17,7 @@
         <div id="qiandan-user-list">
             <div class="a-m-nav">
                 <span class="title">水电工</span><span>（需求56人）</span>
-                <span class="public-small-bottom">添加</span>
+                <span class="public-small-bottom" id="addWorder">添加</span>
             </div>
             <div class="qiandan-add-content">
                 <div class="table-area">
@@ -43,7 +43,7 @@
                                 <td>江苏南京</td>
                                 <td>3434535</td>
                                 <td>3434535</td>
-                                <td><span class="des">移除</span><span class="jiedan">编辑</span></td>
+                                <td><span class="des">移除</span><span class="jiedan" onclick="editWorder()">编辑</span></td>
                             </tr>
                             </table>
                     </div>
@@ -68,6 +68,30 @@
         </div>
 
     </div>
-	<input type="hidden" name="jobTypeId" th:value="${jobTypeId}"/>
+    <input type="hidden" name="jobTypeId" th:value="${jobTypeId}"/>
+    <!-- 簽約用工列表编辑 -->
+	<div id="worker-edit" style="display: none;">
+		<div id="qiandan-manage-box3">
+			<div class="mask"></div>
+			<div class="box-content">
+				<div class="head"><span class="title">张三（信息编辑）</span><span class="close fa fa-close cancel-edit"></span></div>
+				<div class="middle">
+					<div class="input-block"><span class="name">签约月工资</span>
+						<input class="pt" placeholder="签约月工资" />
+					</div>
+					<div class="input-block"><span class="name">到岗日期</span>
+						<input class="pt" placeholder="到岗日期" />
+					</div>
+					<div class="input-block"><span class="name">业务收入</span>
+						<input class="pt" placeholder="业务收入" />
+					</div>
+				</div>
+				<div class="bottom">
+					<span class="public-bottom1 cancel-edit">取消</span>
+					<span class="public-bottom2 complete-edit">完成</span>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

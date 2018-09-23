@@ -74,4 +74,10 @@ public class PageForwardController {
 		return "signing/workerList";
 	}
 	
+	@GetMapping("/signing/addWorker")
+	public String addWorker(Integer jobTypeId,ModelMap map) {
+		map.addAttribute("jobTypeId", jobTypeId);
+		return "signing/addWorker";
+	}
+	
 }

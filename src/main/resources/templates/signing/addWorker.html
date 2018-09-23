@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>签约用工列表</title>
+<link href="../css/public.css" rel="stylesheet"/>
+<link href="../css/font-awesome.min.css" rel="stylesheet"/>
+<link href="../css/qiandan-qianyue-add.css" rel="stylesheet"/>
+<link href="../css/jquery.pagination.css" rel="stylesheet"/>
+<script src="../js/jquery-3.3.1.min.js"></script>
+<script src="../js/jquery.pagination.min.js"></script>
+<script src="../js/signing/addWorker.js"></script>
+
+</head>
+<body>
+    <div id="content">
+        <div id="qiandan-qianyue-add">
+            <div class="a-m-nav">
+                <span class="title">选择用工</span>
+            </div>
+            <div class="qiandan-content">
+                <div class="wait-handle">
+                    <div class="search-area clearFix">
+                        <input placeholder="搜索姓名" class=""/>
+                        <input placeholder="搜索手机号" class=""/>
+                        <input placeholder="搜索身份证号" class=""/>
+                        <span class="public-bottom2">查询</span>
+                    </div>
+                    <div class="table-area">
+                        <table cellpadding="0" cellspacing="0">
+                            <tr>
+                                <th>用工姓名</th>
+                                <th>身份证号</th>
+                                <th>籍贯</th>
+                                <th>擅长工种</th>
+                                <th>工资要求（元）</th>
+                                <th>工作地区</th>
+                        
+                                <th width="100">选择</th>
+                            </tr>
+                            <tr>
+                                <td>xx</td>
+                                <td>2018-08-03 13：:0</td>
+                                <td>南京</td>
+                                <td>发生家乐福建安</td>
+                                <td>333</td>
+                                <td>未签约</td>
+                                
+                                <td><input type="checkbox"/></td>
+                            </tr>
+                            </table>
+                    </div>
+                    
+                    <!-- 分页处理部分 -->
+                    <div class="public-fanye">
+                            <span class="result">103个结果</span>
+                            <div class="f-content">
+                                <div id="pagination1" class="page fl"></div>
+                                <div class="info fl">
+                                    <p>当前页数：<span id="current1">1</span></p>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+
+
+                <div class="control-botton">
+                    <span class="public-bottom1">取消</span>
+                    <span class="public-bottom2">完成</span>
+                </div>
+
+
+            </div>
+            
+            
+            
+
+        </div>
+            
+    </div>
+	<input type="hidden" name="jobTypeId" th:value="${jobTypeId}"/>
+</body>
+</html>
