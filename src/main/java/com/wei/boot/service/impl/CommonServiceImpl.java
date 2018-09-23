@@ -1,6 +1,7 @@
 package com.wei.boot.service.impl;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,10 +10,12 @@ import org.springframework.util.StringUtils;
 import com.wei.boot.contant.GlobalConstant;
 import com.wei.boot.mapper.AreaMapper;
 import com.wei.boot.mapper.DictionaryMapper;
+import com.wei.boot.mapper.UserMapper;
 import com.wei.boot.model.Area;
 import com.wei.boot.model.AreaExample;
 import com.wei.boot.model.Dictionary;
 import com.wei.boot.model.DictionaryExample;
+import com.wei.boot.model.User;
 import com.wei.boot.service.CommonService;
 import com.wei.boot.util.JedisUtil;
 import com.wei.boot.util.JsonUtil;
@@ -27,6 +30,9 @@ public class CommonServiceImpl implements CommonService {
 	
 	@Autowired
 	private AreaMapper areaMapper;
+	
+	@Autowired
+	private UserMapper userMapper;
 	
 	@Override
 	public List<String> queryAllDicTypes() {
@@ -121,6 +127,34 @@ public class CommonServiceImpl implements CommonService {
 		else {
 			return null;
 		}
+	}
+
+	@Override
+	public String queryUserName(int id) {
+
+		String userName = "";
+		if(Objects.isNull(id)) {
+			return userName;
+		}
+		// 先从redis中查询
+		Jedis jedis = null;
+		try {
+			jedis = JedisUtil.getJedis();
+			String userNameStr = jedis.get(GlobalConstant.RedisKey.KEY_USER_NAME + id);
+			// 如果为空则从数据库中查询
+			if (!StringUtils.isEmpty(userNameStr)) {
+				userName = userNameStr;
+			} else {
+				User user = userMapper.selectByPrimaryKey(id);
+				if (Objects.nonNull(user)) {
+					jedis.set(GlobalConstant.RedisKey.KEY_USER_NAME + id, user.getRealName());
+					userName = user.getRealName();
+				}
+			}
+		} finally {
+			jedis.close();
+		}
+		return userName;
 	}
 
 }

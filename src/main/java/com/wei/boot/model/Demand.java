@@ -148,7 +148,17 @@ public class Demand {
     
     private String closeUserName = "";
     
-    public String getCompanyName() {
+    private int totalIncome;
+    
+    public int getTotalIncome() {
+		return totalIncome;
+	}
+
+	public void setTotalIncome(int totalIncome) {
+		this.totalIncome = totalIncome;
+	}
+
+	public String getCompanyName() {
 		return companyName;
 	}
 
