@@ -3,10 +3,15 @@
   line-height: 60px;
   border-bottom: 1px solid #cccccc;
   padding: 0px 20px; }
-  #juese-manage .a-m-nav .control {
-    float: right;
-    margin-left: 30px;
-    cursor: pointer; }
+
+  #juese-manage .a-m-nav .title{
+    font-size:16px;
+    font-weight:bold;
+  }
+  #juese-manage .a-m-nav .public-small-bottom{
+    margin-top:13px;
+    float:right;
+  }
 
 #juese-manage .a-m-content {
   padding: 0px 20px; }
@@ -19,9 +24,7 @@
       background-color: #f8f8f8;
       margin-right: 20px;
       text-indent: 10px; }
-    #juese-manage .a-m-content .input-area #public-bottom2 {
-      float: right;
-      margin-top: 20px; }
+  
   #juese-manage .a-m-content table {
     width: 100%;
     border-collapse: collapse; }
