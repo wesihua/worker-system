@@ -60,8 +60,8 @@ function query(pageNum) {
             $("table").empty().append(tableContent);
             $("#totalCount").text(data.data.pageData.totalCount+"个结果");
             $("#pagination1").pagination({
-            	currentPage: data.data.pageNumber,
-            	totalPage: data.data.pageCount,
+            	currentPage: data.data.pageData.pageNumber,
+            	totalPage: data.data.pageData.pageCount,
             	callback: function(current) {
             		query(current);
             	}
