@@ -1,5 +1,6 @@
 package com.wei.boot.service.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -105,6 +106,10 @@ public class WorkerServiceImpl implements WorkerService {
 	@Transactional
 	public void addWorker(Worker worker) throws NormalException {
 		worker.setCreateTime(new Date());
+		// 检查身份证
+		if(!CheckUtils.isIdCard(worker.getIdcard())) {
+			throw new NormalException("请输入正确的身份证号！");
+		}
 		workerMapper.insertSelective(worker);
 		int workerId = worker.getId();
 		if(null != worker.getEducationList() && worker.getEducationList().size() > 0) {
@@ -392,7 +397,7 @@ public class WorkerServiceImpl implements WorkerService {
 			// 翻译年龄
 			String birthday = null;
 			if(!StringUtils.isEmpty(worker.getIdcard()) && CheckUtils.isIdCard(worker.getIdcard())) {
-				birthday = DateUtils.formatDate(DateUtils.parseDate(worker.getIdcard().substring(6, 14)), "yyyy-MM-dd");
+				birthday = DateUtils.formatDate(DateUtils.parseDate((worker.getIdcard().substring(6, 14))), "yyyy-MM-dd");
 			}
 			if(null != worker.getBirthday() && null == birthday) {
 				birthday = DateUtils.formatDate(worker.getBirthday(), "yyyy-MM-dd");

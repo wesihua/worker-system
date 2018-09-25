@@ -73,7 +73,10 @@ public class DateUtils {
 			//默认为当月1号
 			dateStr+="-01";
 			formatter = new SimpleDateFormat("yyyy-MM-dd");
-		}else if (dateStr.length() == 10) {
+		}else if(dateStr.length() == 8) {
+			formatter = new SimpleDateFormat("yyyyMMdd");
+		}
+		else if (dateStr.length() == 10) {
 			formatter = new SimpleDateFormat("yyyy-MM-dd");
 		} else if (dateStr.length() == 16) {
 			formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");

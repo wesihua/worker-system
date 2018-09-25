@@ -39,7 +39,7 @@ function loadMenu(){
 		success:function(data){
 			if(data.code == 1){
 				var menuList = data.data;
-				var menuHtml = "<ul><li onClick=\"loadPage('/home')\"><div class=\"f on\">首页</div></li>";
+				var menuHtml = "<ul><li onClick=\"loadPage('/welcome.html')\"><div class=\"f on\">首页</div></li>";
 				for(var i=0; i<menuList.length; i++){
 					var menu = menuList[i];
 					if(menu.children.length > 0){

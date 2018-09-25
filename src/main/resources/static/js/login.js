@@ -28,6 +28,12 @@ $(function(){
 			}
 		});
 	});
+	$("#public-bottom2").click(function(){
+		$("#public-box2").hide();
+	});
+	$("#alert_close").click(function(){
+		$("#public-box2").hide();
+	});
 });
 /**
  * alert提示框
