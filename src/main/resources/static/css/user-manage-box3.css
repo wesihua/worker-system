@@ -36,7 +36,7 @@
        }
   #user-manage-box3 .box-content .middle {
     padding: 20px 20px 0px;
-    height: 280px;
+    /* height: 280px; */
     overflow: auto; }
     #user-manage-box3 .box-content .middle .input-block {
       min-height: 40px;
@@ -67,26 +67,31 @@
           line-height: 40px;
         }
 
-        #user-manage-box3 .box2-content .middle .input-block  .c-datepicker-data-input{
-          width: 87px;
+        #user-manage-box3 .box-content .middle .input-block .c-datepicker-date-editor{
+          background-color: #f8f8f8;
+          height: 40px;
         }
+      #user-manage-box3 .box-content .middle .input-block  .c-datepicker-data-input{
+          width: 87px;
+          background-color: #f8f8f8;
+        }
+
       /* #user-manage-box3 .box-content .middle .input-block .time {
         width: 120px;
         height: 40px;
-        text-indent: 10px; }
+        text-indent: 10px; } */
       #user-manage-box3 .box-content .middle .input-block .line {
         width: 10px;
         height: 2px;
         background-color: #cccccc;
         margin: 0px 10px;
         vertical-align: middle;
-        display: inline-block; } */
+        display: inline-block; }
       #user-manage-box3 .box-content .middle .input-block .workText {
         text-indent: 10px;
         resize: none;
         width: 370px;
         height: 100px;
-        background-color: #eeeeee;
         overflow: auto;
         text-align: left;
         line-height: 20px;
