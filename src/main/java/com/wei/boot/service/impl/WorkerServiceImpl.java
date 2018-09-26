@@ -205,11 +205,23 @@ public class WorkerServiceImpl implements WorkerService {
 			WorkerEducationExample eduExample = new WorkerEducationExample();
 			eduExample.createCriteria().andWorkerIdEqualTo(workerId);
 			List<WorkerEducation> educationList = workerEducationMapper.selectByExample(eduExample);
+			if(null != educationList && educationList.size() > 0) {
+				for(WorkerEducation education : educationList) {
+					String degreeName = commonService.queryDicText("degree", education.getDegree());
+					education.setDegreeName(degreeName);
+				}
+			}
 			worker.setEducationList(educationList);
 			
 			WorkerExperienceExample expExample = new WorkerExperienceExample();
 			expExample.createCriteria().andWorkerIdEqualTo(workerId);
 			List<WorkerExperience> experienceList = workerExperienceMapper.selectByExample(expExample);
+			if(null != experienceList && experienceList.size() > 0) {
+				for(WorkerExperience experience : experienceList) {
+					String salaryName = commonService.queryDicText("expect_salary", experience.getSalary());
+					experience.setSalaryName(salaryName);
+				}
+			}
 			worker.setExperienceList(experienceList);
 		}
 		translateWorker(worker);
@@ -251,7 +263,7 @@ public class WorkerServiceImpl implements WorkerService {
 	}
 
 	@Override
-	public void updateJobType(int workerId, List<WorkerJobType> jobTypeList) throws NormalException {
+	public void updateJobType(int workerId, List<WorkerJobType> jobTypeList, String jobTypeName) throws NormalException {
 		WorkerJobTypeExample jobTypeExample = new WorkerJobTypeExample();
 		jobTypeExample.createCriteria().andWorkerIdEqualTo(workerId);
 		workerJobTypeMapper.deleteByExample(jobTypeExample);
@@ -261,6 +273,11 @@ public class WorkerServiceImpl implements WorkerService {
 				workerJobTypeMapper.insert(jobType);
 			}
 		}
+		// 更改工种名称
+		Worker worker = new Worker();
+		worker.setId(workerId);
+		worker.setJobtypeName(jobTypeName);
+		workerMapper.updateByPrimaryKeySelective(worker);
 	}
 
 	@Override

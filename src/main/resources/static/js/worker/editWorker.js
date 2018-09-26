@@ -11,7 +11,7 @@ $(function(){
 	$("#cancel").click(function(){
 		location.href="/worker/index";
 	});
-	// 初始化下拉框
+	// 初始化所有下拉框
 	initSelect();
 	// 初始化工种
 	$("#jobtype").click(function(){
@@ -71,7 +71,142 @@ $(function(){
 		});
 	});
 
+	//加载人才信息
+	loadWorkerInfo();
 });
+
+
+/**
+ * 加载人才信息
+ * @param workerId
+ * @returns
+ */
+function loadWorkerInfo(){
+	var workerId = $("#workerId").val();
+	$.ajax({
+		url:"/worker/queryDetail",
+		type:"get",
+		dataType:"json",
+		data:{workerId:workerId},
+		success:function(data){
+			if(data.code == 1){
+				var worker = data.data;
+				$("#name").val(worker.name);
+				$("#telephone").val(worker.telephone);
+				$("#email").val(worker.email);
+				$("#idcard").val(worker.idcard);
+				$("#workYear").val(worker.workYear);
+				$("#maritalStatus").val(worker.maritalStatus);
+				$("#expectSalary").val(worker.expectSalary);
+				$("#workStatus").val(worker.workStatus);
+				$("#languageLevel").val(worker.languageLevel);
+				$("#nightWork").val(worker.nightWork);
+				$("#birthplaceCode").val(worker.birthplaceCode);
+				$("#workplaceCode").val(worker.workplaceCode);
+				$("#nation").val(worker.nation);
+				$("#title").val(worker.title);
+				$("#sex").val(worker.sex);
+				$("#position").val(worker.position);
+				$("#address").val(worker.address);
+				$("#birthday").val(worker.birthday);
+				$("#workExpect").val(worker.workExpect);
+				$("#jobtype").val(worker.jobtypeName);
+				$("#jobtype_value").val(JSON.stringify(worker.jobTypeList));
+				
+				// 加载教育经历
+				displayEducationList(worker.educationList);
+				// 加载工作经历
+				displayExperienceList(worker.experienceList);
+			}
+		}
+	});
+}
+
+/**
+ * 展示教育经历列表
+ * @param educationList
+ * @returns
+ */
+function displayEducationList(educationList){
+	var content = "";
+	for(var i=0; i<educationList.length; i++){
+		var education = educationList[i];
+		content += "<div class=\"history\">"+
+			"	<span class=\"edit fa fa-edit\" name=\"edit-education-dialog\" title=\"编辑\"></span>"+
+			"<span class=\"delete fa fa-close\" name=\"remove-education-dialog\" title=\"删除\"></span>"+
+			"<ul>"+
+			"	<li><span class=\"name\">学校</span> <span class=\"content\" name=\"school_text\">"+education.school+"</span></li>"+
+			"	<li><span class=\"name\">学历</span> <span class=\"content\" name=\"degree_text\">"+education.degreeName+"</span></li>"+
+			"	<input type=\"hidden\" name=\"degree_value\" value=\""+education.degree+"\" />"+
+			"	<input type=\"hidden\" name=\"beginTime_value\" value=\""+education.beginTime+"\" />"+
+			"	<input type=\"hidden\" name=\"endTime_value\" value=\""+education.endTime+"\" />"+
+			"	<li><span class=\"name\">起止日期</span> <span class=\"content\" name=\"schoolTime_text\">"+education.beginTime+" 至 "+education.endTime+"</span></li>"+
+			"	<li><span class=\"name\">专业名称</span> <span class=\"content\" name=\"discipline_text\">"+education.discipline+"</span></li>"+
+			"</ul>"+
+		"</div>";
+	}
+	
+	$("#education-list").append(content);
+	// 绑定删除事件
+	$("span[name=remove-education-dialog]").click(function(){
+		$(this).parent().remove();
+	});
+	// 绑定编辑事件
+	$("span[name=edit-education-dialog]").click(function(){
+		var school = $(this).parent().find("span[name=school_text]").text();
+		var degree_value = $(this).parent().find("input[name=degree_value]").val();
+		var beginTime = $(this).parent().find("input[name=beginTime_value]").val();
+		var endTime = $(this).parent().find("input[name=endTime_value]").val();
+		var discipline = $(this).parent().find("span[name=discipline_text]").text();
+		editEducationDialog(this,school,degree_value,beginTime,endTime,discipline);
+	});
+}
+/**
+ * 展示工作经历列表
+ * @param educationList
+ * @returns
+ */
+function displayExperienceList(experienceList){
+	var content = "";
+	for(var i=0; i<experienceList.length; i++){
+		var experience = experienceList[i];
+		content += "<div class=\"history\">"+
+			"	<span class=\"edit fa fa-edit\" name=\"edit-experience-dialog\" title=\"编辑\"></span>"+
+			"	<span class=\"delete fa fa-close\" name=\"remove-experience-dialog\" title=\"删除\"></span>"+
+			"	<ul>"+
+			"		<li><span class=\"name\">工作公司</span> <span class=\"content\" name=\"companyName_text\">"+experience.company+"</span>"+
+			"		</li>"+
+			"		<li><span class=\"name\">职位</span> <span class=\"content\" name=\"position_text\">"+experience.position+"</span>"+
+			"		</li>"+
+			"		<li><span class=\"name\">起止时间</span> <span class=\"content\" name=\"exp_time\">"+experience.beginTime+" 至 "+experience.endTime+"</span>"+
+			"		</li>"+
+			"		<li><span class=\"name\">月工资</span> <span class=\"content\" name=\"salary_text\">"+experience.salaryName+"</span>"+
+			"		</li>"+
+			"		<li><span class=\"name\">工作内容</span> <span class=\"content\" name=\"description_text\">"+experience.description+"</span>"+
+			"		</li>"+
+				"	<input type=\"hidden\" name=\"salary_value\" value=\""+experience.salary+"\" />"+
+				"	<input type=\"hidden\" name=\"beginTime_value\" value=\""+experience.beginTime+"\" />"+
+				"	<input type=\"hidden\" name=\"endTime_value\" value=\""+experience.endTime+"\" />"+
+			"	</ul>"+
+			"</div>";
+	}
+	
+	$("#experience-list").append(content);
+	// 绑定删除事件
+	$("span[name=remove-experience-dialog]").click(function(){
+		$(this).parent().remove();
+	});
+	// 绑定编辑事件
+	$("span[name=edit-experience-dialog]").click(function(){
+		var companyName = $(this).parent().find("span[name=companyName_text]").text();
+		var position = $(this).parent().find("span[name=position_text]").text();
+		var beginTime = $(this).parent().find("input[name=beginTime_value]").val();
+		var endTime = $(this).parent().find("input[name=endTime_value]").val();
+		var salary_value = $(this).parent().find("input[name=salary_value]").val();
+		var description = $(this).parent().find("span[name=description_text]").text();
+		editExperienceDialog(this,companyName,position,beginTime,endTime,salary_value,description);
+	});
+}
 
 function editJobType(){
 	// 暂存roleId
@@ -160,9 +295,19 @@ function editJobType(){
 						selectedJobtypeIds.push(jobtypeId);
 					}
 				});
-				top.closeDialog();
-				$("#jobtype").val(selectedJobtypeName);
-				$("#jobtype_value").val(JSON.stringify(selectedJobtypeIds));
+				// 发送请求保存工种
+				$.ajax({
+					url:"/worker/updateWorkerJobType",
+					type:"get",
+					dataType:"json",
+					data:{workerId:workerId,jobTypeName:selectedJobtypeName,jobTypeJson:JSON.stringify(selectedJobtypeIds)},
+					success:function(data){
+						if(data.code == 1){
+							top.closeDialog();
+							$("#jobtype").val(selectedJobtypeName);
+						}
+					}
+				});
 			});
 		}
 	});
@@ -241,6 +386,9 @@ function editEducationDialog(ts,school,degree,beginTime,endTime,discipline){
 	parent.$("#discipline").val(discipline);
 	
 	parent.$(".add-education-content").click(function(){
+		// 发送请求保存教育经历
+		
+		
 		top.closeDialog();
 		$(ts).parent().find("span[name=school_text]").text(parent.$("#school").val());
 		var degree_text = parent.$("#degree").find("option:selected").text() == "---请选择---" ? "" : parent.$("#degree").find("option:selected").text();
@@ -488,11 +636,6 @@ function addWorker(){
 		experienceList.push(experience);
 	});
 	worker.experienceList = experienceList;
-	// 收集工种
-	var jobTypeListStr = $("#jobtype_value").val();
-	if(jobTypeListStr){
-		worker.jobTypeList = JSON.parse(jobTypeListStr);
-	}
 	
 	if(worker.name == null || worker.name.length == 0){
 		alert("姓名不能为空！");

@@ -76,7 +76,7 @@ public interface WorkerService {
 	 * @param jobTypeList
 	 * @throws NormalException
 	 */
-	void updateJobType(int workerId, List<WorkerJobType> jobTypeList) throws NormalException;
+	void updateJobType(int workerId, List<WorkerJobType> jobTypeList, String jobTypeName) throws NormalException;
 	
 	/**
 	 * 查询该人的工种信息树

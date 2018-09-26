@@ -3,6 +3,7 @@ package com.wei.boot.controller.pc;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -45,6 +46,12 @@ public class PageForwardController {
 	@GetMapping("/worker/add")
 	public String workerAdd() {
 		return "worker/addWorker";
+	}
+	
+	@GetMapping("/worker/edit")
+	public String workerEdit(Model model, String workerId) {
+		model.addAttribute("workerId", workerId);
+		return "worker/editWorker";
 	}
 
 	@GetMapping("/jobtype/index")

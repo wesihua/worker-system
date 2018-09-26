@@ -102,7 +102,7 @@ public class WorkerController {
 	 * @param workerId
 	 * @return
 	 */
-	@RequestMapping("/queryDetail")
+	@GetMapping("/queryDetail")
 	public Result queryDetail(int workerId) {
 		Result result = Result.SUCCESS;
 		try {
@@ -216,11 +216,11 @@ public class WorkerController {
 	 * @return
 	 */
 	@RequestMapping("/updateWorkerJobType")
-	public Result updateWorkerJobType(int workerId, String jobTypeJson) {
+	public Result updateWorkerJobType(int workerId, String jobTypeJson, String jobTypeName) {
 		Result result = Result.SUCCESS;
 		try {
 			List<WorkerJobType> jobTypeList = JsonUtil.json2List(jobTypeJson, WorkerJobType.class);
-			workerService.updateJobType(workerId, jobTypeList);
+			workerService.updateJobType(workerId, jobTypeList, jobTypeName);
 		} catch (Exception e) {
 			log.error("查询失败", e);
 			result = Result.fail(e);

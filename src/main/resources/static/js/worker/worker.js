@@ -108,7 +108,7 @@ function query(currentPage){
 									"	<td>"+worker.createUserName+"</td>"+
 									"	<td>"+worker.sourceName+"</td>"+
 									"	<td>"+worker.createTime+"</td>"+
-									"	<td><span class=\"des\" onClick=\"updateWorker("+worker.id+")\">编辑</span>" +
+									"	<td><span class=\"des\" onClick=\"editWorker("+worker.id+")\">编辑</span>" +
 									"<span class=\"delete\" onClick=\"deleteWorker("+worker.id+")\">删除</span>" +
 									"<span class=\"delete\" onClick=\"downloadResume("+worker.id+")\">导出简历</span>" +
 									"<span class=\"delete\" onClick=\"detailWorker("+worker.id+")\">详情</span></td>"+
@@ -126,6 +126,10 @@ function query(currentPage){
 			}
 		}
 	});
+}
+
+function editWorker(workerId){
+	location.href="/worker/edit?workerId="+workerId
 }
 
 /**

@@ -2,6 +2,7 @@ package com.wei.boot.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.common.collect.Maps;
 import com.wei.boot.contant.GlobalConstant;
 import com.wei.boot.model.Area;
 import com.wei.boot.model.Dictionary;
@@ -74,6 +76,42 @@ public class CommonController {
 		return result;
 	}
 	
+	/**
+	 * 查询所有字段
+	 * @param types 以,分隔的type 如：nation,sex
+	 * @return
+	 */
+	@GetMapping(value = "/queryDicByTypes")
+	public Result queryDicByTypes(String types) {
+		Result result = Result.SUCCESS;
+		Jedis jedis = null;
+		try {
+			jedis = JedisUtil.getJedis();
+			String[] typeArray = types.split(",");
+			Map<String, List<Dictionary>> map = Maps.newHashMap();
+			for(String type : typeArray) {
+				// 先从redis中查询
+				String jsonStr = jedis.get(type);
+				// 如果为空则从数据库中查询
+				if(StringUtils.isEmpty(jsonStr)) {
+					log.info("从数据库中查询字典项："+type);
+					List<Dictionary> list = commonService.queryDicByType(type);
+					map.put(type, list);
+				}
+				else {
+					map.put(type, JsonUtil.json2List(jsonStr, Dictionary.class));
+				}
+			}
+			result.setData(map);
+		} catch (Exception e) {
+			log.error("查询字典项目失败", e);
+			result = Result.fail("查询字典项目失败");
+		}
+		finally {
+			jedis.close();
+		}
+		return result;
+	}
 	
 	@GetMapping("/queryAllProvince")
 	@ApiOperation(value = "查询所有省份")
