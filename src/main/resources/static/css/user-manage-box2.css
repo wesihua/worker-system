@@ -44,6 +44,8 @@
       line-height: 40px;
       margin-bottom: 10px; }
       #user-manage-box2 .box2-content .middle .input-block .name {
+        display: inline-block;
+        width: 60px;
         margin-right: 20px; }
       #user-manage-box2 .box2-content .middle .input-block .select {
         height: 40px;
@@ -59,6 +61,14 @@
         height: 40px;
         width: 280px;
         text-indent: 10px; }
+        #user-manage-box2 .box2-content .middle .input-block .c-datepicker-date-editor{
+          background-color: #f8f8f8;
+          height: 40px;
+        }
+      #user-manage-box2 .box2-content .middle .input-block  .c-datepicker-data-input{
+          width: 87px;
+          background-color: #f8f8f8;
+        }
       #user-manage-box2 .box2-content .middle .input-block .time {
         width: 120px;
         height: 40px;

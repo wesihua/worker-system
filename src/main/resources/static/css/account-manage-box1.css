@@ -13,7 +13,7 @@
   top: 50%;
   background-color: #ffffff;
   width: 500px;
-  height: 430px;
+  /* height: 430px; */
   margin-top: -200px;
   margin-left: -250px;
   border-radius: 10px; }
@@ -22,27 +22,42 @@
     line-height: 50px;
     border-bottom: 1px solid #cccccc;
     padding: 0px 20px; }
+    #account-manage-box1 .box1-content .head .title{
+    font-size: 14px;
+    font-weight: bold; }
+
     #account-manage-box1 .box1-content .head .fa-close {
       float: right;
-      margin-top: 20px;
+      margin-top: 10px;
+      font-size: 20px;
       cursor: pointer; }
+      #account-manage-box1 .box1-content .head .fa-close:hover{
+        color:#409eff;
+      }
   #account-manage-box1 .box1-content .middle {
     padding: 20px;
-    height: 260px;
-    overflow: auto;
+    /* height: 260px; */
+    /* overflow: auto; */
     font-size: 0px; }
     #account-manage-box1 .box1-content .middle ul li {
-      height: 40px;
-      line-height: 40px;
+      min-height: 40px;
+      /* line-height: 40px; */
       margin-bottom: 10px; }
       #account-manage-box1 .box1-content .middle ul li .name {
+        display: inline-block;
+        width: 60px;
         margin-right: 30px;
         font-size: 12px; }
+        #account-manage-box1 .box1-content .middle ul li .text-area{
+          height: 60px;
+          resize: none;
+          overflow: auto;
+          width: 300px;
+        }
       #account-manage-box1 .box1-content .middle ul li .pt, #account-manage-box1 .box1-content .middle ul li .se {
         width: 300px;
         height: 40px;
         line-height: 40px;
-        background-color: #cccccc;
         text-indent: 5px;
         border-radius: 5px; }
       #account-manage-box1 .box1-content .middle ul li .se option {
