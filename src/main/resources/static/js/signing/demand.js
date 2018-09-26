@@ -14,7 +14,53 @@ $(function(){
 	$("#public-bottom2").click(function(){
 		query(1);
 	});
+	
+	//监听公司名称变化
+	$('#companyName').bind('input propertychange', function() {
+		queryCompany();
+	});
 });
+
+
+/**
+ * 查公司
+ * @param 
+ * @returns
+ */
+function queryCompany(){
+	var name = $("#companyName").val();
+
+	$.ajax({
+		url:"/company/queryByName",
+		type:"get",
+		data:{name:name},
+		dataType:"json",
+		success:function(data){
+			if(data.code == 1){
+				var firmArr = data.data;
+				
+				var divContent="";
+				if(firmArr.length > 0){
+				
+					for(var i=0; i<firmArr.length; i++){
+						var company = firmArr[i];
+						divContent+=  "<div class='li' value_id= "+company.id+" value_name= "+company.name+"  onclick='changCompany(this)'>"+company.name +"</div>";
+					}
+				}
+				$("#companyList").show();
+				$("#companyList").empty().append(divContent);
+			}
+		}
+	});
+
+}
+
+function changCompany(obj){
+	var thisObj = $(obj);
+	$("#companyName").val(thisObj.attr("value_name"));
+	$("#companyId").val(thisObj.attr("value_id"));
+	$("#companyList").hide();
+}
 
 /**
  * 查询
@@ -283,7 +329,7 @@ function statisticsByState() {
 					for(var i=0; i<countList.length; i++){
 						var countObj = countList[i];
 						$("#count-state-" + countObj.state).text(countObj.count);
-						console.log(countObj);
+						//console.log(countObj);
 					}
 				}
 			}
@@ -310,7 +356,7 @@ function stateChange(obj){
 	// 清空company  清空时间控件
 	$("#companyId").val('');
 	$("#createTime").val('');
-	
+	$("#companyName").val('');
 	// 修改样式
 	var thisObj=$(obj);
 	thisObj.addClass("on");
