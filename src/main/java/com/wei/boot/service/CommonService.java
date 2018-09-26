@@ -56,5 +56,5 @@ public interface CommonService {
 	 * @param id
 	 * @return
 	 */
-	String queryUserName(int id);
+	String queryUserName(Integer id);
 }

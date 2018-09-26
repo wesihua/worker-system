@@ -111,7 +111,7 @@ function addDemand(){
 	var demand = {};
 	demand.companyId =$("#companyId").val();
 	demand.description =$("#description").val();
-	// 收集教育经历
+	//
 	var demandJobList = [];
 	$(".tr-body").each(function(){
 		var demandJob = {};

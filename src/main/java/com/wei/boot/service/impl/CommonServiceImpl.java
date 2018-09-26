@@ -130,7 +130,7 @@ public class CommonServiceImpl implements CommonService {
 	}
 
 	@Override
-	public String queryUserName(int id) {
+	public String queryUserName(Integer id) {
 
 		String userName = "";
 		if(Objects.isNull(id)) {
