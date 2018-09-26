@@ -24,14 +24,42 @@
       height: 40px;
       line-height: 40px;
       width: 80px; }
-    #qiandan-manage-add .qiandan-add-content .input-block select {
+      #qiandan-manage-add .qiandan-add-content .input-block input {
+
+      width: 280px;
+      height: 40px;
+      line-height: 40px;
+      background-color: #f8f8f8; }
+      #qiandan-manage-add .qiandan-add-content .input-block{
+        position: relative;
+        left: 0px;
+        top: 0px;
+      }
+      #qiandan-manage-add .qiandan-add-content .input-block .lenove-list{
+        position: absolute;
+        left: 80px;
+        top: 41px;
+        z-index: 2;
+        width:280px;
+        border: 1px solid #cccccc;
+        background-color: #ffffff;
+      }
+      #qiandan-manage-add .qiandan-add-content .input-block .lenove-list .li{
+        width: 100%;
+        height:30px;
+        line-height: 30px;
+      }
+      #qiandan-manage-add .qiandan-add-content .input-block .lenove-list .li:hover{
+        background-color:#e8e8e8;
+      }
+    /* #qiandan-manage-add .qiandan-add-content .input-block select {
       width: 280px;
       height: 40px;
       line-height: 40px;
       background-color: #f8f8f8; }
     #qiandan-manage-add .qiandan-add-content .input-block select option {
       height: 40px;
-      line-height: 40px; }
+      line-height: 40px; } */
     #qiandan-manage-add .qiandan-add-content .input-block textarea {
       background-color: #f8f8f8;
       font-size: 12px;
