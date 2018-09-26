@@ -137,6 +137,7 @@ function displayEducationList(educationList){
 			"<ul>"+
 			"	<li><span class=\"name\">学校</span> <span class=\"content\" name=\"school_text\">"+education.school+"</span></li>"+
 			"	<li><span class=\"name\">学历</span> <span class=\"content\" name=\"degree_text\">"+education.degreeName+"</span></li>"+
+			"	<input type=\"hidden\" id=\"educationId\" value=\""+education.id+"\" />"+
 			"	<input type=\"hidden\" name=\"degree_value\" value=\""+education.degree+"\" />"+
 			"	<input type=\"hidden\" name=\"beginTime_value\" value=\""+education.beginTime+"\" />"+
 			"	<input type=\"hidden\" name=\"endTime_value\" value=\""+education.endTime+"\" />"+
@@ -149,7 +150,22 @@ function displayEducationList(educationList){
 	$("#education-list").append(content);
 	// 绑定删除事件
 	$("span[name=remove-education-dialog]").click(function(){
-		$(this).parent().remove();
+		var _this = this;
+		var b = confirm("确认删除本条教育经历？");
+		if(b){
+			var educationId = $(this).parent().find("input[id=educationId]").val();
+			$.ajax({
+				url:"/worker/deleteEducation",
+				type:"get",
+				dataType:"json",
+				data:{educationId:educationId},
+				success:function(data){
+					if(data.code == 1){
+						$(_this).parent().remove();
+					}
+				}
+			});
+		}
 	});
 	// 绑定编辑事件
 	$("span[name=edit-education-dialog]").click(function(){
@@ -184,6 +200,7 @@ function displayExperienceList(experienceList){
 			"		</li>"+
 			"		<li><span class=\"name\">工作内容</span> <span class=\"content\" name=\"description_text\">"+experience.description+"</span>"+
 			"		</li>"+
+				"	<input type=\"hidden\" id=\"experienceId\" value=\""+experience.id+"\" />"+
 				"	<input type=\"hidden\" name=\"salary_value\" value=\""+experience.salary+"\" />"+
 				"	<input type=\"hidden\" name=\"beginTime_value\" value=\""+experience.beginTime+"\" />"+
 				"	<input type=\"hidden\" name=\"endTime_value\" value=\""+experience.endTime+"\" />"+
@@ -336,45 +353,83 @@ function openEducationDialog(){
         format: 'YYYY-MM-DD'
     });
 	parent.$(".add-education-content").click(function(){
-		top.closeDialog();
+		// 发送请求保存数据
 		var school = parent.$("#school").val();
 		var degree = parent.$("#degree").find("option:selected").text() == "---请选择---" ? "" : parent.$("#degree").find("option:selected").text() ;
 		var degree_value = parent.$("#degree").val();
 		var beginTime = parent.$("#beginTime").val();
 		var endTime = parent.$("#endTime").val();
 		var discipline = parent.$("#discipline").val();
-		// 拼接学历展示的内容
-		var content = "<div class=\"history\">"+
-							"	<span class=\"edit fa fa-edit\" name=\"edit-education-dialog\" title=\"编辑\"></span>"+
-							"<span class=\"delete fa fa-close\" name=\"remove-education-dialog\" title=\"删除\"></span>"+
-							"<ul>"+
-							"	<li><span class=\"name\">学校</span> <span class=\"content\" name=\"school_text\">"+school+"</span></li>"+
-							"	<li><span class=\"name\">学历</span> <span class=\"content\" name=\"degree_text\">"+degree+"</span></li>"+
-							"	<input type=\"hidden\" name=\"degree_value\" value=\""+degree_value+"\" />"+
-							"	<input type=\"hidden\" name=\"beginTime_value\" value=\""+beginTime+"\" />"+
-							"	<input type=\"hidden\" name=\"endTime_value\" value=\""+endTime+"\" />"+
-							"	<li><span class=\"name\">起止日期</span> <span class=\"content\" name=\"schoolTime_text\">"+beginTime+" 至 "+endTime+"</span></li>"+
-							"	<li><span class=\"name\">专业名称</span> <span class=\"content\" name=\"discipline_text\">"+discipline+"</span></li>"+
-							"</ul>"+
-						"</div>";
-		$("#education-list").append(content);
-		// 绑定删除事件
-		$("span[name=remove-education-dialog]").click(function(){
-			$(this).parent().remove();
-		});
-		// 绑定编辑事件
-		$("span[name=edit-education-dialog]").click(function(){
-			var school = $(this).parent().find("span[name=school_text]").text();
-			var degree_value = $(this).parent().find("input[name=degree_value]").val();
-			var beginTime = $(this).parent().find("input[name=beginTime_value]").val();
-			var endTime = $(this).parent().find("input[name=endTime_value]").val();
-			var discipline = $(this).parent().find("span[name=discipline_text]").text();
-			editEducationDialog(this,school,degree_value,beginTime,endTime,discipline);
+		
+		var education = {};
+		education.workerId = $("#workerId").val();
+		education.school = school;
+		education.degree = degree_value;
+		education.beginTime = beginTime;
+		education.endTime = endTime;
+		education.discipline = discipline;
+		$.ajax({
+			url:"/worker/updateWorkerEducation",
+			type:"get",
+			dataType:"json",
+			data:{educationJson:JSON.stringify(education)},
+			success:function(data){
+				if(data.code == 1){
+					// 关闭弹窗并刷新教育经历列表
+					top.closeDialog();
+					// 拼接学历展示的内容
+					var educationId = data.data;
+					var content = "<div class=\"history\">"+
+										"	<span class=\"edit fa fa-edit\" name=\"edit-education-dialog\" title=\"编辑\"></span>"+
+										"<span class=\"delete fa fa-close\" name=\"remove-education-dialog\" title=\"删除\"></span>"+
+										"<ul>"+
+										"	<li><span class=\"name\">学校</span> <span class=\"content\" name=\"school_text\">"+school+"</span></li>"+
+										"	<li><span class=\"name\">学历</span> <span class=\"content\" name=\"degree_text\">"+degree+"</span></li>"+
+										"	<input type=\"hidden\" id=\"educationId\" value=\""+educationId+"\" />"+
+										"	<input type=\"hidden\" name=\"degree_value\" value=\""+degree_value+"\" />"+
+										"	<input type=\"hidden\" name=\"beginTime_value\" value=\""+beginTime+"\" />"+
+										"	<input type=\"hidden\" name=\"endTime_value\" value=\""+endTime+"\" />"+
+										"	<li><span class=\"name\">起止日期</span> <span class=\"content\" name=\"schoolTime_text\">"+beginTime+" 至 "+endTime+"</span></li>"+
+										"	<li><span class=\"name\">专业名称</span> <span class=\"content\" name=\"discipline_text\">"+discipline+"</span></li>"+
+										"</ul>"+
+									"</div>";
+					$("#education-list").append(content);
+					// 绑定删除事件
+					$("span[name=remove-education-dialog]").click(function(){
+						var _this = this;
+						var b = confirm("确认删除本条教育经历？");
+						if(b){
+							$.ajax({
+								url:"/worker/deleteEducation",
+								type:"get",
+								dataType:"json",
+								data:{educationId:educationId},
+								success:function(data){
+									if(data.code == 1){
+										$(_this).parent().remove();
+									}
+								}
+							});
+						}
+						
+					});
+					// 绑定编辑事件
+					$("span[name=edit-education-dialog]").click(function(){
+						var school = $(this).parent().find("span[name=school_text]").text();
+						var degree_value = $(this).parent().find("input[name=degree_value]").val();
+						var beginTime = $(this).parent().find("input[name=beginTime_value]").val();
+						var endTime = $(this).parent().find("input[name=endTime_value]").val();
+						var discipline = $(this).parent().find("span[name=discipline_text]").text();
+						editEducationDialog(this,school,degree_value,beginTime,endTime,discipline);
+					});
+				}
+			}
 		});
 	});
 }
 
 function editEducationDialog(ts,school,degree,beginTime,endTime,discipline){
+	var workerId = $("#workerId").val();
 	openDialog("dialog-education-content");
 	parent.$('.J-yearMonthPicker-single').datePicker({
         format: 'YYYY-MM-DD'
@@ -387,21 +442,38 @@ function editEducationDialog(ts,school,degree,beginTime,endTime,discipline){
 	
 	parent.$(".add-education-content").click(function(){
 		// 发送请求保存教育经历
-		
-		
-		top.closeDialog();
-		$(ts).parent().find("span[name=school_text]").text(parent.$("#school").val());
-		var degree_text = parent.$("#degree").find("option:selected").text() == "---请选择---" ? "" : parent.$("#degree").find("option:selected").text();
-		var degree_value = parent.$("#degree").val();
-		$(ts).parent().find("span[name=degree_text]").text(degree_text);
-		$(ts).parent().find("input[name=degree_value]").val(degree_value);
-		var beginTime = parent.$("#beginTime").val();
-		var endTime = parent.$("#endTime").val();
-		var discipline = parent.$("#discipline").val();
-		$(ts).parent().find("span[name=schoolTime_text]").text(beginTime +" 至 "+endTime);
-		$(ts).parent().find("input[name=beginTime_value]").val(beginTime);
-		$(ts).parent().find("input[name=endTime_value]").val(endTime);
-		$(ts).parent().find("span[name=discipline_text]").text(discipline);
+		var education = {};
+		education.id = $(ts).parent().find("input[id=educationId]").val();
+		education.workerId = workerId;
+		education.school = parent.$("#school").val();
+		education.degree = parent.$("#degree").val();
+		education.beginTime = parent.$("#beginTime").val();
+		education.endTime = parent.$("#endTime").val();
+		education.discipline = parent.$("#discipline").val();
+		$.ajax({
+			url:"/worker/updateWorkerEducation",
+			type:"get",
+			dataType:"json",
+			data:{educationJson:JSON.stringify(education)},
+			success:function(data){
+				if(data.code == 1){
+					// 关闭弹窗并刷新教育经历列表
+					top.closeDialog();
+					$(ts).parent().find("span[name=school_text]").text(parent.$("#school").val());
+					var degree_text = parent.$("#degree").find("option:selected").text() == "---请选择---" ? "" : parent.$("#degree").find("option:selected").text();
+					var degree_value = parent.$("#degree").val();
+					$(ts).parent().find("span[name=degree_text]").text(degree_text);
+					$(ts).parent().find("input[name=degree_value]").val(degree_value);
+					var beginTime = parent.$("#beginTime").val();
+					var endTime = parent.$("#endTime").val();
+					var discipline = parent.$("#discipline").val();
+					$(ts).parent().find("span[name=schoolTime_text]").text(beginTime +" 至 "+endTime);
+					$(ts).parent().find("input[name=beginTime_value]").val(beginTime);
+					$(ts).parent().find("input[name=endTime_value]").val(endTime);
+					$(ts).parent().find("span[name=discipline_text]").text(discipline);
+				}
+			}
+		});
 	});
 }
 
@@ -492,7 +564,7 @@ function initSelect(){
 	$.ajax({
 		url:"/common/queryDicByTypes",
 		type:"get",
-		async:false,
+		async:true,
 		dataType:"json",
 		data:{types:types},
 		success:function(data){

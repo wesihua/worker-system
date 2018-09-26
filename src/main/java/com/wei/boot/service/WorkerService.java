@@ -62,14 +62,18 @@ public interface WorkerService {
 	 * @param educationList
 	 * @throws NormalException
 	 */
-	void updateEducation(int workerId, List<WorkerEducation> educationList) throws NormalException;
+	int updateEducation(WorkerEducation education) throws NormalException;
 	
 	/**
 	 * 更新工作经历信息
 	 * @param experienceList
 	 * @throws NormalException
 	 */
-	void updateExperience(int workerId, List<WorkerExperience> experienceList) throws NormalException;
+	int updateExperience(WorkerExperience experience) throws NormalException;
+	
+	void deleteEducation(int educationId);
+	
+	void deleteExperience(int experienceId);
 	
 	/**
 	 * 更新工种信息

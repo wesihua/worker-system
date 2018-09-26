@@ -344,7 +344,7 @@ function initSelect(){
 	$.ajax({
 		url:"/common/queryDicByTypes",
 		type:"get",
-		async:false,
+		async:true,
 		dataType:"json",
 		data:{types:types},
 		success:function(data){

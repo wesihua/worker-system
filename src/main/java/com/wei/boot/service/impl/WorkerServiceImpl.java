@@ -235,31 +235,39 @@ public class WorkerServiceImpl implements WorkerService {
 	}
 
 	@Override
-	public void updateEducation(int workerId, List<WorkerEducation> educationList) throws NormalException {
-		WorkerEducationExample eduExample = new WorkerEducationExample();
-		eduExample.createCriteria().andWorkerIdEqualTo(workerId);
-		workerEducationMapper.deleteByExample(eduExample);
-		if(null != educationList && educationList.size() > 0) {
-			for(WorkerEducation edu : educationList) {
-				edu.setCreateTime(new Date());
-				edu.setWorkerId(workerId);
-				workerEducationMapper.insertSelective(edu);
-			}
+	public int updateEducation(WorkerEducation education) throws NormalException {
+		int id = 0;
+		// 更改
+		if(education.getId() != null && education.getId() != 0) {
+			education.setUpdateTime(new Date());
+			workerEducationMapper.updateByPrimaryKeySelective(education);
+			id = education.getId();
 		}
+		// 新增
+		else {
+			education.setCreateTime(new Date());
+			workerEducationMapper.insertSelective(education);
+			id = education.getId();
+		}
+		return id;
 	}
 
 	@Override
-	public void updateExperience(int workerId, List<WorkerExperience> experienceList) throws NormalException {
-		WorkerExperienceExample expExample = new WorkerExperienceExample();
-		expExample.createCriteria().andWorkerIdEqualTo(workerId);
-		workerExperienceMapper.deleteByExample(expExample);
-		if(null != experienceList && experienceList.size() > 0) {
-			for(WorkerExperience exp : experienceList) {
-				exp.setCreateTime(new Date());
-				exp.setWorkerId(workerId);
-				workerExperienceMapper.insertSelective(exp);
-			}
+	public int updateExperience(WorkerExperience experience) throws NormalException {
+		int id = 0;
+		// 更改
+		if(experience.getId() != null && experience.getId() != 0) {
+			experience.setUpdateTime(new Date());
+			workerExperienceMapper.updateByPrimaryKeySelective(experience);
+			id = experience.getId();
 		}
+		// 新增
+		else {
+			experience.setCreateTime(new Date());
+			workerExperienceMapper.insertSelective(experience);
+			id = experience.getId();
+		}
+		return id;
 	}
 
 	@Override
@@ -505,5 +513,16 @@ public class WorkerServiceImpl implements WorkerService {
 		}
 		int totalCount = workerMapper.selectCount(map);
 		return page.pageData(workerList, totalCount);
+	}
+
+	@Override
+	public void deleteEducation(int educationId) {
+
+		workerEducationMapper.deleteByPrimaryKey(educationId);
+	}
+
+	@Override
+	public void deleteExperience(int experienceId) {
+		workerExperienceMapper.deleteByPrimaryKey(experienceId);
 	}
 }

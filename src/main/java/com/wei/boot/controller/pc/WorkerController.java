@@ -178,13 +178,48 @@ public class WorkerController {
 	 * @return
 	 */
 	@RequestMapping("/updateWorkerEducation")
-	public Result updateWorkerEducation(int workerId, String educationJson) {
+	public Result updateWorkerEducation(String educationJson) {
 		Result result = Result.SUCCESS;
 		try {
-			List<WorkerEducation> educationList = JsonUtil.json2List(educationJson, WorkerEducation.class);
-			workerService.updateEducation(workerId, educationList);
+			WorkerEducation education = JsonUtil.json2Bean(educationJson, WorkerEducation.class);
+			int id = workerService.updateEducation(education);
+			result.setData(id);
 		} catch (Exception e) {
 			log.error("查询失败", e);
+			result = Result.fail(e);
+		}
+		return result;
+	}
+	
+	/**
+	 * 删除教育经历
+	 * @param educationId
+	 * @return
+	 */
+	@GetMapping("/deleteEducation")
+	public Result deleteEducation(int educationId) {
+		Result result = Result.SUCCESS;
+		try {
+			workerService.deleteEducation(educationId);
+		} catch (Exception e) {
+			log.error("删除教育经历失败", e);
+			result = Result.fail(e);
+		}
+		return result;
+	}
+	
+	/**
+	 * 删除工作经历
+	 * @param experienceId
+	 * @return
+	 */
+	@GetMapping("/deleteExperience")
+	public Result deleteExperience(int experienceId) {
+		Result result = Result.SUCCESS;
+		try {
+			workerService.deleteExperience(experienceId);
+		} catch (Exception e) {
+			log.error("删除教育经历失败", e);
 			result = Result.fail(e);
 		}
 		return result;
@@ -197,11 +232,12 @@ public class WorkerController {
 	 * @return
 	 */
 	@RequestMapping("/updateWorkerExperience")
-	public Result updateWorkerExperience(int workerId, String experienceJson) {
+	public Result updateWorkerExperience(String experienceJson) {
 		Result result = Result.SUCCESS;
 		try {
-			List<WorkerExperience> experienceList = JsonUtil.json2List(experienceJson, WorkerExperience.class);
-			workerService.updateExperience(workerId, experienceList);
+			WorkerExperience experience = JsonUtil.json2Bean(experienceJson, WorkerExperience.class);
+			int id = workerService.updateExperience(experience);
+			result.setData(id);
 		} catch (Exception e) {
 			log.error("查询失败", e);
 			result = Result.fail(e);
