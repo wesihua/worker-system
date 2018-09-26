@@ -22,10 +22,19 @@
     line-height: 60px;
     border-bottom: 1px solid #cccccc;
     padding: 0px 20px; }
+    #user-manage-box2 .box2-content .head .title {
+    font-size:14px;
+    font-weight: bold;
+  }
     #user-manage-box2 .box2-content .head .fa-close {
       float: right;
-      margin-top: 10px;
-      cursor: pointer; }
+      margin-top:20px;
+      cursor: pointer; 
+      font-size:20px;}
+
+      #user-manage-box2 .box2-content .head .fa-close:hover {
+      color:#409eff;
+    }
   #user-manage-box2 .box2-content .middle {
     padding: 20px 20px 0px 20px;
     height: 240px;
@@ -39,10 +48,16 @@
       #user-manage-box2 .box2-content .middle .input-block .select {
         height: 40px;
         width: 280px; }
+        /* #user-manage-box2 .box2-content .middle .input-block .select option {
+        height: 40px;
+        line-height: 40px;
+        } */
+       /* #user-manage-box2 .box2-content .middle .input-block .c-datepicker-data-input{
+          width: 87px;
+        } */
       #user-manage-box2 .box2-content .middle .input-block .pt {
         height: 40px;
         width: 280px;
-        background-color: #eeeeee;
         text-indent: 10px; }
       #user-manage-box2 .box2-content .middle .input-block .time {
         width: 120px;
