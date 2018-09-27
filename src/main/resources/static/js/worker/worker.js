@@ -14,6 +14,9 @@ $(function(){
 	$("#add-worker").click(function(){
 		location.href="/worker/add"
 	});
+	$("#download").click(function(){
+		window.open("/worker/export");
+	});
 	// 初始化来源
 	initSelect("source","worker_souce");
 	// 初始化一级工种
@@ -111,7 +114,7 @@ function query(currentPage){
 									"	<td><span class=\"des\" onClick=\"editWorker("+worker.id+")\">编辑</span>" +
 									"<span class=\"delete\" onClick=\"deleteWorker("+worker.id+")\">删除</span>" +
 									"<span class=\"delete\" onClick=\"downloadResume("+worker.id+")\">导出简历</span>" +
-									"<span class=\"delete\" onClick=\"detailWorker("+worker.id+")\">详情</span></td>"+
+									"<span class=\"delete\" onClick=\"detailWorker('"+worker.id+"','"+worker.createUserName+"')\">详情</span></td>"+
 									"</tr>";
 				}
 				$("tbody").empty().append(tableContent);
@@ -131,8 +134,8 @@ function query(currentPage){
 function editWorker(workerId){
 	location.href="/worker/edit?workerId="+workerId
 }
-function detailWorker(workerId){
-	location.href="/worker/detail?workerId="+workerId
+function detailWorker(workerId,createUserName){
+	location.href="/worker/detail?workerId="+workerId+"&createUserName="+createUserName;
 }
 
 /**

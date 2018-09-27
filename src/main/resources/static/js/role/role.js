@@ -14,6 +14,9 @@ $(function(){
 	$("#add-role").click(function(){
 		saveRole();
 	});
+	$("#download").click(function(){
+		window.open("/role/export");
+	});
 });
 
 /**

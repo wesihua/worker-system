@@ -54,8 +54,9 @@ public class PageForwardController {
 		return "worker/editWorker";
 	}
 	@GetMapping("/worker/detail")
-	public String workerDetail(Model model, String workerId) {
+	public String workerDetail(Model model, String workerId, String createUserName) {
 		model.addAttribute("workerId", workerId);
+		model.addAttribute("createUserName", createUserName);
 		return "worker/detail";
 	}
 

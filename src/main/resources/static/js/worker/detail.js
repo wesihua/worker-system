@@ -1,0 +1,124 @@
+$(function(){
+	// 超时跳到登录
+	$(document).ajaxSuccess(function(event, xhr, settings){
+		if(xhr.responseJSON.code == 1002){
+			top.location.href="/";
+		}
+	});
+	$("#back").click(function(){
+		history.back();
+	});
+	//加载人才信息
+	loadWorkerInfo();
+});
+
+
+/**
+ * 加载人才信息
+ * @param workerId
+ * @returns
+ */
+function loadWorkerInfo(){
+	var workerId = $("#workerId").val();
+	$.ajax({
+		url:"/worker/queryDetail",
+		type:"get",
+		dataType:"json",
+		data:{workerId:workerId},
+		success:function(data){
+			if(data.code == 1){
+				var worker = data.data;
+				$("#name").text(worker.name);
+				$("#telephone").text(worker.telephone);
+				$("#email").text(worker.email);
+				$("#idcard").text(worker.idcard);
+				$("#workYear").text(worker.workYear);
+				$("#maritalStatus").text(worker.maritalStatusName);
+				$("#expectSalary").text(worker.expectSalaryName);
+				$("#workStatus").text(worker.workStatusName);
+				$("#languageLevel").text(worker.languageLevelName);
+				$("#nightWork").text(worker.nightWorkName);
+				$("#birthplace").text(worker.birthplaceName);
+				$("#workplace").text(worker.workplaceName);
+				$("#nation").text(worker.nationName);
+				$("#title").text(worker.title);
+				$("#sex").text(worker.sexName);
+				$("#position").text(worker.position);
+				$("#address").text(worker.address);
+				$("#birthday").text(worker.birthday);
+				$("#age").text(worker.age);
+				$("#workExpect").text(worker.workExpect);
+				$("#jobtype").text(worker.jobtypeName);
+				$("#createUser").text("录入人员："+$("#createUserName").val());
+				$("#createTime").text("录入时间："+worker.createTime);
+				// 加载教育经历
+				displayEducationList(worker.educationList);
+				// 加载工作经历
+				displayExperienceList(worker.experienceList);
+			}
+		}
+	});
+}
+
+
+/**
+ * 展示教育经历列表
+ * @param educationList
+ * @returns
+ */
+function displayEducationList(educationList){
+	var content = "";
+	for(var i=0; i<educationList.length; i++){
+		var education = educationList[i];
+		content += "<div class=\"history\">"+
+			"	<span class=\"edit fa fa-edit\" name=\"edit-education-dialog\" title=\"编辑\"></span>"+
+			"<span class=\"delete fa fa-close\" name=\"remove-education-dialog\" title=\"删除\"></span>"+
+			"<ul>"+
+			"	<li><span class=\"name\">学校</span> <span class=\"content\" name=\"school_text\">"+education.school+"</span></li>"+
+			"	<li><span class=\"name\">学历</span> <span class=\"content\" name=\"degree_text\">"+education.degreeName+"</span></li>"+
+			"	<input type=\"hidden\" id=\"educationId\" value=\""+education.id+"\" />"+
+			"	<input type=\"hidden\" name=\"degree_value\" value=\""+education.degree+"\" />"+
+			"	<input type=\"hidden\" name=\"beginTime_value\" value=\""+education.beginTime+"\" />"+
+			"	<input type=\"hidden\" name=\"endTime_value\" value=\""+education.endTime+"\" />"+
+			"	<li><span class=\"name\">起止日期</span> <span class=\"content\" name=\"schoolTime_text\">"+education.beginTime+" 至 "+education.endTime+"</span></li>"+
+			"	<li><span class=\"name\">专业名称</span> <span class=\"content\" name=\"discipline_text\">"+education.discipline+"</span></li>"+
+			"</ul>"+
+		"</div>";
+	}
+	
+	$("#education-list").append(content);
+}
+/**
+ * 展示工作经历列表
+ * @param educationList
+ * @returns
+ */
+function displayExperienceList(experienceList){
+	var content = "";
+	for(var i=0; i<experienceList.length; i++){
+		var experience = experienceList[i];
+		content += "<div class=\"history\">"+
+			"	<span class=\"edit fa fa-edit\" name=\"edit-experience-dialog\" title=\"编辑\"></span>"+
+			"	<span class=\"delete fa fa-close\" name=\"remove-experience-dialog\" title=\"删除\"></span>"+
+			"	<ul>"+
+			"		<li><span class=\"name\">工作公司</span> <span class=\"content\" name=\"companyName_text\">"+experience.company+"</span>"+
+			"		</li>"+
+			"		<li><span class=\"name\">职位</span> <span class=\"content\" name=\"position_text\">"+experience.position+"</span>"+
+			"		</li>"+
+			"		<li><span class=\"name\">起止时间</span> <span class=\"content\" name=\"exp_time\">"+experience.beginTime+" 至 "+experience.endTime+"</span>"+
+			"		</li>"+
+			"		<li><span class=\"name\">月工资</span> <span class=\"content\" name=\"salary_text\">"+experience.salaryName+"</span>"+
+			"		</li>"+
+			"		<li><span class=\"name\">工作内容</span> <span class=\"content\" name=\"description_text\">"+experience.description+"</span>"+
+			"		</li>"+
+				"	<input type=\"hidden\" id=\"experienceId\" value=\""+experience.id+"\" />"+
+				"	<input type=\"hidden\" name=\"salary_value\" value=\""+experience.salary+"\" />"+
+				"	<input type=\"hidden\" name=\"beginTime_value\" value=\""+experience.beginTime+"\" />"+
+				"	<input type=\"hidden\" name=\"endTime_value\" value=\""+experience.endTime+"\" />"+
+			"	</ul>"+
+			"</div>";
+	}
+	
+	$("#experience-list").append(content);
+}
+

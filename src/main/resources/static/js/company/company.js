@@ -14,6 +14,9 @@ $(function(){
 	$("#add-company").click(function(){
 		addCompany();
 	});
+	$("#download").click(function(){
+		window.open("/company/export");
+	});
 });
 
 /**
