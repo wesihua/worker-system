@@ -1,3 +1,9 @@
+#qiandan-qianyue-add {
+  width: 780px;
+  float: left;
+}
+
+
 #qiandan-qianyue-add .a-m-nav {
   height: 60px;
   line-height: 60px;
@@ -48,3 +54,43 @@
     text-align: center; }
     #qiandan-qianyue-add .qiandan-content .control-botton span {
       margin: 0px 40px; }
+
+      #qiandan-select-result{
+          float: right;
+          width:400px;
+          background-color: #f8f8f8;
+          padding-left: 30px;
+        }
+
+    #qiandan-select-result .result-area{
+      width: 100%;
+      background-color: #ffffff;
+    }
+    #qiandan-select-result .result-area ul {
+      height: 300px;
+      overflow: auto; }
+      #qiandan-select-result .result-area ul li {
+        border-bottom: 1px solid #cccccc;
+        margin-bottom: 10px; }
+        #qiandan-select-result .result-area ul li .select-name {
+          height: 30px;
+          line-height: 30px; }
+        #qiandan-select-result .result-area ul li .select-title {
+          height: 40px;
+          line-height: 40px; }
+          #qiandan-select-result .result-area ul li .select-title span {
+            display: inline-block;
+            font-size: 12px;
+            width: 100px;
+            line-height: 40px; }
+        #qiandan-select-result .result-area ul li .select-input {
+          height: 40px;
+          font-size: 0px; }
+          #qiandan-select-result .result-area ul li .select-input input {
+            line-height: 40px;
+            font-size: 12px;
+            width: 90px;
+            border: 1px solid #cccccc;
+            margin-right: 10px;
+            text-indent: 5px; }
+
