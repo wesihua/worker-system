@@ -48,6 +48,10 @@
         width: 60px;
         margin-right: 30px;
         font-size: 12px; }
+
+        #account-manage-box1 .box1-content .middle ul li .name.top{
+          vertical-align: top;
+        }
         #account-manage-box1 .box1-content .middle ul li .text-area{
           height: 60px;
           resize: none;

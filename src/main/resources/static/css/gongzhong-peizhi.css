@@ -8,6 +8,9 @@
       #gongzhong-peizhi .a-m-content .g-block h2 .fa-close {
         display: none;
         margin-left: 10px; }
+        #gongzhong-peizhi .a-m-content .g-block h2 .fa-close:hover{
+          color:#409eff;
+        }
     #gongzhong-peizhi .a-m-content .g-block ul li {
       display: inline-block;
       line-height: 30px;
@@ -19,6 +22,9 @@
     display: inline-block; }
   #gongzhong-peizhi .a-m-content.on ul li .fa-close {
     display: inline-block; }
+
+    #gongzhong-peizhi .a-m-content.on ul li .fa-close:hover {
+    color:#409eff;}
 
 #gongzhong-peizhi .button-control {
   padding: 20px 0px 0px 0px;

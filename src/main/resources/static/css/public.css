@@ -86,19 +86,30 @@ input,select, textarea {
     height: 80px;
     line-height: 80px;
     margin: 0px auto; }
+    #header .header-content .logo{
+      width:55px;
+      height:55px;
+      margin-right: 10px;
+      vertical-align: middle;
+    }
     #header .header-content .logo-word{
-      font-size:20px;
+      font-size:25px;
       font-weight:bold;
+      font-style:italic;
+      color: #381212;
     }
     #header .header-content .person-info {
       float: right;
-      font-weight: bold; }
+       }
       #header .header-content .person-info .name {
+        font-size: 16px;
         margin-right: 30px; }
       #header .header-content .person-info .login-out {
-        cursor: pointer; }
+        cursor: pointer;
+        font-size: 16px; }
         #header .header-content .person-info .login-out .fa-sign-out{
           margin-right:5px;
+          font-size: 16px;
         }
         #header .header-content .person-info .login-out:hover{
           color:#409eff;

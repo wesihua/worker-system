@@ -22,10 +22,18 @@
     line-height: 60px;
     border-bottom: 1px solid #cccccc;
     padding: 0px 20px; }
+    #juese-manage-box1 .box-content .head .title{
+      font-size: 14px;
+      font-weight: bold;
+    }
     #juese-manage-box1 .box-content .head .fa-close {
       float: right;
-      margin-top: 10px;
+      margin-top: 20px;
+      font-size: 20px;
       cursor: pointer; }
+    #juese-manage-box1 .box-content .head .fa-close:hover{
+        color:#409eff;
+      }
   #juese-manage-box1 .box-content .middle {
     padding: 20px;
     height: 50px;

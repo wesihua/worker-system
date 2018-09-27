@@ -13,7 +13,7 @@
   top: 50%;
   background-color: #ffffff;
   width: 500px;
-  height: 290px;
+  /* height: 290px; */
   margin-top: -145px;
   margin-left: -250px;
   border-radius: 10px; }
@@ -22,14 +22,20 @@
     line-height: 60px;
     border-bottom: 1px solid #cccccc;
     padding: 0px 20px; }
+    #gongzhong-peizhi-box1 .box-content .head .title{
+      font-weight: bold;
+      font-size: 14px;
+    }
     #gongzhong-peizhi-box1 .box-content .head .fa-close {
       float: right;
-      margin-top: 10px;
+      margin-top: 20px;
+      font-size: 20px;
       cursor: pointer; }
   #gongzhong-peizhi-box1 .box-content .middle {
     padding: 20px;
-    height: 110px;
-    overflow: auto; }
+    /* height: 110px; */
+    /* overflow: auto;  */
+  }
     #gongzhong-peizhi-box1 .box-content .middle .input-block {
       min-height: 40px;
       line-height: 40px;
