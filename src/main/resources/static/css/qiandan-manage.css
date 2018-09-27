@@ -31,7 +31,7 @@
         background-color: #1E9FFF;
         color: #ffffff; }
   #qiandan-manage .qiandan-content .wait-handle .search-area {
-    background-color: #f8f8f8;
+    background-color:#ecf8ff;
     padding: 20px;
     margin-bottom: 20px; }
     #qiandan-manage .qiandan-content .wait-handle .search-area .lenove-area{
@@ -63,7 +63,7 @@
     #qiandan-manage .qiandan-content .wait-handle .search-area input {
       height: 40px;
       line-height: 40px;
-      background-color: #e8e8e8;
+      background-color: #ffffff !important;
       width: 140px;
       padding-left: 20px;
       margin-right: 20px;
