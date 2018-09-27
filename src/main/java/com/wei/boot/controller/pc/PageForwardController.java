@@ -53,6 +53,11 @@ public class PageForwardController {
 		model.addAttribute("workerId", workerId);
 		return "worker/editWorker";
 	}
+	@GetMapping("/worker/detail")
+	public String workerDetail(Model model, String workerId) {
+		model.addAttribute("workerId", workerId);
+		return "worker/detail";
+	}
 
 	@GetMapping("/jobtype/index")
 	public String jobtypeIndex() {

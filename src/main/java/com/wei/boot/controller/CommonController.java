@@ -1,6 +1,7 @@
 package com.wei.boot.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -171,7 +172,33 @@ public class CommonController {
 		return result;
 	}
 	
-	
+	/**
+	 * 根据code查询上级code
+	 * @param code
+	 * @return
+	 */
+	@GetMapping("/queryParentCodeByCode")
+	public Result queryParentCodeByCode(String code) {
+		Result result = Result.SUCCESS;
+		try {
+			// 如果为空则从数据库中查询
+			if(!StringUtils.isEmpty(code)) {
+				Map<String, Object> map = new HashMap<String, Object>();
+				int parentCode = commonService.queryParentByCode(Integer.parseInt(code));
+				List<Area> areaList = commonService.queryAreaByParentCode(parentCode+"");
+				map.put("parentCode", parentCode);
+				map.put("children", areaList);
+				result.setData(map);
+			}
+			else {
+				result = Result.ERROR;
+			}
+		} catch (Exception e) {
+			log.error("查询上级code失败", e);
+			result = Result.fail("查询上级code失败");
+		}
+		return result;
+	}
 	
 	@GetMapping("/queryAreaByParentCode")
 	@ApiOperation(value = "根据parentCode查询地区集合")

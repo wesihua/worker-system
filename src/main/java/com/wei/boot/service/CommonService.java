@@ -57,4 +57,11 @@ public interface CommonService {
 	 * @return
 	 */
 	String queryUserName(Integer id);
+	
+	/**
+	 * 根据code查询上级地区code
+	 * @param code
+	 * @return
+	 */
+	int queryParentByCode(int code);
 }

@@ -522,8 +522,8 @@ function addWorker(){
 		alert("性别不能为空！");
 		return false;
 	}
-	console.log(worker);
-	console.log(JSON.stringify(worker));
+	//console.log(worker);
+	//console.log(JSON.stringify(worker));
 	$.ajax({
 		url:"/worker/addWorker",
 		type:"post",

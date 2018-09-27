@@ -157,8 +157,8 @@ public class WorkerController {
 	 * @param worker
 	 * @return
 	 */
-	@RequestMapping("/updateWorkerBody")
-	public Result updateWorkerBody(Worker worker, HttpServletRequest request) {
+	@PostMapping("/updateWorkerBody")
+	public Result updateWorkerBody(@RequestBody Worker worker, HttpServletRequest request) {
 		Result result = Result.SUCCESS;
 		try {
 			int userId = ToolsUtil.getUserId(request);
