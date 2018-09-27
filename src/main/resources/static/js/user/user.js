@@ -16,6 +16,9 @@ $(function(){
 	$("#add-user").click(function(){
 		addUser();
 	});
+	$("#download").click(function(){
+		window.open("/user/export");
+	});
 });
 
 /**

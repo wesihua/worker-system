@@ -1,17 +1,21 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="utf-8"/>
 	<title></title>
 	<link href="../css/public.css" rel="stylesheet"/>
 	<link href="../css/user-manage-control.css" rel="stylesheet"/>
 	<script src="../js/jquery-3.3.1.min.js"></script>
+	<script src="../js/worker/detail.js"></script>
 </head>
 <body>
+<input type="hidden" id="workerId" th:value="${workerId}" />
+<input type="hidden" id="createUserName" th:value="${createUserName}" />
 	<div id="content">
 		<div id="content-nav">
 			<span class="name">详情</span>
-			<span class="control">编辑</span>
+			<span class="control" id="back">返回</span>
+			<span class="control" id="exportResume">导出简历</span>
 		</div>
 		<div id="content-area">
 			<div id="user-manage-control">
@@ -19,61 +23,90 @@
 					<div class="base-info">
 						<div class="inut-b">
 							<span class="name">姓名</span>
-							<div class="inputValue" ></div>
+							<div class="inputValue" id="name"></div>
+						</div>
+						<div class="inut-b">
+							<span class="name">性别</span>
+							<div class="inputValue" id="sex"></div>
 						</div>
 						<div class="inut-b">
 							<span class="name">手机号</span>
-							<div class="inputValue" ></div>
+							<div class="inputValue" id="telephone"></div>
+						</div>
+						<div class="inut-b">
+							<span class="name">邮箱</span>
+							<div class="inputValue" id="email"></div>
 						</div>
 						<div class="inut-b">
 							<span class="name">身份证号</span>
-							<div class="inputValue" ></div>
+							<div class="inputValue" id="idcard"></div>
+						</div>
+						<div class="inut-b">
+							<span class="name">婚姻状况</span>
+							<div class="inputValue" id="maritalStatus"></div>
 						</div>
 						<div class="inut-b">
 							<span class="name">出生日期</span>
-							<div class="inputValue" ></div>
+							<div class="inputValue" id="birthday"></div>
+						</div>
+						<div class="inut-b">
+							<span class="name">年龄</span>
+							<div class="inputValue" id="age"></div>
 						</div>
 						<div class="inut-b">
 							<span class="name">籍贯</span>
-							<div class="inputValue" ></div>
-						</div>
-						<div class="inut-b">
-							<span class="name">工作年限</span>
-							<div class="inputValue" ></div>
-						</div>
-						<div class="inut-b">
-							<span class="name">擅长工种</span>
-							<div class="inputValue" ></div>
+							<div class="inputValue" id="birthplace"></div>
 						</div>
 						<div class="inut-b">
 							<span class="name">工作地区</span>
-							<div class="inputValue" ></div>
+							<div class="inputValue" id="workplace"></div>
 						</div>
-						<div class="inut-b">
-							<span class="name">工资要求</span>
-							<div class="inputValue" ></div>
-						</div>
-						<div class="inut-b">
-							<span class="name">工作状态</span>
-							<div class="inputValue" ></div>
-						</div>
+						
 					</div>
 					<div class="base-info">
 						<div class="inut-b">
 							<span class="name">民族</span>
-							<div class="inputValue" ></div>
+							<div class="inputValue" id="nation"></div>
 						</div>
 						<div class="inut-b">
-							<span class="name"><i>*</i>期望职位</span>
-							<div class="inputValue" ></div>
+							<span class="name">职称</span>
+							<div class="inputValue" id="title"></div>
 						</div>
 						<div class="inut-b">
-							<span class="name"><i>*</i>通讯地址</span>
-							<div class="inputValue" ></div>
+							<span class="name">期望职位</span>
+							<div class="inputValue" id="position"></div>
+						</div>
+						<div class="inut-b">
+							<span class="name">工作年限</span>
+							<div class="inputValue" id="workYear"></div>
+						</div>
+						<div class="inut-b">
+							<span class="name">擅长工种</span>
+							<div class="inputValue" id="jobtype"></div>
+						</div>
+						<div class="inut-b">
+							<span class="name">通讯地址</span>
+							<div class="inputValue" id="address"></div>
+						</div>
+						<div class="inut-b">
+							<span class="name">期望薪资</span>
+							<div class="inputValue" id="expectSalary"></div>
+						</div>
+						<div class="inut-b">
+							<span class="name">工作状态</span>
+							<div class="inputValue" id="workStatus"></div>
+						</div>
+						<div class="inut-b">
+							<span class="name">语言能力</span>
+							<div class="inputValue" id="languageLevel"></div>
+						</div>
+						<div class="inut-b">
+							<span class="name">是否接受夜班</span>
+							<div class="inputValue" id="nightWork"></div>
 						</div>
 						<div class="jianjie">
 							<span class="name">工作意向</span>
-							<div class="textarea"></div>
+							<div class="textarea" id="workExpect"></div>
 						</div>
 					</div>
 					<!-- <div class="jianjie">
@@ -84,84 +117,19 @@
 					</div> -->
 				</div>
 
-				<div class="party2">
+				<div class="party2" id="education-list">
 					<div class="nav-tip">
 						<sapn class="name">学历</sapn>
-						<span class="button">添加</span>
-					</div>
-					<div class="history">
-						<span class="delete fa fa-close"></span>
-						<ul >
-							<li>
-								<span class="name">学校类型</span >
-								<span class="content">没有没有</span>
-							</li>
-							<li>
-								<span class="name">所在学校</span >
-								<span class="content">没有没有</span>
-							</li>
-							<li>
-								<span class="name">起止日期</span >
-								<span class="content">没有没有</span>
-							</li>
-							<li>
-								<span class="name">专业名称</span >
-								<span class="content">没有没有</span>
-							</li>
-						</ul>
 					</div>
 				</div>
-				<div class="party2">
+				<div class="party2" id="experience-list">
 					<div class="nav-tip">
 						<sapn class="name">工作经历</sapn>
-						<span class="button">添加</span>
-					</div>
-					<div class="history">
-						<span class="delete"></span>
-						<ul >
-							<li>
-								<span class="name">工作公司</span >
-								<span class="content">没有没有</span>
-							</li>
-							<li>
-								<span class="name">起止时间</span >
-								<span class="content">没有没有</span>
-							</li>
-							<li>
-								<span class="name">月工资</span >
-								<span class="content">没有没有</span>
-							</li>
-							<li>
-								<span class="name">工作内容</span >
-								<span class="content">没有没有</span>
-							</li>
-						</ul>
-					</div>
-					<div class="history">
-						<span class="delete"></span>
-						<ul >
-							<li>
-								<span class="name">工作公司</span >
-								<span class="content">没有没有</span>
-							</li>
-							<li>
-								<span class="name">起止时间</span >
-								<span class="content">没有没有</span>
-							</li>
-							<li>
-								<span class="name">月工资</span >
-								<span class="content">没有没有</span>
-							</li>
-							<li>
-								<span class="name">工作内容</span >
-								<span class="content">没有没有</span>
-							</li>
-						</ul>
 					</div>
 				</div>
 				<div class="recod-info">
-					<span>录入人员：张三</span>
-					<span>录入日期：2018-09-09</span>
+					<span id="createUser"></span>
+					<span id="createTime"></span>
 				</div>
 			</div>
 		</div>

@@ -72,7 +72,7 @@ public class RoleController {
 					ExcelRow row = new ExcelRow();
 					row.add(info.getName());
 					row.add(info.getUserCount());
-					row.add(DateUtils.formatDate(info.getCreateTime()));
+					row.add(info.getCreateTime());
 					data.add(row);
 				}
 				ExcelUtil.exportExcel(headers, data, "角色信息.xlsx", response);

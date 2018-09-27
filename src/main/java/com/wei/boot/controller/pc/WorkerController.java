@@ -67,14 +67,14 @@ public class WorkerController {
 	 * @param response
 	 * @param worker
 	 */
-	@PostMapping("/export")
+	@GetMapping("/export")
 	public void export(HttpServletResponse response, Worker worker) {
 		try {
 			Page<Worker> page = new Page<Worker>();
 			page.setPageSize(20000);
 			List<Worker> list = workerService.queryByPage(page, worker).getData();
 			if(null != list && list.size() > 0) {
-				ExcelRow headers = ExcelUtil.excelHeaders("姓名","联系电话","身份证号","性别","年龄","擅长工种","工作年限","职称","来源","录入人","录入时间");
+				ExcelRow headers = ExcelUtil.excelHeaders("姓名","手机号","身份证号","性别","年龄","职称","擅长工种","工作状态","录入人","来源","录入时间");
 				ExcelData data = new ExcelData();
 				for(Worker info : list) {
 					ExcelRow row = new ExcelRow();
@@ -83,11 +83,12 @@ public class WorkerController {
 					row.add(info.getIdcard());
 					row.add(info.getSexName());
 					row.add(info.getAge());	// 由身份证号计算得出
-					row.add(info.getJobtypeName());
-					row.add(info.getWorkYear());
 					row.add(info.getTitle());
-					row.add(info.getSourceName());
+					row.add(info.getJobtypeName());
+					row.add(info.getWorkStatusName());
 					row.add(info.getCreateUserName());
+					row.add(info.getSourceName());
+					row.add(info.getCreateTime());
 					data.add(row);
 				}
 				ExcelUtil.exportExcel(headers, data, "人才信息.xlsx", response);

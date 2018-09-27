@@ -62,7 +62,7 @@ public class UserController {
 	 * @param response
 	 * @param user
 	 */
-	@PostMapping("/export")
+	@GetMapping("/export")
 	public void export(HttpServletResponse response, User user) {
 		try {
 			Page<User> page = new Page<User>();
