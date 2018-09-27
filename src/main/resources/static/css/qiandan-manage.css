@@ -35,6 +35,7 @@
     padding: 20px;
     margin-bottom: 20px; }
     #qiandan-manage .qiandan-content .wait-handle .search-area .lenove-area{
+      display: inline-block;
       position: relative;
       left: 0px;
       top: 0px;
