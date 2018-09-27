@@ -11,7 +11,7 @@ $(function(){
 	// 进入页面自动查询
 	query(1);
 	//按钮事件绑定
-	$("#public-bottom2").click(function(){
+	$("#query-bottom").click(function(){
 		query(1);
 	});
 	
