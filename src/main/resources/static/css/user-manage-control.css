@@ -134,6 +134,7 @@
         position: relative;
         left: 0px;
         top: 0px;
+        min-height: 40px;
         padding-left: 80px; }
         #user-manage-control .party2 .history ul li .name {
           position: absolute;
