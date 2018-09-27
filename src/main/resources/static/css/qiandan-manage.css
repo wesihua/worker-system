@@ -34,11 +34,19 @@
     background-color:#ecf8ff;
     padding: 20px;
     margin-bottom: 20px; }
+    #qiandan-manage .qiandan-content .wait-handle .search-area .c-datepicker-date-editor{
+      height: 42px;
+      margin-right: 20px;
+    }
+    #qiandan-manage .qiandan-content .wait-handle .search-area .c-datepicker-date-editor .c-datepicker-data-input{
+      width: 82px;
+    }
     #qiandan-manage .qiandan-content .wait-handle .search-area .lenove-area{
       display: inline-block;
       position: relative;
       left: 0px;
       top: 0px;
+      vertical-align: top;
 
     }
 

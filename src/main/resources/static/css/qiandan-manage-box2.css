@@ -20,9 +20,14 @@
     line-height: 60px;
     border-bottom: 1px solid #cccccc;
     padding: 0px 20px; }
+    #qiandan-manage-box2 .box-content .head .title{
+      font-size: 14px;
+      font-weight: bold;
+    }
     #qiandan-manage-box2 .box-content .head .fa-close {
       float: right;
-      margin-top: 10px;
+      margin-top: 20px;
+      font-size: 20px;
       cursor: pointer; }
   #qiandan-manage-box2 .box-content .middle {
     padding: 20px; }
@@ -32,7 +37,7 @@
       font-size: 0px; }
       #qiandan-manage-box2 .box-content .middle .input-block .name {
         margin-right: 20px;
-        vertical-align: top;
+        /* vertical-align: top; */
         font-size: 12px; }
         #qiandan-manage-box2 .box-content .middle .input-block .name.t {
           vertical-align: top; }
@@ -40,10 +45,21 @@
         font-size: 12px;
         height: 40px;
         width: 280px;
-        background-color: #eeeeee;
+      
         text-indent: 10px;
-        border: none; }
+         }
+         #qiandan-manage-box2 .box-content .middle .input-block  .c-datepicker-date-editor{
+           height: 42px;
+          background-color: #f8f8f8;
+           
+           
+         }
+         #qiandan-manage-box2 .box-content .middle .input-block  .c-datepicker-date-editor .c-datepicker-data-input{
+          width: 248px;
+          background-color: #f8f8f8;
+         }
       #qiandan-manage-box2 .box-content .middle .input-block .se option {
+        line-height: 40px;
         height: 40px; }
       #qiandan-manage-box2 .box-content .middle .input-block .textarea {
         vertical-align: top;
