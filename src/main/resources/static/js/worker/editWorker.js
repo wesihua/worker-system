@@ -113,10 +113,61 @@ function loadWorkerInfo(){
 				$("#jobtype").val(worker.jobtypeName);
 				$("#jobtype_value").val(JSON.stringify(worker.jobTypeList));
 				
+				// 加载籍贯和工作地区
+				showPlace(worker.birthplaceCode,worker.workplaceCode);
 				// 加载教育经历
 				displayEducationList(worker.educationList);
 				// 加载工作经历
 				displayExperienceList(worker.experienceList);
+			}
+		}
+	});
+}
+
+/**
+ * 加载地区
+ * @param birthplaceCode
+ * @param workplaceCode
+ * @returns
+ */
+function showPlace(birthplaceCode,workplaceCode){
+	$.ajax({
+		url:"/common/queryParentCodeByCode",
+		type:"get",
+		async:true,
+		dataType:"json",
+		data:{code:birthplaceCode},
+		success:function(data){
+			if(data.code == 1){
+				$("#province").val(data.data.parentCode);
+				var dics = data.data.children;
+				var content = "<option value=\"\">---请选择---</option>";
+				for(var i=0; i<dics.length; i++){
+					var dic = dics[i];
+					content += "<option value=\""+dic.code+"\">"+dic.name+"</option>";
+				}
+				$("#birthplaceCode").empty().html(content);
+				$("#birthplaceCode").val(birthplaceCode);
+			}
+		}
+	});
+	$.ajax({
+		url:"/common/queryParentCodeByCode",
+		type:"get",
+		dataType:"json",
+		async:true,
+		data:{code:workplaceCode},
+		success:function(data){
+			if(data.code == 1){
+				$("#province2").val(data.data.parentCode);
+				var dics = data.data.children;
+				var content = "<option value=\"\">---请选择---</option>";
+				for(var i=0; i<dics.length; i++){
+					var dic = dics[i];
+					content += "<option value=\""+dic.code+"\">"+dic.name+"</option>";
+				}
+				$("#workplaceCode").empty().html(content);
+				$("#workplaceCode").val(workplaceCode);
 			}
 		}
 	});
@@ -483,7 +534,9 @@ function openExperienceDialog(){
 		format: 'YYYY-MM-DD'
 	});
 	parent.$(".add-experience-content").click(function(){
-		top.closeDialog();
+		// 保存工作经历并关闭弹窗刷新列表
+		
+		//top.closeDialog();
 		var companyName = parent.$("#exp_company").val();
 		var position = parent.$("#exp_position").val();
 		var beginTime = parent.$("#exp_beginTime").val();
@@ -492,7 +545,24 @@ function openExperienceDialog(){
 		var salary_value = parent.$("#exp_salary").val();
 		var description = parent.$("#exp_description").val();
 		
-		var content = "<div class=\"history\">"+
+		var experience = {};
+		experience.workerId = $("#workerId").val();
+		experience.company = companyName;
+		experience.position = position;
+		experience.beginTime = beginTime;
+		experience.endTime = endTime;
+		experience.salary = salary_value;
+		experience.description = description;
+		$.ajax({
+			url:"/worker/updateWorkerExperience",
+			type:"get",
+			dataType:"json",
+			data:{experienceJson:JSON.stringify(experience)},
+			success:function(data){
+				if(data.code == 1){
+					top.closeDialog();
+					var experienceId = data.data;
+					var content = "<div class=\"history\">"+
 						"	<span class=\"edit fa fa-edit\" name=\"edit-experience-dialog\" title=\"编辑\"></span>"+
 						"	<span class=\"delete fa fa-close\" name=\"remove-experience-dialog\" title=\"删除\"></span>"+
 						"	<ul>"+
@@ -506,30 +576,51 @@ function openExperienceDialog(){
 						"		</li>"+
 						"		<li><span class=\"name\">工作内容</span> <span class=\"content\" name=\"description_text\">"+description+"</span>"+
 						"		</li>"+
+							"	<input type=\"hidden\" id=\"experienceId\" value=\""+experienceId+"\" />"+
 							"	<input type=\"hidden\" name=\"salary_value\" value=\""+salary_value+"\" />"+
 							"	<input type=\"hidden\" name=\"beginTime_value\" value=\""+beginTime+"\" />"+
 							"	<input type=\"hidden\" name=\"endTime_value\" value=\""+endTime+"\" />"+
 						"	</ul>"+
 						"</div>";
-		$("#experience-list").append(content);
-		// 绑定删除事件
-		$("span[name=remove-experience-dialog]").click(function(){
-			$(this).parent().remove();
+					$("#experience-list").append(content);
+					// 绑定删除事件
+					$("span[name=remove-experience-dialog]").click(function(){
+						var _this = this;
+						var b = confirm("确认删除本条工作经历？");
+						if(b){
+							$.ajax({
+								url:"/worker/deleteExperience",
+								type:"get",
+								dataType:"json",
+								data:{experienceId:experienceId},
+								success:function(data){
+									if(data.code == 1){
+										$(_this).parent().remove();
+									}
+								}
+							});
+						}
+					});
+					// 绑定编辑事件
+					$("span[name=edit-experience-dialog]").click(function(){
+						var companyName = $(this).parent().find("span[name=companyName_text]").text();
+						var position = $(this).parent().find("span[name=position_text]").text();
+						var beginTime = $(this).parent().find("input[name=beginTime_value]").val();
+						var endTime = $(this).parent().find("input[name=endTime_value]").val();
+						var salary_value = $(this).parent().find("input[name=salary_value]").val();
+						var description = $(this).parent().find("span[name=description_text]").text();
+						editExperienceDialog(this,companyName,position,beginTime,endTime,salary_value,description);
+					});
+				}
+			}
 		});
-		// 绑定编辑事件
-		$("span[name=edit-experience-dialog]").click(function(){
-			var companyName = $(this).parent().find("span[name=companyName_text]").text();
-			var position = $(this).parent().find("span[name=position_text]").text();
-			var beginTime = $(this).parent().find("input[name=beginTime_value]").val();
-			var endTime = $(this).parent().find("input[name=endTime_value]").val();
-			var salary_value = $(this).parent().find("input[name=salary_value]").val();
-			var description = $(this).parent().find("span[name=description_text]").text();
-			editExperienceDialog(this,companyName,position,beginTime,endTime,salary_value,description);
-		});
+		
+		
 	});
 }
 
 function editExperienceDialog(ts,companyName,position,beginTime,endTime,salary_value,description){
+	var workerId = $("#workerId").val();
 	openDialog("dialog-experience-content");
 	parent.$('.J-yearMonthPicker-single').datePicker({
 		format: 'YYYY-MM-DD'
@@ -542,20 +633,41 @@ function editExperienceDialog(ts,companyName,position,beginTime,endTime,salary_v
 	parent.$("#exp_description").val(description);
 	
 	parent.$(".add-experience-content").click(function(){
-		top.closeDialog();
-		$(ts).parent().find("span[name=companyName_text]").text(parent.$("#exp_company").val());
-		$(ts).parent().find("span[name=position_text]").text(parent.$("#exp_position").val());
-		var salary_text = parent.$("#exp_salary").find("option:selected").text() == "---请选择---" ? "" : parent.$("#exp_salary").find("option:selected").text();
-		var salary_value = parent.$("#exp_salary").val();
-		$(ts).parent().find("span[name=salary_text]").text(salary_text);
-		$(ts).parent().find("input[name=salary_value]").val(salary_value);
-		var beginTime = parent.$("#exp_beginTime").val();
-		var endTime = parent.$("#exp_endTime").val();
-		var description = parent.$("#exp_description").val();
-		$(ts).parent().find("span[name=exp_time]").text(beginTime +" 至 "+endTime);
-		$(ts).parent().find("input[name=beginTime_value]").val(beginTime);
-		$(ts).parent().find("input[name=endTime_value]").val(endTime);
-		$(ts).parent().find("span[name=description_text]").text(description);
+		// 保存工作经历并刷新列表
+		var experience = {};
+		experience.id = $(ts).parent().find("input[id=experienceId]").val();
+		experience.workerId = workerId;
+		experience.company = parent.$("#exp_company").val();
+		experience.position = parent.$("#exp_position").val();
+		experience.beginTime = parent.$("#exp_beginTime").val();
+		experience.endTime = parent.$("#exp_endTime").val();
+		experience.salary = parent.$("#exp_salary").val();
+		experience.description = parent.$("#exp_description").val();
+		
+		$.ajax({
+			url:"/worker/updateWorkerExperience",
+			type:"get",
+			dataType:"json",
+			data:{experienceJson:JSON.stringify(experience)},
+			success:function(data){
+				if(data.code == 1){
+					top.closeDialog();
+					$(ts).parent().find("span[name=companyName_text]").text(parent.$("#exp_company").val());
+					$(ts).parent().find("span[name=position_text]").text(parent.$("#exp_position").val());
+					var salary_text = parent.$("#exp_salary").find("option:selected").text() == "---请选择---" ? "" : parent.$("#exp_salary").find("option:selected").text();
+					var salary_value = parent.$("#exp_salary").val();
+					$(ts).parent().find("span[name=salary_text]").text(salary_text);
+					$(ts).parent().find("input[name=salary_value]").val(salary_value);
+					var beginTime = parent.$("#exp_beginTime").val();
+					var endTime = parent.$("#exp_endTime").val();
+					var description = parent.$("#exp_description").val();
+					$(ts).parent().find("span[name=exp_time]").text(beginTime +" 至 "+endTime);
+					$(ts).parent().find("input[name=beginTime_value]").val(beginTime);
+					$(ts).parent().find("input[name=endTime_value]").val(endTime);
+					$(ts).parent().find("span[name=description_text]").text(description);
+				}
+			}
+		});
 	});
 }
 
@@ -663,6 +775,7 @@ function initProvinceSelect(){
 
 function addWorker(){
 	var worker = {};
+	worker.id = $("#workerId").val();
 	worker.name = $("#name").val();
 	worker.telephone = $("#telephone").val();
 	worker.email = $("#email").val();
@@ -683,31 +796,6 @@ function addWorker(){
 	worker.birthday = $("#birthday").val();
 	worker.workExpect = $("#workExpect").val();
 	worker.jobtypeName = $("#jobtype").val();
-	// 收集教育经历
-	var educationList = [];
-	$("#education-list").find(".history").each(function(){
-		var education = {};
-		education.school = $(this).find("span[name=school_text]").text();
-		education.degree = $(this).find("input[name=degree_value]").val();
-		education.beginTime = $(this).find("input[name=beginTime_value]").val();
-		education.endTime = $(this).find("input[name=endTime_value]").val();
-		education.discipline = $(this).find("span[name=discipline_text]").text();
-		educationList.push(education);
-	});
-	worker.educationList = educationList;
-	// 收集工作经历
-	var experienceList = [];
-	$("#experience-list").find(".history").each(function(){
-		var experience = {};
-		experience.company = $(this).find("span[name=company_text]").text();
-		experience.position = $(this).find("span[name=position_text]").text();
-		experience.salary = $(this).find("input[name=salary_value]").val();
-		experience.beginTime = $(this).find("input[name=beginTime_value]").val();
-		experience.endTime = $(this).find("input[name=endTime_value]").val();
-		experience.description = $(this).find("span[name=description_text]").text();
-		experienceList.push(experience);
-	});
-	worker.experienceList = experienceList;
 	
 	if(worker.name == null || worker.name.length == 0){
 		alert("姓名不能为空！");
@@ -737,17 +825,17 @@ function addWorker(){
 		alert("性别不能为空！");
 		return false;
 	}
-	console.log(worker);
-	console.log(JSON.stringify(worker));
+	//console.log(worker);
+	//console.log(JSON.stringify(worker));
 	$.ajax({
-		url:"/worker/addWorker",
+		url:"/worker/updateWorkerBody",
 		type:"post",
 		dataType:"json",
 		contentType:"application/json",
 		data:JSON.stringify(worker),
 		success:function(data){
 			if(data.code == 1){
-				alert("新增人才信息成功！");
+				alert("更改人才信息成功！");
 				location.href="/worker/index";
 			}
 			else{

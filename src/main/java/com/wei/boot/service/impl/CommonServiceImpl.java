@@ -157,4 +157,11 @@ public class CommonServiceImpl implements CommonService {
 		return userName;
 	}
 
+	@Override
+	public int queryParentByCode(int code) {
+		AreaExample example = new AreaExample();
+		example.createCriteria().andCodeEqualTo(code);
+		return areaMapper.selectByExample(example).get(0).getParentCode();
+	}
+
 }

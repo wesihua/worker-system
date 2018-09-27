@@ -131,6 +131,9 @@ function query(currentPage){
 function editWorker(workerId){
 	location.href="/worker/edit?workerId="+workerId
 }
+function detailWorker(workerId){
+	location.href="/worker/detail?workerId="+workerId
+}
 
 /**
  * 打开弹窗
