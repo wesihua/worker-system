@@ -45,7 +45,8 @@
 							<span class="name"><i>*</i>身份证号</span> <input class="inputValue" id="idcard"/>
 						</div>
 						<div class="inut-b">
-							<span class="name">工作年限</span> <input class="inputValue" id="workYear" placeholder="请输入数字"/>
+							<span class="name">工作年限</span> 
+							<input class="inputValue" id="workYear" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" placeholder="请输入数字"/>
 						</div>
 						<div class="inut-b">
 							<span class="name">婚姻状态</span> 
@@ -126,7 +127,7 @@
 							<span class="name">出生日期</span> 
 							<div class="c-datepicker-date-editor c-datepicker-single-editor J-yearMonthPicker-single mt10">
 								<i class="c-datepicker-range__icon kxiconfont icon-clock"></i> 
-								<input type="text" autocomplete="off" placeholder="选择年月" class="c-datepicker-data-input" id="birthday" />
+								<input type="text" autocomplete="off" placeholder="选择年月" readonly="readonly" class="c-datepicker-data-input" id="birthday" />
 							</div>
 						</div>
 						<div class="jianjie">
@@ -198,11 +199,11 @@
 				<div class="head"><span class="title">教育经历</span><span class="close fa fa-close" id="close-dialog"></span></div>
 				<div class="middle">
 					<div class="input-block clearFix">
-						<span class="name">学校</span>
+						<span class="name"><i style="color:red;">*</i>学校</span>
 						<input class="pt" id="school"/>
 					</div>
 					<div class="input-block clearFix">
-						<span class="name">学历</span>
+						<span class="name"><i style="color:red;">*</i>学历</span>
 						<select class="select" id="degree">
 							<option value=""></option>
 						</select>
@@ -239,11 +240,11 @@
 				<div class="head"><span class="title">工作经历</span><span class="close fa fa-close" id="close-dialog"></span></div>
 				<div class="middle">
 					<div class="input-block clearFix">
-						<span class="name">工作公司</span>
+						<span class="name"><i style="color:red;">*</i>工作公司</span>
 						<input class="pt" id="exp_company"/>
 				     </div>
 					<div class="input-block clearFix">
-						<span class="name">职位</span>
+						<span class="name"><i style="color:red;">*</i>职位</span>
 						<input class="pt" id="exp_position"/>
 				     </div>
 				     <div class="input-block clearFix">

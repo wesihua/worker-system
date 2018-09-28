@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -106,10 +107,7 @@ public class WorkerServiceImpl implements WorkerService {
 	@Transactional
 	public void addWorker(Worker worker) throws NormalException {
 		worker.setCreateTime(new Date());
-		// 检查身份证
-		if(!CheckUtils.isIdCard(worker.getIdcard())) {
-			throw new NormalException("请输入正确的身份证号！");
-		}
+		validateWorker(worker);
 		workerMapper.insertSelective(worker);
 		int workerId = worker.getId();
 		if(null != worker.getEducationList() && worker.getEducationList().size() > 0) {
@@ -139,7 +137,7 @@ public class WorkerServiceImpl implements WorkerService {
 	@Override
 	@Transactional
 	public void updateWorker(Worker worker) throws NormalException {
-
+		validateWorker(worker);
 		worker.setUpdateTime(new Date());
 		int workerId = worker.getId();
 		workerMapper.updateByPrimaryKeySelective(worker);
@@ -218,8 +216,10 @@ public class WorkerServiceImpl implements WorkerService {
 			List<WorkerExperience> experienceList = workerExperienceMapper.selectByExample(expExample);
 			if(null != experienceList && experienceList.size() > 0) {
 				for(WorkerExperience experience : experienceList) {
-					String salaryName = commonService.queryDicText("expect_salary", experience.getSalary());
-					experience.setSalaryName(salaryName);
+					if(null != experience.getSalary()) {
+						String salaryName = commonService.queryDicText("expect_salary", experience.getSalary());
+						experience.setSalaryName(salaryName);
+					}
 				}
 			}
 			worker.setExperienceList(experienceList);
@@ -230,6 +230,7 @@ public class WorkerServiceImpl implements WorkerService {
 
 	@Override
 	public void updateWorkerBody(Worker worker) throws NormalException {
+		validateWorker(worker);
 		worker.setUpdateTime(new Date());
 		workerMapper.updateByPrimaryKeySelective(worker);
 	}
@@ -463,6 +464,7 @@ public class WorkerServiceImpl implements WorkerService {
 
 	@Override
 	public void updateWorker4App(Worker worker) throws NormalException {
+		validateWorker(worker);
 		worker.setUpdateTime(new Date());
 		int workerId = worker.getId();
 		workerMapper.updateByPrimaryKeySelective(worker);
@@ -524,5 +526,18 @@ public class WorkerServiceImpl implements WorkerService {
 	@Override
 	public void deleteExperience(int experienceId) {
 		workerExperienceMapper.deleteByPrimaryKey(experienceId);
+	}
+	
+	private void validateWorker(Worker worker) throws NormalException {
+		Objects.requireNonNull(worker.getName(), "请输入姓名！");
+		Objects.requireNonNull(worker.getTelephone(), "请输入手机号！");
+		Objects.requireNonNull(worker.getIdcard(), "请输入身份证号！");
+		if(!CheckUtils.isPhone(worker.getTelephone()) && !CheckUtils.isMobile(worker.getTelephone())) {
+			throw new NormalException("请输入正确的联系电话！");
+		}
+		// 检查身份证
+		if(!CheckUtils.isIdCard(worker.getIdcard())) {
+			throw new NormalException("请输入正确的身份证号！");
+		}
 	}
 }
