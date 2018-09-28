@@ -8,7 +8,8 @@ $(function(){
 	loadMenu();
 	// 加载用户信息
 	userInfo();
-	
+	// 设置菜单的高度
+	$("#nav").height($(window).height()-110);
 	// alert提示框click事件
 	$("#alert_close").click(function(){
 		closeAlert();
@@ -39,14 +40,14 @@ function loadMenu(){
 		success:function(data){
 			if(data.code == 1){
 				var menuList = data.data;
-				var menuHtml = "<ul><li onClick=\"loadPage('/welcome.html')\"><div class=\"f on\">首页</div></li>";
+				var menuHtml = "<ul><li onClick=\"loadPage('/welcome.html')\"><div class=\"f on\" id=\"sy\">首页</div></li>";
 				for(var i=0; i<menuList.length; i++){
 					var menu = menuList[i];
 					if(menu.children.length > 0){
 						menuHtml+="<li><div class=\"f\">"+menu.name+"</div>";
 						for(var j=0; j<menu.children.length; j++){
 							var subMenu = menu.children[j];
-							menuHtml+="<div class=\"s\" onClick=\"loadPage('"+subMenu.path+"')\">"+
+							menuHtml+="<div class=\"s\" style=\"display:none;\" onClick=\"loadPage('"+subMenu.path+"')\">"+
 									"	<div class=\"s-n\">"+subMenu.name+"</div>"+
 									"</div>";
 						}
@@ -65,6 +66,23 @@ function loadMenu(){
 				}
 				menuHtml+="</ul>";
 				$("#nav").html(menuHtml);
+				
+				// 绑定菜单的点击事件
+				$("#nav").children("ul").find("div[class=s]").click(function(){
+					$(this).children("div").addClass("on");
+					$(this).siblings().children("div").removeClass("on");
+					$("#sy").removeClass("on");
+				});
+				$("#sy").click(function(){
+					$(this).addClass("on");
+					$(this).parents("li").siblings().find("div[class=s]").slideUp(300);
+					$(this).parents("li").siblings().find("div[class=s]").children("div").removeClass("on");
+				});
+				$("#nav").children("ul").find("div[class=f]").click(function(){
+					$(this).siblings().slideToggle(300);
+					$(this).parents("li").siblings().find("div[class=s]").slideUp(300);
+					$(this).parents("li").siblings().find("div[class=s]").children("div").removeClass("on");
+				});
 			}
 		}
 	});
@@ -72,6 +90,7 @@ function loadMenu(){
 /**
  * 加载页面
  * @param url
+ * @param flag 0:父页面，1:子页面
  * @returns
  */
 function loadPage(url){
@@ -89,7 +108,7 @@ function userInfo(){
 		dataType:"json",
 		success:function(data){
 			if(data.code == 1){
-				$("#userName").text(data.data.userName);
+				$("#userName").text(data.data.realName);
 			}
 		}
 	});
@@ -122,7 +141,8 @@ function handleFrame(){
 		location.href="/";
 	}
 	else{
-		initIframeHeight(450);
+		var height = $(window).height() - 110;
+		initIframeHeight(height);
 	}
 }
 /**
@@ -135,13 +155,17 @@ function initIframeHeight(height) {
 	var myframe = parent.document.getElementById("myframe");
 	var subdoc = myframe.contentDocument || myframe.contentWindow.document;
 	var subbody = subdoc.body;
-	var realHeight = $(subbody).height()+400;// = getIframePageHeight("myframe");
+	var realHeight = height;// = getIframePageHeight("myframe");
+	//alert(realHeight);
 	// 谷歌浏览器特殊处理
+	/*
 	if (userAgent.indexOf("Chrome") > -1) {
-		realHeight = subdoc.documentElement.scrollHeight;
+		realHeight = $(subdoc).height();
 	} else {
-		realHeight = subbody.scrollHeight;
+		realHeight = $(subbody).height();
 	}
+	*/
+	
 	if (realHeight < height) {
 		$(myframe).height(height);
 	} else {

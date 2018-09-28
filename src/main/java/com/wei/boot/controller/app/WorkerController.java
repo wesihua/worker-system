@@ -1,5 +1,7 @@
 package com.wei.boot.controller.app;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +23,7 @@ import com.wei.boot.model.Result;
 import com.wei.boot.model.Worker;
 import com.wei.boot.service.WorkerService;
 import com.wei.boot.util.CheckUtils;
+import com.wei.boot.util.DateUtils;
 import com.wei.boot.util.ToolsUtil;
 
 @RestController("appWorkerController")
@@ -40,9 +43,47 @@ public class WorkerController {
 	 * @return
 	 */
 	@GetMapping("/list")
-	public Result list(HttpServletRequest request, Page<Worker> page, String keyWord, Worker worker) {
+	public Result list(HttpServletRequest request, Page<Worker> page, String keyWord, String flag, Worker worker) {
 		Result result = Result.SUCCESS;
 		try {
+			// 设置开始时间和结束时间
+			if(!StringUtils.isEmpty(flag)) {
+				Calendar cal = Calendar.getInstance();
+				if("today".equals(flag)) {
+					String beginTime = DateUtils.formatDate(new Date(), "yyyy-MM-dd")+" 00:00:00";
+					String endTime = DateUtils.formatDate(new Date(), "yyyy-MM-dd HH:mm:ss");
+					worker.setBeginTime(beginTime);
+					worker.setEndTime(endTime);
+				}
+				else if("week".equals(flag)) {
+					cal.add(Calendar.DAY_OF_MONTH, -7);
+					String beginTime = DateUtils.formatDate(cal.getTime(),"yyyy-MM-dd HH:mm:ss");
+					//String endTime = DateUtils.formatDate(new Date(), "yyyy-MM-dd HH:mm:ss");
+					worker.setBeginTime(beginTime);
+					//worker.setEndTime(endTime);
+				}
+				else if("oneMonth".equals(flag)) {
+					cal.add(Calendar.MONTH, -1);
+					String beginTime = DateUtils.formatDate(cal.getTime(),"yyyy-MM-dd HH:mm:ss");
+					//String endTime = DateUtils.formatDate(new Date(), "yyyy-MM-dd HH:mm:ss");
+					worker.setBeginTime(beginTime);
+					//worker.setEndTime(endTime);
+				}
+				else if("threeMonth".equals(flag)) {
+					cal.add(Calendar.MONTH, -3);
+					String beginTime = DateUtils.formatDate(cal.getTime(),"yyyy-MM-dd HH:mm:ss");
+					//String endTime = DateUtils.formatDate(new Date(), "yyyy-MM-dd HH:mm:ss");
+					worker.setBeginTime(beginTime);
+					//worker.setEndTime(endTime);
+				}
+				else if("halfYear".equals(flag)) {
+					cal.add(Calendar.MONTH, -6);
+					String beginTime = DateUtils.formatDate(cal.getTime(),"yyyy-MM-dd HH:mm:ss");
+					//String endTime = DateUtils.formatDate(new Date(), "yyyy-MM-dd HH:mm:ss");
+					worker.setBeginTime(beginTime);
+					//worker.setEndTime(endTime);
+				}
+			}
 			if(!StringUtils.isEmpty(keyWord)) {
 				if(CheckUtils.isMobile(keyWord)) {
 					worker.setTelephone(keyWord);
