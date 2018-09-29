@@ -4,6 +4,11 @@ $(function(){
 			location.href="/";
 		}
 	});
+	$(document).bind("ajaxSend", function () {
+        $("#loading").show();
+    }).bind("ajaxComplete", function () {
+        $("#loading").hide();
+    });
 	// 先加载用户菜单
 	loadMenu();
 	// 加载用户信息

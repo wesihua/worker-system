@@ -5,6 +5,11 @@ $(function(){
 			top.location.href="/";
 		}
 	});
+	$(document).bind("ajaxSend", function () {
+		parent.$("#loading").show();
+    }).bind("ajaxComplete", function () {
+    	parent.$("#loading").hide();
+    });
 	// 进入页面自动查询
 	query(1);
 	//按钮事件绑定
@@ -161,6 +166,7 @@ function initSelect(id,type){
 		type:"get",
 		dataType:"json",
 		data:{type:type},
+		global: false,
 		success:function(data){
 			if(data.code == 1){
 				var dics = data.data;
@@ -180,6 +186,7 @@ function initCreateUserSelect(id){
 		url:"/user/queryByRealName",
 		type:"get",
 		dataType:"json",
+		global: false,
 		success:function(data){
 			if(data.code == 1){
 				var dics = data.data;
@@ -199,6 +206,7 @@ function initFirstIdSelect(id){
 		url:"/jobType/queryRootJobType",
 		type:"get",
 		dataType:"json",
+		global: false,
 		success:function(data){
 			if(data.code == 1){
 				var dics = data.data;

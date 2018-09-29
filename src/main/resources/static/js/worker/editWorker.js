@@ -5,6 +5,12 @@ $(function(){
 			top.location.href="/";
 		}
 	});
+	$(document).bind("ajaxSend", function () {
+		parent.$("#loading").show();
+    }).bind("ajaxComplete", function () {
+    	parent.$("#loading").hide();
+    });
+	
 	$("#add-worker").click(function(){
 		addWorker();
 	});
@@ -291,6 +297,7 @@ function editJobType(){
 		type:"get",
 		dataType:"json",
 		data:{workerId:workerId},
+		global: false,
 		success:function(data){
 			if(data.code == 1){
 				var jobtypeList = data.data;
@@ -688,6 +695,7 @@ function initSelect(){
 		async:true,
 		dataType:"json",
 		data:{types:types},
+		global: false,
 		success:function(data){
 			if(data.code == 1){
 				var all = data.data;
@@ -765,6 +773,7 @@ function initProvinceSelect(){
 		url:"/common/queryAllProvince",
 		type:"get",
 		dataType:"json",
+		global: false,
 		success:function(data){
 			if(data.code == 1){
 				var dics = data.data;
