@@ -63,14 +63,13 @@ function query(){
 				for(var i=0; i<jobtypeArr.length; i++){
 					var jobtype = jobtypeArr[i];
 					tableContent+= "<div class=\"g-block\">"+
-										"<h2 onClick=\"editJobtype('"+jobtype.id+"','"+jobtype.name+"')\">"+
-										"	"+jobtype.name+"<span class=\"fa fa-close\" onClick=\"deleteJobtype('"+jobtype.id+"',1,event)\"></span>"+
+										"<h2>"+"<span onClick=\"editJobtype('"+jobtype.id+"','"+jobtype.name+"')\">"+jobtype.name+"</span>"+"<span class=\"fa fa-close\" onClick=\"deleteJobtype('"+jobtype.id+"',1)\"></span>"+
 										"</h2>"+
 										"<ul>";
 					if(jobtype.children.length > 0){
 						for(var j=0; j< jobtype.children.length; j++){
 							var subJobtype = jobtype.children[j];
-							tableContent+= "	<li><span class=\"name\" onClick=\"editJobtype('"+subJobtype.id+"','"+subJobtype.name+"')\">"+subJobtype.name+"</span><span class=\"fa fa-close\" onClick=\"deleteJobtype("+subJobtype.id+event+")\"></span></li>";
+							tableContent+= "	<li><span class=\"name\" onClick=\"editJobtype('"+subJobtype.id+"','"+subJobtype.name+"')\">"+subJobtype.name+"</span><span class=\"fa fa-close\" onClick=\"deleteJobtype("+subJobtype.id+")\"></span></li>";
 						}
 						
 					}
@@ -188,7 +187,7 @@ function editJobtype(jobtypeId,jobtypeName){
  * @param roleId
  * @returns
  */
-function deleteJobtype(jobtypeId,flag,event){
+function deleteJobtype(jobtypeId,flag){
 	var b = null;
 	if(flag){
 		b = confirm("删除该工种将会删除其下所有子工种，确定删除该工种？");
@@ -215,6 +214,6 @@ function deleteJobtype(jobtypeId,flag,event){
 			}
 		});
 	}
-event.stopPropagation();
+// event.stopPropagation();
 }
 
