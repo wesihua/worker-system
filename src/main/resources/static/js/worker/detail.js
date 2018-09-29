@@ -78,10 +78,10 @@ function displayEducationList(educationList){
 			"	<li><span class=\"name\">学历</span> <span class=\"content\" name=\"degree_text\">"+education.degreeName+"</span></li>"+
 			"	<input type=\"hidden\" id=\"educationId\" value=\""+education.id+"\" />"+
 			"	<input type=\"hidden\" name=\"degree_value\" value=\""+education.degree+"\" />"+
-			"	<input type=\"hidden\" name=\"beginTime_value\" value=\""+education.beginTime+"\" />"+
-			"	<input type=\"hidden\" name=\"endTime_value\" value=\""+education.endTime+"\" />"+
-			"	<li><span class=\"name\">起止日期</span> <span class=\"content\" name=\"schoolTime_text\">"+education.beginTime+" 至 "+education.endTime+"</span></li>"+
-			"	<li><span class=\"name\">专业名称</span> <span class=\"content\" name=\"discipline_text\">"+education.discipline+"</span></li>"+
+			"	<input type=\"hidden\" name=\"beginTime_value\" value=\""+(education.beginTime == null ? '' : education.beginTime)+"\" />"+
+			"	<input type=\"hidden\" name=\"endTime_value\" value=\""+(education.endTime == null ? '' : education.endTime)+"\" />"+
+			"	<li><span class=\"name\">起止日期</span> <span class=\"content\" name=\"schoolTime_text\">"+(education.beginTime == null ? '' : education.beginTime)+" 至 "+(education.endTime == null ? '' : education.endTime)+"</span></li>"+
+			"	<li><span class=\"name\">专业名称</span> <span class=\"content\" name=\"discipline_text\">"+(education.discipline == null ? '' : education.discipline)+"</span></li>"+
 			"</ul>"+
 		"</div>";
 	}
@@ -105,16 +105,16 @@ function displayExperienceList(experienceList){
 			"		</li>"+
 			"		<li><span class=\"name\">职位</span> <span class=\"content\" name=\"position_text\">"+experience.position+"</span>"+
 			"		</li>"+
-			"		<li><span class=\"name\">起止时间</span> <span class=\"content\" name=\"exp_time\">"+experience.beginTime+" 至 "+experience.endTime+"</span>"+
+			"		<li><span class=\"name\">起止时间</span> <span class=\"content\" name=\"exp_time\">"+(experience.beginTime == null ? '' : experience.beginTime)+" 至 "+(experience.endTime == null ? '' : experience.endTime)+"</span>"+
 			"		</li>"+
-			"		<li><span class=\"name\">月工资</span> <span class=\"content\" name=\"salary_text\">"+experience.salaryName+"</span>"+
+			"		<li><span class=\"name\">月工资</span> <span class=\"content\" name=\"salary_text\">"+(experience.salaryName == null ? '' : experience.salaryName)+"</span>"+
 			"		</li>"+
-			"		<li><span class=\"name\">工作内容</span> <span class=\"content\" name=\"description_text\">"+experience.description+"</span>"+
+			"		<li><span class=\"name\">工作内容</span> <span class=\"content\" name=\"description_text\">"+(experience.description == null ? '' : experience.description)+"</span>"+
 			"		</li>"+
 				"	<input type=\"hidden\" id=\"experienceId\" value=\""+experience.id+"\" />"+
-				"	<input type=\"hidden\" name=\"salary_value\" value=\""+experience.salary+"\" />"+
-				"	<input type=\"hidden\" name=\"beginTime_value\" value=\""+experience.beginTime+"\" />"+
-				"	<input type=\"hidden\" name=\"endTime_value\" value=\""+experience.endTime+"\" />"+
+				"	<input type=\"hidden\" name=\"salary_value\" value=\""+(experience.salary == null ? '' : experience.salary)+"\" />"+
+				"	<input type=\"hidden\" name=\"beginTime_value\" value=\""+(experience.beginTime == null ? '' : experience.beginTime)+"\" />"+
+				"	<input type=\"hidden\" name=\"endTime_value\" value=\""+(experience.endTime == null ? '' : experience.endTime)+"\" />"+
 			"	</ul>"+
 			"</div>";
 	}
