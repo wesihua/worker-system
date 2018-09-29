@@ -46,6 +46,5 @@
       font-size: 12px; }
       #account-manage .a-m-content table tr td .delete, #account-manage .a-m-content table tr td .des {
         margin: 0px 5px;
-        cursor: pointer; }
-        #account-manage .a-m-content table tr td .delete:hover, #account-manage .a-m-content table tr td .des:hover {
-          color: #5595d6; }
+        cursor: pointer; 
+      color: #5595d6;}

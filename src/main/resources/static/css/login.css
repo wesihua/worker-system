@@ -13,12 +13,13 @@ html,body{
   left: 50%;
   top: 50%;
   border-radius: 5px;
-  background-color:#252525;
+  background-color:#ffffff;
   width: 600px;
   height: 340px;
   margin-left: -300px;
   margin-top: -170px;
-  opacity: 0.6;
+  opacity: 0.2;
+   box-shadow:0px 0px 20px 0px #ffffff ;
 }
 #login .login-area {
   position: fixed;
@@ -38,7 +39,8 @@ html,body{
     top: 0px;
     width: 190px;
     height: 100%;
-    background-color:#e7e7e7;
+
+    /* background-color:#e7e7e7; */
   }
   #login .login-area .head-pic {
     position: relative;
@@ -56,7 +58,8 @@ html,body{
         overflow: hidden;
         }
     #login .login-area .head-pic .company-wd {
-      font-size: 20px; }
+      font-size: 20px;
+      color: #ffffff; }
   #login .login-area .form-info {
     float: left;
     height: 100%;
@@ -77,12 +80,14 @@ html,body{
         border: 1px solid #cccccc;
         border-radius: 5px;
         text-indent: 5px; }
-    #login .login-area .form-info .input-a  input:-webkit-autofill {
-          -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+    #login .login-area .form-info .input-a  input {
+          /* -webkit-box-shadow: 0 0 0px 1000px rgba(255,255,255,0) inset !important; */
+        /* background-color:rgba(255,255,255,0.2) !important; */
+        /* background-image: none !important; */
       }
     #login .login-area .form-info .tip {
       font-size: 12px;
-      color: #ffffff;
+      color:#eb9b4d;
       line-height: 20px;
       margin-bottom: 20px; }
     #login .login-area .form-info .submit {

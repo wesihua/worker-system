@@ -42,6 +42,4 @@
       font-size: 12px; }
       #juese-manage .a-m-content table tr td .delete, #juese-manage .a-m-content table tr td .des {
         margin: 0px 5px;
-        cursor: pointer; }
-        #juese-manage .a-m-content table tr td .delete:hover, #juese-manage .a-m-content table tr td .des:hover {
-          color: #5595d6; }
+        cursor: pointer;color: #5595d6; }

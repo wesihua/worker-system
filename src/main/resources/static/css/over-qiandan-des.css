@@ -45,6 +45,6 @@
       font-size: 12px; }
       #over-qiandan-des .qiandan-add-content .table-area table tr td .delete, #over-qiandan-des .qiandan-add-content .table-area table tr td .des, #over-qiandan-des .qiandan-add-content .table-area table tr td .jiedan {
         margin: 0px 5px;
-        cursor: pointer; }
-        #over-qiandan-des .qiandan-add-content .table-area table tr td .delete:hover, #over-qiandan-des .qiandan-add-content .table-area table tr td .des:hover, #over-qiandan-des .qiandan-add-content .table-area table tr td .jiedan:hover {
-          color: #5595d6; }
+        cursor: pointer; 
+      color: #5595d6;}
+

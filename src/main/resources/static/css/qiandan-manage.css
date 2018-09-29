@@ -95,9 +95,8 @@
       font-size: 12px; }
       #qiandan-manage .qiandan-content .wait-handle .table-area table tr td .delete, #qiandan-manage .qiandan-content .wait-handle .table-area table tr td .des, #qiandan-manage .qiandan-content .wait-handle .table-area table tr td .jiedan {
         margin: 0px 5px;
-        cursor: pointer; }
-        #qiandan-manage .qiandan-content .wait-handle .table-area table tr td .delete:hover, #qiandan-manage .qiandan-content .wait-handle .table-area table tr td .des:hover, #qiandan-manage .qiandan-content .wait-handle .table-area table tr td .jiedan:hover {
-          color: #5595d6; }
+        cursor: pointer;
+        color: #5595d6; }
   #qiandan-manage .qiandan-content .now-handle .search-area {
     background-color: #f8f8f8;
     padding: 20px;
