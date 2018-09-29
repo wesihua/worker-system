@@ -76,6 +76,5 @@
     font-size: 12px; }
     #user-manage table tr td .delete, #user-manage table tr td .des {
       margin: 0px 5px;
-      cursor: pointer; }
-      #user-manage table tr td .delete:hover, #user-manage table tr td .des:hover {
-        color: #5595d6; }
+      cursor: pointer; 
+    color: #5595d6;}

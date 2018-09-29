@@ -45,6 +45,5 @@
       font-size: 12px; }
       #already-qiandan-des .qiandan-add-content .table-area table tr td .delete, #already-qiandan-des .qiandan-add-content .table-area table tr td .des, #already-qiandan-des .qiandan-add-content .table-area table tr td .jiedan {
         margin: 0px 5px;
-        cursor: pointer; }
-        #already-qiandan-des .qiandan-add-content .table-area table tr td .delete:hover, #already-qiandan-des .qiandan-add-content .table-area table tr td .des:hover, #already-qiandan-des .qiandan-add-content .table-area table tr td .jiedan:hover {
-          color: #5595d6; }
+        cursor: pointer; 
+      color: #5595d6;}

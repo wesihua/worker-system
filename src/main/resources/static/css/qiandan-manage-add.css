@@ -90,9 +90,8 @@
       font-size: 12px; }
       #qiandan-manage-add .qiandan-add-content .table-area table tr td .delete, #qiandan-manage-add .qiandan-add-content .table-area table tr td .des, #qiandan-manage-add .qiandan-add-content .table-area table tr td .jiedan {
         margin: 0px 5px;
-        cursor: pointer; }
-        #qiandan-manage-add .qiandan-add-content .table-area table tr td .delete:hover, #qiandan-manage-add .qiandan-add-content .table-area table tr td .des:hover, #qiandan-manage-add .qiandan-add-content .table-area table tr td .jiedan:hover {
-          color: #5595d6; }
+        cursor: pointer;
+        color: #5595d6; }
   #qiandan-manage-add .qiandan-add-content .control-botton {
     padding-top: 40px;
     text-align: center; }

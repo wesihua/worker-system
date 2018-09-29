@@ -41,7 +41,9 @@ input,select, textarea {
   width: 170px;
   float: left;
   background: #474b4d;
-  color: #ffffff; }
+  color: #ffffff; 
+    font-size: 14px;
+  }
   #nav ul {
     list-style: none; }
     #nav ul li {
