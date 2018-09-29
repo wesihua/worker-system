@@ -5,6 +5,11 @@ $(function(){
 			top.location.href="/";
 		}
 	});
+	$(document).bind("ajaxSend", function () {
+		parent.$("#loading").show();
+    }).bind("ajaxComplete", function () {
+    	parent.$("#loading").hide();
+    });
 	// 进入页面自动查询
 	query(1);
 	//按钮事件绑定

@@ -5,6 +5,11 @@ $(function(){
 			top.location.href="/";
 		}
 	});
+	$(document).bind("ajaxSend", function () {
+		parent.$("#loading").show();
+    }).bind("ajaxComplete", function () {
+    	parent.$("#loading").hide();
+    });
 	// 加载角色下拉框
 	loadAllRole();
 	// 进入页面自动查询
