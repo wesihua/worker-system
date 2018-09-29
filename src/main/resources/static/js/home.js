@@ -44,7 +44,7 @@ function loadMenu(){
 				for(var i=0; i<menuList.length; i++){
 					var menu = menuList[i];
 					if(menu.children.length > 0){
-						menuHtml+="<li><div class=\"f\">"+menu.name+"</div>";
+						menuHtml+="<li><div class=\"f\">"+menu.name+"<span class='fa fa-angle-right'>"+"</span>"+"</div>";
 						for(var j=0; j<menu.children.length; j++){
 							var subMenu = menu.children[j];
 							menuHtml+="<div class=\"s\" style=\"display:none;\" onClick=\"loadPage('"+subMenu.path+"')\">"+
@@ -80,6 +80,13 @@ function loadMenu(){
 				});
 				$("#nav").children("ul").find("div[class=f]").click(function(){
 					$(this).siblings().slideToggle(300);
+					if($(this).children('span').hasClass('fa-angle-right')){
+						$(this).children('span').removeClass('fa-angle-right');
+						$(this).children('span').addClass('fa-angle-down');
+					}else{
+						$(this).children('span').removeClass('fa-angle-down');
+						$(this).children('span').addClass('fa-angle-right');
+					}
 					$(this).parents("li").siblings().find("div[class=s]").slideUp(300);
 					$(this).parents("li").siblings().find("div[class=s]").children("div").removeClass("on");
 				});
