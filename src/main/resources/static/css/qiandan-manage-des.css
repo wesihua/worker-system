@@ -36,13 +36,13 @@
       height: 40px;
       font-weight: normal;
       border: 1px solid #e2e2e2;
-      font-size: 12px; }
+      font-size: 14px; }
     #qiandan-manage-des .qiandan-add-content .table-area table tr td {
       text-align: center;
       height: 40px;
       font-weight: normal;
       border: 1px solid #e2e2e2;
-      font-size: 14px; }
+      font-size: 12px; }
       #qiandan-manage-des .qiandan-add-content .table-area table tr td .delete, #qiandan-manage-des .qiandan-add-content .table-area table tr td .des, #qiandan-manage-des .qiandan-add-content .table-area table tr td .jiedan {
         margin: 0px 5px;
         cursor: pointer; }

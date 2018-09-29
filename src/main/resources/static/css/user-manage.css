@@ -67,13 +67,13 @@
     height: 40px;
     font-weight: normal;
     border: 1px solid #e2e2e2;
-    font-size: 12px; }
+    font-size: 14px; }
   #user-manage table tr td {
     text-align: center;
     height: 40px;
     font-weight: normal;
     border: 1px solid #e2e2e2;
-    font-size: 14px; }
+    font-size: 12px; }
     #user-manage table tr td .delete, #user-manage table tr td .des {
       margin: 0px 5px;
       cursor: pointer; }

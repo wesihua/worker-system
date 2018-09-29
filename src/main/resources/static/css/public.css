@@ -147,7 +147,8 @@ input,select, textarea {
       height: 24px !important;
       line-height: 24px;
       text-align: center;
-      border: 1px solid #c5b7b7; }
+      border: 1px solid #c5b7b7; 
+      background-color: #ffffff;}
   #public-fanye .page, .public-fanye .page {
     margin: 0px !important; }
   #public-fanye .info, .public-fanye .info {
