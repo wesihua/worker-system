@@ -109,7 +109,7 @@ public class WorkerController {
 	 * @return
 	 */
 	@PostMapping("/addWorker")
-	public Result addWorker(Worker worker, HttpServletRequest request) {
+	public Result addWorker(@RequestBody Worker worker, HttpServletRequest request) {
 		Result result = Result.SUCCESS;
 		try {
 			int userId = ToolsUtil.getUserId(request);
@@ -137,6 +137,24 @@ public class WorkerController {
 			workerService.updateWorker4App(worker);
 		} catch (Exception e) {
 			log.error("更新人才信息失败", e);
+			result = Result.fail(e);
+		}
+		return result;
+	}
+	
+	/**
+	 * 查询详情
+	 * @param workerId
+	 * @return
+	 */
+	@GetMapping("/queryDetail")
+	public Result queryDetail(int workerId) {
+		Result result = Result.SUCCESS;
+		try {
+			Worker worker = workerService.queryDetail(workerId);
+			result.setData(worker);
+		} catch (Exception e) {
+			log.error("查询失败", e);
 			result = Result.fail(e);
 		}
 		return result;
