@@ -17,6 +17,9 @@ $(function(){
 	$("#cancel").click(function(){
 		location.href="/worker/index";
 	});
+	$("#back").click(function(){
+		history.back();
+	});
 	// 初始化所有下拉框
 	initSelect();
 	// 初始化工种

@@ -72,6 +72,7 @@ function loadAllRole(){
 		url:"/role/queryAll",
 		type:"get",
 		dataType:"json",
+		global: false,
 		success:function(data){
 			if(data.code == 1){
 				var content = "<option value=\"\">---请选择---</option>";
