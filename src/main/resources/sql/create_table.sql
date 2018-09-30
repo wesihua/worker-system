@@ -69,7 +69,7 @@ CREATE TABLE t_sys_user  (
   user_name varchar(50) NOT NULL			comment '用户名',
   password varchar(50) NOT NULL				comment '密码',
   real_name varchar(50)	NULL				comment '真实姓名',
-  role_id int(11) NOT NULL					comment '所属角色',
+  role_id int(11) NULL						comment '所属角色',
   scope int(11) NULL DEFAULT 0				comment '用户所属平台范围 0:全部,1:pc,2:app',
   create_time datetime NOT NULL				comment '创建时间',
   create_user int(11) NULL					comment '创建人',

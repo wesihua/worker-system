@@ -96,7 +96,7 @@ function query(currentPage){
 		type:"get",
 		data:{name:workerName,telephone:telephone,idcard:idcard,createUser:createUser,
 			souce:source,firstId:firstId,secondId:secondId,beginTime:beginTime,
-			endTime:endTime,pageNumber:currentPage},
+			endTime:endTime,pageNumber:currentPage,pageSize:6},
 		dataType:"json",
 		success:function(data){
 			if(data.code == 1){

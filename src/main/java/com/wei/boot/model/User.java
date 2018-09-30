@@ -83,7 +83,7 @@ public class User {
      */
     private Integer updateUser;
     
-    private String roleName;
+    private String roleName = "";
     /**
      * 所属角色
      */

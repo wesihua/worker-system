@@ -672,7 +672,6 @@
   	SELECT count(1) FROM t_yx_worker t,t_sys_user u 
 	<where>
 		t.create_user = u.id
-		and t.id &gt; #{offset,jdbcType=INTEGER}
 		<if test="idcard != null">
 			and t.idcard = #{idcard,jdbcType=VARCHAR}
 		</if>
