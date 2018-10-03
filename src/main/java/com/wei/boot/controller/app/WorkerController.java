@@ -24,6 +24,7 @@ import com.wei.boot.model.Worker;
 import com.wei.boot.service.WorkerService;
 import com.wei.boot.util.CheckUtils;
 import com.wei.boot.util.DateUtils;
+import com.wei.boot.util.JsonUtil;
 import com.wei.boot.util.ToolsUtil;
 
 @RestController("appWorkerController")
@@ -113,6 +114,7 @@ public class WorkerController {
 		Result result = Result.SUCCESS;
 		try {
 			int userId = ToolsUtil.getUserId(request);
+			log.info(JsonUtil.bean2Json(worker));
 			worker.setCreateUser(userId);
 			worker.setSouce(GlobalConstant.Source.APP);
 			workerService.addWorker(worker);
@@ -133,6 +135,7 @@ public class WorkerController {
 		Result result = Result.SUCCESS;
 		try {
 			int userId = ToolsUtil.getUserId(request);
+			log.info(JsonUtil.bean2Json(worker));
 			worker.setUpdateUser(userId);
 			workerService.updateWorker4App(worker);
 		} catch (Exception e) {

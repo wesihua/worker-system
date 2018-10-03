@@ -82,6 +82,7 @@ function loadMenu(){
 					$(this).addClass("on");
 					$(this).parents("li").siblings().find("div[class=s]").slideUp(300);
 					$(this).parents("li").siblings().find("div[class=s]").children("div").removeClass("on");
+					$(this).parents("li").siblings().find("div[class=f]").children('span').removeClass('fa-angle-down').addClass('fa-angle-right');
 				});
 				$("#nav").children("ul").find("div[class=f]").click(function(){
 					$(this).siblings().slideToggle(300);
