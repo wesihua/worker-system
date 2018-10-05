@@ -392,6 +392,12 @@ public class WorkerServiceImpl implements WorkerService {
 				worker.setSourceName(sourceName);
 			}
 			// 翻译年龄
+			if(null != worker.getDegree()) {
+				String degreeName = commonService.queryDicText("degree", worker.getDegree());
+				worker.setDegreeName(degreeName);
+			}
+			
+			// 翻译年龄
 			String birthday = null;
 			if(!StringUtils.isEmpty(worker.getIdcard()) && CheckUtils.isIdCard(worker.getIdcard())) {
 				birthday = DateUtils.formatDate(DateUtils.parseDate(worker.getIdcard().substring(6, 14)), "yyyy-MM-dd");

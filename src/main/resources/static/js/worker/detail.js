@@ -13,10 +13,18 @@ $(function(){
 	$("#back").click(function(){
 		history.back();
 	});
+	$("#exportResume").click(function(){
+		var workerId = $("#workerId").val();
+		downloadResume(workerId);
+	});
+	
 	//加载人才信息
 	loadWorkerInfo();
 });
 
+function downloadResume(workerId){
+	window.open("/word/export?workerId="+workerId);
+}
 
 /**
  * 加载人才信息
@@ -54,6 +62,9 @@ function loadWorkerInfo(){
 				$("#age").text(worker.age);
 				$("#workExpect").text(worker.workExpect);
 				$("#jobtype").text(worker.jobtypeName);
+				$("#current_degree").text(worker.degreeName);
+				$("#profile").text(worker.profile);
+				$("#description").text(worker.description);
 				$("#createUser").text("录入人员："+$("#createUserName").val());
 				$("#createTime").text("录入时间："+worker.createTime);
 				// 加载教育经历

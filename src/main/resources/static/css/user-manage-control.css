@@ -71,7 +71,8 @@
         width: 278px;
         padding: 5px;
         line-height: 20px;
-        height: 250px;
+        height: 100px;
+        margin-bottom: 15px;
         resize: none; }
       #user-manage-control .party1 .base-info .jianjie .textarea2 {
         width: 290px;

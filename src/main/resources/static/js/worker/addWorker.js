@@ -435,6 +435,7 @@ function initSelect(){
 					contentdegree += "<option value=\""+degreeDic.code+"\">"+degreeDic.name+"</option>";
 				}
 				$("#degree").empty().html(contentdegree);
+				$("#current_degree").empty().html(contentdegree);
 			}
 		}
 	});
@@ -483,6 +484,9 @@ function addWorker(){
 	worker.birthday = $("#birthday").val();
 	worker.workExpect = $("#workExpect").val();
 	worker.jobtypeName = $("#jobtype").val();
+	worker.degree = $("#current_degree").val();
+	worker.profile = $("#profile").val();
+	worker.description = $("#description").val();
 	// 收集教育经历
 	var educationList = [];
 	$("#education-list").find(".history").each(function(){
@@ -499,7 +503,7 @@ function addWorker(){
 	var experienceList = [];
 	$("#experience-list").find(".history").each(function(){
 		var experience = {};
-		experience.company = $(this).find("span[name=company_text]").text();
+		experience.company = $(this).find("span[name=companyName_text]").text();
 		experience.position = $(this).find("span[name=position_text]").text();
 		experience.salary = $(this).find("input[name=salary_value]").val();
 		experience.beginTime = $(this).find("input[name=beginTime_value]").val();
@@ -580,8 +584,16 @@ function checkWorker(worker){
 		alert("联系地址长度不能超过200！");
 		return false;
 	}
-	if(worker.workExpect && worker.workExpect.length > 255){
-		alert("工作意向长度不能超过255！");
+	if(worker.workExpect && worker.workExpect.length > 100){
+		alert("工作意向长度不能超过100！");
+		return false;
+	}
+	if(worker.profile && worker.profile.length > 100){
+		alert("个人简介长度不能超过100！");
+		return false;
+	}
+	if(worker.description && worker.description.length > 255){
+		alert("备注长度不能超过255！");
 		return false;
 	}
 	return true;

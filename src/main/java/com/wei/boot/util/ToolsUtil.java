@@ -1,6 +1,9 @@
 package com.wei.boot.util;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.UUID;
 
 import javax.servlet.http.Cookie;
@@ -147,4 +150,35 @@ public class ToolsUtil {
 		return age;
 	}
 	
+	public static <T> void reflectDefaultValue(T t) throws Exception {
+		if(null != t) {
+			// 获取所有属性
+			Field[] fields = t.getClass().getDeclaredFields();
+			for(Field field : fields) {
+				String fieldName = field.getName();
+				String fieldType = field.getGenericType().toString().toLowerCase();
+				String methodName = "get"+fieldName.substring(0, 1).toUpperCase()+fieldName.substring(1);
+				Method method = t.getClass().getDeclaredMethod(methodName);
+				if(null != method) {
+					Object obj = method.invoke(t);
+					if(null == obj) {
+						field.setAccessible(true);
+						if(fieldType.contains("integer")) {
+							field.set(t, 0);
+						}
+						else if(fieldType.contains("string")) {
+							field.set(t, "");
+						}
+						else if(fieldType.contains("date")) {
+							field.set(t, new Date());
+						}
+						else {
+							field.set(t, null);
+						}
+					}
+				}
+			}
+			
+		}
+	}
 }

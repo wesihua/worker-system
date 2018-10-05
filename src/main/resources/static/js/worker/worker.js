@@ -241,3 +241,7 @@ function deleteWorker(workerId){
 		});
 	}
 }
+
+function downloadResume(workerId){
+	window.open("/word/export?workerId="+workerId);
+}

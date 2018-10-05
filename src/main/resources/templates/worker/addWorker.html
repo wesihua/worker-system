@@ -47,7 +47,10 @@
 						</div>
 						<div class="inut-b">
 							<span class="name">工作年限</span> 
-							<input class="inputValue" id="workYear" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" placeholder="请输入数字"/>
+							<input class="inputValue" id="workYear"
+							onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" 
+							onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" 
+							placeholder="请输入数字"/>
 						</div>
 						<div class="inut-b">
 							<span class="name">婚姻状态</span> 
@@ -105,6 +108,12 @@
 							<span class="name">邮箱</span> <input class="inputValue" id="email"/>
 						</div>
 						<div class="inut-b">
+							<span class="name">学历</span>
+							<select name="" class="selectControl" id="current_degree">
+								<option value="">---请选择---</option>
+							</select>
+						</div>
+						<div class="inut-b">
 							<span class="name">民族</span>
 							<select name="" class="selectControl" id="nation">
 								<option value="">---请选择---</option>
@@ -131,9 +140,17 @@
 								<input type="text" autocomplete="off" placeholder="选择年月" readonly="readonly" class="c-datepicker-data-input" id="birthday" />
 							</div>
 						</div>
-						<div class="jianjie">
+						<div class="inut-b">
 							<span class="name">工作意向</span>
-							<textarea class="textarea" id="workExpect"></textarea>
+							<input class="inputValue" id="workExpect"/>
+						</div>
+						<div class="jianjie">
+							<span class="name">个人简介</span>
+							<textarea class="textarea" id="profile"></textarea>
+						</div>
+						<div class="jianjie">
+							<span class="name">备注</span>
+							<textarea class="textarea" id="description"></textarea>
 						</div>
 						
 					</div>

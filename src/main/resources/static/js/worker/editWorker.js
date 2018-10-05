@@ -119,6 +119,9 @@ function loadWorkerInfo(){
 				$("#address").val(worker.address);
 				$("#birthday").val(worker.birthday);
 				$("#workExpect").val(worker.workExpect);
+				$("#current_degree").val(worker.degree);
+				$("#profile").val(worker.profile);
+				$("#description").val(worker.description);
 				$("#jobtype").val(worker.jobtypeName);
 				$("#jobtype_value").val(JSON.stringify(worker.jobTypeList));
 				
@@ -271,7 +274,22 @@ function displayExperienceList(experienceList){
 	$("#experience-list").append(content);
 	// 绑定删除事件
 	$("span[name=remove-experience-dialog]").click(function(){
-		$(this).parent().remove();
+		var _this = this;
+		var b = confirm("确认删除本条工作经历？");
+		if(b){
+			var experienceId = $(this).parent().find("input[id=experienceId]").val();
+			$.ajax({
+				url:"/worker/deleteExperience",
+				type:"get",
+				dataType:"json",
+				data:{experienceId:experienceId},
+				success:function(data){
+					if(data.code == 1){
+						$(_this).parent().remove();
+					}
+				}
+			});
+		}
 	});
 	// 绑定编辑事件
 	$("span[name=edit-experience-dialog]").click(function(){
@@ -767,6 +785,7 @@ function initSelect(){
 					contentdegree += "<option value=\""+degreeDic.code+"\">"+degreeDic.name+"</option>";
 				}
 				$("#degree").empty().html(contentdegree);
+				$("#current_degree").empty().html(contentdegree);
 			}
 		}
 	});
@@ -817,6 +836,9 @@ function addWorker(){
 	worker.birthday = $("#birthday").val();
 	worker.workExpect = $("#workExpect").val();
 	worker.jobtypeName = $("#jobtype").val();
+	worker.degree = $("#current_degree").val();
+	worker.profile = $("#profile").val();
+	worker.description = $("#description").val();
 	
 	if(checkWorker(worker)){
 		$.ajax({
@@ -886,6 +908,14 @@ function checkWorker(worker){
 	}
 	if(worker.workExpect && worker.workExpect.length > 255){
 		alert("工作意向长度不能超过255！");
+		return false;
+	}
+	if(worker.profile && worker.profile.length > 100){
+		alert("个人简介长度不能超过100！");
+		return false;
+	}
+	if(worker.description && worker.description.length > 255){
+		alert("备注长度不能超过255！");
 		return false;
 	}
 	return true;

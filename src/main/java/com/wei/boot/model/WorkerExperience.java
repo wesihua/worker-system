@@ -115,6 +115,25 @@ public class WorkerExperience {
     
     private String salaryName;
 
+    private String beginTimeName = "";
+    
+    private String endTimeName = "";
+    
+    public String getBeginTimeName() {
+		return beginTimeName;
+	}
+
+	public void setBeginTimeName(String beginTimeName) {
+		this.beginTimeName = beginTimeName;
+	}
+
+	public String getEndTimeName() {
+		return endTimeName;
+	}
+
+	public void setEndTimeName(String endTimeName) {
+		this.endTimeName = endTimeName;
+	}
     public String getSalaryName() {
 		return salaryName;
 	}

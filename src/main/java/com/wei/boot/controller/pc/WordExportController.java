@@ -10,51 +10,55 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.wei.boot.model.Worker;
+import com.wei.boot.model.WorkerEducation;
+import com.wei.boot.model.WorkerExperience;
+import com.wei.boot.service.WorkerService;
 import com.wei.boot.util.DateUtils;
+import com.wei.boot.util.ToolsUtil;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 
 /**
  * word导出controller
  * 
  * @author weisihua 2018年8月1日 下午5:33:45
  */
-@Api(value = "word导出")
 @RestController
 @RequestMapping("/word")
 public class WordExportController {
 
 	public static final Logger log = LoggerFactory.getLogger(WordExportController.class);
 
-	@ApiOperation(value = "word导出",notes = "")
+	@Autowired
+	private WorkerService workerService;
+	
 	@RequestMapping("/export")
-	public void exportWord(HttpServletRequest request, HttpServletResponse response) {
-		File file = createDoc();
+	public void exportWord(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String workerId = request.getParameter("workerId");
+		Worker worker = workerService.queryDetail(Integer.parseInt(workerId));
+		File file = createDoc(worker);
 		BufferedInputStream bis = null;
 		BufferedOutputStream bos = null;
 		try {
+			String fileName = "简历-"+worker.getName()+".docx";
 			long fileLength = file.length();
 			response.setContentType("text/html;charset=utf-8");
 			request.setCharacterEncoding("UTF-8");
 			response.setContentType("application/msword");
-			response.setHeader("Content-disposition", "attachment; filename=" + URLEncoder.encode("测试的.docx", "utf-8"));
+			response.setHeader("Content-disposition", "attachment; filename=" + URLEncoder.encode(fileName, "utf-8"));
 			response.setHeader("Content-Length", String.valueOf(fileLength));
 			bis = new BufferedInputStream(new FileInputStream(file));
 			bos = new BufferedOutputStream(response.getOutputStream());
@@ -80,21 +84,37 @@ public class WordExportController {
 		}
 	}
 
-	private File createDoc() {
-		// 创建数据
-		Map<String, Object> dataMap = new HashMap<String, Object>();
-		dataMap.put("title", "测试的标题");
-		List<Map<String, Object>> infoList = new ArrayList<Map<String, Object>>();// 这里是获取list列表的方法
-		Map<String, Object> p1 = new HashMap<String, Object>();
-		p1.put("code", "cityId");
-		p1.put("name", "城市编号");
-		p1.put("bt", "必填");
-		p1.put("desc", "想休息休息休息");
-		infoList.add(p1);
-
-		dataMap.put("timeName", DateUtils.getCurTime());
-		dataMap.put("infoList", infoList);
-
+	private File createDoc(Worker worker) throws Exception {
+		if(null != worker) {
+			if(null != worker.getBirthday()) {
+				worker.setBirthdayName(DateUtils.formatDate(worker.getBirthday(), "yyyy-MM-dd"));
+			}
+			ToolsUtil.reflectDefaultValue(worker);
+			if(null != worker.getEducationList() && worker.getEducationList().size() > 0) {
+				for(WorkerEducation edu : worker.getEducationList()) {
+					if(null != edu.getBeginTime()) {
+						edu.setBeginTimeName(DateUtils.formatDate(edu.getBeginTime(), "yyyy-MM-dd"));
+					}
+					if(null != edu.getEndTime()) {
+						edu.setEndTimeName(DateUtils.formatDate(edu.getEndTime(), "yyyy-MM-dd"));
+					}
+					
+					ToolsUtil.reflectDefaultValue(edu);
+				}
+			}
+			if(null != worker.getExperienceList() && worker.getExperienceList().size() > 0) {
+				for(WorkerExperience exp : worker.getExperienceList()) {
+					if(null != exp.getBeginTime()) {
+						exp.setBeginTimeName(DateUtils.formatDate(exp.getBeginTime(), "yyyy-MM-dd"));
+					}
+					if(null != exp.getEndTime()) {
+						exp.setEndTimeName(DateUtils.formatDate(exp.getEndTime(), "yyyy-MM-dd"));
+					}
+					ToolsUtil.reflectDefaultValue(exp);
+				}
+			}
+		}
+		
 		// 获取模板
 		Configuration configuration = new Configuration(Configuration.VERSION_2_3_28);
 		configuration.setDefaultEncoding("utf-8");
@@ -108,7 +128,7 @@ public class WordExportController {
 			// t.setEncoding("UTF-8");
 
 			Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(name), "UTF-8"));
-			t.process(dataMap, out);
+			t.process(worker, out);
 			out.close();
 		} catch (IOException e) {
 			e.printStackTrace();
