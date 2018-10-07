@@ -68,12 +68,19 @@
         float: left; }
       #user-manage-control .party1 .base-info .jianjie .textarea {
         display: inline-block;
-        width: 278px;
-        padding: 5px;
+        width: 288px;
+        /* padding: 5px; */
         line-height: 20px;
-        height: 100px;
+        min-height: 40px;
+        max-height: 100px;
         margin-bottom: 15px;
-        resize: none; }
+        resize: none; 
+        border:1px solid #dcdfe6;
+        border-radius:5px;
+        background-color: #f8f8f8;
+        overflow: hidden;
+        text-indent: 10px;
+      }
       #user-manage-control .party1 .base-info .jianjie .textarea2 {
         width: 290px;
         line-height: 20px;
