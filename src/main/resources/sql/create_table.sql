@@ -110,14 +110,14 @@ CREATE TABLE t_yx_worker (
   work_status int(11) NULL COMMENT '工作状态0:找工作中;1:已工作;',
   nation int(11) NULL COMMENT '民族:可选',
   position varchar(50) DEFAULT NULL COMMENT '职位',
-  address varchar(200) DEFAULT NULL COMMENT '通讯地址',
+  address varchar(50) DEFAULT NULL COMMENT '通讯地址',
   language_level int(11) DEFAULT NULL COMMENT '语言能力：可选',
   work_expect varchar(100) DEFAULT NULL COMMENT '工作意向',
   email varchar(100) DEFAULT NULL COMMENT '电子邮箱',
   title varchar(50) DEFAULT NULL COMMENT '职称',
   night_work int(11) COMMENT '是否接受夜班 0:否,1:是',
   degree int(1) NULL COMMENT '最高学历',
-  profile varchar(100) NULL COMMENT '个人简介',
+  profile varchar(255) NULL COMMENT '个人简介',
   description varchar(255) NULL COMMENT '备注',
   souce int(11) DEFAULT NULL COMMENT '来源 0:app,1:pc,2:导入,3:二维码',
   jobtype_name varchar(50) NULL COMMENT '用来存放工种名称，防止翻译影响查询速度',
@@ -168,6 +168,7 @@ CREATE TABLE t_yx__worker_experience (
   PRIMARY KEY (id) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='人才-工作经历表';
 ALTER TABLE t_yx__worker_experience ADD INDEX index_worker_id (worker_id);
+ALTER TABLE t_yx__worker_experience ADD INDEX index_company (company);
 
 CREATE TABLE t_yx__worker_jobtype (
   id int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',

@@ -695,6 +695,12 @@
 				</if>
 			)
 		</if>
+		<if test="company != null">
+			AND EXISTS ( 
+				SELECT 1 FROM t_yx__worker_experience e WHERE t.id = e.worker_id 
+				AND e.company like #{company,jdbcType=VARCHAR}
+			)
+		</if>
 	</where>
 	order by id desc limit #{pageSize,jdbcType=INTEGER}
   </select>
@@ -733,7 +739,41 @@
 				</if>
 			)
 		</if>
+		<if test="company != null">
+			AND EXISTS ( 
+				SELECT 1 FROM t_yx__worker_experience e WHERE t.id = e.worker_id 
+				AND e.company like #{company,jdbcType=VARCHAR}
+			)
+		</if>
 	</where>
   </select>
+  
+  <insert id="insertBatch" parameterType="list" >
+    insert into t_yx_worker (
+    	name, telephone, email, idcard, sex, work_year, degree,
+      	marital_status, position, address,souce, create_time, create_user, 
+      	profile, description
+    )
+    values 
+    <foreach collection ="list" item="worker" index= "index" separator =",">
+    	(
+    		#{name,jdbcType=VARCHAR},
+    		#{telephone,jdbcType=VARCHAR},
+    		#{email,jdbcType=VARCHAR},
+    		#{idcard,jdbcType=VARCHAR}, 
+    		#{sex,jdbcType=INTEGER},
+    		#{workYear,jdbcType=INTEGER}, 
+    		#{degree,jdbcType=INTEGER}, 
+    		#{maritalStatus,jdbcType=INTEGER},
+    		#{position,jdbcType=VARCHAR},
+    		#{address,jdbcType=VARCHAR},
+    		#{souce,jdbcType=INTEGER},
+    		#{worker.createTime,jdbcType=TIMESTAMP},
+    		#{createUser,jdbcType=INTEGER}, 
+    		#{profile,jdbcType=VARCHAR}, 
+    		#{description,jdbcType=VARCHAR}
+    	)
+    </foreach>
+  </insert>
   
 </mapper>

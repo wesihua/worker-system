@@ -20,7 +20,8 @@ $(function(){
 		addCompany();
 	});
 	$("#download").click(function(){
-		window.open("/company/export");
+		var companyName = $("#companyName").val();
+		window.open("/company/export?companyName="+companyName);
 	});
 });
 
@@ -45,6 +46,7 @@ function query(currentPage){
 									"	<td>"+firm.name+"</td>"+
 									"	<td>"+firm.industry+"</td>"+
 									"	<td>"+firm.contactName+"</td>"+
+									"	<td>"+firm.count+"</td>"+
 									"	<td>"+firm.contactPhone+"</td>"+
 									"	<td>"+firm.address+"</td>"+
 									"	<td>"+firm.createTime+"</td>"+

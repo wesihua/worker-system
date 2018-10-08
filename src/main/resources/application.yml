@@ -24,8 +24,8 @@ spring:
   thymeleaf: 
     prefix: classpath:/templates/
 
-logging:
-  file: console.log
+#logging:
+#  file: console.log
 server:
   port: 8080
   tomcat: 

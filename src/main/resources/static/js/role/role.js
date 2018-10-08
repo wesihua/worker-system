@@ -20,7 +20,8 @@ $(function(){
 		saveRole();
 	});
 	$("#download").click(function(){
-		window.open("/role/export");
+		var roleName = $("#roleName").val();
+		window.open("/role/export?name="+roleName);
 	});
 });
 

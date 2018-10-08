@@ -26,6 +26,13 @@ public interface WorkerService {
 	Page<Worker> queryByPage(Page<Worker> page, Worker worker);
 	
 	/**
+	 * 根据身份证号查询
+	 * @param idcard
+	 * @return
+	 */
+	boolean queryByIdcard(String idcard);
+	
+	/**
 	 * 新增人才
 	 * @param worker
 	 */
@@ -103,4 +110,10 @@ public interface WorkerService {
 	 * @return
 	 */
 	Page<Worker> queryByPage4App(Page<Worker> page, Worker worker);
+	
+	/**
+	 * 批量插入
+	 * @param workerList
+	 */
+	void insertBatch(List<Worker> workerList);
 }
