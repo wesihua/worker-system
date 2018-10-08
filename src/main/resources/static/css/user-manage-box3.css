@@ -50,16 +50,12 @@
           vertical-align: top; }
       #user-manage-box3 .box-content .middle .input-block .pt {
         height: 40px;
-        width: 280px;
-        text-indent: 10px; }
-        #user-manage-box3 .box-content .middle .input-block .pt {
-        height: 40px;
-        width: 280px;
+        width:312px;
         text-indent: 10px; }
 
         #user-manage-box3 .box-content .middle .input-block .select {
         height: 40px;
-        width: 280px;
+        width: 312px;
         }
 
         #user-manage-box3 .box-content .middle .input-block .select option{
@@ -90,12 +86,13 @@
       #user-manage-box3 .box-content .middle .input-block .workText {
         text-indent: 10px;
         resize: none;
-        width: 370px;
+        width: 312px;
+
         height: 100px;
         overflow: auto;
         text-align: left;
         line-height: 20px;
-        border: none; }
+       }
   #user-manage-box3 .box-content .bottom {
     height: 80px;
     line-height: 80px;

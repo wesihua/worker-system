@@ -49,7 +49,7 @@
         margin-right: 20px; }
       #user-manage-box2 .box2-content .middle .input-block .select {
         height: 40px;
-        width: 280px; }
+        width:312px; }
         /* #user-manage-box2 .box2-content .middle .input-block .select option {
         height: 40px;
         line-height: 40px;
@@ -59,7 +59,7 @@
         } */
       #user-manage-box2 .box2-content .middle .input-block .pt {
         height: 40px;
-        width: 280px;
+        width:312px;
         text-indent: 10px; }
         #user-manage-box2 .box2-content .middle .input-block .c-datepicker-date-editor{
           background-color: #f8f8f8;
