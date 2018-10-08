@@ -91,6 +91,9 @@ public class WorkerServiceImpl implements WorkerService {
 		if(null != worker.getCreateUser() && worker.getCreateUser() != 0) {
 			map.put("createUser", worker.getCreateUser());
 		}
+		if(null != worker.getCompany()) {
+			map.put("company", worker.getCompany()+"%");
+		}
 		map.put("firstId", worker.getFirstId());
 		map.put("secondId", worker.getSecondId());
 		

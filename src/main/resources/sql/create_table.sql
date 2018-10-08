@@ -168,6 +168,7 @@ CREATE TABLE t_yx__worker_experience (
   PRIMARY KEY (id) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='人才-工作经历表';
 ALTER TABLE t_yx__worker_experience ADD INDEX index_worker_id (worker_id);
+ALTER TABLE t_yx__worker_experience ADD INDEX index_company (company);
 
 CREATE TABLE t_yx__worker_jobtype (
   id int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',

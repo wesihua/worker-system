@@ -100,14 +100,14 @@ function query(currentPage){
 	var secondId = $("#secondId").val();
 	var createUser = $("#createUser").val();
 	var source = $("#source").val();
-	//var workStatus = $("#workStatus").val();
+	var company = $("#company").val();
 	var beginTime = $("#beginTime").val();
 	var endTime = $("#endTime").val();
 	$.ajax({
 		url:"/worker/list",
 		type:"get",
 		data:{name:workerName,telephone:telephone,idcard:idcard,createUser:createUser,
-			souce:source,firstId:firstId,secondId:secondId,beginTime:beginTime,
+			souce:source,firstId:firstId,secondId:secondId,beginTime:beginTime,company:company,
 			endTime:endTime,pageNumber:currentPage,pageSize:6},
 		dataType:"json",
 		success:function(data){

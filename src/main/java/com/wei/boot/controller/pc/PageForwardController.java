@@ -26,6 +26,10 @@ public class PageForwardController {
 	public String welcome() {
 		return "welcome";
 	}
+	@GetMapping("/report")
+	public String report() {
+		return "report/chart";
+	}
 	@GetMapping("/role/index")
 	public String roleIndex() {
 		return "role/role";

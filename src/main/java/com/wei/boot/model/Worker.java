@@ -245,6 +245,8 @@ public class Worker {
     
     /*********************** 以下字段用于接收参数 **********************/
     
+    private String company;
+    
     private String beginTime;
     
     private String endTime;
@@ -285,6 +287,14 @@ public class Worker {
     
     private int age;
 
+
+	public String getCompany() {
+		return company;
+	}
+
+	public void setCompany(String company) {
+		this.company = company;
+	}
 
 	public String getBirthdayName() {
 		return birthdayName;

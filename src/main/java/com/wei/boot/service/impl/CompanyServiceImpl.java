@@ -12,6 +12,7 @@ import org.springframework.util.StringUtils;
 
 import com.wei.boot.exception.NormalException;
 import com.wei.boot.mapper.CompanyMapper;
+import com.wei.boot.mapper.WorkerMapper;
 import com.wei.boot.model.Company;
 import com.wei.boot.model.CompanyExample;
 import com.wei.boot.model.CompanyExample.Criteria;
@@ -23,6 +24,9 @@ public class CompanyServiceImpl implements CompanyService {
 
 	@Autowired
 	private CompanyMapper companyMapper;
+	
+	@Autowired
+	private WorkerMapper workerMapper;
 	
 	@Override
 	@Transactional
@@ -76,6 +80,14 @@ public class CompanyServiceImpl implements CompanyService {
 		}
 		int totalCount = companyMapper.selectCount(map);
 		List<Company> list = companyMapper.selectByPage(map);
+		if(null != list && list.size() > 0) {
+			for(Company companyInfo : list) {
+				Map<String, Object> param = new HashMap<String, Object>();
+				param.put("company", companyInfo.getName()+"%");
+				int count = workerMapper.selectCount(param);
+				companyInfo.setCount(count);
+			}
+		}
 		page.pageData(list, totalCount);
 		return page;
 	}
