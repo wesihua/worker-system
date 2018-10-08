@@ -242,3 +242,18 @@ input,select, textarea {
     margin-left: 30px;
     margin-top:13px;
     cursor: pointer; }
+
+    /* 页面底部提交按钮 */
+
+  .public-page-submit-area {
+      padding:20px 0px;
+      border-top:1px solid #dcdfe6;
+      text-align: center; }
+  .public-page-submit-area span {
+      margin: 0px 40px;
+      padding: 0px 30px;
+      border-radius: 5px;
+      cursor: pointer; }
+
+
+

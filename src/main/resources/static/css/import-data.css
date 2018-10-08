@@ -1,0 +1,28 @@
+#import-data  .a-m-content {
+
+}
+#import-data  .a-m-content .import-area{
+		 height: 500px;
+		 line-height: 500px;
+		 text-align: center;
+}
+
+#import-data  .a-m-content .import-area .upload-button{
+	display: inline-block;
+	padding: 0px 25px;
+	line-height:50px;
+	border: 1px solid #cccccc;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 16px;
+
+}
+
+#import-data  .a-m-content .import-area .upload-button:hover{
+	color: #409eff;
+	border-color:#409eff;
+}
+
+#import-data  .a-m-content .import-area .upload-button .fa-cloud-upload{
+	margin-right: 8px;
+}
