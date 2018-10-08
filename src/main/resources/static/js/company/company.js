@@ -20,7 +20,8 @@ $(function(){
 		addCompany();
 	});
 	$("#download").click(function(){
-		window.open("/company/export");
+		var companyName = $("#companyName").val();
+		window.open("/company/export?companyName="+companyName);
 	});
 });
 

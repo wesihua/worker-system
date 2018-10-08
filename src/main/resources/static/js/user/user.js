@@ -22,7 +22,10 @@ $(function(){
 		addUser();
 	});
 	$("#download").click(function(){
-		window.open("/user/export");
+		var userName = $("#userName").val();
+		var realName = $("#realName").val();
+		var roleId = $("#roleId").val();
+		window.open("/user/export?userName="+userName+"&realName="+realName+"&roleId="+roleId);
 	});
 });
 

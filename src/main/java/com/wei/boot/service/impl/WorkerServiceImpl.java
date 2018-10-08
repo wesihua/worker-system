@@ -29,6 +29,7 @@ import com.wei.boot.model.Page;
 import com.wei.boot.model.Worker;
 import com.wei.boot.model.WorkerEducation;
 import com.wei.boot.model.WorkerEducationExample;
+import com.wei.boot.model.WorkerExample;
 import com.wei.boot.model.WorkerExperience;
 import com.wei.boot.model.WorkerExperienceExample;
 import com.wei.boot.model.WorkerJobType;
@@ -545,5 +546,21 @@ public class WorkerServiceImpl implements WorkerService {
 		if(!CheckUtils.isIdCard(worker.getIdcard())) {
 			throw new NormalException("请输入正确的身份证号！");
 		}
+	}
+
+	@Override
+	public boolean queryByIdcard(String idcard) {
+		WorkerExample example = new WorkerExample();
+		example.createCriteria().andIdcardEqualTo(idcard);
+		List<Worker> list = workerMapper.selectByExample(example);
+		if(null != list && list.size() > 0) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public void insertBatch(List<Worker> workerList) {
+		workerMapper.insertBatch(workerList);
 	}
 }

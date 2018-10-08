@@ -20,7 +20,19 @@ $(function(){
 		location.href="/worker/add"
 	});
 	$("#download").click(function(){
-		window.open("/worker/export");
+		var workerName = $("#workerName").val();
+		var telephone = $("#telephone").val();
+		var idcard = $("#idcard").val();
+		var firstId = $("#firstId").val();
+		var secondId = $("#secondId").val();
+		var createUser = $("#createUser").val();
+		var source = $("#source").val();
+		//var workStatus = $("#workStatus").val();
+		var beginTime = $("#beginTime").val();
+		var endTime = $("#endTime").val();
+		window.open("/worker/export?name="+workerName+"&telephone="+telephone+"" +
+				"&idcard="+idcard+"&firstId="+firstId+"&secondId="+secondId+"" +
+				"&createUser="+createUser+"&source="+source+"&beginTime="+beginTime+"&endTime="+endTime);
 	});
 	// 初始化来源
 	initSelect("source","worker_souce");

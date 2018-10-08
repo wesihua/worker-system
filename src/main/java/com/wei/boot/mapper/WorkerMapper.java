@@ -99,4 +99,6 @@ public interface WorkerMapper {
     List<Worker> selectByPage(Map<String, Object> map);
     
     int selectCount(Map<String, Object> map);
+    
+    void insertBatch(List<Worker> workerList);
 }
