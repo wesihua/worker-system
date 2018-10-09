@@ -17,6 +17,10 @@ $(function(){
 			alert("请先选择文件！");
 			return false;
 		}
+		parent.$("#loading").show();
 		$("#uploadForm").submit();
+	});
+	$("#downloadTemplate").click(function(){
+		window.open("/import_tpl/import_template.xlsx");
 	});
 });
