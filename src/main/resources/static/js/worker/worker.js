@@ -123,7 +123,7 @@ function query(currentPage){
 									"	<td>"+worker.sexName+"</td>"+
 									"	<td>"+worker.age+"</td>"+
 									"	<td>"+(worker.title == null ? "" : worker.title)+"</td>"+
-									"	<td>"+worker.jobtypeName+"</td>"+
+									"	<td>"+(worker.jobtypeName == null ? "" : worker.jobtypeName)+"</td>"+
 									"	<td>"+worker.workStatusName+"</td>"+
 									"	<td>"+worker.createUserName+"</td>"+
 									"	<td>"+worker.sourceName+"</td>"+

@@ -757,21 +757,21 @@
     values 
     <foreach collection ="list" item="worker" index= "index" separator =",">
     	(
-    		#{name,jdbcType=VARCHAR},
-    		#{telephone,jdbcType=VARCHAR},
-    		#{email,jdbcType=VARCHAR},
-    		#{idcard,jdbcType=VARCHAR}, 
-    		#{sex,jdbcType=INTEGER},
-    		#{workYear,jdbcType=INTEGER}, 
-    		#{degree,jdbcType=INTEGER}, 
-    		#{maritalStatus,jdbcType=INTEGER},
-    		#{position,jdbcType=VARCHAR},
-    		#{address,jdbcType=VARCHAR},
-    		#{souce,jdbcType=INTEGER},
+    		#{worker.name,jdbcType=VARCHAR},
+    		#{worker.telephone,jdbcType=VARCHAR},
+    		#{worker.email,jdbcType=VARCHAR},
+    		#{worker.idcard,jdbcType=VARCHAR}, 
+    		#{worker.sex,jdbcType=INTEGER},
+    		#{worker.workYear,jdbcType=INTEGER}, 
+    		#{worker.degree,jdbcType=INTEGER}, 
+    		#{worker.maritalStatus,jdbcType=INTEGER},
+    		#{worker.position,jdbcType=VARCHAR},
+    		#{worker.address,jdbcType=VARCHAR},
+    		#{worker.souce,jdbcType=INTEGER},
     		#{worker.createTime,jdbcType=TIMESTAMP},
-    		#{createUser,jdbcType=INTEGER}, 
-    		#{profile,jdbcType=VARCHAR}, 
-    		#{description,jdbcType=VARCHAR}
+    		#{worker.createUser,jdbcType=INTEGER}, 
+    		#{worker.profile,jdbcType=VARCHAR}, 
+    		#{worker.description,jdbcType=VARCHAR}
     	)
     </foreach>
   </insert>

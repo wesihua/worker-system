@@ -22,19 +22,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.wei.boot.contant.GlobalConstant;
+import com.wei.boot.exception.NormalException;
 import com.wei.boot.model.Result;
 import com.wei.boot.model.Worker;
 import com.wei.boot.model.excel.WorkerImportInfo;
 import com.wei.boot.service.WorkerService;
 import com.wei.boot.util.CheckUtils;
+import com.wei.boot.util.JsonUtil;
 import com.wei.boot.util.ToolsUtil;
 
 /**
@@ -42,7 +44,7 @@ import com.wei.boot.util.ToolsUtil;
  * 
  * @author weisihua 2018年7月30日 上午10:39:55
  */
-@RestController
+@Controller
 @RequestMapping("/excel")
 public class ExcelImportController {
 
@@ -59,8 +61,9 @@ public class ExcelImportController {
 	private String import_path;
 
 	@RequestMapping("/import")
-	public Result importExcel(Model model, HttpServletRequest request, @RequestParam("file") MultipartFile file,
+	public String importExcel(Model model, HttpServletRequest request, @RequestParam("file") MultipartFile file,
 			HttpServletResponse response) {
+		Result result = Result.SUCCESS;
 		Map<String, Object> map = new HashMap<String, Object>();
 		int userId = ToolsUtil.getUserId(request);
 		// 首先上传excel文件，后缀 .xls .xlsx
@@ -81,7 +84,9 @@ public class ExcelImportController {
 			out.close();
 		} catch (IOException e) {
 			log.error("excel文档上传失败", e);
-			return Result.fail("excel文档上传失败！");
+			result = Result.fail("excel文档上传失败");
+			model.addAttribute("result", JsonUtil.bean2Json(result));
+			return "import/importSuccess";
 		} finally {
 			try {
 				List<WorkerImportInfo> infoList = new ArrayList<WorkerImportInfo>();
@@ -96,7 +101,7 @@ public class ExcelImportController {
 					for (int i = 0; i < sheetCount; i++) {
 						Sheet sheet = wb.getSheetAt(i);
 						// 开始读取数据，excel的格式一定是固定的，否则组装的数据不对
-						for (int j = 1; j < sheet.getLastRowNum(); j++) {
+						for (int j = 1; j <= sheet.getLastRowNum(); j++) {
 							Row row = sheet.getRow(j);
 							WorkerImportInfo info = new WorkerImportInfo();
 							if (null != row) {
@@ -119,10 +124,9 @@ public class ExcelImportController {
 				}
 				// 将读取的信息转换成worker对象以便存入数据库
 				List<Worker> workerList = new ArrayList<Worker>();
-				List<String> existList = new ArrayList<String>();
-				List<String> wrongIdList = new ArrayList<String>();
-				List<String> addressList = new ArrayList<String>();
-				List<String> descList = new ArrayList<String>();
+				List<WorkerImportInfo> existList = new ArrayList<WorkerImportInfo>();
+				List<WorkerImportInfo> wrongIdList = new ArrayList<WorkerImportInfo>();
+				List<WorkerImportInfo> wrongPhone = new ArrayList<WorkerImportInfo>();
 				if (null != infoList && infoList.size() > 0) {
 					for (WorkerImportInfo info : infoList) {
 						if (StringUtils.isEmpty(info.getName()) || StringUtils.isEmpty(info.getTelephone())
@@ -131,26 +135,16 @@ public class ExcelImportController {
 						}
 						// 身份证号不正确的
 						if (!CheckUtils.isIdCard(info.getIdcard())) {
-							wrongIdList.add(info.getIdcard());
+							wrongIdList.add(info);
 							continue;
+						}
+						// 联系电话不正确
+						if(!CheckUtils.isPhone(info.getTelephone()) && !CheckUtils.isMobile(info.getTelephone())) {
+							wrongPhone.add(info);
 						}
 						// 检查是否已存在
 						if (workerService.queryByIdcard(info.getIdcard())) {
-							existList.add(info.getIdcard());
-							continue;
-						}
-						// 地址长度超过50的
-						if (null != info.getAddress() && info.getAddress().length() > 50) {
-							addressList.add(info.getIdcard());
-							continue;
-						}
-						// 个人简介和备注说明超过255的
-						if (null != info.getProfile() && info.getProfile().length() > 255) {
-							descList.add(info.getIdcard());
-							continue;
-						}
-						if (null != info.getDescription() && info.getDescription().length() > 255) {
-							descList.add(info.getIdcard());
+							existList.add(info);
 							continue;
 						}
 
@@ -179,21 +173,29 @@ public class ExcelImportController {
 					}
 				}
 				if(null != workerList && workerList.size() > 0) {
-					//workerService.insertBatch(workerList);
+					workerService.insertBatch(workerList);
 				}
 				map.put("all", infoList.size());
 				map.put("success", workerList.size());
 				map.put("fail", infoList.size() - workerList.size());
 				map.put("wrongIdcard", wrongIdList);
+				map.put("wrongPhone", wrongPhone);
 				map.put("exist", existList);
-				map.put("address", addressList);
-				map.put("desc", descList);
 			} catch (Exception e) {
 				log.error("excel文档解析失败", e);
-				return Result.fail("excel文档解析失败！");
+				if(StringUtils.isEmpty(e.getMessage())) {
+					result = Result.fail("excel文档解析失败！");
+				}
+				else {
+					result = Result.fail(e.getMessage());
+				}
+				model.addAttribute("result", JsonUtil.bean2Json(result));
+				return "import/importSuccess";
 			}
 		}
-		return Result.success(map);
+		result.setData(map);
+		model.addAttribute("result", JsonUtil.bean2Json(result));
+		return "import/importSuccess";
 	}
 
 	/**
@@ -284,4 +286,5 @@ public class ExcelImportController {
 		}
 		return null;
 	}
+	
 }

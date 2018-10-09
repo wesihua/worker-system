@@ -51,6 +51,14 @@ public class PageForwardController {
 	public String workerAdd() {
 		return "worker/addWorker";
 	}
+	@GetMapping("/worker/import")
+	public String workerImport() {
+		return "import/import";
+	}
+	@GetMapping("/worker/importSuccess")
+	public String workerImportSuccess() {
+		return "import/importSuccess";
+	}
 	
 	@GetMapping("/worker/edit")
 	public String workerEdit(Model model, String workerId) {

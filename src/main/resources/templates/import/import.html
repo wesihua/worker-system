@@ -12,7 +12,7 @@
 
 <link href="../css/font-awesome.min.css" rel="stylesheet" />
 <script src="../js/jquery-3.3.1.min.js"></script>
-
+<script src="../js/worker/import.js"></script>
 </head>
 <body>
 		<div id="content">
@@ -23,11 +23,18 @@
 						
 				</div>
 				<div class="a-m-content">
-					<div class="import-area"><span class="upload-button "><i class="fa fa-cloud-upload"></i>导入数据<input type="file" class="upInput" /></span></div>
+					<div class="import-area">
+						<span class="upload-button ">
+							<i class="fa fa-cloud-upload"></i>导入数据
+							<form id="uploadForm" method="post" action="/excel/import" enctype="multipart/form-data">
+								<input type="file" name="file" id="file" class="upInput" />
+							</form>
+						</span>
+					</div>
 				</div>
 				<div class="public-page-submit-area">
 					<!-- <span class="public-bottom1">取消</span> -->
-					<span class="public-bottom2 on">开始导入</span>
+					<span class="public-bottom2 on" id="start_import">开始导入</span>
 				</div>
 
 
