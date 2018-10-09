@@ -67,36 +67,34 @@ $(function(){
 	
 	// 折线图
 	var lineData = {
-			type: 'line',
-			data: {
-				labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-				datasets: [{
-					label: 'My First dataset',
-					backgroundColor: window.chartColors.red,
-					borderColor: window.chartColors.red,
-					data: [ 10, 20, 35,40,60,100,300 ],
-					fill: false
-				}]
+		type: 'line',
+		data: {
+			labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+			datasets: [{
+				label: 'My First dataset',
+				backgroundColor: window.chartColors.red,
+				borderColor: window.chartColors.red,
+				data: [ 10, 20, 35,40,60,100,300 ],
+				fill: false
+			}]
+		},
+		options: {
+			responsive: true,
+			title: {
+				display: true,
+				text: 'Chart.js Line Chart'
 			},
-			options: {
-				responsive: true,
-				title: {
-					display: true,
-					text: 'Chart.js Line Chart'
-				},
-				tooltips: {
-					mode: 'index',
-					intersect: false,
-				},
-				hover: {
-					mode: 'nearest',
-					intersect: true
-				}
+			tooltips: {
+				mode: 'index',
+				intersect: false,
+			},
+			hover: {
+				mode: 'nearest',
+				intersect: true
 			}
-		};
+		}
+	};
 
-		window.onload = function() {
-			var ctx = document.getElementById('chart-line').getContext('2d');
-			window.myLine = new Chart(ctx, lineData);
-		};
+	var ctx = document.getElementById('chart-line').getContext('2d');
+	window.myLine = new Chart(ctx, lineData);
 });

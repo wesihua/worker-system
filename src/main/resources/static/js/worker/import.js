@@ -21,6 +21,6 @@ $(function(){
 		$("#uploadForm").submit();
 	});
 	$("#downloadTemplate").click(function(){
-		window.open("/import_tpl/import_template.xlsx");
+		window.open("/import_tpl/import_template.xls");
 	});
 });

@@ -71,7 +71,7 @@ public class ExcelImportController {
 		String filePath = import_path;
 		try {
 			fileName = ToolsUtil.get36UUID()
-					+ file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
+					+ file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
 			// 该路径固定
 			filePath = "/Users/weisihua/excel_import/";
 			File targetFile = new File(filePath);
@@ -141,6 +141,7 @@ public class ExcelImportController {
 						// 联系电话不正确
 						if(!CheckUtils.isPhone(info.getTelephone()) && !CheckUtils.isMobile(info.getTelephone())) {
 							wrongPhone.add(info);
+							continue;
 						}
 						// 检查是否已存在
 						if (workerService.queryByIdcard(info.getIdcard())) {
