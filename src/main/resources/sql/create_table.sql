@@ -179,3 +179,88 @@ CREATE TABLE t_yx__worker_jobtype (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='人才-工种关联表';
 ALTER TABLE t_yx__worker_jobtype ADD INDEX index_worker_id (worker_id);
 ALTER TABLE t_yx__worker_jobtype ADD INDEX index_first_second_id (first_id,second_id);
+
+CREATE TABLE t_yx_demand (
+  id int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  demand_number varchar(50) DEFAULT NULL COMMENT '需求单号',
+  company_id int(11) NOT NULL COMMENT '企业id',
+  state int(1) NOT NULL COMMENT '状态  0：待处理；1：处理中；2：已签约；3：已结束',
+  description varchar(500) DEFAULT NULL COMMENT '备注说明',
+  other_treatment varchar(500) DEFAULT NULL COMMENT '其他待遇',
+  undertake_time datetime DEFAULT NULL COMMENT '接单时间',
+  undertake_user int(11) DEFAULT NULL COMMENT '接单人',
+  close_time datetime DEFAULT NULL COMMENT '关单时间',
+  close_status int(1) DEFAULT NULL COMMENT '关单状态',
+  close_user int(11) DEFAULT NULL COMMENT '关单人',
+  close_reason varchar(255) DEFAULT NULL COMMENT '关单原因',
+  create_user int(11) NOT NULL COMMENT '创建人、录单人',
+  create_time datetime NOT NULL COMMENT '创建时间、录单时间',
+  update_user int(11) DEFAULT NULL COMMENT '修改人',
+  update_time datetime DEFAULT NULL COMMENT '修改时间',
+  PRIMARY KEY (id)
+) COMMENT='企业需求单表';
+ALTER TABLE t_yx_demand ADD INDEX index_company_id (company_id);
+ALTER TABLE t_yx_demand ADD INDEX index_state (state);
+ALTER TABLE t_yx_demand ADD INDEX index_undertake_user (undertake_user);
+ALTER TABLE t_yx_demand ADD INDEX index_create_time (create_time);
+
+CREATE TABLE t_yx_demand_job (
+  id int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  demand_id int(11) NOT NULL COMMENT '需求单id',
+  job_type_id int(11) NOT NULL COMMENT '用工工种id',
+  worker_count int(11) NOT NULL COMMENT '用工人数',
+  salary varchar(50) NOT NULL COMMENT '月薪',
+  require_time date NOT NULL COMMENT '到岗时间',
+  work_area int(11) NOT NULL COMMENT '工作地区code',
+  gender varchar(50) DEFAULT NULL COMMENT '性别要求',
+  age varchar(50) DEFAULT NULL COMMENT '年龄要求',
+  degree varchar(50) DEFAULT NULL COMMENT '学历要求',
+  requirement varchar(255) DEFAULT NULL COMMENT '用工要求',
+  create_user int(11) NOT NULL COMMENT '创建人',
+  create_time datetime NOT NULL COMMENT '创建时间',
+  update_user int(11) DEFAULT NULL COMMENT '修改人',
+  update_time datetime DEFAULT NULL COMMENT '修改时间',
+  PRIMARY KEY (id)
+) COMMENT='订单工人表';
+ALTER TABLE t_yx_demand_job ADD INDEX index_create_time (create_time);
+ALTER TABLE t_yx_demand_job ADD INDEX index_demand_id (demand_id);
+
+CREATE TABLE t_yx_demand_order (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  demand_id int(11) DEFAULT NULL COMMENT '需求单id',
+  order_number varchar(50) DEFAULT NULL COMMENT '订单号',
+  worker_count int(11) DEFAULT NULL COMMENT '工人人数',
+  operator_user int(11) DEFAULT NULL COMMENT '经手人',
+  customer varchar(50) DEFAULT NULL COMMENT '客户负责人',
+  total_income int(11) DEFAULT NULL COMMENT '订单收入总额',
+  description varchar(255) DEFAULT NULL COMMENT '备注',
+  create_user int(11) NOT NULL COMMENT '创建人',
+  create_time datetime NOT NULL COMMENT '创建时间',
+  update_time datetime DEFAULT NULL COMMENT '修改时间',
+  update_user int(11) DEFAULT NULL COMMENT '修改人',
+  PRIMARY KEY (id)
+) COMMENT='订单表';
+ALTER TABLE t_yx_demand_order ADD INDEX index_demand_id (demand_id);
+ALTER TABLE t_yx_demand_order ADD INDEX index_create_time (create_time);
+
+CREATE TABLE t_yx_order_worker (
+  id int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  demand_job_id int(11) NOT NULL COMMENT '需求单工种id',
+  worker_id int(11) NOT NULL COMMENT '工人id',
+  order_id int(11) DEFAULT NULL COMMENT '订单id',
+  sign_salary int(11) NOT NULL COMMENT '签约薪水',
+  business_income int(11) NOT NULL COMMENT '业务收入',
+  arrive_work_time datetime NOT NULL COMMENT '到岗时间',
+  description varchar(255) DEFAULT NULL COMMENT '备注',
+  create_user int(11) NOT NULL COMMENT '创建人',
+  create_time datetime NOT NULL COMMENT '创建时间',
+  update_user int(11) DEFAULT NULL COMMENT '修改人',
+  update_time datetime DEFAULT NULL COMMENT '修改时间',
+  PRIMARY KEY (id)
+) COMMENT='订单_签约人工表';
+
+ALTER TABLE t_yx_order_worker ADD INDEX index_create_time (create_time);
+ALTER TABLE t_yx_order_worker ADD INDEX index_demand_jobtype_id (demand_job_id);
+ALTER TABLE t_yx_order_worker ADD INDEX index_order_id (order_id);
+ALTER TABLE t_yx_order_worker ADD INDEX index_worker_id (worker_id);
+
