@@ -3,3 +3,10 @@ $(document).ajaxSuccess(function(event, xhr, settings){
 		top.location.href="/";
 	}
 });
+
+$(function(){
+	
+	$("#downloadAndroid").click(function(){
+		window.open("/import_tpl/worker.apk");
+	});
+});

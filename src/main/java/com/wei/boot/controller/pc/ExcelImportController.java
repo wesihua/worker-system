@@ -73,7 +73,7 @@ public class ExcelImportController {
 			fileName = ToolsUtil.get36UUID()
 					+ file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
 			// 该路径固定
-			filePath = "/Users/weisihua/excel_import/";
+			//filePath = "/Users/weisihua/excel_import/";
 			File targetFile = new File(filePath);
 			if (!targetFile.exists()) {
 				targetFile.mkdirs();
@@ -88,10 +88,11 @@ public class ExcelImportController {
 			model.addAttribute("result", JsonUtil.bean2Json(result));
 			return "import/importSuccess";
 		} finally {
+			File excelFile = null;
 			try {
 				List<WorkerImportInfo> infoList = new ArrayList<WorkerImportInfo>();
 				// 解析excel文件并组装数据
-				File excelFile = new File(filePath + fileName); // 创建文件对象
+				excelFile = new File(filePath + fileName); // 创建文件对象
 				FileInputStream in = new FileInputStream(excelFile); // 文件流
 				checkExcelVaild(excelFile);
 				Workbook wb = WorkbookFactory.create(in);
@@ -190,9 +191,12 @@ public class ExcelImportController {
 				else {
 					result = Result.fail(e.getMessage());
 				}
+				// 删除文件
+				excelFile.delete();
 				model.addAttribute("result", JsonUtil.bean2Json(result));
 				return "import/importSuccess";
 			}
+			excelFile.delete();
 		}
 		result.setData(map);
 		model.addAttribute("result", JsonUtil.bean2Json(result));
