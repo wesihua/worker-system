@@ -67,13 +67,14 @@ public class CompanyController {
 			page.setPageSize(20000);
 			List<Company> list = companyService.queryByPage(page, company).getData();
 			if(null != list && list.size() > 0) {
-				ExcelRow headers = ExcelUtil.excelHeaders("企业名称","所属行业","联系人","联系电话","地址","创建时间");
+				ExcelRow headers = ExcelUtil.excelHeaders("企业名称","所属行业","联系人","已采集人数","联系电话","地址","创建时间");
 				ExcelData data = new ExcelData();
 				for(Company info : list) {
 					ExcelRow row = new ExcelRow();
 					row.add(info.getName());
 					row.add(info.getIndustry());
 					row.add(info.getContactName());
+					row.add(info.getCount());
 					row.add(info.getContactPhone());
 					row.add(info.getAddress());
 					row.add(info.getCreateTime());
