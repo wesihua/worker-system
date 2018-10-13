@@ -48,4 +48,11 @@ public interface JobTypeService {
 	 */
 	List<JobType> selectAllTree();
 	
+	/**
+	 * 根据名字模糊查询
+	 * @param jobTypeName
+	 * @return
+	 */
+	List<JobType> selectByName(String jobTypeName) ;
+	
 }

@@ -128,4 +128,19 @@ public class JobTypeController {
 		}
 		return result;
 	}
+	
+	
+	@ApiOperation(value = "根据名字模糊查询工种",notes = "")
+	@GetMapping("/queryByName")
+	public Result queryByName(String jobTypeName) {
+		Result result = Result.SUCCESS;
+		try {
+			List<JobType> list = jobTypeService.selectByName(jobTypeName);
+			result.setData(list);
+		} catch (Exception e) {
+			log.error("根据名字模糊查询工种", e);
+			result = Result.fail(e);
+		}
+		return result;
+	}
 }

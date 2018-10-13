@@ -24,10 +24,10 @@
 			<div class="qiandan-add-content">
 				<div class="input-block">
 					<span class="name">企业客户</span> 
-					<input />
-					<div class="lenove-list">
-						<div class="li">1</div>
-						<div class="li">2</div>
+					<input placeholder="搜索企业名称" class="" id="companyName" name="companyName"/>
+					<input type="hidden" class="" id="companyId" name="companyId"/>
+					<div class="lenove-list" id="companyList" style="display: none;">
+						<div class="li"  onclick="changCompany(id,name)"></div>
 					</div>
 					<!-- <select id="companyId">
 						<option value="1">1</option>
@@ -78,10 +78,16 @@
 				</div>
 				<div class="middle">
 					<div class="input-block">
-						<span class="name">用工工种</span><input class="pt select-job-type" id="jobTypeName"/>
+						<span class="name">用工工种</span>
+						<input placeholder="搜索工种名称" class="pt select-job-type" id="jobTypeName" name="jobTypeName"/>
+						<input type="hidden" class="" id="jobTypeId" name="jobTypeId"/>
+						<div class="lenove-list" id="jobTypeList" style="display: none;">
+							<div class="li"  onclick="changJobType(id,name)"></div>
+						</div>
 					</div>
 					<div class="input-block">
-						<span class="name">用工人数</span><input class="pt" id="workerCount"/>
+						<span class="name">用工人数</span>
+						<input class="pt" id="workerCount"/>
 					</div>
 					<div class="input-block">
 						<span class="name">到岗日期</span>
@@ -94,9 +100,15 @@
 							class="pt" id="salary"/>
 					</div>
 					<div class="input-block">
-						<span class="name">工作地区</span> <select class="se" id="workAreaName">
-							<option value="1">1</option>
-							<option value="2">2</option>
+						<span class="name">工作地区</span> 
+						<select class="se" id="province">
+							<!--  <option value="1">1</option>-->
+						</select>
+					</div>
+					<div class="input-block">
+						<span class="name">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> 
+						<select class="se" id="workAreaName">
+							<!--  <option value="1">1</option>-->
 						</select>
 					</div>
 					<div class="input-block">

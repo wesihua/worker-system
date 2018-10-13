@@ -5,15 +5,25 @@ $(function(){
 			top.location.href="/";
 		}
 	});
-	$(document).bind("ajaxSend", function () {
-		parent.$("#loading").show();
-    }).bind("ajaxComplete", function () {
-    	parent.$("#loading").hide();
-    });
+	//$(document).bind("ajaxSend", function () {
+	//	parent.$("#loading").show();
+    //}).bind("ajaxComplete", function () {
+    //	parent.$("#loading").hide();
+    //});
 	//按钮事件绑定
 	$("#public-bottom2").click(function(){
 		addDemand();
 	});
+	
+	//监听公司名称变化
+	$('#companyName').bind('input propertychange', function() {
+		queryCompany();
+	});
+	
+	// 初始化省
+	initProvinceSelect();
+	
+	
 });
 
 function deleteJob(obj){
@@ -21,11 +31,100 @@ function deleteJob(obj){
 	thisObj.parent().parent().remove();
 }
 
+// 查工种
+function queryJobType(){
+	var name = parent.$("#jobTypeName").val();
+
+	$.ajax({
+		url:"/jobType/queryByName",
+		type:"get",
+		data:{name:name},
+		dataType:"json",
+		success:function(data){
+			if(data.code == 1){
+				var firmArr = data.data;
+				console.log(firmArr);
+				var divContent="";
+				if(firmArr.length > 0){
+					for(var i=0; i<firmArr.length; i++){
+						var jobType = firmArr[i];
+						console.log(jobType);
+						divContent+=  "<div class='li' value_id= "+jobType.id+" value_name= "+jobType.name+"  onclick='changJobType(this)'>"+jobType.name +"</div>";
+					}
+				}
+				parent.$("#jobTypeList").show();
+				parent.$("#jobTypeList").empty().append(divContent);
+			}
+		}
+	});
+}
+
+// 查公司
+function queryCompany(){
+	var name = $("#companyName").val();
+
+	$.ajax({
+		url:"/company/queryByName",
+		type:"get",
+		data:{name:name},
+		dataType:"json",
+		success:function(data){
+			if(data.code == 1){
+				var firmArr = data.data;
+				
+				var divContent="";
+				if(firmArr.length > 0){
+				
+					for(var i=0; i<firmArr.length; i++){
+						var company = firmArr[i];
+						divContent+=  "<div class='li' value_id= "+company.id+" value_name= "+company.name+"  onclick='changCompany(this)'>"+company.name +"</div>";
+					}
+				}
+				$("#companyList").show();
+				$("#companyList").empty().append(divContent);
+			}
+		}
+	});
+}
+
+function changCompany(obj){
+	var thisObj = $(obj);
+	$("#companyName").val(thisObj.attr("value_name"));
+	$("#companyId").val(thisObj.attr("value_id"));
+	$("#companyList").hide();
+}
+
 function addJob(){
 	openDialog("add-job-dialog");
 	parent.$('.J-yearMonthPicker-single').datePicker({
         format: 'YYYY-MM-DD'
     });
+	
+	// 监听工种名称变化
+	parent.$('#jobTypeName').bind('input propertychange', function() {
+		queryJobType();
+	});
+	
+	parent.$("#province").change(function(){
+		var parentCode = this.value;
+		$.ajax({
+			url:"/common/queryAreaByParentCode",
+			type:"get",
+			dataType:"json",
+			data:{parentCode:parentCode},
+			success:function(data){
+				if(data.code == 1){
+					var dics = data.data;
+					var content = "<option value=\"\">---请选择---</option>";
+					for(var i=0; i<dics.length; i++){
+						var dic = dics[i];
+						content += "<option value=\""+dic.code+"\">"+dic.name+"</option>";
+					}
+					parent.$("#workAreaName").empty().html(content);
+				}
+			}
+		});
+	});
 	
 	parent.$(".add-job-type-content").click(function(){
 		top.closeDialog();
@@ -177,4 +276,24 @@ function addDemand(){
 		}
 	});
 
+}
+
+
+function initProvinceSelect(){
+	$.ajax({
+		url:"/common/queryAllProvince",
+		type:"get",
+		dataType:"json",
+		success:function(data){
+			if(data.code == 1){
+				var dics = data.data;
+				var content = "<option value=\"\">---请选择---</option>";
+				for(var i=0; i<dics.length; i++){
+					var dic = dics[i];
+					content += "<option value=\""+dic.code+"\">"+dic.name+"</option>";
+				}
+				$("#province").empty().html(content);
+			}
+		}
+	});
 }

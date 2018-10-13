@@ -87,4 +87,15 @@ public class JobTypeServiceImpl implements JobTypeService {
 		roots.stream().forEach(each -> each.setChildren(selectTreeByParentId(each.getId())));
 		return roots;
 	}
+
+	@Override
+	public List<JobType> selectByName(String jobTypeName) {
+		JobTypeExample example = new JobTypeExample();
+		
+		if(!StringUtils.isEmpty(jobTypeName)) {
+			example.createCriteria().andNameLike("%"+jobTypeName+"%");
+		}
+		example.createCriteria().andLevelEqualTo(GlobalConstant.JobTypeLevel.SECOND);
+		return jobTypeMapper.selectByExample(example);
+	}
 }
