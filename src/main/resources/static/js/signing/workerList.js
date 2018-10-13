@@ -5,7 +5,11 @@ $(function () {
             top.location.href = "/";
         }
     });
-
+    $(document).bind("ajaxSend", function () {
+		parent.$("#loading").show();
+    }).bind("ajaxComplete", function () {
+    	parent.$("#loading").hide();
+    });
 
     $("#addWorder").click(function () {
         var jobTypeId = $("input[name=jobTypeId]").val();

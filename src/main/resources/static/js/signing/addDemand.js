@@ -5,6 +5,11 @@ $(function(){
 			top.location.href="/";
 		}
 	});
+	$(document).bind("ajaxSend", function () {
+		parent.$("#loading").show();
+    }).bind("ajaxComplete", function () {
+    	parent.$("#loading").hide();
+    });
 	//按钮事件绑定
 	$("#public-bottom2").click(function(){
 		addDemand();
