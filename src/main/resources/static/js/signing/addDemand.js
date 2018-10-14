@@ -20,9 +20,6 @@ $(function(){
 		queryCompany();
 	});
 	
-	// 初始化省
-	initProvinceSelect();
-	
 });
 
 function deleteJob(obj){
@@ -31,8 +28,8 @@ function deleteJob(obj){
 }
 
 // 查工种
-function queryJobType(){
-	//var name = parent.$("#jobTypeName").val();
+function queryJobType(jobTypeId){
+	var name = parent.$("#jobTypeName").val();
 
 	$.ajax({
 		url:"/jobType/queryChildJobType",
@@ -44,7 +41,12 @@ function queryJobType(){
 				var content = "<option value=\"\">---请选择---</option>";
 				for(var i=0; i<dics.length; i++){
 					var dic = dics[i];
-					content += "<option value=\""+dic.id+"\">"+dic.name+"</option>";
+					
+					if(jobTypeId != undefined && jobTypeId == dic.id){
+						content += "<option value=\""+dic.id+"\" selected=\"selected\">"+dic.name+"</option>";
+					} else {
+						content += "<option value=\""+dic.id+"\">"+dic.name+"</option>";
+					}
 				}
 				parent.$("#jobType").empty().html(content);
 			}
@@ -87,20 +89,8 @@ function changCompany(obj){
 	$("#companyList").hide();
 }
 
-/**
- * 添加工种
- * @returns
- */
-function addJob(){
-	// 打开弹窗
-	openDialog("add-job-dialog");
-	// 时间框格式
-	parent.$('.J-yearMonthPicker-single').datePicker({
-        format: 'YYYY-MM-DD'
-    });
+function initJob(provinceCode,jobTypeId,areaCode){
 	
-	// 查工种
-	queryJobType();
 	
 	// 工种选中事件
 	parent.$("select#jobType").change(function(){
@@ -115,23 +105,8 @@ function addJob(){
 	// 省份选中事件
 	parent.$("#province").change(function(){
 		var parentCode = this.value;
-		$.ajax({
-			url:"/common/queryAreaByParentCode",
-			type:"get",
-			dataType:"json",
-			data:{parentCode:parentCode},
-			success:function(data){
-				if(data.code == 1){
-					var dics = data.data;
-					var content = "<option value=\"\">---请选择---</option>";
-					for(var i=0; i<dics.length; i++){
-						var dic = dics[i];
-						content += "<option value=\""+dic.code+"\">"+dic.name+"</option>";
-					}
-					parent.$("#workAreaList").empty().html(content);
-				}
-			}
-		});
+		parent.$('#parentCode').val(parentCode);
+		queryArea(parentCode,areaCode);
 	});
 	
 	// 地区选中事件
@@ -144,6 +119,52 @@ function addJob(){
 		
     });
 	
+	// 初始化省
+	initProvinceSelect(provinceCode);
+	
+	// 查工种
+	queryJobType(jobTypeId);
+}
+
+function queryArea(parentCode,areaCode){
+	$.ajax({
+		url:"/common/queryAreaByParentCode",
+		type:"get",
+		dataType:"json",
+		data:{parentCode:parentCode},
+		success:function(data){
+			if(data.code == 1){
+				var dics = data.data;
+				var content = "<option value=\"\">---请选择---</option>";
+				for(var i=0; i<dics.length; i++){
+					var dic = dics[i];
+					if(areaCode != undefined && areaCode == dic.code){
+						content += "<option value=\""+dic.code+"\" selected=\"selected\">"+dic.name+"</option>";
+					} else {
+						content += "<option value=\""+dic.code+"\">"+dic.name+"</option>";
+					}
+					
+				}
+				parent.$("#workAreaList").empty().html(content);
+			}
+		}
+	});
+}
+
+/**
+ * 添加工种
+ * @returns
+ */
+function addJob(){
+	// 打开弹窗
+	openDialog("add-job-dialog");
+	// 时间框格式
+	parent.$('.J-yearMonthPicker-single').datePicker({
+        format: 'YYYY-MM-DD'
+    });
+	
+	initJob(null,null,null);
+	
 	parent.$(".add-job-type-content").click(function(){
 		top.closeDialog();
 		
@@ -153,7 +174,8 @@ function addJob(){
 		var salary = parent.$("#salary").val();
 		var requireTime = parent.$("#requireTime").val();
 		var workAreaName = parent.$("#workAreaName").val();
-		var workArea = parent.$("#workArea").val();
+		var workArea = parent.$("#workAreaList").val();
+		var parentCode = parent.$("#parentCode").val();
 		var requirement = parent.$("#requirement").val();
 		var content = "<tr class=\"tr-body\">"+
 					  "  <td id='jobTypeName'>"+jobTypeName+"</td>"+
@@ -163,6 +185,7 @@ function addJob(){
 					  "  <td id='requireTime'>"+requireTime+"</td>"+
 					  "  <td id='workAreaName'>"+workAreaName+"</td>"+
 					  "  <input id='workArea' type='hidden' name='workArea' value="+ workArea +">" +
+					  "  <input id='parentCode' type='hidden' name='parentCode' value="+ parentCode +">" +
 					  "  <td id='requirement'>"+requirement+"</td>"+
 					  "  <td><span class=\"des\" onclick=\"editJob(this)\">编辑</span><span class=\"delete\" onclick=\"deleteJob(this)\">移除</span></td>"+
 					  "</tr>";
@@ -181,30 +204,45 @@ function editJob(obj){
 	var workerCount =  trobj.children("#workerCount").html();
 	var salary =  trobj.children("#salary").html();
 	var requireTime =  trobj.children("#requireTime").html();
-	var workArea =  trobj.children("#workArea").html();
+	var workArea =  trobj.children("#workArea").val();
 	var requirement =  trobj.children("#requirement").html();
+	var jobTypeId =  trobj.children("#jobTypeId").val();
+	var parentCode =  trobj.children("#parentCode").val();
+	var workAreaName =  trobj.children("#workAreaName").html();
+	
+	initJob(parentCode,jobTypeId,workArea)
+	queryArea(parentCode,workArea);
 	parent.$("#jobTypeName").val(jobTypeName);
 	parent.$("#workerCount").val(workerCount);
 	parent.$("#salary").val(salary);
 	parent.$("#requireTime").val(requireTime);
 	parent.$("#workArea").val(workArea);
 	parent.$("#requirement").val(requirement);
-	
+	parent.$("#jobTypeId").val(jobTypeId);
+	parent.$("#parentCode").val(parentCode);
+	parent.$("#workAreaName").val(workAreaName);
 	parent.$(".add-job-type-content").click(function(){
 		
 		var jobTypeName_ = parent.$("#jobTypeName").val();
+		var jobTypeId_ = parent.$("#jobTypeId").val();
 		var workerCount_ = parent.$("#workerCount").val();
 		var salary_ = parent.$("#salary").val();
 		var requireTime_ = parent.$("#requireTime").val();
 		var workArea_ = parent.$("#workArea").val();
+		var workAreaName_ = parent.$("#workAreaName").val();
+		var parentCode_ =  parent.$("#parentCode").val();
 		var requirement_ = parent.$("#requirement").val();
+		
 		top.closeDialog();
 		
 		trobj.children("#jobTypeName").html(jobTypeName_);
+		trobj.children("#jobTypeId").val(jobTypeId_);
 		trobj.children("#workerCount").html(workerCount_);
 		trobj.children("#salary").html(salary_);
 		trobj.children("#requireTime").html(requireTime_);
-		trobj.children("#workArea").html(workArea_);
+		trobj.children("#workArea").val(workArea_);
+		trobj.children("#workAreaName").html(workAreaName_);
+		trobj.children("#parentCode").val(parentCode_);
 		trobj.children("#requirement").html(requirement_);
 		
 	});
@@ -299,7 +337,7 @@ function addDemand(){
 }
 
 
-function initProvinceSelect(){
+function initProvinceSelect(provinceCode){
 	$.ajax({
 		url:"/common/queryAllProvince",
 		type:"get",
@@ -310,29 +348,35 @@ function initProvinceSelect(){
 				var content = "<option value=\"\">---请选择---</option>";
 				for(var i=0; i<dics.length; i++){
 					var dic = dics[i];
-					content += "<option value=\""+dic.code+"\">"+dic.name+"</option>";
+					if(provinceCode != undefined && provinceCode == dic.code){
+						content += "<option value=\""+dic.code+"\" selected=\"selected\">"+dic.name+"</option>";
+					}else{
+						content += "<option value=\""+dic.code+"\">"+dic.name+"</option>";
+					}
+					
 				}
-				$("#province").empty().html(content);
+				parent.$("#province").empty().html(content);
+				
 			}
 		}
 	});
 }
 
-function initProvinceSelect(){
-	$.ajax({
-		url:"/common/queryAllProvince",
-		type:"get",
-		dataType:"json",
-		success:function(data){
-			if(data.code == 1){
-				var dics = data.data;
-				var content = "<option value=\"\">---请选择---</option>";
-				for(var i=0; i<dics.length; i++){
-					var dic = dics[i];
-					content += "<option value=\""+dic.code+"\">"+dic.name+"</option>";
-				}
-				$("#province").empty().html(content);
-			}
-		}
-	});
-}
+//function initProvinceSelect(){
+//	$.ajax({
+//		url:"/common/queryAllProvince",
+//		type:"get",
+//		dataType:"json",
+//		success:function(data){
+//			if(data.code == 1){
+//				var dics = data.data;
+//				var content = "<option value=\"\">---请选择---</option>";
+//				for(var i=0; i<dics.length; i++){
+//					var dic = dics[i];
+//					content += "<option value=\""+dic.code+"\">"+dic.name+"</option>";
+//				}
+//				$("#province").empty().html(content);
+//			}
+//		}
+//	});
+//}
