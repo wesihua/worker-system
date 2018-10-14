@@ -46,6 +46,10 @@
         height:30px !important;
         vertical-align: top;
       }
+     #user-manage .chaxun .select2 .c-datepicker-date-editor .c-datepicker-range__icon{
+        height: 29px !important;
+        line-height: 29px !important;
+      }
     #user-manage .chaxun .select2 select {
       border:1px solid #dbdcdd;
       height:30px;
