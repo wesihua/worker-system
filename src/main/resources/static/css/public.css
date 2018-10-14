@@ -167,8 +167,8 @@ input,select, textarea {
 #public-bottom1, .public-bottom1 {
   display: inline-block;
   border-radius: 5px;
-  height: 40px;
-  line-height: 40px;
+  height: 29px;
+  line-height: 29px;
   text-align: center;
   color: #313131;
   padding: 0px 30px;
@@ -178,8 +178,8 @@ input,select, textarea {
 #public-bottom2, .public-bottom2 {
   display: inline-block;
   border-radius: 5px;
-  height: 40px;
-  line-height: 40px;
+  height: 29px;
+  line-height: 29px;
   text-align: center;
   color: #409eff;
     background: #ecf5ff;
@@ -202,8 +202,8 @@ input,select, textarea {
 .public-small-bottom {
   display: inline-block;
   border-radius: 5px;
-  height: 30px;
-  line-height: 30px;
+  height:29px;
+  line-height: 29px;
   text-align: center;
   color: #409eff;
     background: #ecf5ff;
@@ -212,8 +212,8 @@ input,select, textarea {
   cursor: pointer;
 }
 .public-small-bottom.h42{
-  height:40px;
-  line-height:40px;
+  height:29px;
+  line-height:29px;
 }
 .public-small-bottom .fa{
    font-style:normal;
