@@ -5,6 +5,7 @@ $(function () {
             top.location.href = "/";
         }
     });
+    
     $(document).bind("ajaxSend", function () {
 		parent.$("#loading").show();
     }).bind("ajaxComplete", function () {
@@ -16,6 +17,41 @@ $(function () {
     $(".select-worker").click(function(){
         query(1);
     });
+    
+    $(document).on('click','input[name="check"]',function(){
+    	$that = $(this);
+    	var aaa = $that.prop("checked");
+    	var id = $that.val();
+    	if(aaa){
+    		var name = $that.parents('tr').find('.worker-name').text();
+    		var idcard = $that.parents('tr').find('.worker-idcard').text();
+/*    		var signSalary = $that.parents('tr').find('[name="signSalary"]').val();
+    		var arriveWorkTime = $that.parents('tr').find('[name="arriveWorkTime"]').val();
+    		var businessIncome = $that.parents('tr').find('[name="businessIncome"]').val();*/
+    		var content = '<li id=check_'+id+'>'+
+					            '<div class="select-name">'+name+'（'+ idcard +'）</div>'+
+					            '<div class="select-title">'+
+					                '<span class="a">签约月工资（元)</span>'+
+					                '<span class="b">到岗日期</span>'+
+					               ' <span class="c">业务收入（元）</span>'+
+					            '</div>'+
+					            '<div class="select-input">'+
+					                '<input class="a" type="text" value="" />'+
+					                '<input class="b" type="text" value="" />'+
+					                '<input class="c" type="text" value="" />'+
+					           ' </div>'+
+					        '</li>';
+    	}else{
+    		$("#check_"+id+"").remove();
+    	}
+    	
+    	$(".result-area ul").append(content);
+    
+    	
+    });
+    
+//    $('input').click(function(){
+//    })
 
 });
 
@@ -37,14 +73,18 @@ function query(pageNum){
 				for(var i=0; i<workerArr.length; i++){
 					var worker = workerArr[i];
 					tableContent+=  "<tr>"+
-									"	<td>"+worker.name+"</td>"+
-									"	<td>"+worker.idcard+"</td>"+
+									"	<td class='worker-name'>"+worker.name+"</td>"+
+									"	<td class='worker-idcard'>"+worker.idcard+"</td>"+
 									"	<td>"+worker.birthplaceName+"</td>"+
 									"	<td>"+worker.jobtypeName+"</td>"+
 									"	<td>"+worker.expectSalaryName+"</td>"+
 									"	<td>"+worker.workplaceName+"</td>"+
-									"	<td><span class=\"des\" onClick=\"updateWorker("+worker.id+")\">编辑</span>" +
+									"	<td><input type=\"checkbox\" name=\"check\" value="+worker.id+" ></td>"+
+									/*"	<input type=\"hidden\" name=\"signSalary\" value="+worker.signSalary+" >"+
+									"	<input type=\"hidden\" name=\"arriveWorkTime\" value="+worker.arriveWorkTime+" >"+
+									"	<input type=\"hidden\" name=\"businessIncome\" value="+worker.businessIncome+" >"+*/
 									"</tr>";
+					/*"<span class=\"des\" onClick=\"updateWorker("+worker.id+")\">编辑</span>" */
 				}
 				$("tbody").empty().append(tableContent);
 				$("#totalCount").text(data.data.totalCount+"个结果");

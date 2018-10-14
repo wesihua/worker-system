@@ -32,6 +32,12 @@ function queryDetail(){
 				var state = data.data.state;
 				var tableContent="";
 				var firmArr = data.data.demandJobList;
+				$(".undertokeTime").text(data.data.undertakeTime);
+				$(".totalIncome").text(data.data.totalIncome);
+				$(".undertokeUserName").text(data.data.undertakeUserName);
+				$(".companyName").text(data.data.companyName);
+				$(".description").text(data.data.description);
+				
 				if(state == 0){
 					tableContent+= "<tr>"+
 									"	<th>用工工种</th>"+
