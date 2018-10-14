@@ -130,12 +130,12 @@ public class JobTypeController {
 	}
 	
 	
-	@ApiOperation(value = "根据名字模糊查询工种",notes = "")
-	@GetMapping("/queryByName")
-	public Result queryByName(String jobTypeName) {
+	@ApiOperation(value = "查询所有二级工种",notes = "")
+	@GetMapping("/queryChildJobType")
+	public Result queryChildJobType() {
 		Result result = Result.SUCCESS;
 		try {
-			List<JobType> list = jobTypeService.selectByName(jobTypeName);
+			List<JobType> list = jobTypeService.selectChildJobType();
 			result.setData(list);
 		} catch (Exception e) {
 			log.error("根据名字模糊查询工种", e);

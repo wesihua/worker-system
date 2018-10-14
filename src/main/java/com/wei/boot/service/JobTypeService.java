@@ -48,11 +48,11 @@ public interface JobTypeService {
 	 */
 	List<JobType> selectAllTree();
 	
+
 	/**
-	 * 根据名字模糊查询
-	 * @param jobTypeName
+	 *  查询所有二级节点
 	 * @return
 	 */
-	List<JobType> selectByName(String jobTypeName) ;
+	List<JobType> selectChildJobType();
 	
 }

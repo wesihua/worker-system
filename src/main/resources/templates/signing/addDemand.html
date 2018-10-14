@@ -65,7 +65,7 @@
 					</table>
 				</div>
 				<div class="control-botton">
-					<span class="public-bottom1" onclick="window.history.go(-1)" >取消</span> <span id="public-bottom2" class="public-bottom2 on" onclick="addDemand()">完成</span>
+					<span class="public-bottom1" onclick="window.history.go(-1)" >取消</span> <span id="add-demand-bottom" class="public-bottom2 on" onclick="addDemand()">完成</span>
 				</div>
 
 			</div>
@@ -79,11 +79,11 @@
 				<div class="middle">
 					<div class="input-block">
 						<span class="name">用工工种</span>
-						<input placeholder="搜索工种名称" class="pt select-job-type" id="jobTypeName" name="jobTypeName"/>
-						<input type="hidden" class="" id="jobTypeId" name="jobTypeId"/>
-						<div class="lenove-list" id="jobTypeList" style="display: none;">
-							<div class="li"  onclick="changJobType(id,name)"></div>
-						</div>
+						<select class="se" id="jobType">
+							<!--  <option value="1">1</option>-->
+						</select>
+						<input  id="jobTypeId" type="hidden"/>
+						<input  id="jobTypeName" type="hidden"/>
 					</div>
 					<div class="input-block">
 						<span class="name">用工人数</span>
@@ -107,9 +107,11 @@
 					</div>
 					<div class="input-block">
 						<span class="name">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> 
-						<select class="se" id="workAreaName">
+						<select class="se" id="workAreaList">
 							<!--  <option value="1">1</option>-->
 						</select>
+						<input  id="workArea" type="hidden"/>
+						<input  id="workAreaName" type="hidden"/>
 					</div>
 					<div class="input-block">
 						<span class="name">用工要求</span>

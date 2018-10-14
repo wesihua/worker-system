@@ -78,8 +78,8 @@ public class DemandServiceImpl implements DemandService {
 		demand.setCreateTime(createTime);
 		demand.setState(0);
 		// TODO 生成需求单号
-		int demandId = demandMapper.insertSelective(demand);
-		
+		demandMapper.insertSelective(demand);
+		int demandId =  demand.getId();
 		// 保存需求用工信息
 		List<DemandJob> demandJobList = demand.getDemandJobList();
 		if(!CollectionUtils.isEmpty(demandJobList)) {
