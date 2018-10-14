@@ -13,7 +13,7 @@
   top: 50%;
   background-color: #ffffff;
   width: 500px;
-  height: 400px;
+  /* height: 400px; */
   margin-top: -200px;
   margin-left: -250px;
   border-radius: 10px; }
@@ -37,18 +37,18 @@
     }
   #user-manage-box2 .box2-content .middle {
     padding: 20px 20px 0px 20px;
-    height: 240px;
+    /* height: 240px; */
     overflow: auto; }
     #user-manage-box2 .box2-content .middle .input-block {
-      min-height: 40px;
-      line-height: 40px;
-      margin-bottom: 10px; }
+      min-height:32px;
+      line-height: 32px;
+      margin-bottom: 15px; }
       #user-manage-box2 .box2-content .middle .input-block .name {
         display: inline-block;
         width: 60px;
         margin-right: 20px; }
       #user-manage-box2 .box2-content .middle .input-block .select {
-        height: 40px;
+        height: 32px;
         width:312px; }
         /* #user-manage-box2 .box2-content .middle .input-block .select option {
         height: 40px;
@@ -58,12 +58,16 @@
           width: 87px;
         } */
       #user-manage-box2 .box2-content .middle .input-block .pt {
-        height: 40px;
+        height: 30px;
         width:312px;
         text-indent: 10px; }
         #user-manage-box2 .box2-content .middle .input-block .c-datepicker-date-editor{
           background-color: #f8f8f8;
-          height: 40px;
+          height: 32px;
+        }
+        #user-manage-box2 .box2-content .middle .input-block .c-datepicker-date-editor .c-datepicker-range__icon{
+           line-height: 30px !important;
+           height: 30px !important;
         }
       #user-manage-box2 .box2-content .middle .input-block  .c-datepicker-data-input{
           width: 87px;

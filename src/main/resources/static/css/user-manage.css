@@ -5,11 +5,15 @@
   border-radius:5px;
 }
   #user-manage .chaxun .select1 {
-    height: 40px;
-    margin-bottom: 10px; }
+    height: 30px;
+    line-height: 30px;
+    margin-bottom: 15px; }
+    #user-manage .chaxun .select1  span.n{
+       margin-right:5px;
+     }
     #user-manage .chaxun .select1 input {
-      height: 29px;
-      line-height: 29px;
+      height: 30px;
+      line-height: 30px;
       background-color: #ffffff;
       width: 140px;
       border:1px solid #dbdcdd;
@@ -43,24 +47,24 @@
       margin-right: 20px;
       vertical-align: top; }
       #user-manage .chaxun .select2 .c-datepicker-date-editor{
-        height:30px !important;
+        height:32px !important;
         vertical-align: top;
       }
      #user-manage .chaxun .select2 .c-datepicker-date-editor .c-datepicker-range__icon{
-        height: 29px !important;
-        line-height: 29px !important;
+        height: 20px !important;
+        line-height: 20px !important;
       }
     #user-manage .chaxun .select2 select {
       border:1px solid #dbdcdd;
-      height:30px;
+      height:32px;
       width: 160px;
       text-align: center;
       background-color: #ffffff;
       margin-right: 20px;
       padding-left: 20px; }
       #user-manage .chaxun .select2 select option{
-        height: 30px;
-        line-height: 30px;
+        height: 32px;
+        line-height: 32px;
       }
 
 

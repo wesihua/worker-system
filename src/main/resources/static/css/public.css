@@ -255,5 +255,13 @@ input,select, textarea {
       border-radius: 5px;
       cursor: pointer; }
 
+      /* 页面table 换色 */
+
+table tr:nth-of-type(odd){}
+table tr:nth-of-type(even){background-color: #FAFAFA;}
+table tr{
+  cursor: pointer;
+}
+table tr:hover td{background: #e5e5e5;}
 
 

@@ -8,12 +8,12 @@
       position: relative;
       left: 0px;
       top: 0px;
-      min-height: 40px;
+      min-height: 32px;
       margin-bottom: 15px;
       padding-left: 90px; }
 
       #user-manage-control .party1 .base-info .inut-b .c-datepicker-date-editor{
-        height:42px;
+        height:32px;
         width:290px;
         background-color:#f8f8f8;
       }
@@ -21,15 +21,17 @@
         background-color:#f8f8f8;
       }
       #user-manage-control .party1 .base-info .inut-b .c-datepicker-date-editor .c-datepicker-range__icon{
-        margin-top:4px;
+        margin-top:0px;
+        height: 30px !important;
+        line-height: 30px !important;
       }
       #user-manage-control .party1 .base-info .inut-b .name {
         position: absolute;
         left: 0px;
         top: 0px;
         width: 90px;
-        height: 40px;
-        line-height: 40px; }
+        height: 32px;
+        line-height:32px; }
         #user-manage-control .party1 .base-info .inut-b .name i {
           color: red;
           vertical-align: middle;
@@ -37,16 +39,16 @@
           margin-right: 2px; }
       #user-manage-control .party1 .base-info .inut-b .inputValue {
         width: 290px;
-        height: 40px;
-        line-height: 40px;
+        height: 30px;
+        line-height: 30px;
         border:1px solid #dcdfe6;
         border-radius:5px;
         background-color: #f8f8f8;
         text-indent: 10px; }
       #user-manage-control .party1 .base-info .inut-b .selectControl {
         width: 290px;
-        height: 40px;
-        line-height: 40px;
+        height: 32px;
+        line-height: 32px;
         border:1px solid #dcdfe6;
         border-radius: 5px;       
         text-indent: 10px;
@@ -55,8 +57,8 @@
           margin-bottom:10px;
         }
         #user-manage-control .party1 .base-info .inut-b .selectControl  option{
-          height: 40px;
-          line-height: 40px;
+          height: 32px;
+          line-height: 32px;
         }
     #user-manage-control .party1 .base-info .jianjie {
       width: 380px;
@@ -71,14 +73,14 @@
         width: 288px;
         /* padding: 5px; */
         line-height: 20px;
-        min-height: 40px;
+        min-height: 60px;
         max-height: 100px;
         margin-bottom: 15px;
         resize: none; 
         border:1px solid #dcdfe6;
         border-radius:5px;
         background-color: #f8f8f8;
-        overflow: hidden;
+        overflow:auto;
         text-indent: 10px;
       }
       #user-manage-control .party1 .base-info .jianjie .textarea2 {

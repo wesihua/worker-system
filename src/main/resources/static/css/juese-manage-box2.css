@@ -14,7 +14,7 @@
   background-color: #ffffff;
   width: 500px;
   /* height: 230px; */
-  margin-top: -200px;
+  margin-top: -270px;
   margin-left: -250px;
   border-radius: 10px; }
   #juese-manage-box2 .box-content .head {
@@ -36,7 +36,7 @@
       }
   #juese-manage-box2 .box-content .middle {
     padding: 20px;
-    height: 250px;
+    /* height: 250px; */
     overflow: auto; }
     #juese-manage-box2 .box-content .middle  .select{
       margin-bottom: 15px;

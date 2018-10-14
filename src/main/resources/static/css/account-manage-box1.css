@@ -40,9 +40,9 @@
     /* overflow: auto; */
     font-size: 0px; }
     #account-manage-box1 .box1-content .middle ul li {
-      min-height: 40px;
+      min-height: 30px;
       /* line-height: 40px; */
-      margin-bottom: 10px; }
+      margin-bottom:15px; }
       #account-manage-box1 .box1-content .middle ul li .name {
         display: inline-block;
         width: 60px;
@@ -60,8 +60,8 @@
         }
       #account-manage-box1 .box1-content .middle ul li .pt, #account-manage-box1 .box1-content .middle ul li .se {
         width: 300px;
-        height: 40px;
-        line-height: 40px;
+        height:30px;
+        line-height: 30px;
         text-indent: 5px;
         border-radius: 5px; }
       #account-manage-box1 .box1-content .middle ul li .se option {
