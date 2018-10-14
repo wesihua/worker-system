@@ -89,12 +89,8 @@ public class JobTypeServiceImpl implements JobTypeService {
 	}
 
 	@Override
-	public List<JobType> selectByName(String jobTypeName) {
+	public List<JobType> selectChildJobType() {
 		JobTypeExample example = new JobTypeExample();
-		
-		if(!StringUtils.isEmpty(jobTypeName)) {
-			example.createCriteria().andNameLike("%"+jobTypeName+"%");
-		}
 		example.createCriteria().andLevelEqualTo(GlobalConstant.JobTypeLevel.SECOND);
 		return jobTypeMapper.selectByExample(example);
 	}

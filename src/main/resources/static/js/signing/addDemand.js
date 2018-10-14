@@ -11,9 +11,9 @@ $(function(){
     //	parent.$("#loading").hide();
     //});
 	//按钮事件绑定
-	$("#public-bottom2").click(function(){
-		addDemand();
-	});
+//	$("#add-demand-bottom").click(function(){
+//		addDemand();
+//	});
 	
 	//监听公司名称变化
 	$('#companyName').bind('input propertychange', function() {
@@ -22,7 +22,6 @@ $(function(){
 	
 	// 初始化省
 	initProvinceSelect();
-	
 	
 });
 
@@ -33,27 +32,21 @@ function deleteJob(obj){
 
 // 查工种
 function queryJobType(){
-	var name = parent.$("#jobTypeName").val();
+	//var name = parent.$("#jobTypeName").val();
 
 	$.ajax({
-		url:"/jobType/queryByName",
+		url:"/jobType/queryChildJobType",
 		type:"get",
-		data:{name:name},
 		dataType:"json",
 		success:function(data){
 			if(data.code == 1){
-				var firmArr = data.data;
-				console.log(firmArr);
-				var divContent="";
-				if(firmArr.length > 0){
-					for(var i=0; i<firmArr.length; i++){
-						var jobType = firmArr[i];
-						console.log(jobType);
-						divContent+=  "<div class='li' value_id= "+jobType.id+" value_name= "+jobType.name+"  onclick='changJobType(this)'>"+jobType.name +"</div>";
-					}
+				var dics = data.data;
+				var content = "<option value=\"\">---请选择---</option>";
+				for(var i=0; i<dics.length; i++){
+					var dic = dics[i];
+					content += "<option value=\""+dic.id+"\">"+dic.name+"</option>";
 				}
-				parent.$("#jobTypeList").show();
-				parent.$("#jobTypeList").empty().append(divContent);
+				parent.$("#jobType").empty().html(content);
 			}
 		}
 	});
@@ -94,17 +87,32 @@ function changCompany(obj){
 	$("#companyList").hide();
 }
 
+/**
+ * 添加工种
+ * @returns
+ */
 function addJob(){
+	// 打开弹窗
 	openDialog("add-job-dialog");
+	// 时间框格式
 	parent.$('.J-yearMonthPicker-single').datePicker({
         format: 'YYYY-MM-DD'
     });
 	
-	// 监听工种名称变化
-	parent.$('#jobTypeName').bind('input propertychange', function() {
-		queryJobType();
-	});
+	// 查工种
+	queryJobType();
 	
+	// 工种选中事件
+	parent.$("select#jobType").change(function(){
+		// 选中事件
+		var jobTypeId = parent.$('select#jobType option:selected').val();
+		var jobTypeName = parent.$('select#jobType option:selected').text();
+		parent.$('#jobTypeId').val(jobTypeId);
+		parent.$('#jobTypeName').val(jobTypeName);
+		
+    });
+	
+	// 省份选中事件
 	parent.$("#province").change(function(){
 		var parentCode = this.value;
 		$.ajax({
@@ -120,29 +128,41 @@ function addJob(){
 						var dic = dics[i];
 						content += "<option value=\""+dic.code+"\">"+dic.name+"</option>";
 					}
-					parent.$("#workAreaName").empty().html(content);
+					parent.$("#workAreaList").empty().html(content);
 				}
 			}
 		});
 	});
 	
+	// 地区选中事件
+	parent.$("select#workAreaList").change(function(){
+		// 选中事件
+		var workArea = parent.$('select#workAreaList option:selected').val();
+		var workAreaName = parent.$('select#workAreaList option:selected').text();
+		parent.$('#workArea').val(workArea);
+		parent.$('#workAreaName').val(workAreaName);
+		
+    });
+	
 	parent.$(".add-job-type-content").click(function(){
 		top.closeDialog();
 		
 		var jobTypeName = parent.$("#jobTypeName").val();
+		var jobTypeId = parent.$("#jobTypeId").val();
 		var workerCount = parent.$("#workerCount").val();
 		var salary = parent.$("#salary").val();
 		var requireTime = parent.$("#requireTime").val();
 		var workAreaName = parent.$("#workAreaName").val();
+		var workArea = parent.$("#workArea").val();
 		var requirement = parent.$("#requirement").val();
 		var content = "<tr class=\"tr-body\">"+
 					  "  <td id='jobTypeName'>"+jobTypeName+"</td>"+
-					  "  <input id='jobTypeId' type=\"hidden\" name=\"jobTypeId\" value="+ jobTypeName +">" +
+					  "  <input id='jobTypeId' type=\"hidden\" name=\"jobTypeId\" value="+ jobTypeId +">" +
 					  "  <td id='workerCount'>"+workerCount+"</td>"+
 					  "  <td id='salary'>"+salary+"</td>"+
 					  "  <td id='requireTime'>"+requireTime+"</td>"+
 					  "  <td id='workAreaName'>"+workAreaName+"</td>"+
-					  "  <input id='workArea' type='hidden' name='workArea' value="+ workAreaName +">" +
+					  "  <input id='workArea' type='hidden' name='workArea' value="+ workArea +">" +
 					  "  <td id='requirement'>"+requirement+"</td>"+
 					  "  <td><span class=\"des\" onclick=\"editJob(this)\">编辑</span><span class=\"delete\" onclick=\"deleteJob(this)\">移除</span></td>"+
 					  "</tr>";
@@ -268,7 +288,7 @@ function addDemand(){
 		success:function(data){
 			if(data.code == 1){
 				alert("新增成功！");
-				location.href="/worker/index";
+				location.href="/signing/index";
 			}
 			else{
 				alert("新增失败！原因："+data.msg);
@@ -278,6 +298,25 @@ function addDemand(){
 
 }
 
+
+function initProvinceSelect(){
+	$.ajax({
+		url:"/common/queryAllProvince",
+		type:"get",
+		dataType:"json",
+		success:function(data){
+			if(data.code == 1){
+				var dics = data.data;
+				var content = "<option value=\"\">---请选择---</option>";
+				for(var i=0; i<dics.length; i++){
+					var dic = dics[i];
+					content += "<option value=\""+dic.code+"\">"+dic.name+"</option>";
+				}
+				$("#province").empty().html(content);
+			}
+		}
+	});
+}
 
 function initProvinceSelect(){
 	$.ajax({
