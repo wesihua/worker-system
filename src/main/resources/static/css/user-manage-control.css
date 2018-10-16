@@ -44,14 +44,13 @@
         border:1px solid #dcdfe6;
         border-radius:5px;
         background-color: #f8f8f8;
-        text-indent: 10px; }
+         }
       #user-manage-control .party1 .base-info .inut-b .selectControl {
         width: 290px;
         height: 32px;
         line-height: 32px;
         border:1px solid #dcdfe6;
         border-radius: 5px;       
-        text-indent: 10px;
         }
         #user-manage-control .party1 .base-info .inut-b .selectControl.mt{
           margin-bottom:10px;
@@ -81,7 +80,7 @@
         border-radius:5px;
         background-color: #f8f8f8;
         overflow:auto;
-        text-indent: 10px;
+        
       }
       #user-manage-control .party1 .base-info .jianjie .textarea2 {
         width: 290px;
