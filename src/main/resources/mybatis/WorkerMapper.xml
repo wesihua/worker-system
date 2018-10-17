@@ -669,7 +669,7 @@
 			and t.idcard = #{idcard,jdbcType=VARCHAR}
 		</if>
 		<if test="telephone != null and telephone != ''">
-			and t.phone = #{telephone,jdbcType=VARCHAR}
+			and t.telephone = #{telephone,jdbcType=VARCHAR}
 		</if>
 		<if test="name != null and name != ''">
 			and t.name like #{name,jdbcType=VARCHAR}
@@ -713,7 +713,7 @@
 			and t.idcard = #{idcard,jdbcType=VARCHAR}
 		</if>
 		<if test="telephone != null">
-			and t.phone = #{telephone,jdbcType=VARCHAR}
+			and t.telephone = #{telephone,jdbcType=VARCHAR}
 		</if>
 		<if test="name != null">
 			and t.name like #{name,jdbcType=VARCHAR}

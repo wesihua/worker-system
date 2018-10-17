@@ -58,6 +58,8 @@ function query(pageNum){
 			}
 		}
     });
-    
+}
 
+function updateWorker(){
+	
 }
