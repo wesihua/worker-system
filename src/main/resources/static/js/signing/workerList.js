@@ -47,7 +47,7 @@ function query(pageNum) {
 
                 for (var i = 0; i < firmArr.length; i++) {
                     var firm = firmArr[i];
-                    var worder = firm.worder;
+                    var worder = firm.worker;
                     tableContent += "<tr>" +
                         "	<td>" + worder.name + "</td>" +
                         "	<td>" + worder.birthplaceName + "</td>" +
