@@ -6,14 +6,15 @@ $(function(){
 		}
 	});
 	
-	$(document).bind("ajaxSend", function () {
+	// 统计信息
+	statisticsByState();
+	
+    $(document).bind("ajaxSend", function () {
 		parent.$("#loading").show();
     }).bind("ajaxComplete", function () {
     	parent.$("#loading").hide();
     });
-	
-	// 统计信息
-	statisticsByState();
+    
 	// 进入页面自动查询
 	query(1);
 	//按钮事件绑定
