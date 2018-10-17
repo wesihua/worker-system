@@ -45,8 +45,6 @@
         font-size: 12px;
         height: 40px;
         width: 280px;
-      
-        text-indent: 10px;
          }
          #qiandan-manage-box2 .box-content .middle .input-block  .c-datepicker-date-editor{
            height: 42px;
@@ -66,7 +64,7 @@
         height: 100px;
         width: 350px;
         line-height: 20px;
-        text-indent: 10px;
+        
         background-color: #eeeeee;
         resize: none;
         overflow: auto; }

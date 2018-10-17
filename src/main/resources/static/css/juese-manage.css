@@ -16,14 +16,19 @@
 #juese-manage .a-m-content {
   padding: 0px 20px; }
   #juese-manage .a-m-content .input-area {
-    height: 80px;
-    line-height: 80px; }
+    /* height: 80px;
+    line-height: 80px; */ 
+    background-color: #f5f5f5;
+    padding: 20px 20px 20px 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+  }
     #juese-manage .a-m-content .input-area .pt {
       width: 200px;
       height:30px;
       background-color: #f8f8f8;
       margin-right: 20px;
-      text-indent: 10px; }
+       }
   
   #juese-manage .a-m-content table {
     width: 100%;

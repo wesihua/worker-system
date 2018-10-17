@@ -51,7 +51,7 @@
       #user-manage-box3 .box-content .middle .input-block .pt {
         height: 30px;
         width:312px;
-        text-indent: 10px; }
+        }
 
         #user-manage-box3 .box-content .middle .input-block .select {
         height: 32px;
@@ -77,10 +77,6 @@
           background-color: #f8f8f8;
         }
 
-      /* #user-manage-box3 .box-content .middle .input-block .time {
-        width: 120px;
-        height: 40px;
-        text-indent: 10px; } */
       #user-manage-box3 .box-content .middle .input-block .line {
         width: 10px;
         height: 2px;
@@ -89,7 +85,6 @@
         vertical-align: middle;
         display: inline-block; }
       #user-manage-box3 .box-content .middle .input-block .workText {
-        text-indent: 10px;
         resize: none;
         width: 312px;
 
