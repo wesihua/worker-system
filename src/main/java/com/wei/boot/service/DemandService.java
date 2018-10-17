@@ -75,4 +75,11 @@ public interface DemandService {
 	 * @param orderWorker
 	 */
 	public void editOrderWorker(OrderWorker orderWorker);
+
+	/**
+	 * 
+	 * @param demandJobId
+	 * @param workers
+	 */
+	public void addOrderWorker(Integer demandJobId, List<OrderWorker> workers);
 }

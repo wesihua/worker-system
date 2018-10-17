@@ -298,7 +298,7 @@ public class DemandServiceImpl implements DemandService {
 
 	@Override
 	public void undertakeDemand(Demand demand) {
-		// TODO Auto-generated method stub
+		// 
 		Integer demandId = demand.getId();
 		Demand demandDb = demandMapper.selectByPrimaryKey(demandId);
 		demandDb.setUndertakeTime(new Date());
@@ -309,13 +309,13 @@ public class DemandServiceImpl implements DemandService {
 
 	@Override
 	public void deleteOrderWorker(Integer orderWorkerId) {
-		// TODO Auto-generated method stub
+		// 
 		orderWorkerMapper.deleteByPrimaryKey(orderWorkerId);
 	}
 
 	@Override
 	public void editOrderWorker(OrderWorker orderWorker) {
-		// TODO Auto-generated method stub
+		// 
 		OrderWorker orderWorkerDb = orderWorkerMapper.selectByPrimaryKey(orderWorker.getId());
 		orderWorkerDb.setBusinessIncome(orderWorker.getBusinessIncome());
 		orderWorkerDb.setUpdateTime(new Date());
@@ -323,6 +323,18 @@ public class DemandServiceImpl implements DemandService {
 		orderWorkerDb.setArriveWorkTime(orderWorker.getArriveWorkTime());
 		orderWorkerDb.setSignSalary(orderWorker.getSignSalary());
 		orderWorkerMapper.updateByPrimaryKey(orderWorker);
+	}
+
+	@Override
+	public void addOrderWorker(Integer demandJobId, List<OrderWorker> workers) {
+		// TODO Auto-generated method stub
+		
+		if(!CollectionUtils.isEmpty(workers)) {
+			// 生成订单
+			for (OrderWorker orderWorker : workers) {
+				orderWorkerMapper.insert(orderWorker);
+			}
+		}
 	}
 
 }

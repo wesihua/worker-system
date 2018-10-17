@@ -1,11 +1,13 @@
 package com.wei.boot.controller.pc;
 
+import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -186,6 +188,31 @@ public class DemandController {
 		} catch (Exception e) {
 			log.error("分组统计失败", e);
 			result = Result.fail("分组统计失败！");
+		}
+		return result;
+	}
+	
+	@ApiOperation(value = "添加用工",notes = "")
+	@PostMapping("/addOrderWorker")
+	public Result addOrderWorker(List<OrderWorker> workers,@RequestParam Integer demandJobId,
+			HttpServletRequest request) {
+		Result result = Result.SUCCESS;
+		try {
+			int userId = ToolsUtil.getUserId(request);
+			if(!CollectionUtils.isEmpty(workers)) {
+				// 生成订单
+				for (OrderWorker orderWorker : workers) {
+					orderWorker.setDemandJobId(demandJobId);
+					orderWorker.setCreateTime(new Date());
+					orderWorker.setCreateUser(userId);
+				}
+			}
+			
+			
+			demandService.addOrderWorker(demandJobId,workers);
+		} catch (Exception e) {
+			log.error("添加用工失败", e);
+			result = Result.fail("添加用工失败！");
 		}
 		return result;
 	}
