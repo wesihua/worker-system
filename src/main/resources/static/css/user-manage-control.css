@@ -45,6 +45,9 @@
         border-radius:5px;
         background-color: #f8f8f8;
          }
+         #user-manage-control .party1 .base-info .inut-b div.inputValue {
+          text-indent: 10px;
+         }
       #user-manage-control .party1 .base-info .inut-b .selectControl {
         width: 290px;
         height: 32px;
@@ -81,6 +84,9 @@
         background-color: #f8f8f8;
         overflow:auto;
         
+      }
+      #user-manage-control .party1 .base-info .jianjie div.textarea{
+        text-indent: 10px;
       }
       #user-manage-control .party1 .base-info .jianjie .textarea2 {
         width: 290px;

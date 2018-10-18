@@ -267,5 +267,8 @@ table tr{
   cursor: pointer;
 }
 table tr:hover td{background: #e5e5e5;}
+/* 时间窗口的table颜色不需要变 */
+.c-datepicker-picker__content table tr:nth-of-type(even){background-color: #ffffff;}
+.c-datepicker-picker__content table tr:hover td{background: #ffffff;}
 
 
