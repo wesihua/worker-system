@@ -28,7 +28,7 @@ $(function () {
 /*    		var signSalary = $that.parents('tr').find('[name="signSalary"]').val();
     		var arriveWorkTime = $that.parents('tr').find('[name="arriveWorkTime"]').val();
     		var businessIncome = $that.parents('tr').find('[name="businessIncome"]').val();*/
-    		var content = '<li id=check_'+id+'>'+
+    		var content = '<li class="order-worder" id=check_'+id+' data="'+ id +'">'+
 					            '<div class="select-name">'+name+'（'+ idcard +'）</div>'+
 					            '<div class="select-title">'+
 					                '<span class="a">签约月工资（元)</span>'+
@@ -36,9 +36,9 @@ $(function () {
 					               ' <span class="c">业务收入（元）</span>'+
 					            '</div>'+
 					            '<div class="select-input">'+
-					                '<input class="a" type="text" value="" />'+
-					                '<input class="b" type="text" value="" />'+
-					                '<input class="c" type="text" value="" />'+
+					                '<input class="a signSalary" type="text" value="" />'+
+					                '<input autocomplete="off" type="text"  class="pt c-datepicker-data-input b arriveWorkTime"/>'+
+					                '<input class="c businessIncome" type="text" value="" />'+
 					           ' </div>'+
 					        '</li>';
     	}else{
@@ -50,8 +50,37 @@ $(function () {
     	
     });
     
-//    $('input').click(function(){
-//    })
+    $('.addWorker').click(function(){
+    	
+    	var jobTypeId = $("input[name='jobTypeId']").val();
+    	var workers = [];
+    	$(".order-worder").each(function(){
+    		$that = $(this).find(".select-input");
+    		var orderWorker = {};
+    		orderWorker.signSalary = $that.find(".signSalary").val();
+    		orderWorker.arriveWorkTime = $that.find(".arriveWorkTime").val();
+    		orderWorker.businessIncome = $that.find(".businessIncome").val();
+    		orderWorker.workerId = $(this).attr("data");
+    		workers.push(orderWorker);
+    	});
+    	
+		$.ajax({
+			url:"/demand/addOrderWorker",
+			type:"post",
+			dataType:"json",
+			data:{json:JSON.stringify(workers),demandJobId:jobTypeId},
+			success:function(data){
+				if(data.code == 1){
+					alert("新增人才信息成功！");
+					location.href="/worker/index";
+				}
+				else{
+					alert("新增人才信息失败！原因："+data.msg);
+				}
+			}
+		});
+    	
+    })
 
 });
 
