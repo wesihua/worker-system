@@ -54,16 +54,43 @@ $(function () {
     	
     	var jobTypeId = $("input[name='jobTypeId']").val();
     	var workers = [];
+    	var flag = false;
     	$(".order-worder").each(function(){
+    		if(flag){
+    			return;
+    		}
     		$that = $(this).find(".select-input");
     		var orderWorker = {};
-    		orderWorker.signSalary = $that.find(".signSalary").val();
-    		orderWorker.arriveWorkTime = $that.find(".arriveWorkTime").val();
-    		orderWorker.businessIncome = $that.find(".businessIncome").val();
+    		var signSalary = $that.find(".signSalary").val();
+			if(signSalary!=""&&signSalary.length>0){
+				orderWorker.signSalary=signSalary;
+    		}else{
+    			alert("签约月工资不能为空");
+    			flag=true;
+    			return;
+    		}
+    		var arriveWorkTime = $that.find(".arriveWorkTime").val();
+    		if(arriveWorkTime!=""&&arriveWorkTime.length>0){
+    			orderWorker.arriveWorkTime = arriveWorkTime;
+    		}else{
+    			alert("到岗日期不能为空");
+    			flag=true;
+    			return;
+    		}
+    		var businessIncome= $that.find(".businessIncome").val();
+    		if(businessIncome!=""&&businessIncome.length>0){
+    			orderWorker.businessIncome = businessIncome;
+    		}else{
+    			alert("业务收入不能为空");
+    			flag=true;
+    			return;
+    		}
     		orderWorker.workerId = $(this).attr("data");
     		workers.push(orderWorker);
     	});
-    	
+    	if(flag){
+    		return;
+    	}
 		$.ajax({
 			url:"/demand/addOrderWorker",
 			type:"post",
@@ -72,7 +99,7 @@ $(function () {
 			success:function(data){
 				if(data.code == 1){
 					alert("新增人才信息成功！");
-					location.href="/worker/index";
+					location.href=location.href;
 				}
 				else{
 					alert("新增人才信息失败！原因："+data.msg);

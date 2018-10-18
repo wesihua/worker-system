@@ -205,6 +205,7 @@ public class DemandController {
 				// 生成订单
 				for (OrderWorker orderWorker : workers) {
 					orderWorker.setDemandJobId(demandJobId);
+					orderWorker.setArriveWorkTime(new Date());
 					orderWorker.setCreateTime(new Date());
 					orderWorker.setCreateUser(userId);
 				}
