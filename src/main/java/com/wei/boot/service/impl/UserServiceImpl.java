@@ -135,7 +135,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<User> queryByUserName(String userName) {
 		UserExample example = new UserExample();
-		example.createCriteria().andUserNameLike("%"+userName+"%");
+		example.createCriteria().andUserNameEqualTo(userName);
 		return userMapper.selectByExample(example);
 	}
 	

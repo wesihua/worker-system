@@ -45,13 +45,13 @@ function login(){
 		}
 	});
 }
-/**
- * alert提示框
- */
-function alert(msg){
-	if(!msg){
-		msg = "请加入提示信息！";
-	}
-	$("#alert_msg").text(msg);
-	$("#public-box2").show();
-}
+///**
+// * alert提示框
+// */
+//function alert(msg){
+//	if(!msg){
+//		msg = "请加入提示信息！";
+//	}
+//	$("#alert_msg").text(msg);
+//	$("#public-box2").show();
+//}
