@@ -87,8 +87,8 @@ function displayEducationList(educationList){
 	for(var i=0; i<educationList.length; i++){
 		var education = educationList[i];
 		content += "<div class=\"history\">"+
-			"	<span class=\"edit fa fa-edit\" name=\"edit-education-dialog\" title=\"编辑\"></span>"+
-			"<span class=\"delete fa fa-close\" name=\"remove-education-dialog\" title=\"删除\"></span>"+
+//			"	<span class=\"edit fa fa-edit\" name=\"edit-education-dialog\" title=\"编辑\"></span>"+
+//			"<span class=\"delete fa fa-close\" name=\"remove-education-dialog\" title=\"删除\"></span>"+
 			"<ul>"+
 			"	<li><span class=\"name\">学校</span> <span class=\"content\" name=\"school_text\">"+education.school+"</span></li>"+
 			"	<li><span class=\"name\">学历</span> <span class=\"content\" name=\"degree_text\">"+education.degreeName+"</span></li>"+
@@ -114,8 +114,8 @@ function displayExperienceList(experienceList){
 	for(var i=0; i<experienceList.length; i++){
 		var experience = experienceList[i];
 		content += "<div class=\"history\">"+
-			"	<span class=\"edit fa fa-edit\" name=\"edit-experience-dialog\" title=\"编辑\"></span>"+
-			"	<span class=\"delete fa fa-close\" name=\"remove-experience-dialog\" title=\"删除\"></span>"+
+//			"	<span class=\"edit fa fa-edit\" name=\"edit-experience-dialog\" title=\"编辑\"></span>"+
+//			"	<span class=\"delete fa fa-close\" name=\"remove-experience-dialog\" title=\"删除\"></span>"+
 			"	<ul>"+
 			"		<li><span class=\"name\">工作公司</span> <span class=\"content\" name=\"companyName_text\">"+experience.company+"</span>"+
 			"		</li>"+

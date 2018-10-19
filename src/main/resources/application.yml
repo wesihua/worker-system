@@ -27,7 +27,7 @@ spring:
 #logging:
 #  file: console.log
 server:
-  port: 443
+  port: 8090
   ssl: 
     key-store: classpath:keystore.p12
     key-store-password: 123456
