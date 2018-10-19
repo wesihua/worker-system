@@ -23,6 +23,7 @@ import com.wei.boot.model.Page;
 import com.wei.boot.model.Result;
 import com.wei.boot.model.signing.JobTypeModel;
 import com.wei.boot.service.DemandService;
+import com.wei.boot.util.JsonUtil;
 import com.wei.boot.util.ToolsUtil;
 
 import io.swagger.annotations.Api;
@@ -194,15 +195,17 @@ public class DemandController {
 	
 	@ApiOperation(value = "添加用工",notes = "")
 	@PostMapping("/addOrderWorker")
-	public Result addOrderWorker(List<OrderWorker> workers,@RequestParam Integer demandJobId,
+	public Result addOrderWorker(String json, Integer demandJobId,
 			HttpServletRequest request) {
 		Result result = Result.SUCCESS;
+		List<OrderWorker> workers = JsonUtil.json2List(json, OrderWorker.class);
 		try {
 			int userId = ToolsUtil.getUserId(request);
 			if(!CollectionUtils.isEmpty(workers)) {
 				// 生成订单
 				for (OrderWorker orderWorker : workers) {
 					orderWorker.setDemandJobId(demandJobId);
+					orderWorker.setArriveWorkTime(new Date());
 					orderWorker.setCreateTime(new Date());
 					orderWorker.setCreateUser(userId);
 				}
