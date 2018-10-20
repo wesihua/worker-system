@@ -46,7 +46,7 @@
     #qiandan-manage .qiandan-content .wait-handle .search-area .c-datepicker-date-editor .c-datepicker-data-input{
       width: 99px;
     }
-    #qiandan-manage .qiandan-content .wait-handle .search-area .c-datepicker-date-editor .c-datepicker-data-input .c-datepicker-range__icon{
+    #qiandan-manage .qiandan-content .wait-handle .search-area .c-datepicker-date-editor  .c-datepicker-range__icon{
 
      margin-top: -10px;    
     }
@@ -82,7 +82,6 @@
       line-height: 30px;
       background-color: #ffffff !important;
       width: 140px;
-      padding-left: 20px;
       margin-right: 20px;
       vertical-align: top;
       margin-right: 20px; }

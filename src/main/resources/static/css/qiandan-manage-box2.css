@@ -43,11 +43,11 @@
           vertical-align: top; }
       #qiandan-manage-box2 .box-content .middle .input-block .pt, #qiandan-manage-box2 .box-content .middle .input-block .se {
         font-size: 12px;
-        height: 40px;
+        height: 30px;
         width: 280px;
          }
          #qiandan-manage-box2 .box-content .middle .input-block  .c-datepicker-date-editor{
-           height: 42px;
+           height:32px;
           background-color: #f8f8f8;
            
            
@@ -57,8 +57,8 @@
           background-color: #f8f8f8;
          }
       #qiandan-manage-box2 .box-content .middle .input-block .se option {
-        line-height: 40px;
-        height: 40px; }
+        line-height:32px;
+        height: 32px; }
       #qiandan-manage-box2 .box-content .middle .input-block .textarea {
         vertical-align: top;
         height: 100px;
