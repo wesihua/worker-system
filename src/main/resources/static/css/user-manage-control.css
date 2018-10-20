@@ -28,6 +28,7 @@
       #user-manage-control .party1 .base-info .inut-b .name {
         position: absolute;
         left: 0px;
+        color: #888888;
         top: 0px;
         width: 90px;
         height: 32px;
@@ -47,6 +48,7 @@
          }
          #user-manage-control .party1 .base-info .inut-b div.inputValue {
           text-indent: 10px;
+          color: #888888;
          }
       #user-manage-control .party1 .base-info .inut-b .selectControl {
         width: 290px;
@@ -67,11 +69,13 @@
       float: right; }
       #user-manage-control .party1 .base-info .jianjie .name {
         width: 90px;
+        color: #888888;
         height: 40px;
         line-height: 40px;
         float: left; }
       #user-manage-control .party1 .base-info .jianjie .textarea {
         display: inline-block;
+        color: #888888;
         width: 288px;
         /* padding: 5px; */
         line-height: 20px;
@@ -101,6 +105,7 @@
     margin-bottom: 20px; }
     #user-manage-control .party2 .nav-tip .name {
       display: inline-block;
+      color: #888888;
       width: 90px; }
     /* #user-manage-control .party2 .nav-tip .button {
       display: inline-block;
@@ -112,6 +117,7 @@
       cursor: pointer; } */
   #user-manage-control .party2 .history {
     position: relative;
+    color: #888888;
     left: 0px;
     top: 0px;
     padding-left: 90px;
