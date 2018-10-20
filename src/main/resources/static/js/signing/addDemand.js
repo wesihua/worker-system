@@ -179,46 +179,98 @@ function addJob(){
 		var requirement = parent.$("#requirement").val();
 		
 		
+		var p_check = checkParameter();	
+		
+		if(p_check){
+			top.closeDialog();
 			
+			var content = "<tr class=\"tr-body\">"+
+						  "  <td id='jobTypeName'>"+jobTypeName+"</td>"+
+						  "  <input id='jobTypeId' type=\"hidden\" name=\"jobTypeId\" value="+ jobTypeId +">" +
+						  "  <td id='workerCount'>"+workerCount+"</td>"+
+						  "  <td id='salary'>"+salary+"</td>"+
+						  "  <td id='requireTime'>"+requireTime+"</td>"+
+						  "  <td id='workAreaName'>"+workAreaName+"</td>"+
+						  "  <input id='workArea' type='hidden' name='workArea' value="+ workArea +">" +
+						  "  <input id='parentCode' type='hidden' name='parentCode' value="+ parentCode +">" +
+						  "  <td id='requirement'>"+requirement+"</td>"+
+						  "  <td><span class=\"des\" onclick=\"editJob(this)\">编辑</span><span class=\"delete\" onclick=\"deleteJob(this)\">移除</span></td>"+
+						  "</tr>";
+			$("table").append(content);
+		}
 		
-		
-		top.closeDialog();
-		
-		var content = "<tr class=\"tr-body\">"+
-					  "  <td id='jobTypeName'>"+jobTypeName+"</td>"+
-					  "  <input id='jobTypeId' type=\"hidden\" name=\"jobTypeId\" value="+ jobTypeId +">" +
-					  "  <td id='workerCount'>"+workerCount+"</td>"+
-					  "  <td id='salary'>"+salary+"</td>"+
-					  "  <td id='requireTime'>"+requireTime+"</td>"+
-					  "  <td id='workAreaName'>"+workAreaName+"</td>"+
-					  "  <input id='workArea' type='hidden' name='workArea' value="+ workArea +">" +
-					  "  <input id='parentCode' type='hidden' name='parentCode' value="+ parentCode +">" +
-					  "  <td id='requirement'>"+requirement+"</td>"+
-					  "  <td><span class=\"des\" onclick=\"editJob(this)\">编辑</span><span class=\"delete\" onclick=\"deleteJob(this)\">移除</span></td>"+
-					  "</tr>";
-		$("table").append(content);
 	});
 }
 
-function editJob(obj){
+function checkParameter() {
+
+	var jobTypeId = parent.$("#jobTypeId").val();
+	var workerCount = parent.$("#workerCount").val();
+	var salary = parent.$("#salary").val();
+	var requireTime = parent.$("#requireTime").val();
+	var workArea = parent.$("#workAreaList").val();
+	var requirement = parent.$("#requirement").val();
+	if (!jobTypeId) {
+		alert("用工工种不能为空！");
+		return false;
+	}
+	if (!workerCount) {
+		alert("用工人数不能为空！");
+		return false;
+	}
+	if (isNaN(workerCount)) {
+		alert("请输入正确的用工人数！");
+		return false;
+	}
+	if (workerCount<=0) {
+		alert("用工人数不少于0！");
+		return false;
+	}
+	if (!requireTime) {
+		alert("到岗日期不能为空！");
+		return false;
+	}
+	if (!salary) {
+		alert("月工资不能为空！");
+		return false;
+	}
+	if (salary <= 0) {
+		alert("月工资不能少于0！");
+		return false;
+	}
+	
+	if (!workArea) {
+		alert("工作地区不能为空！");
+		return false;
+	}
+	if (!requirement) {
+		alert("用工要求不能为空！");
+		return false;
+	}
+	
+	return true;
+
+}
+
+function editJob(obj) {
 	openDialog("add-job-dialog");
 	parent.$('.J-yearMonthPicker-single').datePicker({
-        format: 'YYYY-MM-DD'
-    });
-	
+		format : 'YYYY-MM-DD'
+	});
+
 	var trobj = $(obj).parent().parent();
-	var jobTypeName =  trobj.children("#jobTypeName").html();
-	var workerCount =  trobj.children("#workerCount").html();
-	var salary =  trobj.children("#salary").html();
-	var requireTime =  trobj.children("#requireTime").html();
-	var workArea =  trobj.children("#workArea").val();
-	var requirement =  trobj.children("#requirement").html();
-	var jobTypeId =  trobj.children("#jobTypeId").val();
-	var parentCode =  trobj.children("#parentCode").val();
-	var workAreaName =  trobj.children("#workAreaName").html();
-	
-	initJob(parentCode,jobTypeId,workArea)
-	queryArea(parentCode,workArea);
+	var jobTypeName = trobj.children("#jobTypeName").html();
+	var workerCount = trobj.children("#workerCount").html();
+	var salary = trobj.children("#salary").html();
+	var requireTime = trobj.children("#requireTime").html();
+	var workArea = trobj.children("#workArea").val();
+	var requirement = trobj.children("#requirement").html();
+	var jobTypeId = trobj.children("#jobTypeId").val();
+	var parentCode = trobj.children("#parentCode").val();
+	var workAreaName = trobj.children("#workAreaName").html();
+
+	initJob(parentCode, jobTypeId, workArea)
+	queryArea(parentCode, workArea);
 	parent.$("#jobTypeName").val(jobTypeName);
 	parent.$("#workerCount").val(workerCount);
 	parent.$("#salary").val(salary);
@@ -228,8 +280,8 @@ function editJob(obj){
 	parent.$("#jobTypeId").val(jobTypeId);
 	parent.$("#parentCode").val(parentCode);
 	parent.$("#workAreaName").val(workAreaName);
-	parent.$(".add-job-type-content").click(function(){
-		
+	parent.$(".add-job-type-content").click(function() {
+
 		var jobTypeName_ = parent.$("#jobTypeName").val();
 		var jobTypeId_ = parent.$("#jobTypeId").val();
 		var workerCount_ = parent.$("#workerCount").val();
@@ -237,29 +289,32 @@ function editJob(obj){
 		var requireTime_ = parent.$("#requireTime").val();
 		var workArea_ = parent.$("#workArea").val();
 		var workAreaName_ = parent.$("#workAreaName").val();
-		var parentCode_ =  parent.$("#parentCode").val();
+		var parentCode_ = parent.$("#parentCode").val();
 		var requirement_ = parent.$("#requirement").val();
-		
-		top.closeDialog();
-		
-		trobj.children("#jobTypeName").html(jobTypeName_);
-		trobj.children("#jobTypeId").val(jobTypeId_);
-		trobj.children("#workerCount").html(workerCount_);
-		trobj.children("#salary").html(salary_);
-		trobj.children("#requireTime").html(requireTime_);
-		trobj.children("#workArea").val(workArea_);
-		trobj.children("#workAreaName").html(workAreaName_);
-		trobj.children("#parentCode").val(parentCode_);
-		trobj.children("#requirement").html(requirement_);
-		
+
+		var p_check = checkParameter();
+
+		if (p_check) {
+
+			top.closeDialog();
+
+			trobj.children("#jobTypeName").html(jobTypeName_);
+			trobj.children("#jobTypeId").val(jobTypeId_);
+			trobj.children("#workerCount").html(workerCount_);
+			trobj.children("#salary").html(salary_);
+			trobj.children("#requireTime").html(requireTime_);
+			trobj.children("#workArea").val(workArea_);
+			trobj.children("#workAreaName").html(workAreaName_);
+			trobj.children("#parentCode").val(parentCode_);
+			trobj.children("#requirement").html(requirement_);
+		}
+
 	});
 }
 
-
-
-
 /**
  * 打开弹窗
+ * 
  * @returns
  */
 function openDialog(id){
@@ -280,6 +335,15 @@ function addDemand(){
 	var demand = {};
 	demand.companyId =$("#companyId").val();
 	demand.description =$("#description").val();
+	
+	if (!demand.companyId) {
+		alert("企业客户不能为空！");
+		return false;
+	}
+	if (!demand.description) {
+		alert("备注说明不能为空！");
+		return false;
+	}
 	//
 	var demandJobList = [];
 	$(".tr-body").each(function(){
@@ -292,37 +356,13 @@ function addDemand(){
 		demandJob.requirement =  $(this).children("#requirement").html();
 		demandJobList.push(demandJob);
 	});
+	
 	demand.demandJobList = demandJobList;
 	
-	
-//	if(worker.name == null || worker.name.length == 0){
-//		alert("姓名不能为空！");
-//		return false;
-//	}
-//	if(worker.name.length > 50){
-//		alert("姓名长度不能超过50个字！");
-//		return false;
-//	}
-//	if(worker.telephone == null || worker.telephone.length == 0){
-//		alert("联系电话不能为空！");
-//		return false;
-//	}
-//	if(worker.telephone.length > 50){
-//		alert("电话号码长度不能超过50个字！");
-//		return false;
-//	}
-//	if(worker.idcard == null || worker.idcard.length == 0){
-//		alert("身份证号不能为空！");
-//		return false;
-//	}
-//	if(worker.idcard.length > 50){
-//		alert("身份证号长度不能超过50个字！");
-//		return false;
-//	}
-//	if(worker.sex == null || worker.sex.length == 0){
-//		alert("性别不能为空！");
-//		return false;
-//	}
+	if(demandJobList.length==0){
+		alert("用工工种不能为空！");
+		return false;
+	}
 	
 	$.ajax({
 		url:"/demand/saveDemand",
@@ -363,27 +403,8 @@ function initProvinceSelect(provinceCode){
 					
 				}
 				parent.$("#province").empty().html(content);
-				
 			}
 		}
 	});
 }
 
-//function initProvinceSelect(){
-//	$.ajax({
-//		url:"/common/queryAllProvince",
-//		type:"get",
-//		dataType:"json",
-//		success:function(data){
-//			if(data.code == 1){
-//				var dics = data.data;
-//				var content = "<option value=\"\">---请选择---</option>";
-//				for(var i=0; i<dics.length; i++){
-//					var dic = dics[i];
-//					content += "<option value=\""+dic.code+"\">"+dic.name+"</option>";
-//				}
-//				$("#province").empty().html(content);
-//			}
-//		}
-//	});
-//}
