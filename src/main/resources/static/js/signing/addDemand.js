@@ -166,7 +166,7 @@ function addJob(){
 	initJob(null,null,null);
 	
 	parent.$(".add-job-type-content").click(function(){
-		top.closeDialog();
+		
 		
 		var jobTypeName = parent.$("#jobTypeName").val();
 		var jobTypeId = parent.$("#jobTypeId").val();
@@ -177,6 +177,13 @@ function addJob(){
 		var workArea = parent.$("#workAreaList").val();
 		var parentCode = parent.$("#parentCode").val();
 		var requirement = parent.$("#requirement").val();
+		
+		
+			
+		
+		
+		top.closeDialog();
+		
 		var content = "<tr class=\"tr-body\">"+
 					  "  <td id='jobTypeName'>"+jobTypeName+"</td>"+
 					  "  <input id='jobTypeId' type=\"hidden\" name=\"jobTypeId\" value="+ jobTypeId +">" +

@@ -11,6 +11,7 @@ $(function () {
     }).bind("ajaxComplete", function () {
     	parent.$("#loading").hide();
     });
+    
 
     query(1);
 
@@ -37,7 +38,9 @@ $(function () {
 					            '</div>'+
 					            '<div class="select-input">'+
 					                '<input class="a signSalary" type="text" value="" />'+
-					                '<input autocomplete="off" type="text"  class="pt c-datepicker-data-input b arriveWorkTime"/>'+
+					                '<div class="c-datepicker-date-editor c-datepicker-single-editor J-yearMonthPicker-single mt10">'+
+									'<input autocomplete="off" type="text" placeholder="选择到岗日期"  class="b arriveWorkTime" id="requireTime" name="createTime"/>'+
+							        '</div>'+
 					                '<input class="c businessIncome" type="text" value="" />'+
 					           ' </div>'+
 					        '</li>';
@@ -47,6 +50,9 @@ $(function () {
     	
     	$(".result-area ul").append(content);
     
+    	$('.J-yearMonthPicker-single').datePicker({
+    		format : 'YYYY-MM-DD'
+    	});
     	
     });
     

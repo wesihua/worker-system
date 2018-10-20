@@ -6,6 +6,8 @@ $(function () {
         }
     });
     
+   
+    
     $(document).bind("ajaxSend", function () {
 		parent.$("#loading").show();
     }).bind("ajaxComplete", function () {
@@ -16,6 +18,7 @@ $(function () {
         var jobTypeId = $("input[name=jobTypeId]").val();
         window.location.href = "/signing/addWorker?jobTypeId=" + jobTypeId;
     });
+    
     
     query(1);
 });
