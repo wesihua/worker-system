@@ -5,6 +5,7 @@ $(function () {
             top.location.href = "/";
         }
     });
+    
     $(document).bind("ajaxSend", function () {
 		parent.$("#loading").show();
     }).bind("ajaxComplete", function () {
@@ -32,7 +33,8 @@ function query(pageNum) {
 
                 var firmArr = data.data.pageData.data;
                 var tableContent = "";
-                $(".worker-count").text("（需求"+ data.data.demandJob.workerCount +"人）")
+                $(".order-work-job-name").text(data.data.demandJob.jobTypeName);
+                $(".worker-count").text("（需求"+ data.data.demandJob.workerCount +"人）");
                 tableContent += "<tr>" +
                     "	<th>用工姓名</th>" +
                     "	<th>籍贯</th>" +
@@ -57,10 +59,11 @@ function query(pageNum) {
                         "	<td>" + firm.signSalary + "</td>" +
                         "	<td>" + firm.arriveWorkTime + "</td>" +
                         "	<td width='120'>" + firm.businessIncome + "</td>" +
-                        "   <td><span class=\"des\" onClick=\"demandDetail(" + firm.id + ")\">详情</span><span class=\"jiedan\" onClick=\"undertakeDemand(" + firm.id + ")\">接单</span><span class=\"delete \" onClick=\"closeDemand(" + firm.id + ")\">关单</span></td>" +
+                        "   <td><span class=\"des\" onClick=\"deleteOrderWorker(" + firm.id + ")\">移除</span><span class=\"jiedan\" onClick=\"updateOrderWorker(" + firm.id + ",'"+ worder.name + "'," + firm.signSalary + ",'" + firm.arriveWorkTime + "'," + firm.businessIncome +")\">编辑</span></td>" +
                         "</tr>";
                 }
             }
+            
             $("table").empty().append(tableContent);
             $("#totalCount").text(data.data.pageData.totalCount+"个结果");
             $("#pagination1").pagination({
@@ -81,9 +84,88 @@ function query(pageNum) {
 //    });
 }
 
-function editWorder() {
-    openDialog("worker-edit");
+function deleteOrderWorker(orderWorkerId) {
+
+	var b = confirm("是否移除该用工？");
+	if(b){
+		$.ajax({
+			url:"/demand/deleteOrderWorker",
+			type:"get",
+			dataType:"json",
+			data:{orderWorkerId:orderWorkerId},
+			success:function(data){
+				if(data.code == 1){
+					alert("移除用工成功！");
+					query(1);
+				}
+				else{
+					alert("移除用工失败！原因："+data.msg);
+				}
+			}
+		});
+	}
+
 }
+
+function updateOrderWorker(id, name, signSalary, arriveWorkTime, businessIncome) {
+	openDialog("worker-edit");
+	// 初始化时间控件
+	parent.$('.J-yearMonthPicker-single').datePicker({
+		format : 'YYYY-MM-DD'
+	});
+
+	parent.$("#worker-name").val(name);
+	parent.$("#worker-signSalary").val(signSalary);
+	parent.$("#worker-arriveWorkTime").val(arriveWorkTime);
+	parent.$("#worker-businessIncome").val(businessIncome);
+
+	top.$(".complete-edit").click(function() {
+
+		var orderWorker = {};
+		var signSalary_ = parent.$("#worker-signSalary").val();
+		var arriveWorkTime_ = parent.$("#worker-arriveWorkTime").val();
+		var businessIncome_ = parent.$("#worker-businessIncome").val();
+		
+		if (!signSalary_) {
+			alert("签约工资不能为空！");
+			return false;
+		}
+		if (!businessIncome_) {
+			alert("业务收入不能为空！");
+			return false;
+		}
+		if (!arriveWorkTime_) {
+			alert("到岗时间不能为空！");
+			return false;
+		}
+		top.closeDialog();
+		
+		var orderWorker = {};
+		orderWorker.signSalary=signSalary_;
+		orderWorker.arriveWorkTime=arriveWorkTime_;
+		orderWorker.businessIncome=businessIncome_;
+		orderWorker.id =id;
+		
+		$.ajax({
+			url : "/demand/editOrderWorker",
+			type : "post",
+			dataType : "json",
+			data : {json : JSON.stringify(orderWorker)},
+			success : function(data) {
+				if (data.code == 1) {
+					top.closeDialog();
+					alert("更新用工信息成功！");
+					query(1);
+				} else {
+					alert("更新用工信息失败！原因：" + data.msg);
+				}
+			}
+		});
+
+	});
+}
+
+
 
 /**
  * 打开弹窗
@@ -97,8 +179,8 @@ function openDialog(id) {
     top.$(".cancel-edit").click(function () {
         top.closeDialog();
     });
-    top.$(".complete-edit").click(function () {
-        top.closeDialog();
-    });
+//    top.$(".complete-edit").click(function () {
+//        top.closeDialog();
+//    });
 }
 

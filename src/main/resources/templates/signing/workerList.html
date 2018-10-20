@@ -10,13 +10,15 @@
 <script src="../js/jquery-3.3.1.min.js"></script>
 <script src="../js/jquery.pagination.min.js"></script>
 <script src="../js/signing/workerList.js"></script>
+<script src="../datepicker/js/plugins/moment.min.js"></script>
+<script src="../datepicker/js/datepicker.all.js"></script>
 
 </head>
 <body>
     <div id="content">
         <div id="qiandan-user-list">
             <div class="a-m-nav">
-                <span class="title">水电工</span><span class="worker-count">（需求56人）</span>
+                <span class="title order-work-job-name">水电工</span><span class="worker-count">（需求56人）</span>
                 <span class="public-small-bottom" id="addWorder">添加</span>
             </div>
             <div class="qiandan-add-content">
@@ -59,7 +61,7 @@
                     </div>
 
                     <div class="control-botton">
-                        <span class="public-bottom1">取消</span>
+                        <span class="public-bottom1" onclick="window.history.go(-1)">取消</span>
                         <span class="public-bottom2">完成</span>
                     </div>
 
@@ -74,16 +76,16 @@
 		<div id="qiandan-manage-box3">
 			<div class="mask"></div>
 			<div class="box-content">
-				<div class="head"><span class="title">张三（信息编辑）</span><span class="close fa fa-close cancel-edit"></span></div>
+				<div class="head"><span id="worker-name" class="title">张三（信息编辑）</span><span class="close fa fa-close cancel-edit"></span></div>
 				<div class="middle">
 					<div class="input-block"><span class="name">签约月工资</span>
-						<input class="pt" placeholder="签约月工资" />
+						<input id="worker-signSalary" class="pt" placeholder="签约月工资" />
 					</div>
-					<div class="input-block"><span class="name">到岗日期</span>
-						<input class="pt" placeholder="到岗日期" />
+					<div class="input-block J-yearMonthPicker-single"><span class="name">到岗日期</span>
+						<input id="worker-arriveWorkTime" class="pt" placeholder="到岗日期" />
 					</div>
 					<div class="input-block"><span class="name">业务收入</span>
-						<input class="pt" placeholder="业务收入" />
+						<input id="worker-businessIncome" class="pt" placeholder="业务收入" />
 					</div>
 				</div>
 				<div class="bottom">
