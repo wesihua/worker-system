@@ -90,6 +90,10 @@
         #qiandan-select-result .result-area ul li .select-input {
           height: 40px;
           font-size: 0px; }
+         #qiandan-select-result .result-area ul li .select-input .c-datepicker-date-editor{
+          padding: 0px !important;
+          border: none;
+          }
           #qiandan-select-result .result-area ul li .select-input input {
             line-height: 30px;
             font-size: 12px;
