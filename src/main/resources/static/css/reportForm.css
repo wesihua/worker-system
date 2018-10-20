@@ -1,0 +1,22 @@
+#reportForm{
+    
+}
+#reportForm .a-m-content{
+	padding: 0px 20px;	
+}
+
+#reportForm .a-m-content .table-area table {
+    width: 100%;
+    border-collapse: collapse; }
+#reportForm .a-m-content .table-area table tr th {
+      text-align: center;
+      height: 40px;
+      font-weight: normal;
+      border: 1px solid #e2e2e2;
+      font-size: 12px; }
+#reportForm .a-m-content .table-area table tr td {
+      text-align: center;
+      height: 40px;
+      font-weight: normal;
+      border: 1px solid #e2e2e2;
+      font-size: 14px; }

@@ -6,7 +6,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
     <meta name="apple-mobile-web-app-capable" content="yes"/>
-    <!--
+
+    <link href="../css/public.css" rel="stylesheet" />
+    <link href="../css/font-awesome.min.css" rel="stylesheet" />
+    <link href="../css/greportForm.css" rel="stylesheet"/>
+    <link href="../css/jquery.pagination.css" rel="stylesheet" />
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/jquery.pagination.min.js"></script>
+
     <link href="resources/css/jquery-ui-themes.css" type="text/css" rel="stylesheet"/>
     <link href="resources/css/axure_rp_page.css" type="text/css" rel="stylesheet"/>
     <link href="data/styles.css" type="text/css" rel="stylesheet"/>
@@ -17,20 +24,7 @@
     <script src="data/document.js"></script>
     <script src="resources/scripts/prototypePost.js"></script>
     <script src="files/用工录入统计/data.js"></script>
-  -->
-
-    <link href="../resources/css/jquery-ui-themes.css" type="text/css" rel="stylesheet"/>
-    <link href="../resources/css/axure_rp_page.css" type="text/css" rel="stylesheet"/>
-    <link href="data/styles.css" type="text/css" rel="stylesheet"/>
-    <link href="files/用工录入统计/styles.css" type="text/css" rel="stylesheet"/>
-    <script src="resources/scripts/jquery-1.7.1.min.js"></script>
-    <script src="resources/scripts/jquery-ui-1.8.10.custom.min.js"></script>
-    <script src="resources/scripts/prototypePre.js"></script>
-    <script src="data/document.js"></script>
-    <script src="resources/scripts/prototypePost.js"></script>
-    <script src="files/用工录入统计/data.js"></script>
-
-
+  
     <script type="text/javascript">
       $axure.utils.getTransparentGifPath = function() { return 'resources/images/transparent.gif'; };
       $axure.utils.getOtherPath = function() { return 'resources/Other.html'; };
@@ -38,7 +32,18 @@
     </script>
   </head>
   <body>
-    <div id="base" class="">
+  	
+  	<div id="content">
+		<div id="account-manage">
+			<div class="public-single-page-nav">
+				<span class="title">账号管理</span> 
+				<!--<span class="control public-small-bottom" id="download"><i class="fa fa-cloud-download"></i>导出列表</span>-->
+				<!--<span class="public-small-bottom control" id="add-user"><i class="fa fa-plus"></i>新增账号</span>-->
+			</div>
+			<div class="a-m-content">
+				
+				<!--wxh start-->
+				<div id="base" class="">
 
       <!-- Unnamed (矩形) -->
       <div id="u2745" class="ax_default box_2">
@@ -913,5 +918,41 @@
         </div>
       </div>
     </div>
+				
+				<!--wxh  end-->
+				
+				
+				
+				<div class="table-area">
+					<table cellpadding="0" cellspacing="0">
+						<thead>
+							<tr>
+								<th>账号名称</th>
+								<th>所属人员</th>
+								<th>所属角色</th>
+								<th>创建日期</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div>
+
+				<div id="public-fanye">
+					<span class="result" id="totalCount"></span>
+					<div class="f-content">
+						<div id="pagination1" class="page fl"></div>
+						<div class="info fl">
+							<p>
+								当前页数：<span id="current1">1</span>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+</div>
+    
   </body>
 </html>
