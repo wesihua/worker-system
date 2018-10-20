@@ -125,8 +125,9 @@ public class DemandController {
 	
 	@ApiOperation(value = "编辑签约用工",notes = "")
 	@PostMapping("/editOrderWorker")
-	public Result editOrderWorker(OrderWorker orderWorker,HttpServletRequest request) {
+	public Result editOrderWorker(String json,HttpServletRequest request) {
 		Result result = Result.SUCCESS;
+		OrderWorker orderWorker = JsonUtil.json2Bean(json, OrderWorker.class);
 		try {
 			int userId = ToolsUtil.getUserId(request);
 			orderWorker.setUpdateUser(userId);
