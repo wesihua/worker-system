@@ -28,7 +28,9 @@
     #account-manage .a-m-content .input-area .pt, #account-manage .a-m-content .input-area .se {
       width: 200px;
       height: 30px;
-      margin-right: 20px; }
+      margin-right: 20px; 
+      background-color: #ffffff;
+    }
     #account-manage .a-m-content .input-area .se option {
       height:32px;
       line-height: 32px; }

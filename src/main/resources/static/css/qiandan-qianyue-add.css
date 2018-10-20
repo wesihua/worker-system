@@ -1,10 +1,10 @@
 #qiandan-qianyue-add {
-  width: 780px;
+  width: 750px;
   float: left;
 }
 
 
-#qiandan-qianyue-add .a-m-nav {
+/* #qiandan-qianyue-add .a-m-nav {
   height: 60px;
   line-height: 60px;
   border-bottom: 1px solid #cccccc;
@@ -12,7 +12,7 @@
   #qiandan-qianyue-add .a-m-nav .control {
     float: right;
     margin-left: 30px;
-    cursor: pointer; }
+    cursor: pointer; } */
 
 #qiandan-qianyue-add .qiandan-content {
   padding: 0px 20px; }
@@ -21,14 +21,16 @@
     padding: 20px;
     margin-bottom: 20px; }
     #qiandan-qianyue-add .qiandan-content .wait-handle .search-area input {
-      height: 40px;
-      line-height: 40px;
-      background-color: #e8e8e8;
+      height:30px;
+      line-height:30px;
+      background-color: #ffffff;
       width: 140px;
-      padding-left: 20px;
       margin-right: 20px;
       vertical-align: top;
       margin-right: 20px; }
+      .#qiandan-qianyue-add .qiandan-content .wait-handle .search-area .public-bottom2{
+        vertical-align: top;
+      }
   #qiandan-qianyue-add .qiandan-content .wait-handle .table-area table {
     width: 100%;
     border-collapse: collapse; }
@@ -57,7 +59,7 @@
 
       #qiandan-select-result{
           float: right;
-          width:400px;
+          width:320px;
           background-color: #f8f8f8;
           padding-left: 30px;
         }
@@ -71,6 +73,8 @@
       overflow: auto; }
       #qiandan-select-result .result-area ul li {
         border-bottom: 1px solid #cccccc;
+        padding-bottom: 10px;
+        padding-left: 10px;
         margin-bottom: 10px; }
         #qiandan-select-result .result-area ul li .select-name {
           height: 30px;
@@ -87,7 +91,7 @@
           height: 40px;
           font-size: 0px; }
           #qiandan-select-result .result-area ul li .select-input input {
-            line-height: 40px;
+            line-height: 30px;
             font-size: 12px;
             width: 90px;
             border: 1px solid #cccccc;

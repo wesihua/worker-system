@@ -23,14 +23,14 @@
       position: absolute;
       left: 0px;
       top: 0px;
-      height: 40px;
-      line-height: 40px;
+      height:32px;
+      line-height:32px;
       width: 80px; }
       #qiandan-manage-add .qiandan-add-content .input-block input {
 
       width: 280px;
-      height: 40px;
-      line-height: 40px;
+      height:30px;
+      line-height:30px;
       background-color: #f8f8f8; }
       #qiandan-manage-add .qiandan-add-content .input-block{
         position: relative;
