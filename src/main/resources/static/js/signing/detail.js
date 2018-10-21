@@ -38,6 +38,12 @@ function queryDetail(){
 				$(".companyName").text(data.data.companyName);
 				$(".description").text(data.data.description);
 				
+				if(state == 2 || state == 3){
+					$(".undertokeTime").parent().show();
+					$(".totalIncome").parent().show();
+					$(".undertokeUserName").parent().show();
+				}
+				
 				if(state == 0){
 					tableContent+= "<tr>"+
 									"	<th>用工工种</th>"+
