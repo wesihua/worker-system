@@ -17,6 +17,7 @@ import org.springframework.util.StringUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wei.boot.contant.GlobalConstant;
+import com.wei.boot.contant.GlobalConstant.DemandState;
 import com.wei.boot.mapper.DemandJobMapper;
 import com.wei.boot.mapper.DemandMapper;
 import com.wei.boot.mapper.JobTypeMapper;
@@ -25,8 +26,6 @@ import com.wei.boot.mapper.WorkerMapper;
 import com.wei.boot.model.Area;
 import com.wei.boot.model.Company;
 import com.wei.boot.model.Demand;
-import com.wei.boot.model.DemandExample;
-import com.wei.boot.model.DemandExample.Criteria;
 import com.wei.boot.model.DemandJob;
 import com.wei.boot.model.DemandJobExample;
 import com.wei.boot.model.DemandQuery;
@@ -118,6 +117,9 @@ public class DemandServiceImpl implements DemandService {
 	public Page<Demand> queryDemand(Page<Demand> page, DemandQuery demandQuery) {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
+		
+		//处理时间
+		timeTransform(demandQuery);
 		if(Objects.nonNull(demandQuery.getCompanyId())) {
 			map.put("companyId", demandQuery.getCompanyId());
 		}
@@ -127,6 +129,14 @@ public class DemandServiceImpl implements DemandService {
 		if(Objects.nonNull(demandQuery.getCreateEndTime())) {
 			map.put("createEndTime", demandQuery.getCreateEndTime());
 		}
+
+		if(Objects.nonNull(demandQuery.getCloseBeginTime())) {
+			map.put("closeBeginTime", demandQuery.getCloseBeginTime());
+		}
+		if(Objects.nonNull(demandQuery.getCloseEndTime())) {
+			map.put("closeEndTime", demandQuery.getCloseEndTime());
+		}
+		
 		if(Objects.nonNull(demandQuery.getState())) {
 			map.put("state", demandQuery.getState());
 		}
@@ -144,6 +154,26 @@ public class DemandServiceImpl implements DemandService {
 		page.pageData(list, totalCount);
 		return page;
 		
+	}
+
+	private void timeTransform(DemandQuery demandQuery) {
+		try {
+			if (Objects.nonNull(demandQuery.getState()) || !StringUtils.isEmpty(demandQuery.getTimeStr())) {
+				Date date = DateUtils.parseDate(demandQuery.getTimeStr());
+				Date dayStart = DateUtils.getDayStart(date);
+				Date dayEnd = DateUtils.getDayEnd(date);
+				if (Objects.equals(DemandState.CLOSE, demandQuery.getState())) {
+					demandQuery.setCloseBeginTime(dayStart);
+					demandQuery.setCloseEndTime(dayEnd);
+				} else {
+					demandQuery.setCreateBeginTime(dayStart);
+					demandQuery.setCreateEndTime(dayEnd);
+				}
+			}
+		} catch (Exception e) {
+			LOGGER.error("timeTransform error demandQuery={}", demandQuery);
+		}
+
 	}
 
 	@Override

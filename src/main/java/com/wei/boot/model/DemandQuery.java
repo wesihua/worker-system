@@ -14,18 +14,41 @@ public class DemandQuery {
 	private Date createEndTime;
 	
 	private Date createTime;
-	
-	private String createTimeStr;
+
+	private String timeStr;
 	
 	// 订单状态
 	private Integer state;
 	
-	public String getCreateTimeStr() {
-		return createTimeStr;
+	
+	// 关单时间范围-开始时间
+	private Date closeBeginTime;
+	
+	// 关单时间范围-结束时间
+	private Date closeEndTime;
+	
+	public String getTimeStr() {
+		return timeStr;
 	}
 
-	public void setCreateTimeStr(String createTimeStr) {
-		this.createTimeStr = createTimeStr;
+	public void setTimeStr(String timeStr) {
+		this.timeStr = timeStr;
+	}
+
+	public Date getCloseBeginTime() {
+		return closeBeginTime;
+	}
+
+	public void setCloseBeginTime(Date closeBeginTime) {
+		this.closeBeginTime = closeBeginTime;
+	}
+
+	public Date getCloseEndTime() {
+		return closeEndTime;
+	}
+
+	public void setCloseEndTime(Date closeEndTime) {
+		this.closeEndTime = closeEndTime;
 	}
 
 	public Date getCreateTime() {
@@ -67,6 +90,12 @@ public class DemandQuery {
 	public void setCreateEndTime(Date createEndTime) {
 		this.createEndTime = createEndTime;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "DemandQuery [companyId=" + companyId + ", createBeginTime=" + createBeginTime + ", createEndTime="
+				+ createEndTime + ", createTime=" + createTime + ", timeStr=" + timeStr + ", state=" + state
+				+ ", closeBeginTime=" + closeBeginTime + ", closeEndTime=" + closeEndTime + "]";
+	}
 
 }

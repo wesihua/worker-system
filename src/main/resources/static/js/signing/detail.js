@@ -22,6 +22,7 @@ $(function(){
 function queryDetail(){
 	
 	var demandId = $("input:hidden[name='demandId']").val();
+	var source = $("input:hidden[name='source']").val();
 	$.ajax({
 		url:"/demand/demandDetail",
 		type:"get",
@@ -44,7 +45,7 @@ function queryDetail(){
 					$(".undertokeUserName").parent().show();
 				}
 				
-				if(state == 1){
+				if(state == 1 && source == 1){
 					$(".signing-botton").show();
 				}
 				
@@ -70,7 +71,31 @@ function queryDetail(){
 					}
 				}
 				
-				if(state == 1){
+				if(state == 1 && source == 0){
+					tableContent+= "<tr>"+
+									"	<th>用工工种</th>"+
+									"	<th>到岗日期</th>"+
+									"	<th>月工资（元）</th>"+
+									"	<th>工作地区</th>"+
+									"	<th>用工要求</th>"+
+									"	<th>用工人数</th>"+
+									"	<th>已分配人数</th>"+
+									"</tr>";
+					for(var i=0; i<firmArr.length; i++){
+						var firm = firmArr[i];
+						tableContent+=  "<tr>"+
+										"	<td>"+firm.jobTypeName+"</td>"+
+										"	<td>"+firm.requireTime+"</td>"+
+										"	<td>"+firm.salary+"</td>"+
+										"	<td>"+firm.workAreaName +"</td>"+
+										"	<td>"+firm.requirement+"</td>"+
+										"	<td>"+firm.workerCount+"</td>"+
+										"	<td>"+firm.assignCount+"</td>"+
+										"</tr>";
+					}
+				}
+				
+				if(state == 1 && source == 1){
 					tableContent+= "<tr>"+
 									"	<th>用工工种</th>"+
 									"	<th>到岗日期</th>"+
@@ -115,7 +140,7 @@ function queryDetail(){
 										"	<td>"+firm.requirement+"</td>"+
 										"	<td>"+firm.workerCount+"</td>"+
 										"	<td>"+firm.signingCount+"</td>"+
-										"	<td><span class=\"des\" onClick=\"demandDetail("+firm.id+")\">查看签约列表</span></td>"+
+										"	<td><span class=\"des\" onClick=\"workerList("+firm.id+")\">查看签约列表</span></td>"+
 										"</tr>";
 					}
 				}
@@ -141,7 +166,7 @@ function queryDetail(){
 										"	<td>"+firm.requirement+"</td>"+
 										"	<td>"+firm.workerCount+"</td>"+
 										"	<td>"+firm.signingCount+"</td>"+
-										"	<td><span class=\"des\" onClick=\"demandDetail("+firm.id+")\">查看签约列表</span></td>"+
+										"	<td><span class=\"des\" onClick=\"workerList("+firm.id+")\">查看签约列表</span></td>"+
 										"</tr>";
 					}
 				}

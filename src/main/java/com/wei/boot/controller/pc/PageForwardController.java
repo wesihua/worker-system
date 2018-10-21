@@ -83,8 +83,9 @@ public class PageForwardController {
 	}
 	
 	@GetMapping("/signing/demandDetail")
-	public String demandDetail(Integer demandId,ModelMap map) {
+	public String demandDetail(Integer demandId,Integer source,ModelMap map) {
 		map.addAttribute("demandId", demandId);
+		map.addAttribute("source", source);
 		return "signing/detail";
 	}
 	
