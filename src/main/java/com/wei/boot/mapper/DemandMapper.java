@@ -103,4 +103,6 @@ public interface DemandMapper {
 	List<Demand> selectByPage(Map<String, Object> map);
 
 	List<Map<String, String>> statisticsByState();
+
+	int selectCampanyLastDemandNumber(Map<String, Object> map);
 }

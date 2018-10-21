@@ -25,6 +25,8 @@ import com.wei.boot.mapper.WorkerMapper;
 import com.wei.boot.model.Area;
 import com.wei.boot.model.Company;
 import com.wei.boot.model.Demand;
+import com.wei.boot.model.DemandExample;
+import com.wei.boot.model.DemandExample.Criteria;
 import com.wei.boot.model.DemandJob;
 import com.wei.boot.model.DemandJobExample;
 import com.wei.boot.model.DemandQuery;
@@ -37,6 +39,7 @@ import com.wei.boot.model.signing.JobTypeModel;
 import com.wei.boot.service.CommonService;
 import com.wei.boot.service.CompanyService;
 import com.wei.boot.service.DemandService;
+import com.wei.boot.util.DateUtils;
 
 @Service
 public class DemandServiceImpl implements DemandService {
@@ -77,7 +80,10 @@ public class DemandServiceImpl implements DemandService {
 		// 保存需求信息
 		demand.setCreateTime(createTime);
 		demand.setState(0);
-		// TODO 生成需求单号
+		// 生成需求单号
+		String demandNumber = createDemandNumber(demand);
+		demand.setDemandNumber(demandNumber);
+		
 		demandMapper.insertSelective(demand);
 		int demandId =  demand.getId();
 		// 保存需求用工信息
@@ -96,6 +102,17 @@ public class DemandServiceImpl implements DemandService {
 		LOGGER.debug("exit saveDemand");
 
 	}
+
+	private String createDemandNumber(Demand demand) {
+		Integer companyId = demand.getCompanyId();
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("companyId", companyId);
+		map.put("createTime", DateUtils.getYearStart(new Date()));
+		int demandCount =demandMapper.selectCampanyLastDemandNumber(map);
+		return DateUtils.getCurYear() + "-00" +companyId + "-00" + (demandCount + 1);
+	}
+
 
 	@Override
 	public Page<Demand> queryDemand(Page<Demand> page, DemandQuery demandQuery) {

@@ -303,6 +303,10 @@ public class DateUtils {
 		return SHORT_DATE_FORMAT.format(new Date());
 	}
 	
+	public static String getCurYear() {
+		return YEAR_FORMAT.format(new Date());
+	}
+	
 	public static Date now() {
 		return new Date();
 	}
@@ -334,6 +338,7 @@ public class DateUtils {
 	private static Logger logger = LoggerFactory.getLogger(DateUtils.class);
 
 	// Global SimpleDateFormat object
+	public static final SimpleDateFormat YEAR_FORMAT = new SimpleDateFormat("yyyy");
 	public static final SimpleDateFormat SHORT_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 	public static final SimpleDateFormat FORMAT_TIME = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
