@@ -30,6 +30,10 @@ public class PageForwardController {
 	public String report() {
 		return "report/chart";
 	}
+	@GetMapping("/reportForm")
+	public String reportForm() {
+		return "reportForm/reportForm";
+	}
 	@GetMapping("/role/index")
 	public String roleIndex() {
 		return "role/role";

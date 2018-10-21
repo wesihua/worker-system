@@ -1,6 +1,8 @@
 package com.wei.boot.service.impl;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -25,8 +27,6 @@ import com.wei.boot.mapper.WorkerMapper;
 import com.wei.boot.model.Area;
 import com.wei.boot.model.Company;
 import com.wei.boot.model.Demand;
-import com.wei.boot.model.DemandExample;
-import com.wei.boot.model.DemandExample.Criteria;
 import com.wei.boot.model.DemandJob;
 import com.wei.boot.model.DemandJobExample;
 import com.wei.boot.model.DemandQuery;
@@ -352,6 +352,45 @@ public class DemandServiceImpl implements DemandService {
 				orderWorkerMapper.insert(orderWorker);
 			}
 		}
+	}
+
+	@Override
+	public int queryCountByTime(String flag) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(!StringUtils.isEmpty(flag)) {
+			Calendar cal = Calendar.getInstance();
+			if("today".equals(flag)) {
+				String beginTime = DateUtils.formatDate(new Date(), "yyyy-MM-dd")+" 00:00:00";
+				try {
+					map.put("beginTime", DateUtils.parseDate(beginTime, "yyyy-MM-dd HH:mm:ss"));
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+			}
+			else if("week".equals(flag)) {
+				cal.add(Calendar.DAY_OF_MONTH, -7);
+				map.put("beginTime", cal.getTime());
+			}
+			else if("oneMonth".equals(flag)) {
+				cal.add(Calendar.MONTH, -1);
+				map.put("beginTime", cal.getTime());
+			}
+			else if("threeMonth".equals(flag)) {
+				cal.add(Calendar.MONTH, -3);
+				map.put("beginTime", cal.getTime());
+			}
+			else if("year".equals(flag)) {
+				cal.add(Calendar.YEAR, -1);
+				map.put("beginTime", cal.getTime());
+			}
+			return demandMapper.selectCountByTime(map);
+		}
+		return 0;
+	}
+
+	@Override
+	public int queryAllCount() {
+		return demandMapper.selectAllCount();
 	}
 
 }

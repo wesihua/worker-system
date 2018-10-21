@@ -22,6 +22,7 @@ public class Application {
 		SpringApplication.run(Application.class, args);
 	}
 	
+	/*
 	@Bean
     public EmbeddedServletContainerFactory servletContainer() {
         TomcatEmbeddedServletContainerFactory tomcat = new TomcatEmbeddedServletContainerFactory() {
@@ -50,4 +51,5 @@ public class Application {
         connector.setRedirectPort(8090);
         return connector;
     }
+    */
 }

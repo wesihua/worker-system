@@ -1,9 +1,12 @@
 package com.wei.boot.mapper;
 
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.wei.boot.model.DemandOrder;
 import com.wei.boot.model.DemandOrderExample;
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
 public interface DemandOrderMapper {
     /**
@@ -93,4 +96,14 @@ public interface DemandOrderMapper {
      * @mbggenerated Sat Sep 15 21:47:36 CST 2018
      */
     int updateByPrimaryKey(DemandOrder record);
+    
+    
+    int selectOrderCountByTime(Map<String, Object> map);
+    
+    int selectAllOrderCount();
+    
+    
+    int selectOrderWorkerCountByTime(Map<String, Object> map);
+    
+    int selectAllOrderWorkerCount();
 }

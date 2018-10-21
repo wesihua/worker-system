@@ -27,12 +27,12 @@ spring:
 #logging:
 #  file: console.log
 server:
-  port: 8090
-  ssl: 
-    key-store: classpath:keystore.p12
-    key-store-password: 123456
-    keyStoreType: PKCS12
-    keyAlias: tomcat
+  port: 8080
+  #ssl: 
+  #  key-store: classpath:keystore.p12
+  #  key-store-password: 123456
+  #  keyStoreType: PKCS12
+  #  keyAlias: tomcat
   tomcat: 
     uri-encoding: UTF-8
     

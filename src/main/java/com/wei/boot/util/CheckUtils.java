@@ -13,11 +13,9 @@ import java.util.regex.Pattern;
 import org.springframework.util.StringUtils;
 
 /**
- * 
- * @描述: 验证工具类.
- * @作者: WuShuicheng .
- * @创建时间: 2013-8-9,上午10:15:34 .
- * @版本: 1.0 .
+ * 校验工具类
+ * @author weisihua
+ * 2018年10月20日 下午7:42:18
  */
 public class CheckUtils {
 	

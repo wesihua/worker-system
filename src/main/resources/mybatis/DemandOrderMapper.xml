@@ -395,4 +395,35 @@
       update_user = #{updateUser,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <select id="selectAllOrderCount" resultType="int">
+  	select count(1) from t_yx_demand_order
+  </select>
+  <select id="selectOrderCountByTime" parameterType="map" resultType="int">
+  	select count(1) from t_yx_demand_order t 
+  	<where>
+  		<if test="beginTime != null">
+			and t.create_time &gt;= #{beginTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="endTime != null">
+			and t.create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+		</if>
+  	</where>
+  </select>
+  
+  <select id="selectAllOrderWorkerCount" resultType="int">
+  	select sum(worker_count) from t_yx_demand_order
+  </select>
+  <select id="selectOrderWorkerCountByTime" parameterType="map" resultType="int">
+  	select sum(worker_count) from t_yx_demand_order t 
+  	<where>
+  		<if test="beginTime != null">
+			and t.create_time &gt;= #{beginTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="endTime != null">
+			and t.create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+		</if>
+  	</where>
+  </select>
+  
 </mapper>

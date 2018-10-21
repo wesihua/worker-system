@@ -1,5 +1,6 @@
 package com.wei.boot.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.wei.boot.exception.NormalException;
@@ -116,4 +117,8 @@ public interface WorkerService {
 	 * @param workerList
 	 */
 	void insertBatch(List<Worker> workerList);
+	
+	int queryCountByTime(String type);
+	
+	int queryAllCount();
 }

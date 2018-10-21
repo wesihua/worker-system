@@ -105,4 +105,10 @@ public interface DemandMapper {
 	List<Map<String, String>> statisticsByState();
 
 	int selectCampanyLastDemandNumber(Map<String, Object> map);
+	
+	
+	int selectCountByTime(Map<String, Object> map);
+	
+	int selectAllCount();
+	
 }

@@ -1,7 +1,9 @@
 package com.wei.boot.service.impl;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -55,9 +57,6 @@ public class WorkerServiceImpl implements WorkerService {
 	
 	@Autowired
 	private WorkerJobTypeMapper workerJobTypeMapper;
-	
-	@Autowired
-	private JobTypeMapper jobTypeMapper;
 	
 	@Autowired
 	private JobTypeService jobTypeService;
@@ -565,5 +564,44 @@ public class WorkerServiceImpl implements WorkerService {
 	@Override
 	public void insertBatch(List<Worker> workerList) {
 		workerMapper.insertBatch(workerList);
+	}
+
+	@Override
+	public int queryCountByTime(String flag) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(!StringUtils.isEmpty(flag)) {
+			Calendar cal = Calendar.getInstance();
+			if("today".equals(flag)) {
+				String beginTime = DateUtils.formatDate(new Date(), "yyyy-MM-dd")+" 00:00:00";
+				try {
+					map.put("beginTime", DateUtils.parseDate(beginTime, "yyyy-MM-dd HH:mm:ss"));
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+			}
+			else if("week".equals(flag)) {
+				cal.add(Calendar.DAY_OF_MONTH, -7);
+				map.put("beginTime", cal.getTime());
+			}
+			else if("oneMonth".equals(flag)) {
+				cal.add(Calendar.MONTH, -1);
+				map.put("beginTime", cal.getTime());
+			}
+			else if("threeMonth".equals(flag)) {
+				cal.add(Calendar.MONTH, -3);
+				map.put("beginTime", cal.getTime());
+			}
+			else if("year".equals(flag)) {
+				cal.add(Calendar.YEAR, -1);
+				map.put("beginTime", cal.getTime());
+			}
+			return workerMapper.selectCountByTime(map);
+		}
+		return 0;
+	}
+
+	@Override
+	public int queryAllCount() {
+		return workerMapper.selectAllCount();
 	}
 }

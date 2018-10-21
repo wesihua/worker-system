@@ -82,4 +82,8 @@ public interface DemandService {
 	 * @param workers
 	 */
 	public void addOrderWorker(Integer demandJobId, List<OrderWorker> workers);
+	
+	int queryCountByTime(String type);
+	
+	int queryAllCount();
 }

@@ -2,6 +2,8 @@ package com.wei.boot.mapper;
 
 import com.wei.boot.model.Worker;
 import com.wei.boot.model.WorkerExample;
+
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -101,4 +103,8 @@ public interface WorkerMapper {
     int selectCount(Map<String, Object> map);
     
     void insertBatch(List<Worker> workerList);
+    
+    int selectCountByTime(Map<String, Object> map);
+	
+	int selectAllCount();
 }

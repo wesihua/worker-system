@@ -524,5 +524,19 @@
     </where>
   </select>
   
+  <select id="selectAllCount" resultType="int">
+  	select count(1) from t_yx_demand
+  </select>
+  <select id="selectCountByTime" parameterType="map">
+  	select count(1) from t_yx_demand t 
+  	<where>
+  		<if test="beginTime != null">
+			and t.create_time &gt;= #{beginTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="endTime != null">
+			and t.create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+		</if>
+  	</where>
+  </select>
   
 </mapper>
