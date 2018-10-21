@@ -180,6 +180,23 @@ public class DemandController {
 		return result;
 	}
 	
+	@ApiOperation(value = "签约",notes = "")
+	@GetMapping("/signing")
+	public Result signing(@ApiParam(value = "需求单id",required = true) @RequestParam Integer demandId,
+			HttpServletRequest request) {
+		Result result = Result.SUCCESS;
+		try {
+			int userId = ToolsUtil.getUserId(request);
+			Demand demand = new Demand();
+			demand.setId(demandId);
+			demandService.signing(demand);
+		} catch (Exception e) {
+			log.error("签约失败", e);
+			result = Result.fail("签约失败！");
+		}
+		return result;
+	}
+	
 	@ApiOperation(value = "根据状态分组统计",notes = "")
 	@GetMapping("/statisticsByState")
 	public Result statisticsByState() {

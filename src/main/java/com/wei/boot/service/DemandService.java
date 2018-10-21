@@ -44,7 +44,11 @@ public interface DemandService {
 	 */
 	public JobTypeModel queryOrderWorker(Page<OrderWorker> page, Integer demandJobId);
 	
-	
+	/**
+	 * 完成签约
+	 * @param demand
+	 */
+	public void signing(Demand demand);
 	
 	/**
 	 * 关单

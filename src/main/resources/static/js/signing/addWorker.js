@@ -104,11 +104,11 @@ $(function () {
 			data:{json:JSON.stringify(workers),demandJobId:jobTypeId},
 			success:function(data){
 				if(data.code == 1){
-					alert("新增人才信息成功！");
+					alert("添加用工信息成功！");
 					location.href=location.href;
 				}
 				else{
-					alert("新增人才信息失败！原因："+data.msg);
+					alert("添加用工信息失败！原因："+data.msg);
 				}
 			}
 		});

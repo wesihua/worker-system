@@ -395,4 +395,26 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <select id="selectByPage" resultMap="BaseResultMap" parameterType="map" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_yx_order_worker
+    <where>
+    	id &lt;= (select id from t_yx_order_worker order by id desc limit #{offset,jdbcType=INTEGER},1)
+    	<if test="demandJobId != null">
+    		and demand_job_id = #{demandJobId,jdbcType=INTEGER}
+    	</if>
+    </where>
+    order by id desc limit #{pageSize,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectCount" resultType="int" parameterType="map" >
+    select count(id) from t_yx_order_worker
+    <where>
+    	<if test="demandJobId != null">
+    		and demand_job_id = #{demandJobId,jdbcType=INTEGER}
+    	</if>
+    </where>
+  </select>
 </mapper>
