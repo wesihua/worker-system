@@ -20,6 +20,7 @@ import com.wei.boot.contant.GlobalConstant;
 import com.wei.boot.contant.GlobalConstant.DemandState;
 import com.wei.boot.mapper.DemandJobMapper;
 import com.wei.boot.mapper.DemandMapper;
+import com.wei.boot.mapper.DemandOrderMapper;
 import com.wei.boot.mapper.JobTypeMapper;
 import com.wei.boot.mapper.OrderWorkerMapper;
 import com.wei.boot.mapper.WorkerMapper;
@@ -28,6 +29,7 @@ import com.wei.boot.model.Company;
 import com.wei.boot.model.Demand;
 import com.wei.boot.model.DemandJob;
 import com.wei.boot.model.DemandJobExample;
+import com.wei.boot.model.DemandOrder;
 import com.wei.boot.model.DemandQuery;
 import com.wei.boot.model.DemandStateStatistic;
 import com.wei.boot.model.JobType;
@@ -68,6 +70,9 @@ public class DemandServiceImpl implements DemandService {
 	
 	@Autowired
 	private WorkerMapper workerMapper;
+	
+	@Autowired
+	private DemandOrderMapper demandOrderMapper;
 
 	@Override
 	@Transactional
@@ -99,7 +104,6 @@ public class DemandServiceImpl implements DemandService {
 		}
 		
 		LOGGER.debug("exit saveDemand");
-
 	}
 
 	private String createDemandNumber(Demand demand) {
@@ -374,7 +378,6 @@ public class DemandServiceImpl implements DemandService {
 
 	@Override
 	public void addOrderWorker(Integer demandJobId, List<OrderWorker> workers) {
-		// TODO Auto-generated method stub
 		
 		if(!CollectionUtils.isEmpty(workers)) {
 			// 生成订单
@@ -385,8 +388,40 @@ public class DemandServiceImpl implements DemandService {
 	}
 
 	@Override
+	@Transactional
 	public void signing(Demand demand) {
-		// TODO Auto-generated method stub
+		// TODO
+		// 需求单状态修改
+		Integer demandId = demand.getId();
+		Demand demandDb = demandMapper.selectByPrimaryKey(demandId);
+		demandDb.setState(GlobalConstant.DemandState.SIGNING);
+		demandMapper.updateByPrimaryKey(demandDb);
+		
+		List<DemandJob> demandJobs = queryDemandJobByDemandId(demandId);
+		
+		List<Integer> demandJobIds = new ArrayList<>();
+        for (DemandJob demandJob : demandJobs) {
+        	demandJobIds.add(demandJob.getId());
+		}
+		List<String> incomeList = orderWorkerMapper.selectIncomeByDemandJobIds(demandJobIds);
+		
+		// 生成订单
+		DemandOrder demandOrder = new DemandOrder();
+		demandOrder.setDemandId(demandId);
+		demandOrder.setOrderNumber("");
+		demandOrder.setWorkerCount(incomeList.size());
+		demandOrder.setOperatorUser(demand.getUndertakeUser());
+		demandOrder.setTotalIncome("0.0");
+		demandOrder.setCreateTime(new Date());
+		demandOrder.setCreateUser(demand.getUndertakeUser());
+		// 修改用工的orderId
+		int demandOrderId = demandOrderMapper.insertSelective(demandOrder);
+		Map<String, Object> map = new HashMap<>();
+		map.put("demandJobIds", demandJobIds);
+		map.put("orderId", demandOrderId);
+		map.put("updateUser", demand.getUndertakeUser());
+		map.put("updateTime", new Date());
+		orderWorkerMapper.updateOrderIdByDemandJobIds(map);
 		
 	}
 

@@ -95,8 +95,9 @@ public class PageForwardController {
 	}
 	
 	@GetMapping("/signing/workerList")
-	public String workerList(Integer jobTypeId,ModelMap map) {
+	public String workerList(Integer jobTypeId,Integer source,ModelMap map) {
 		map.addAttribute("jobTypeId", jobTypeId);
+		map.addAttribute("source", source);
 		return "signing/workerList";
 	}
 	

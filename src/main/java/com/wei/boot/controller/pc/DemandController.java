@@ -189,6 +189,7 @@ public class DemandController {
 			int userId = ToolsUtil.getUserId(request);
 			Demand demand = new Demand();
 			demand.setId(demandId);
+			demand.setUndertakeUser(userId);
 			demandService.signing(demand);
 		} catch (Exception e) {
 			log.error("签约失败", e);

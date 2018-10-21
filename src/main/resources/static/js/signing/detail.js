@@ -116,7 +116,7 @@ function queryDetail(){
 										"	<td>"+firm.requirement+"</td>"+
 										"	<td>"+firm.workerCount+"</td>"+
 										"	<td>"+firm.assignCount+"</td>"+
-										"	<td><span class=\"des\" onClick=\"workerList("+firm.id+")\">分配用工</span></td>"+
+										"	<td><span class=\"des\" onClick=\"addWorker("+firm.id+")\">分配用工</span></td>"+
 										"</tr>";
 					}
 				}
@@ -181,8 +181,17 @@ function queryDetail(){
  * @param demandId
  * @returns
  */
+function addWorker(jobTypeId){
+	window.location.href = "/signing/workerList?source=1&jobTypeId=" + jobTypeId;
+}
+
+/**
+ * 需求单详情
+ * @param demandId
+ * @returns
+ */
 function workerList(jobTypeId){
-	window.location.href = "/signing/workerList?jobTypeId=" + jobTypeId;
+	window.location.href = "/signing/workerList?source=0&jobTypeId=" + jobTypeId;
 }
 
 /**
@@ -202,7 +211,7 @@ function signing(){
 			success:function(data){
 				if(data.code == 1){
 					alert("签约成功！");
-					query(1);
+					queryDetail();
 				}
 				else{
 					alert("签约失败！原因："+data.msg);

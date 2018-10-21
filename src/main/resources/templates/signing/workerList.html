@@ -18,13 +18,13 @@
     <div id="content">
         <div id="qiandan-user-list">
             <div class="a-m-nav">
-                <span class="title order-work-job-name">水电工</span><span class="worker-count">（需求56人）</span>
-                <span class="public-small-bottom" id="addWorder">添加</span>
+                <span class="title order-work-job-name"></span><span class="worker-count"></span>
+                <span class="public-small-bottom" id="addWorder" style="display: none;">添加</span>
             </div>
             <div class="qiandan-add-content">
                 <div class="table-area">
                         <table cellpadding="0" cellspacing="0">
-                            <tr>
+                            <!--  <tr>
                                 <th>用工姓名</th>
                                 <th>籍贯</th>
                                 <th>身份证号</th>
@@ -46,12 +46,12 @@
                                 <td>3434535</td>
                                 <td>3434535</td>
                                 <td><span class="des">移除</span><span class="jiedan" onclick="editWorder()">编辑</span></td>
-                            </tr>
+                            </tr>-->
                             </table>
                     </div>
                     <!-- 分页处理部分 -->
                     <div class="public-fanye">
-                            <span class="result" id="totalCount">103个结果</span>
+                            <span class="result" id="totalCount"></span>
                             <div class="f-content">
                                 <div id="pagination1" class="page fl"></div>
                                 <div class="info fl">
@@ -71,6 +71,7 @@
 
     </div>
     <input type="hidden" name="jobTypeId" th:value="${jobTypeId}"/>
+    <input type="hidden" name="source" th:value="${source}"/>
     <!-- 簽約用工列表编辑 -->
 	<div id="worker-edit" style="display: none;">
 		<div id="qiandan-manage-box3">

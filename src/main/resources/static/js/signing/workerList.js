@@ -19,6 +19,10 @@ $(function () {
         window.location.href = "/signing/addWorker?jobTypeId=" + jobTypeId;
     });
     
+    var source = $("input[name=source]").val();
+    if( source == 1){
+    	 $("#addWorder").show();
+    }
     
     query(1);
 });
