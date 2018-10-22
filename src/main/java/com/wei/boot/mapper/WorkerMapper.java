@@ -1,13 +1,13 @@
 package com.wei.boot.mapper;
 
-import com.wei.boot.model.Worker;
-import com.wei.boot.model.WorkerExample;
-
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
+
+import com.wei.boot.model.Worker;
+import com.wei.boot.model.WorkerExample;
+import com.wei.boot.model.report.ReportInfo;
 
 public interface WorkerMapper {
     /**
@@ -107,4 +107,31 @@ public interface WorkerMapper {
     int selectCountByTime(Map<String, Object> map);
 	
 	int selectAllCount();
+	
+	List<ReportInfo> selectSourcePie(Map<String, Object> map);
+	
+	List<ReportInfo> selectCreateUserPie(Map<String, Object> map);
+	
+	List<ReportInfo> selectDegreePie(Map<String, Object> map);
+	
+	List<ReportInfo> selectMonthBar(Map<String, Object> map);
+	
+	List<ReportInfo> selectDemandMonthBar(Map<String, Object> map);
+	
+	List<ReportInfo> selectDemandUnderTakerPie(Map<String, Object> map);
+	
+	List<ReportInfo> selectDemandStatePie(Map<String, Object> map);
+	
+	List<ReportInfo> selectOrderMonthBar(Map<String, Object> map);
+	
+	List<ReportInfo> selectOrderUndertakerPie(Map<String, Object> map);
+	
+	List<ReportInfo> selectOrderMemberMonthBar(Map<String, Object> map);
+	
+	List<ReportInfo> selectOrderMemberUndertakerPie(Map<String, Object> map);
+	
+	List<ReportInfo> selectOrderIncomeMonthBar(Map<String, Object> map);
+	
+	List<ReportInfo> selectOrderIncomeUndertakerPie(Map<String, Object> map);
+	
 }

@@ -573,11 +573,7 @@ public class WorkerServiceImpl implements WorkerService {
 			Calendar cal = Calendar.getInstance();
 			if("today".equals(flag)) {
 				String beginTime = DateUtils.formatDate(new Date(), "yyyy-MM-dd")+" 00:00:00";
-				try {
-					map.put("beginTime", DateUtils.parseDate(beginTime, "yyyy-MM-dd HH:mm:ss"));
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
+				map.put("beginTime", DateUtils.parseDate(beginTime, "yyyy-MM-dd HH:mm:ss"));
 			}
 			else if("week".equals(flag)) {
 				cal.add(Calendar.DAY_OF_MONTH, -7);

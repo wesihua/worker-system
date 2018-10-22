@@ -791,4 +791,316 @@
   	</where>
   </select>
   
+  <select id="selectSourcePie" parameterType="map" resultType="com.wei.boot.model.report.ReportInfo">
+  	SELECT
+		x.c count,
+		c.NAME name,
+		round( ( x.c / x.cnt * 100 ), 2 ) percentage 
+	FROM
+		(
+	SELECT
+		t.souce,
+		count( 1 ) c,
+		( SELECT count( 1 ) FROM t_yx_worker ) cnt 
+	FROM
+		t_yx_worker t 
+	<where>
+  		<if test="beginTime != null">
+			and t.create_time &gt;= #{beginTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="endTime != null">
+			and t.create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+		</if>
+  	</where>
+	GROUP BY
+		t.souce 
+		) x
+		LEFT JOIN t_sys_dictionary c ON x.souce = c.CODE 
+		AND c.type = 'worker_souce'
+  </select>
+  
+  <select id="selectCreateUserPie" parameterType="map" resultType="com.wei.boot.model.report.ReportInfo">
+  	SELECT
+		x.c count,
+		u.real_name name,
+		round( ( x.c / x.cnt * 100 ), 2 ) percentage 
+	FROM
+		(
+	SELECT
+		t.create_user,
+		count( 1 ) c,
+		( SELECT count( 1 ) FROM t_yx_worker ) cnt 
+	FROM
+		t_yx_worker t 
+	<where>
+  		<if test="beginTime != null">
+			and t.create_time &gt;= #{beginTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="endTime != null">
+			and t.create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+		</if>
+  	</where>
+	GROUP BY
+		t.create_user 
+		) x
+		LEFT JOIN t_sys_user u ON x.create_user = u.id
+  </select>
+  
+  <select id="selectDegreePie" parameterType="map" resultType="com.wei.boot.model.report.ReportInfo">
+  	SELECT
+		x.c count,
+		ifnull(c.NAME,'未知') name,
+		round( ( x.c / x.cnt * 100 ), 2 ) percentage 
+	FROM
+		(
+	SELECT
+		t.degree,
+		count( 1 ) c,
+		( SELECT count( 1 ) FROM t_yx_worker ) cnt 
+	FROM
+		t_yx_worker t 
+	<where>
+  		<if test="beginTime != null">
+			and t.create_time &gt;= #{beginTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="endTime != null">
+			and t.create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+		</if>
+  	</where>
+	GROUP BY
+		t.degree
+		) x
+		LEFT JOIN t_sys_dictionary c ON x.degree = c.CODE 
+		AND c.type = 'degree'
+  </select>
+  
+  <select id="selectMonthBar" parameterType="map" resultType="com.wei.boot.model.report.ReportInfo">
+  	SELECT
+		DATE_FORMAT( t.create_time, '%Y年%m月' ) NAME,
+		count( 0 ) count 
+	FROM
+		t_yx_worker t 
+	<where>
+  		<if test="beginTime != null">
+			and t.create_time &gt;= #{beginTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="endTime != null">
+			and t.create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+		</if>
+  	</where>
+	GROUP BY
+		DATE_FORMAT( t.create_time, '%Y年%m月' )
+  </select>
+  
+  <select id="selectDemandMonthBar" parameterType="map" resultType="com.wei.boot.model.report.ReportInfo">
+  	SELECT
+		DATE_FORMAT( t.create_time, '%Y年%m月' ) NAME,
+		count( 0 ) count 
+	FROM
+		t_yx_demand t 
+	<where>
+  		<if test="beginTime != null">
+			and t.create_time &gt;= #{beginTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="endTime != null">
+			and t.create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+		</if>
+  	</where>
+	GROUP BY
+		DATE_FORMAT( t.create_time, '%Y年%m月' )
+  </select>
+  
+  <select id="selectDemandUnderTakerPie" parameterType="map" resultType="com.wei.boot.model.report.ReportInfo">
+  	SELECT
+		x.c count,
+		ifnull(u.real_name,'其他') name,
+		round( ( x.c / x.cnt * 100 ), 2 ) percentage 
+	FROM
+		(
+	SELECT
+		t.undertake_user,
+		count( 1 ) c,
+		( SELECT count( 1 ) FROM t_yx_demand ) cnt 
+	FROM
+		t_yx_demand t 
+	<where>
+  		<if test="beginTime != null">
+			and t.create_time &gt;= #{beginTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="endTime != null">
+			and t.create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+		</if>
+  	</where>
+	GROUP BY
+		t.undertake_user 
+		) x
+		LEFT JOIN t_sys_user u ON x.undertake_user = u.id
+  </select>
+  <select id="selectDemandStatePie" parameterType="map" resultType="com.wei.boot.model.report.ReportInfo">
+  	SELECT
+		x.c count,
+		ifnull(c.NAME,'未知') name,
+		round( ( x.c / x.cnt * 100 ), 2 ) percentage 
+	FROM
+		(
+	SELECT
+		t.state,
+		count( 1 ) c,
+		( SELECT count( 1 ) FROM t_yx_demand ) cnt 
+	FROM
+		t_yx_demand t 
+	<where>
+  		<if test="beginTime != null">
+			and t.create_time &gt;= #{beginTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="endTime != null">
+			and t.create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+		</if>
+  	</where>
+	GROUP BY
+		t.state
+		) x
+		LEFT JOIN t_sys_dictionary c ON x.state = c.CODE 
+		AND c.type = 'demand_state'
+  </select>
+  
+  <select id="selectOrderMonthBar" parameterType="map" resultType="com.wei.boot.model.report.ReportInfo">
+  	SELECT
+		DATE_FORMAT( t.create_time, '%Y年%m月' ) NAME,
+		count( 0 ) count 
+	FROM
+		t_yx_demand_order t 
+	<where>
+  		<if test="beginTime != null">
+			and t.create_time &gt;= #{beginTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="endTime != null">
+			and t.create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+		</if>
+  	</where>
+	GROUP BY
+		DATE_FORMAT( t.create_time, '%Y年%m月' )
+  </select>
+  
+  <select id="selectOrderUndertakerPie" parameterType="map" resultType="com.wei.boot.model.report.ReportInfo">
+  	SELECT
+		x.c count,
+		ifnull( u.real_name, '其他' ) name,
+		round( ( x.c / x.cnt * 100 ), 2 ) percentage 
+	FROM
+		(
+	SELECT
+		d.undertake_user,
+		count( 1 ) c,
+		( SELECT count( 1 ) FROM t_yx_demand_order ) cnt 
+	FROM
+		t_yx_demand d,
+		t_yx_demand_order t 
+	<where>
+		d.id = t.demand_id
+  		<if test="beginTime != null">
+			and t.create_time &gt;= #{beginTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="endTime != null">
+			and t.create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+		</if>
+  	</where>
+	GROUP BY
+		d.undertake_user 
+		) x
+		LEFT JOIN t_sys_user u ON x.undertake_user = u.id
+  </select>
+  <select id="selectOrderMemberMonthBar" parameterType="map" resultType="com.wei.boot.model.report.ReportInfo">
+  	SELECT
+		DATE_FORMAT( t.create_time, '%Y年%m月' ) name,
+		sum(t.worker_count) count 
+	FROM
+		t_yx_demand_order t 
+	<where>
+  		<if test="beginTime != null">
+			and t.create_time &gt;= #{beginTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="endTime != null">
+			and t.create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+		</if>
+  	</where>
+	GROUP BY
+		DATE_FORMAT( t.create_time, '%Y年%m月' )
+  </select>
+  
+  <select id="selectOrderMemberUndertakerPie" parameterType="map" resultType="com.wei.boot.model.report.ReportInfo">
+  	SELECT
+		x.c count,
+		ifnull( u.real_name, '其他' ) name,
+		round( ( x.c / x.cnt * 100 ), 2 ) percentage 
+	FROM
+		(
+	SELECT
+		d.undertake_user,
+		sum( t.worker_count ) c,
+		( SELECT sum( t.worker_count ) FROM t_yx_demand_order ) cnt 
+	FROM
+		t_yx_demand d,
+		t_yx_demand_order t 
+	<where>
+		d.id = t.demand_id
+  		<if test="beginTime != null">
+			and t.create_time &gt;= #{beginTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="endTime != null">
+			and t.create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+		</if>
+  	</where>
+	GROUP BY
+		d.undertake_user 
+		) x
+		LEFT JOIN t_sys_user u ON x.undertake_user = u.id
+  </select>
+  
+  <select id="selectOrderIncomeMonthBar" parameterType="map" resultType="com.wei.boot.model.report.ReportInfo">
+  	SELECT
+		DATE_FORMAT( t.create_time, '%Y年%m月' ) name,
+		sum(cast(t.total_income as  decimal(10,2))) count 
+	FROM
+		t_yx_demand_order t 
+	<where>
+  		<if test="beginTime != null">
+			and t.create_time &gt;= #{beginTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="endTime != null">
+			and t.create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+		</if>
+  	</where>
+	GROUP BY
+		DATE_FORMAT( t.create_time, '%Y年%m月' )
+  </select>
+  
+  <select id="selectOrderIncomeUndertakerPie" parameterType="map" resultType="com.wei.boot.model.report.ReportInfo">
+  	SELECT
+		x.c count,
+		ifnull( u.real_name, '其他' ) name,
+		round( ( x.c / x.cnt * 100 ), 2 ) percentage 
+	FROM
+		(
+	SELECT
+		d.undertake_user,
+		sum(cast(t.total_income as  decimal(10,2))) c,
+		( SELECT sum(cast(t.total_income as  decimal(10,2))) FROM t_yx_demand_order ) cnt 
+	FROM
+		t_yx_demand d,
+		t_yx_demand_order t 
+	<where>
+		d.id = t.demand_id
+  		<if test="beginTime != null">
+			and t.create_time &gt;= #{beginTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="endTime != null">
+			and t.create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+		</if>
+  	</where>
+	GROUP BY
+		d.undertake_user 
+		) x
+		LEFT JOIN t_sys_user u ON x.undertake_user = u.id
+  </select>
 </mapper>

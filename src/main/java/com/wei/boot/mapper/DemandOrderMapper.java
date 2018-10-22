@@ -1,5 +1,6 @@
 package com.wei.boot.mapper;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -106,4 +107,10 @@ public interface DemandOrderMapper {
     int selectOrderWorkerCountByTime(Map<String, Object> map);
     
     int selectAllOrderWorkerCount();
+    
+    
+    BigDecimal selectIncomeByTime(Map<String, Object> map);
+    
+    BigDecimal selectAllIncome();
+    
 }

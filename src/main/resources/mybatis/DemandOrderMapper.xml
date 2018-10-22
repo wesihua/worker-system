@@ -400,7 +400,6 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   
-<<<<<<< HEAD
   <select id="selectAllOrderCount" resultType="int">
   	select count(1) from t_yx_demand_order
   </select>
@@ -430,7 +429,20 @@
 		</if>
   	</where>
   </select>
-=======
   
->>>>>>> 5c48f640a169279c1925cc694ba2480699e5e318
+  <select id="selectAllIncome" resultType="bigdecimal">
+  	select sum(cast(t.total_income as  decimal(10,2))) from t_yx_demand_order t
+  </select>
+  <select id="selectIncomeByTime" parameterType="map" resultType="bigdecimal">
+  	select sum(cast(t.total_income as  decimal(10,2))) from t_yx_demand_order t
+  	<where>
+  		<if test="beginTime != null">
+			and t.create_time &gt;= #{beginTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="endTime != null">
+			and t.create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+		</if>
+  	</where>
+  </select>
+  
 </mapper>

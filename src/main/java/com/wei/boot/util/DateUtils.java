@@ -49,7 +49,7 @@ public class DateUtils {
 	 * 根据String日期和该日期的格式返回date日期 - yyyy-MM-dd
 	 * 
 	 */
-	public static Date parseDate(String str, String parsePatterns) throws ParseException {
+	public static Date parseDate(String str, String parsePatterns) {
 		SimpleDateFormat formatter = new SimpleDateFormat(parsePatterns);
 		try {
 			return formatter.parse(str);
