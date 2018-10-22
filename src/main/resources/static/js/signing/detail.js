@@ -22,6 +22,7 @@ $(function(){
 function queryDetail(){
 	
 	var demandId = $("input:hidden[name='demandId']").val();
+	var source = $("input:hidden[name='source']").val();
 	$.ajax({
 		url:"/demand/demandDetail",
 		type:"get",
@@ -37,6 +38,16 @@ function queryDetail(){
 				$(".undertokeUserName").text(data.data.undertakeUserName);
 				$(".companyName").text(data.data.companyName);
 				$(".description").text(data.data.description);
+				
+				if(state == 2 || state == 3){
+					$(".undertokeTime").parent().show();
+					$(".totalIncome").parent().show();
+					$(".undertokeUserName").parent().show();
+				}
+				
+				if(state == 1 && source == 1){
+					$(".signing-botton").show();
+				}
 				
 				if(state == 0){
 					tableContent+= "<tr>"+
@@ -60,7 +71,31 @@ function queryDetail(){
 					}
 				}
 				
-				if(state == 1){
+				if(state == 1 && source == 0){
+					tableContent+= "<tr>"+
+									"	<th>用工工种</th>"+
+									"	<th>到岗日期</th>"+
+									"	<th>月工资（元）</th>"+
+									"	<th>工作地区</th>"+
+									"	<th>用工要求</th>"+
+									"	<th>用工人数</th>"+
+									"	<th>已分配人数</th>"+
+									"</tr>";
+					for(var i=0; i<firmArr.length; i++){
+						var firm = firmArr[i];
+						tableContent+=  "<tr>"+
+										"	<td>"+firm.jobTypeName+"</td>"+
+										"	<td>"+firm.requireTime+"</td>"+
+										"	<td>"+firm.salary+"</td>"+
+										"	<td>"+firm.workAreaName +"</td>"+
+										"	<td>"+firm.requirement+"</td>"+
+										"	<td>"+firm.workerCount+"</td>"+
+										"	<td>"+firm.assignCount+"</td>"+
+										"</tr>";
+					}
+				}
+				
+				if(state == 1 && source == 1){
 					tableContent+= "<tr>"+
 									"	<th>用工工种</th>"+
 									"	<th>到岗日期</th>"+
@@ -81,7 +116,7 @@ function queryDetail(){
 										"	<td>"+firm.requirement+"</td>"+
 										"	<td>"+firm.workerCount+"</td>"+
 										"	<td>"+firm.assignCount+"</td>"+
-										"	<td><span class=\"des\" onClick=\"workerList("+firm.id+")\">分配用工</span></td>"+
+										"	<td><span class=\"des\" onClick=\"addWorker("+firm.id+")\">分配用工</span></td>"+
 										"</tr>";
 					}
 				}
@@ -105,7 +140,7 @@ function queryDetail(){
 										"	<td>"+firm.requirement+"</td>"+
 										"	<td>"+firm.workerCount+"</td>"+
 										"	<td>"+firm.signingCount+"</td>"+
-										"	<td><span class=\"des\" onClick=\"demandDetail("+firm.id+")\">查看签约列表</span></td>"+
+										"	<td><span class=\"des\" onClick=\"workerList("+firm.id+")\">查看签约列表</span></td>"+
 										"</tr>";
 					}
 				}
@@ -131,19 +166,11 @@ function queryDetail(){
 										"	<td>"+firm.requirement+"</td>"+
 										"	<td>"+firm.workerCount+"</td>"+
 										"	<td>"+firm.signingCount+"</td>"+
-										"	<td><span class=\"des\" onClick=\"demandDetail("+firm.id+")\">查看签约列表</span></td>"+
+										"	<td><span class=\"des\" onClick=\"workerList("+firm.id+")\">查看签约列表</span></td>"+
 										"</tr>";
 					}
 				}
 				$("table").empty().append(tableContent);
-//				$("#totalCount").text(data.data.totalCount+"个结果");
-//				$("#pagination1").pagination({
-//					currentPage: data.data.pageNumber,
-//					totalPage: data.data.pageCount,
-//					callback: function(current) {
-//						query(current);
-//					}
-//				});
 			}
 		}
 	});
@@ -154,36 +181,45 @@ function queryDetail(){
  * @param demandId
  * @returns
  */
+function addWorker(jobTypeId){
+	window.location.href = "/signing/workerList?source=1&jobTypeId=" + jobTypeId;
+}
+
+/**
+ * 需求单详情
+ * @param demandId
+ * @returns
+ */
 function workerList(jobTypeId){
-	window.location.href = "/signing/workerList?jobTypeId=" + jobTypeId;
+	window.location.href = "/signing/workerList?source=0&jobTypeId=" + jobTypeId;
 }
-
-/**
- * 接单
- * @param demandId
- * @returns
- */
-function undertakeDemand(demandId){
-	alert("undertakeDemand" + demandId);
-}
-
-/**
- * 关单
- * @param demandId
- * @returns
- */
-function closeDemand(demandId){
-	alert("closeDemand" + demandId);
-}
-
 
 /**
  * 签约
  * @param demandId
  * @returns
  */
-function signings(demandId){
-	alert("signings" + demandId);
+function signing(){
+	var demandId = $("input[name=demandId]").val();
+	var b = confirm("确认签约？");
+	if(b){
+		$.ajax({
+			url:"/demand/signing",
+			type:"get",
+			dataType:"json",
+			data:{demandId:demandId},
+			success:function(data){
+				if(data.code == 1){
+					alert("签约成功！");
+					queryDetail();
+				}
+				else{
+					alert("签约失败！原因："+data.msg);
+				}
+			}
+		});
+	}
+
 }
 
 /**
@@ -221,153 +257,4 @@ function openDialog(id){
 	});
 }
 
-function addCompany(){
-	openDialog("add-company-dialog");
-	top.$(".add-company").click(function(){
-		var companyName = top.$("#companyName").val();
-		var industry = parent.$("#industry").val();
-		var contactName = parent.$("#contactName").val();
-		var contactPhone = parent.$("#contactPhone").val();
-		var address = parent.$("#address").val();
-		var description = parent.$("#description").val();
-		
-		if(companyName == null || companyName.length == 0){
-			alert("企业名称不能为空！");
-			return false;
-		}
-		if(companyName.length > 100){
-			alert("企业名称长度不能超过100个字！");
-			return false;
-		}
-		if(!contactName){
-			alert("联系人不能为空！");
-			return false;
-		}
-		if(contactName.length > 30){
-			alert("联系人长度不能超过30个字！");
-			return false;
-		}
-		if(!contactPhone){
-			alert("联系电话不能为空！");
-			return false;
-		}
-		if(contactPhone.length > 20){
-			alert("联系电话长度不能超过20个字！");
-			return false;
-		}
-		$.ajax({
-			url:"/company/saveCompany",
-			type:"get",
-			dataType:"json",
-			data:{name:companyName,industry:industry,address:address,contactName:contactName,
-				contactPhone:contactPhone,description:description},
-			success:function(data){
-				if(data.code == 1){
-					top.closeDialog();
-					alert("新增企业成功！");
-					query(1);
-				}
-				else{
-					alert("新增企业失败！原因："+data.msg);
-				}
-			}
-		});
-	});
-}
 
-function updateCompany(companyId){
-	$.ajax({
-		url:"/company/queryDetail",
-		type:"get",
-		data:{companyId:companyId},
-		dataType:"json",
-		success:function(data){
-			if(data.code == 1){
-				var firm = data.data;
-				// 打开页面
-				openDialog("add-company-dialog");
-				parent.$("#companyName").val(firm.name);
-				parent.$("#industry").val(firm.industry);
-				parent.$("#address").val(firm.address);
-				parent.$("#contactName").val(firm.contactName);
-				parent.$("#contactPhone").val(firm.contactPhone);
-				parent.$("#description").val(firm.description);
-				
-				top.$(".add-company").click(function(){
-					var companyId = firm.id;
-					var companyName = top.$("#companyName").val();
-					var industry = parent.$("#industry").val();
-					var contactName = parent.$("#contactName").val();
-					var contactPhone = parent.$("#contactPhone").val();
-					var address = parent.$("#address").val();
-					var description = parent.$("#description").val();
-					
-					if(companyName == null || companyName.length == 0){
-						alert("企业名称不能为空！");
-						return false;
-					}
-					if(companyName.length > 100){
-						alert("企业名称长度不能超过100个字！");
-						return false;
-					}
-					if(!contactName){
-						alert("联系人不能为空！");
-						return false;
-					}
-					if(contactName.length > 30){
-						alert("联系人长度不能超过30个字！");
-						return false;
-					}
-					if(!contactPhone){
-						alert("联系电话不能为空！");
-						return false;
-					}
-					if(contactPhone.length > 20){
-						alert("联系电话长度不能超过20个字！");
-						return false;
-					}
-					$.ajax({
-						url:"/company/saveCompany",
-						type:"get",
-						dataType:"json",
-						data:{id:companyId,name:companyName,industry:industry,address:address,contactName:contactName,
-							contactPhone:contactPhone,description:description},
-						success:function(data){
-							if(data.code == 1){
-								top.closeDialog();
-								alert("更新企业成功！");
-								query(1);
-							}
-							else{
-								alert("更新企业失败！原因："+data.msg);
-							}
-						}
-					});
-				});
-				
-			}
-		}
-	});
-	
-}
-
-function deleteCompany(companyId){
-	var b = confirm("是否删除该企业？");
-	if(b){
-		$.ajax({
-			url:"/company/deleteCompany",
-			type:"get",
-			dataType:"json",
-			data:{companyId:companyId},
-			success:function(data){
-				if(data.code == 1){
-					alert("删除企业成功！");
-					query(1);
-				}
-				else{
-					alert("删除企业失败！原因："+data.msg);
-				}
-			}
-		});
-	}
-}

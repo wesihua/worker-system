@@ -481,6 +481,12 @@
     	<if test="createEndTime != null">
     		and create_time &lt;= #{createEndTime,jdbcType=TIMESTAMP}
     	</if>
+    	<if test="closeBeginTime != null">
+    		and close_time &gt;= #{closeBeginTime,jdbcType=TIMESTAMP}
+    	</if>
+    	<if test="closeEndTime != null">
+    		and close_time &lt;= #{closeEndTime,jdbcType=TIMESTAMP}
+    	</if>
     </where>
     order by id desc limit #{pageSize,jdbcType=INTEGER}
   </select>

@@ -395,4 +395,57 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+	<select id="selectByPage" resultMap="BaseResultMap"
+		parameterType="map">
+		select
+		<include refid="Base_Column_List" />
+		from t_yx_order_worker
+		<where>
+			id &lt;= (select id from t_yx_order_worker order by id desc limit
+			#{offset,jdbcType=INTEGER},1)
+			<if test="demandJobId != null">
+				and demand_job_id = #{demandJobId,jdbcType=INTEGER}
+			</if>
+		</where>
+		order by id desc limit #{pageSize,jdbcType=INTEGER}
+	</select>
+
+	<select id="selectCount" resultType="int" parameterType="map">
+		select count(id) from t_yx_order_worker
+		<where>
+			<if test="demandJobId != null">
+				and demand_job_id = #{demandJobId,jdbcType=INTEGER}
+			</if>
+		</where>
+	</select>
+
+	<select id="selectIncomeByDemandJobIds"
+		resultType="java.lang.String" parameterType="java.util.List">
+		select business_income from t_yx_order_worker where demand_job_id in
+		<foreach collection="list" index="index" item="item" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+	<update id="updateOrderIdByDemandJobIds" parameterType="map">
+		update t_yx_order_worker
+		<set>
+			<if test="orderId != null">
+				order_id = #{orderId,jdbcType=INTEGER},
+			</if>
+			<if test="updateUser != null">
+				update_user = #{updateUser,jdbcType=INTEGER},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where demand_job_id in
+		<foreach collection="demandJobIds" index="index" item="item"
+			open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+  
 </mapper>

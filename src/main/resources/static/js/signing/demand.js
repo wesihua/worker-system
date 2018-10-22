@@ -9,11 +9,11 @@ $(function(){
 	// 统计信息
 	statisticsByState();
 	
-    $(document).bind("ajaxSend", function () {
-		parent.$("#loading").show();
-    }).bind("ajaxComplete", function () {
-    	parent.$("#loading").hide();
-    });
+//    $(document).bind("ajaxSend", function () {
+//		parent.$("#loading").show();
+//    }).bind("ajaxComplete", function () {
+//    	parent.$("#loading").hide();
+//    });
     
 	// 进入页面自动查询
 	query(1);
@@ -78,15 +78,19 @@ function query(currentPage){
 	var companyId = $("#companyId").val();
 	var createTime = $("#createTime").val();
 	var state = $("input:hidden[name='state']").val();
+	parent.$("#loading").show();
 	$.ajax({
 		url:"/demand/queryDemand",
 		type:"post",
 		data:{companyId:companyId,
-			createTimeStr:createTime, 
+			timeStr:createTime, 
 			state:state,
 			pageNumber:currentPage},
 		dataType:"json",
 		success:function(data){
+			
+			parent.$("#loading").hide();
+			
 			if(data.code == 1){
 				var firmArr = data.data.data;
 				var tableContent="";
@@ -229,7 +233,10 @@ function query(currentPage){
 					}
 				});
 			}
-		}
+		},
+		error : function() {
+			parent.$("#loading").hide();
+	    }
 	});
 }
 
@@ -239,7 +246,16 @@ function query(currentPage){
  * @returns
  */
 function demandDetail(demandId){
-	window.location.href= "/signing/demandDetail?demandId=" + demandId;
+	window.location.href= "/signing/demandDetail?source=0&demandId=" + demandId ;
+}
+
+/**
+ * 签约
+ * @param demandId
+ * @returns
+ */
+function signings(demandId){
+	window.location.href= "/signing/demandDetail?source=1&demandId=" + demandId;
 }
 
 function addDemand(){
@@ -348,15 +364,6 @@ function statisticsByState() {
 	});
 }
 
-
-/**
- * 签约
- * @param demandId
- * @returns
- */
-function signings(demandId){
-	window.location.href= "/signing/demandDetail?demandId=" + demandId;
-}
 
 /**
  * 状态栏点击事件

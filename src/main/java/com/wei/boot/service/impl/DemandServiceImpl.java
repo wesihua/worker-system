@@ -19,8 +19,10 @@ import org.springframework.util.StringUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wei.boot.contant.GlobalConstant;
+import com.wei.boot.contant.GlobalConstant.DemandState;
 import com.wei.boot.mapper.DemandJobMapper;
 import com.wei.boot.mapper.DemandMapper;
+import com.wei.boot.mapper.DemandOrderMapper;
 import com.wei.boot.mapper.JobTypeMapper;
 import com.wei.boot.mapper.OrderWorkerMapper;
 import com.wei.boot.mapper.WorkerMapper;
@@ -29,6 +31,7 @@ import com.wei.boot.model.Company;
 import com.wei.boot.model.Demand;
 import com.wei.boot.model.DemandJob;
 import com.wei.boot.model.DemandJobExample;
+import com.wei.boot.model.DemandOrder;
 import com.wei.boot.model.DemandQuery;
 import com.wei.boot.model.DemandStateStatistic;
 import com.wei.boot.model.JobType;
@@ -69,6 +72,9 @@ public class DemandServiceImpl implements DemandService {
 	
 	@Autowired
 	private WorkerMapper workerMapper;
+	
+	@Autowired
+	private DemandOrderMapper demandOrderMapper;
 
 	@Override
 	@Transactional
@@ -100,7 +106,6 @@ public class DemandServiceImpl implements DemandService {
 		}
 		
 		LOGGER.debug("exit saveDemand");
-
 	}
 
 	private String createDemandNumber(Demand demand) {
@@ -118,6 +123,9 @@ public class DemandServiceImpl implements DemandService {
 	public Page<Demand> queryDemand(Page<Demand> page, DemandQuery demandQuery) {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
+		
+		//处理时间
+		timeTransform(demandQuery);
 		if(Objects.nonNull(demandQuery.getCompanyId())) {
 			map.put("companyId", demandQuery.getCompanyId());
 		}
@@ -127,6 +135,14 @@ public class DemandServiceImpl implements DemandService {
 		if(Objects.nonNull(demandQuery.getCreateEndTime())) {
 			map.put("createEndTime", demandQuery.getCreateEndTime());
 		}
+
+		if(Objects.nonNull(demandQuery.getCloseBeginTime())) {
+			map.put("closeBeginTime", demandQuery.getCloseBeginTime());
+		}
+		if(Objects.nonNull(demandQuery.getCloseEndTime())) {
+			map.put("closeEndTime", demandQuery.getCloseEndTime());
+		}
+		
 		if(Objects.nonNull(demandQuery.getState())) {
 			map.put("state", demandQuery.getState());
 		}
@@ -144,6 +160,26 @@ public class DemandServiceImpl implements DemandService {
 		page.pageData(list, totalCount);
 		return page;
 		
+	}
+
+	private void timeTransform(DemandQuery demandQuery) {
+		try {
+			if (Objects.nonNull(demandQuery.getState()) || !StringUtils.isEmpty(demandQuery.getTimeStr())) {
+				Date date = DateUtils.parseDate(demandQuery.getTimeStr());
+				Date dayStart = DateUtils.getDayStart(date);
+				Date dayEnd = DateUtils.getDayEnd(date);
+				if (Objects.equals(DemandState.CLOSE, demandQuery.getState())) {
+					demandQuery.setCloseBeginTime(dayStart);
+					demandQuery.setCloseEndTime(dayEnd);
+				} else {
+					demandQuery.setCreateBeginTime(dayStart);
+					demandQuery.setCreateEndTime(dayEnd);
+				}
+			}
+		} catch (Exception e) {
+			LOGGER.error("timeTransform error demandQuery={}", demandQuery);
+		}
+
 	}
 
 	@Override
@@ -344,7 +380,6 @@ public class DemandServiceImpl implements DemandService {
 
 	@Override
 	public void addOrderWorker(Integer demandJobId, List<OrderWorker> workers) {
-		// TODO Auto-generated method stub
 		
 		if(!CollectionUtils.isEmpty(workers)) {
 			// 生成订单
@@ -391,6 +426,43 @@ public class DemandServiceImpl implements DemandService {
 	@Override
 	public int queryAllCount() {
 		return demandMapper.selectAllCount();
+	}
+	
+	@Transactional
+	public void signing(Demand demand) {
+		// TODO
+		// 需求单状态修改
+		Integer demandId = demand.getId();
+		Demand demandDb = demandMapper.selectByPrimaryKey(demandId);
+		demandDb.setState(GlobalConstant.DemandState.SIGNING);
+		demandMapper.updateByPrimaryKey(demandDb);
+		
+		List<DemandJob> demandJobs = queryDemandJobByDemandId(demandId);
+		
+		List<Integer> demandJobIds = new ArrayList<>();
+        for (DemandJob demandJob : demandJobs) {
+        	demandJobIds.add(demandJob.getId());
+		}
+		List<String> incomeList = orderWorkerMapper.selectIncomeByDemandJobIds(demandJobIds);
+		
+		// 生成订单
+		DemandOrder demandOrder = new DemandOrder();
+		demandOrder.setDemandId(demandId);
+		demandOrder.setOrderNumber("");
+		demandOrder.setWorkerCount(incomeList.size());
+		demandOrder.setOperatorUser(demand.getUndertakeUser());
+		demandOrder.setTotalIncome("0.0");
+		demandOrder.setCreateTime(new Date());
+		demandOrder.setCreateUser(demand.getUndertakeUser());
+		// 修改用工的orderId
+		int demandOrderId = demandOrderMapper.insertSelective(demandOrder);
+		Map<String, Object> map = new HashMap<>();
+		map.put("demandJobIds", demandJobIds);
+		map.put("orderId", demandOrderId);
+		map.put("updateUser", demand.getUndertakeUser());
+		map.put("updateTime", new Date());
+		orderWorkerMapper.updateOrderIdByDemandJobIds(map);
+		
 	}
 
 }

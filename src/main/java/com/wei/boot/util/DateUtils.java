@@ -278,6 +278,29 @@ public class DateUtils {
 		calendar.set(Calendar.MILLISECOND, 0);
 		return calendar.getTime();
 	}
+	
+	public static Date getDayStart(Date date) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.set(Calendar.HOUR_OF_DAY, 0);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+		Date start = calendar.getTime();
+		return start;
+	}
+
+	public static Date getDayEnd(Date date) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.set(Calendar.HOUR_OF_DAY, 0);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+
+		calendar.add(Calendar.DAY_OF_MONTH, 1);
+		calendar.add(Calendar.SECOND, -1);
+		Date end = calendar.getTime();
+		return end;
+	}
 
 	public static Timestamp DateStringToTimestamp(String dateStr) {
 		return Timestamp.valueOf(dateStr);

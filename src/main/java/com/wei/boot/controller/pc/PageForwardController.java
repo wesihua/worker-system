@@ -87,8 +87,9 @@ public class PageForwardController {
 	}
 	
 	@GetMapping("/signing/demandDetail")
-	public String demandDetail(Integer demandId,ModelMap map) {
+	public String demandDetail(Integer demandId,Integer source,ModelMap map) {
 		map.addAttribute("demandId", demandId);
+		map.addAttribute("source", source);
 		return "signing/detail";
 	}
 	
@@ -98,8 +99,9 @@ public class PageForwardController {
 	}
 	
 	@GetMapping("/signing/workerList")
-	public String workerList(Integer jobTypeId,ModelMap map) {
+	public String workerList(Integer jobTypeId,Integer source,ModelMap map) {
 		map.addAttribute("jobTypeId", jobTypeId);
+		map.addAttribute("source", source);
 		return "signing/workerList";
 	}
 	

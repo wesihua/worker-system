@@ -99,4 +99,8 @@ public interface OrderWorkerMapper {
 	List<OrderWorker> selectByPage(Map<String, Object> map);
 
 	int selectCount(Map<String, Object> map);
+
+	List<String> selectIncomeByDemandJobIds(List<Integer> demandJobIds);
+
+	void updateOrderIdByDemandJobIds(Map<String, Object> map);
 }
