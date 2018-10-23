@@ -19,6 +19,9 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_user" jdbcType="INTEGER" property="updateUser" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="idcard" jdbcType="VARCHAR" property="idcard" />
+    <result column="job_type_name" jdbcType="VARCHAR" property="jobTypeName" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <!--
@@ -448,4 +451,15 @@
 		</foreach>
 	</update>
   
+	<select id="selectByOrderId" resultMap="BaseResultMap" parameterType="int">
+		SELECT
+			x.*,
+			y.job_type_name 
+		FROM
+			( SELECT w.NAME, w.idcard, t.* FROM t_yx_order_worker t, t_yx_worker w WHERE t.worker_id = w.id ) x,
+			( SELECT j.id, type.NAME job_type_name FROM t_yx_demand_job j, t_sys_job_type type WHERE j.job_type_id = type.id ) y 
+		WHERE
+			x.demand_job_id = y.id
+			and x.order_id = #{orderId,jdbcType=INTEGER}
+	</select>
 </mapper>

@@ -103,4 +103,6 @@ public interface OrderWorkerMapper {
 	List<String> selectIncomeByDemandJobIds(List<Integer> demandJobIds);
 
 	void updateOrderIdByDemandJobIds(Map<String, Object> map);
+	
+	List<OrderWorker> selectByOrderId(int orderId);
 }

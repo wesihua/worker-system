@@ -113,4 +113,8 @@ public interface DemandOrderMapper {
     
     BigDecimal selectAllIncome();
     
+    List<DemandOrder> selectByPage(Map<String, Object> map);
+    
+    int selectCount(Map<String, Object> map);
+    
 }
