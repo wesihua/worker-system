@@ -13,10 +13,10 @@ $(function () {
     });
     
 
-    query(1);
+    queryWorkerList(1);
 
     $(".select-worker").click(function(){
-        query(1);
+    	queryWorkerList(1);
     });
     
     $(document).on('click','input[name="check"]',function(){
@@ -117,7 +117,7 @@ $(function () {
 
 });
 
-function query(pageNum){
+function queryWorkerList(pageNum){
 
     var workerName = $("#workerName").val();
 	var telephone = $("#telephone").val();
@@ -154,7 +154,7 @@ function query(pageNum){
 					currentPage: data.data.pageNumber,
 					totalPage: data.data.pageCount,
 					callback: function(current) {
-						query(current);
+						queryWorkerList(current);
 					}
 				});
 			}
@@ -162,6 +162,3 @@ function query(pageNum){
     });
 }
 
-function updateWorker(){
-	
-}
