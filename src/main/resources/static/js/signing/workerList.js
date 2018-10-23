@@ -60,17 +60,17 @@ function query(pageNum) {
 
                 for (var i = 0; i < firmArr.length; i++) {
                     var firm = firmArr[i];
-                    var worder = firm.worker;
+                    var worker = firm.worker;
                     tableContent += "<tr>" +
-                        "	<td>" + worder.name + "</td>" +
-                        "	<td>" + worder.birthplaceName + "</td>" +
-                        "	<td>" + worder.idcard + "</td>" +
-                        "	<td>" + worder.telephone + "</td>" +
-                        "	<td>" + worder.jobtypeName + "</td>" +
+                        "	<td>" + worker.name + "</td>" +
+                        "	<td>" + worker.birthplaceName + "</td>" +
+                        "	<td>" + worker.idcard + "</td>" +
+                        "	<td>" + worker.telephone + "</td>" +
+                        "	<td>" + (worker.jobtypeName == null ? "" : worker.jobtypeName) + "</td>" +
                         "	<td>" + firm.signSalary + "</td>" +
                         "	<td>" + firm.arriveWorkTime + "</td>" +
                         "	<td width='120'>" + firm.businessIncome + "</td>" +
-                        "   <td><span class=\"des\" onClick=\"deleteOrderWorker(" + firm.id + ")\">移除</span><span class=\"jiedan\" onClick=\"updateOrderWorker(" + firm.id + ",'"+ worder.name + "'," + firm.signSalary + ",'" + firm.arriveWorkTime + "'," + firm.businessIncome +")\">编辑</span></td>" +
+                        "   <td><span class=\"des\" onClick=\"deleteOrderWorker(" + firm.id + ")\">移除</span><span class=\"jiedan\" onClick=\"updateOrderWorker(" + firm.id + ",'"+ worker.name + "'," + firm.signSalary + ",'" + firm.arriveWorkTime + "'," + firm.businessIncome +")\">编辑</span></td>" +
                         "</tr>";
                 }
             }
@@ -217,7 +217,7 @@ function queryWorkerList(pageNum){
 									"	<td class='worker-name'>"+worker.name+"</td>"+
 									"	<td class='worker-idcard'>"+worker.idcard+"</td>"+
 									"	<td>"+worker.birthplaceName+"</td>"+
-									"	<td>"+worker.jobtypeName+"</td>"+
+									"	<td>"+(worker.jobtypeName == null ? "" : worker.jobtypeName)+"</td>"+
 									"	<td>"+worker.expectSalaryName+"</td>"+
 									"	<td>"+worker.workplaceName+"</td>"+
 									"	<td><input class='check-input' type=\"checkbox\" name=\"check\" value="+worker.id+" ></td>"+
