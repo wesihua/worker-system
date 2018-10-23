@@ -102,10 +102,39 @@ public class OrderWorker {
      */
     private Date updateTime;
     
+    private String name;
+    
+    private String idcard;
+    
+    private String jobTypeName;
     
     private Worker worker;
     
-    public Worker getWorker() {
+    public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getIdcard() {
+		return idcard;
+	}
+
+	public void setIdcard(String idcard) {
+		this.idcard = idcard;
+	}
+
+	public String getJobTypeName() {
+		return jobTypeName;
+	}
+
+	public void setJobTypeName(String jobTypeName) {
+		this.jobTypeName = jobTypeName;
+	}
+
+	public Worker getWorker() {
 		return worker;
 	}
 

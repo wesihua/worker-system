@@ -19,6 +19,8 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="update_user" jdbcType="INTEGER" property="updateUser" />
+    <result column="company_name" jdbcType="VARCHAR" property="companyName" />
+    <result column="create_user_name" jdbcType="VARCHAR" property="createUserName" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <!--
@@ -445,4 +447,81 @@
   	</where>
   </select>
   
+  
+  <select id="selectByPage" parameterType="map" resultMap="BaseResultMap">
+  	SELECT
+		x.id, x.demand_id, x.order_number, x.worker_count, x.operator_user, x.customer, x.total_income, 
+    	x.description, x.create_user, x.create_time, x.update_time, x.update_user, x.company_name,
+		u.real_name create_user_name 
+	FROM
+		(
+	SELECT
+		o.id, o.demand_id, o.order_number, o.worker_count, o.operator_user, o.customer, o.total_income, 
+    	o.description, o.create_user, o.create_time, o.update_time, o.update_user,
+		c.NAME company_name 
+	FROM
+		t_yx_demand d,
+		t_yx_company c,
+		t_yx_demand_order o 
+	WHERE
+		d.company_id = c.id 
+		AND o.demand_id = d.id 
+		) x
+		LEFT JOIN t_sys_user u ON x.create_user = u.id 
+	<where>
+		x.id &lt;= (select id from t_yx_demand_order order by id desc limit #{offset,jdbcType=INTEGER},1)
+  		<if test="beginTime != null">
+			and x.create_time &gt;= #{beginTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="endTime != null">
+			and x.create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="companyName != null">
+			and x.company_name like #{companyName,jdbcType=VARCHAR}
+		</if>
+		<if test="orderNumber != null">
+			and x.order_number = #{orderNumber,jdbcType=VARCHAR}
+		</if>
+		<if test="createUserName != null">
+			and u.real_name like #{createUserName,jdbcType=VARCHAR}
+		</if>
+  	</where>
+  	order by x.id desc limit #{pageSize,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectCount" parameterType="map" resultType="int">
+  	SELECT count(1)
+	FROM
+		(
+	SELECT
+		o.id, o.demand_id, o.order_number, o.worker_count, o.operator_user, o.customer, o.total_income, 
+    	o.description, o.create_user, o.create_time, o.update_time, o.update_user,
+		c.NAME company_name 
+	FROM
+		t_yx_demand d,
+		t_yx_company c,
+		t_yx_demand_order o 
+	WHERE
+		d.company_id = c.id 
+		AND o.demand_id = d.id 
+		) x
+		LEFT JOIN t_sys_user u ON x.create_user = u.id 
+	<where>
+  		<if test="beginTime != null">
+			and x.create_time &gt;= #{beginTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="endTime != null">
+			and x.create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="companyName != null">
+			and x.company_name like #{companyName,jdbcType=VARCHAR}
+		</if>
+		<if test="orderNumber != null">
+			and x.order_number = #{orderNumber,jdbcType=VARCHAR}
+		</if>
+		<if test="createUserName != null">
+			and u.real_name like #{createUserName,jdbcType=VARCHAR}
+		</if>
+  	</where>
+  </select>
 </mapper>

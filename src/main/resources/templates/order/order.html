@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>账号管理</title>
+<link href="../css/public.css" rel="stylesheet" />
+<link href="../css/font-awesome.min.css" rel="stylesheet" />
+<link href="../css/account-manage.css" rel="stylesheet"/>
+<link rel="stylesheet" href="../datepicker/css/datepicker.css"/>
+
+<link href="../css/jquery.pagination.css" rel="stylesheet" />
+<script src="../js/jquery-3.3.1.min.js"></script>
+<script src="../js/jquery.pagination.min.js"></script>
+<script src="../datepicker/js/plugins/moment.min.js"></script>
+<script src="../datepicker/js/datepicker.all.js"></script>
+<script src="../js/order/order.js"></script>
+</head>
+<body>
+	<div id="content">
+		<div id="account-manage">
+			<div class="a-m-nav">
+				<span class="title">订单查询</span> 
+				<span class="control public-small-bottom" id="download"><i class="fa fa-cloud-download"></i>导出列表</span>
+				<!-- <span class="public-small-bottom control" id="add-company"><i class="fa fa-plus"></i>新增企业</span> -->
+			</div>
+			<div class="a-m-content">
+				<div class="input-area">
+					<input class="pt" placeholder="企业名称" id="companyName"/>
+					<input class="pt" placeholder="订单号" id="orderNumber"/>
+					<input class="pt" placeholder="创建人" id="createUserName"/>
+					<br/><br/>
+					<div class="c-datepicker-date-editor J-datepicker-range mt10">
+			          <i class="c-datepicker-range__icon kxiconfont icon-clock"></i>
+			          <input placeholder="开始日期" name="" class="c-datepicker-data-input" id="beginTime"/>-
+			          <input placeholder="结束日期" name="" class="c-datepicker-data-input" id="endTime"/>
+			        </div>
+					<span id="query-bottom" class="public-small-bottom h42" ><i class="fa fa-search"></i>查询</span>
+				</div>
+				<div class="select2">
+					
+				</div>
+				<table cellpadding="0" cellspacing="0">
+					<thead>
+						<tr>
+							<th>企业名称</th>
+							<th>订单编号</th>
+							<th>总签订人数</th>
+							<th>总签订金额</th>
+							<th>客户负责人</th>
+							<th>创建人</th>
+							<th width="100">备注</th>
+							<th>创建时间</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+
+				<div id="public-fanye">
+					<span class="result" id="totalCount"></span>
+					<div class="f-content">
+						<div id="pagination1" class="page fl"></div>
+						<div class="info fl">
+							<p>
+								当前页数：<span id="current1">1</span>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	<div id="detail-order-dialog" style="display:none;">
+		<div id="juese-manage-box2">
+			<div class="mask"></div>
+			<div class="box-content">
+				<div class="head">
+					<span class="title">选择菜单</span><span class="close fa fa-close" id="close-dialog"></span>
+				</div>
+				<div class="middle" id="menu-content">
+					<table cellpadding="0" cellspacing="0">
+						<thead>
+							<tr>
+								<th>姓名</th>
+								<th>身份证号</th>
+								<th>签约工种</th>
+								<th>业务营收</th>
+								<th>签约薪资</th>
+								<th width="100">备注</th>
+								<th>创建时间</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div>
+				<div class="bottom">
+					<span id="public-bottom1" class="public-bottom1 cancel-dialog">取消</span> 
+					<span id="public-bottom2" class="public-bottom2 on save-menuright">确定</span>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	
+	</div>
+</body>
+</html>

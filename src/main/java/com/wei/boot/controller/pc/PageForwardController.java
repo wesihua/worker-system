@@ -50,6 +50,10 @@ public class PageForwardController {
 	public String workerIndex() {
 		return "worker/worker";
 	}
+	@GetMapping("/order/index")
+	public String orderIndex() {
+		return "order/order";
+	}
 	
 	@GetMapping("/worker/add")
 	public String workerAdd() {
