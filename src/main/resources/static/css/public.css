@@ -272,3 +272,48 @@ table tr:hover td{background: #e5e5e5;}
 .c-datepicker-picker__content table tr:hover td{background: #ffffff;}
 
 
+
+/* 弹框公共部分 */
+.public-box-css .mask {
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  background-color: #000000;
+  opacity: 0.5; }
+
+  .public-box-css .box-content {
+  position: fixed;
+  left: 50%;
+  /* top: 50%; */
+  background-color: #ffffff;
+  border-radius: 10px; }
+  .public-box-css .box-content .head {
+    height: 50px;
+    line-height: 50px;
+    border-bottom: 1px solid #cccccc;
+    padding: 0px 20px; }
+    .public-box-css .box-content .head .title{
+    font-size: 14px;
+    font-weight: bold; }
+
+    .public-box-css .box-content .head .fa-close {
+      float: right;
+      margin-top: 10px;
+      font-size: 20px;
+      cursor: pointer; }
+      .public-box-css .box-content .head .fa-close:hover{
+        color:#409eff;
+      }
+  .public-box-css .box-content .middle {
+    padding: 20px;
+   }
+
+    .public-box-css .box-content .bottom {
+    height: 80px;
+    line-height: 80px;
+    text-align: center;
+    border-top: 1px solid #cccccc; }
+    .public-box-css .box-content .bottom span {
+      margin: 0px 20px; }
