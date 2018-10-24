@@ -16,16 +16,7 @@
     overflow:auto;
     border-collapse: collapse; }
     #add-gz-box .middle .t-area{
-        width:557px;
-        float: left;
-    }
-    .export-area{
-        width:100px;
-        text-align: center;
-        float:right;
-        height: 300px;
-        line-height: 300px;
-        background-color:#FAFAFA;
+        width:100%;
     }
     #add-gz-box .middle .t-area table tr th {
       text-align: center;
@@ -39,3 +30,8 @@
       font-weight: normal;
       border: 1px solid #e2e2e2;
       font-size: 14px; }
+
+      #add-gz-box .middle .t-area table tr td  .delete, #add-gz-box .middle .t-area table tr td  .edit {
+        margin: 0px 5px;
+        cursor: pointer;
+        color: #5595d6;
