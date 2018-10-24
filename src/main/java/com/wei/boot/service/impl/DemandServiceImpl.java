@@ -1,6 +1,6 @@
 package com.wei.boot.service.impl;
 
-import java.text.ParseException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -32,10 +32,12 @@ import com.wei.boot.model.Demand;
 import com.wei.boot.model.DemandJob;
 import com.wei.boot.model.DemandJobExample;
 import com.wei.boot.model.DemandOrder;
+import com.wei.boot.model.DemandOrderExample;
 import com.wei.boot.model.DemandQuery;
 import com.wei.boot.model.DemandStateStatistic;
 import com.wei.boot.model.JobType;
 import com.wei.boot.model.OrderWorker;
+import com.wei.boot.model.OrderWorkerExample;
 import com.wei.boot.model.Page;
 import com.wei.boot.model.Worker;
 import com.wei.boot.model.signing.JobTypeModel;
@@ -192,14 +194,27 @@ public class DemandServiceImpl implements DemandService {
 		translateDemand(demand);
 		
 		List<DemandJob> demandJobList = queryDemandJobByDemandId(demandId);
-		if(!CollectionUtils.isEmpty(demandJobList)) {
-			demandJobList.stream().forEach(demandJob->{
-				translateDemandJob(demand,demandJob);
+		if (!CollectionUtils.isEmpty(demandJobList)) {
+			demandJobList.stream().forEach(demandJob -> {
+				translateDemandJob(demand, demandJob);
+
+				// 计算已分派人数 assignCount
+				int assignCount = getAssignCountByDemandJobId(demandJob.getId());
+				demandJob.setAssignCount(assignCount);
 			});
 		}
 		demand.setDemandJobList(demandJobList);
 		
 		return demand;
+	}
+
+	
+
+	private int getAssignCountByDemandJobId(Integer id) {
+		OrderWorkerExample example = new OrderWorkerExample();
+		example.createCriteria().andOrderIdIsNull().andDemandJobIdEqualTo(id);
+
+		return orderWorkerMapper.countByExample(example);
 	}
 
 	private List<DemandJob> queryDemandJobByDemandId(Integer demandId) {
@@ -426,7 +441,6 @@ public class DemandServiceImpl implements DemandService {
 	
 	@Transactional
 	public void signing(Demand demand) {
-		// TODO
 		// 需求单状态修改
 		Integer demandId = demand.getId();
 		Demand demandDb = demandMapper.selectByPrimaryKey(demandId);
@@ -439,15 +453,23 @@ public class DemandServiceImpl implements DemandService {
         for (DemandJob demandJob : demandJobs) {
         	demandJobIds.add(demandJob.getId());
 		}
-		List<String> incomeList = orderWorkerMapper.selectIncomeByDemandJobIds(demandJobIds);
+
 		
 		// 生成订单
 		DemandOrder demandOrder = new DemandOrder();
 		demandOrder.setDemandId(demandId);
-		demandOrder.setOrderNumber("");
-		demandOrder.setWorkerCount(incomeList.size());
+		// 订单号   = 需求号 + 序列号
+		int countByDemandId = countByDemandId(demandId);
+		String orderNo = demandDb.getDemandNumber() + "-0" + (countByDemandId+ 1);
+		demandOrder.setOrderNumber(orderNo);
+		
+		int workerCount = countWorkerCountBydemandJobIds(demandJobIds);
+		demandOrder.setWorkerCount(workerCount);
 		demandOrder.setOperatorUser(demand.getUndertakeUser());
-		demandOrder.setTotalIncome("0.0");
+		
+		// 计算收入总额
+		BigDecimal totalIncome = orderWorkerMapper.selectIncomeByDemandJobIds(demandJobIds);
+		demandOrder.setTotalIncome(totalIncome.toString());
 		demandOrder.setCreateTime(new Date());
 		demandOrder.setCreateUser(demand.getUndertakeUser());
 		// 修改用工的orderId
@@ -459,6 +481,18 @@ public class DemandServiceImpl implements DemandService {
 		map.put("updateTime", new Date());
 		orderWorkerMapper.updateOrderIdByDemandJobIds(map);
 		
+	}
+
+	private int countWorkerCountBydemandJobIds(List<Integer> demandJobIds) {
+		OrderWorkerExample example = new OrderWorkerExample();
+		example.createCriteria().andDemandJobIdIn(demandJobIds).andOrderIdIsNull();
+		return orderWorkerMapper.countByExample(example );
+	}
+
+	public int countByDemandId(Integer demandId) {
+		DemandOrderExample example = new DemandOrderExample();
+		example.createCriteria().andDemandIdEqualTo(demandId);
+		return demandOrderMapper.countByExample(example );
 	}
 
 }

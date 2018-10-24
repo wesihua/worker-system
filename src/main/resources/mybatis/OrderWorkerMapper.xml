@@ -422,15 +422,19 @@
 			</if>
 		</where>
 	</select>
-
+	
+	
+	
+	
 	<select id="selectIncomeByDemandJobIds"
-		resultType="java.lang.String" parameterType="java.util.List">
-		select business_income from t_yx_order_worker where demand_job_id in
+		resultType="bigdecimal" parameterType="java.util.List">
+		select  sum(cast(t.business_income as  decimal(10,2)))  from t_yx_order_worker where demand_job_id in
 		<foreach collection="list" index="index" item="item" open="("
 			separator="," close=")">
 			#{item}
 		</foreach>
 	</select>
+	
 	<update id="updateOrderIdByDemandJobIds" parameterType="map">
 		update t_yx_order_worker
 		<set>

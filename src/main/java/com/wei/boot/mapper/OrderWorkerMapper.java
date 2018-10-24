@@ -2,6 +2,8 @@ package com.wei.boot.mapper;
 
 import com.wei.boot.model.OrderWorker;
 import com.wei.boot.model.OrderWorkerExample;
+
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -100,7 +102,7 @@ public interface OrderWorkerMapper {
 
 	int selectCount(Map<String, Object> map);
 
-	List<String> selectIncomeByDemandJobIds(List<Integer> demandJobIds);
+	BigDecimal selectIncomeByDemandJobIds(List<Integer> demandJobIds);
 
 	void updateOrderIdByDemandJobIds(Map<String, Object> map);
 	
