@@ -27,6 +27,12 @@ public class ReportController {
 	@Autowired
 	private ReportService reportService;
 	
+	/**
+	 * 人才柱状图
+	 * @param beginDate
+	 * @param endDate
+	 * @return
+	 */
 	@GetMapping("/workerBar")
 	public Result workerBar(String beginDate, String endDate) {
 		Result result = Result.SUCCESS;
@@ -35,6 +41,88 @@ public class ReportController {
 				beginDate = getDefaultBeginDate();
 			}
 			List<ReportInfo> list = reportService.queryWorkerMonthBar(beginDate, endDate);
+			result.setData(list);
+		} catch (Exception e) {
+			log.error("查询失败", e);
+			result = Result.fail(e);
+		}
+		return result;
+	}
+	
+	/**
+	 * 来源饼图
+	 * @param beginDate
+	 * @param endDate
+	 * @return
+	 */
+	@GetMapping("/workerSourcePie")
+	public Result workerSourcePie(String beginDate, String endDate) {
+		Result result = Result.SUCCESS;
+		try {
+			if(StringUtils.isEmpty(beginDate)) {
+				beginDate = getDefaultBeginDate();
+			}
+			List<ReportInfo> list = reportService.queryWorkerSourcePie(beginDate, endDate);
+			result.setData(list);
+		} catch (Exception e) {
+			log.error("查询失败", e);
+			result = Result.fail(e);
+		}
+		return result;
+	}
+	
+	/**
+	 * 简历饼图
+	 * @param beginDate
+	 * @param endDate
+	 * @return
+	 */
+	@GetMapping("/workerDegreePie")
+	public Result workerDegreePie(String beginDate, String endDate) {
+		Result result = Result.SUCCESS;
+		try {
+			if(StringUtils.isEmpty(beginDate)) {
+				beginDate = getDefaultBeginDate();
+			}
+			List<ReportInfo> list = reportService.queryWorkerDegreePie(beginDate, endDate);
+			result.setData(list);
+		} catch (Exception e) {
+			log.error("查询失败", e);
+			result = Result.fail(e);
+		}
+		return result;
+	}
+	
+	/**
+	 * 录入人饼图
+	 * @param beginDate
+	 * @param endDate
+	 * @return
+	 */
+	@GetMapping("/workerCreateUserPie")
+	public Result workerCreateUserPie(String beginDate, String endDate) {
+		Result result = Result.SUCCESS;
+		try {
+			if(StringUtils.isEmpty(beginDate)) {
+				beginDate = getDefaultBeginDate();
+			}
+			List<ReportInfo> list = reportService.queryWorkerCreateUserPie(beginDate, endDate);
+			result.setData(list);
+		} catch (Exception e) {
+			log.error("查询失败", e);
+			result = Result.fail(e);
+		}
+		return result;
+	}
+	
+	@GetMapping("/demandBar")
+	public Result demandBar(String beginDate, String endDate) {
+		Result result = Result.SUCCESS;
+		try {
+			if(StringUtils.isEmpty(beginDate)) {
+				beginDate = getDefaultBeginDate();
+			}
+			List<ReportInfo> list = reportService.queryDemandMonthBar(beginDate, endDate);
 			result.setData(list);
 		} catch (Exception e) {
 			log.error("查询失败", e);
