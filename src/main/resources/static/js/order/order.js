@@ -18,7 +18,12 @@ $(function(){
 	});
 	$("#download").click(function(){
 		var companyName = $("#companyName").val();
-		window.open("/company/export?companyName="+companyName);
+		var orderNumber = $("#orderNumber").val();
+		var createUserName = $("#createUserName").val();
+		var beginTime = $("#beginTime").val();
+		var endTime = $("#endTime").val();
+		window.open("/order/export?companyName="+companyName+"&orderNumber="+orderNumber+"&createUserName="+
+				createUserName+"&beginTime="+beginTime+"&endTime="+endTime);
 	});
 });
 
@@ -31,7 +36,7 @@ function query(currentPage){
 	var orderNumber = $("#orderNumber").val();
 	var createUserName = $("#createUserName").val();
 	var beginTime = $("#beginTime").val();
-	var endTime = $("#endTime").val();;
+	var endTime = $("#endTime").val();
 	$.ajax({
 		url:"/order/list",
 		type:"get",
@@ -58,7 +63,7 @@ function query(currentPage){
 									"	<td><span class=\"des\" onClick=\"openDialog("+order.id+")\">签订人员</span></td>"+
 									"</tr>";
 				}
-				$("tbody").empty().append(tableContent);
+				$("#order_table").find("tbody").empty().append(tableContent);
 				$("#totalCount").text(data.data.totalCount+"个结果");
 				$("#pagination1").pagination({
 					currentPage: data.data.pageNumber,
@@ -95,25 +100,26 @@ function openDialog(id){
 									"	<td>"+(order.jobTypeName == null ? "" : order.jobTypeName)+"</td>"+
 									"	<td>"+(order.businessIncome == null ? "0.0" : order.businessIncome)+"</td>"+
 									"	<td>"+(order.signSalary == null ? "" : order.signSalary)+"</td>"+
-									"	<td>"+(order.createUserName == null ? "" : order.createUserName)+"</td>"+
 									"	<td>"+(order.description == null ? "" : order.description)+"</td>"+
 									"	<td>"+order.createTime+"</td>"+
 									"</tr>";
 				}
 				$("#detail-order-dialog").find("tbody").empty().append(tableContent);
+				var content = $("#detail-order-dialog").html();
+				top.$("#dialog").html(content);
+				top.$("#dialog").show();
+				// 因为弹窗页面是重新渲染到top页面的。所以事件绑定只能在渲染之后。否则不起作用！
+				top.$("#cancel-dialog").click(function(){
+					top.closeDialog();
+				});
+				top.$("#close-dialog").click(function(){
+					top.closeDialog();
+				});
+				top.$("#export_workers").click(function(){
+					window.open("/order/export/workerList?orderId="+id);
+				});
 			}
 		}
-	});
-	
-	var content = $("#detail-order-dialog").html();
-	top.$("#dialog").html(content);
-	top.$("#dialog").show();
-	// 因为弹窗页面是重新渲染到top页面的。所以事件绑定只能在渲染之后。否则不起作用！
-	top.$(".cancel-dialog").click(function(){
-		top.closeDialog();
-	});
-	top.$("#close-dialog").click(function(){
-		top.closeDialog();
 	});
 }
 
