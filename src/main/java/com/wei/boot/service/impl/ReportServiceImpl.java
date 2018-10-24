@@ -18,7 +18,7 @@ import com.wei.boot.service.ReportService;
 import com.wei.boot.util.DateUtils;
 
 @Service
-public class ReportServiceImple implements ReportService {
+public class ReportServiceImpl implements ReportService {
 
 	@Autowired
 	private DemandOrderMapper demandOrderMapper;

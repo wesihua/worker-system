@@ -39,7 +39,7 @@
 				<div class="select2">
 					
 				</div>
-				<table cellpadding="0" cellspacing="0">
+				<table cellpadding="0" cellspacing="0" id="order_table">
 					<thead>
 						<tr>
 							<th>企业名称</th>
@@ -70,39 +70,40 @@
 				</div>
 			</div>
 		</div>
-	<div id="detail-order-dialog" style="display:none;">
-		<div id="juese-manage-box2">
-			<div class="mask"></div>
-			<div class="box-content">
-				<div class="head">
-					<span class="title">选择菜单</span><span class="close fa fa-close" id="close-dialog"></span>
-				</div>
-				<div class="middle" id="menu-content">
-					<table cellpadding="0" cellspacing="0">
-						<thead>
-							<tr>
-								<th>姓名</th>
-								<th>身份证号</th>
-								<th>签约工种</th>
-								<th>业务营收</th>
-								<th>签约薪资</th>
-								<th width="100">备注</th>
-								<th>创建时间</th>
-							</tr>
-						</thead>
-						<tbody>
-						</tbody>
-					</table>
-				</div>
-				<div class="bottom">
-					<span id="public-bottom1" class="public-bottom1 cancel-dialog">取消</span> 
-					<span id="public-bottom2" class="public-bottom2 on save-menuright">确定</span>
+		<div id="detail-order-dialog" style="display: none;">
+			<div class="public-box-css" id="select-menu-box">
+				<div class="mask"></div>
+				<div class="box-content">
+					<div class="head">
+						<span class="title">签约人才列表</span> <span class="fa fa-close" id="close-dialog"></span>
+					</div>
+					<div class="middle">
+						<div class="t-area">
+							<table cellpadding="0" cellspacing="0">
+								<thead>
+									<tr>
+										<th>姓名</th>
+										<th>身份证号</th>
+										<th>签约工种</th>
+										<th>业务营收</th>
+										<th>签约薪资</th>
+										<th width="100">备注</th>
+										<th>创建时间</th>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="bottom">
+						<span class="public-bottom2 on" id="export_workers">导出</span> 
+						<span class="public-bottom2" id="cancel-dialog">确定</span>
+					</div>
 				</div>
 			</div>
 		</div>
-		
-	</div>
-	
+
 	</div>
 </body>
 </html>

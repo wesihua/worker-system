@@ -28,7 +28,7 @@ public class PageForwardController {
 	}
 	@GetMapping("/report")
 	public String report() {
-		return "report/chart";
+		return "report/report";
 	}
 	@GetMapping("/reportForm")
 	public String reportForm() {
