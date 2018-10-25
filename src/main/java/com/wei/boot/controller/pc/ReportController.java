@@ -1,7 +1,10 @@
 package com.wei.boot.controller.pc;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,11 +14,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.wei.boot.model.Company;
-import com.wei.boot.model.Page;
 import com.wei.boot.model.Result;
 import com.wei.boot.model.report.ReportInfo;
 import com.wei.boot.service.ReportService;
+import com.wei.boot.service.WorkerService;
 import com.wei.boot.util.DateUtils;
 
 @RestController
@@ -27,6 +29,24 @@ public class ReportController {
 	@Autowired
 	private ReportService reportService;
 	
+	@Autowired
+	private WorkerService workerService;
+	
+	@GetMapping("/statistic")
+	public Result statistic() {
+		Result result = Result.SUCCESS;
+		try {
+			List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
+			// 人才信息数量
+			data = reportService.querySomeCount();
+			result.setData(data);
+		} catch (Exception e) {
+			log.error("查询失败", e);
+			result = Result.fail(e);
+		}
+		return result;
+	}
+	
 	/**
 	 * 人才柱状图
 	 * @param beginDate
@@ -34,13 +54,19 @@ public class ReportController {
 	 * @return
 	 */
 	@GetMapping("/workerBar")
-	public Result workerBar(String beginDate, String endDate) {
+	public Result workerBar(String beginDate, String endDate, String type) {
 		Result result = Result.SUCCESS;
 		try {
+			List<ReportInfo> list = new ArrayList<ReportInfo>();
 			if(StringUtils.isEmpty(beginDate)) {
 				beginDate = getDefaultBeginDate();
 			}
-			List<ReportInfo> list = reportService.queryWorkerMonthBar(beginDate, endDate);
+			if(!StringUtils.isEmpty(type) && "month".equals(type)) {
+				list = reportService.queryWorkerMonthBar(beginDate, endDate);
+			}
+			else {
+				list = reportService.queryWorkerDayBar(beginDate, endDate);
+			}
 			result.setData(list);
 		} catch (Exception e) {
 			log.error("查询失败", e);

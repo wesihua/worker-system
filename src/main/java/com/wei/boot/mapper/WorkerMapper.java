@@ -116,6 +116,8 @@ public interface WorkerMapper {
 	
 	List<ReportInfo> selectMonthBar(Map<String, Object> map);
 	
+	List<ReportInfo> selectDayBar(Map<String, Object> map);
+	
 	List<ReportInfo> selectDemandMonthBar(Map<String, Object> map);
 	
 	List<ReportInfo> selectDemandUnderTakerPie(Map<String, Object> map);
@@ -133,5 +135,7 @@ public interface WorkerMapper {
 	List<ReportInfo> selectOrderIncomeMonthBar(Map<String, Object> map);
 	
 	List<ReportInfo> selectOrderIncomeUndertakerPie(Map<String, Object> map);
+	
+	List<Map<String, Object>> selectWorkerCount();
 	
 }

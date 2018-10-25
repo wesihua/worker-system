@@ -467,7 +467,17 @@ public class WorkerServiceImpl implements WorkerService {
 				String workStatusName = commonService.queryDicText(GlobalConstant.DictionaryType.WORK_STATUS, worker.getWorkStatus());
 				worker.setWorkStatusName(workStatusName);
 			}
-			
+			// 翻译年龄
+			String birthday = null;
+			if(!StringUtils.isEmpty(worker.getIdcard()) && CheckUtils.isIdCard(worker.getIdcard())) {
+				birthday = DateUtils.formatDate(DateUtils.parseDate((worker.getIdcard().substring(6, 14))), "yyyy-MM-dd");
+			}
+			if(null != worker.getBirthday() && null == birthday) {
+				birthday = DateUtils.formatDate(worker.getBirthday(), "yyyy-MM-dd");
+			}
+			if(null != birthday) {
+				worker.setAge(ToolsUtil.getAgeFromBirthTime(birthday));
+			}
 		}
 	}
 
@@ -591,9 +601,9 @@ public class WorkerServiceImpl implements WorkerService {
 				cal.add(Calendar.YEAR, -1);
 				map.put("beginTime", cal.getTime());
 			}
-			return workerMapper.selectCountByTime(map);
+			
 		}
-		return 0;
+		return workerMapper.selectCountByTime(map);
 	}
 
 	@Override

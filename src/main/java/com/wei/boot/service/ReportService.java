@@ -2,6 +2,7 @@ package com.wei.boot.service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 import com.wei.boot.model.report.ReportInfo;
 
@@ -78,6 +79,14 @@ public interface ReportService {
 	List<ReportInfo> queryWorkerMonthBar(String beginDate, String endDate);
 	
 	/**
+	 * 人才数量按日柱状图
+	 * @param beginDate
+	 * @param endDate
+	 * @return
+	 */
+	List<ReportInfo> queryWorkerDayBar(String beginDate, String endDate);
+	
+	/**
 	 * 查询企业需求按月柱状图
 	 * @param beginDate
 	 * @param endDate
@@ -148,4 +157,11 @@ public interface ReportService {
 	 * @return
 	 */
 	List<ReportInfo> queryOrderIncomeUndertakerPie(String beginDate, String endDate);
+	
+	/**
+	 * 查询数量
+	 * @return
+	 */
+	List<Map<String, Object>> querySomeCount();
+	
 }

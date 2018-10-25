@@ -524,4 +524,31 @@
 		</if>
   	</where>
   </select>
+  
+  <select id="selectOrderCount" resultType="map">
+  	select '新增订单' name,
+	(select count(0) from t_yx_demand_order t where DATEDIFF(t.create_time, curdate()) = 0) day,
+	(select count(0) from t_yx_demand_order t where t.create_time >= date_sub(curdate(),interval WEEKDAY(curdate()) day)) week,
+	(select count(0) from t_yx_demand_order t where t.create_time >= date_sub(curdate(),interval DAY(curdate())-1 day)) month,
+	(select count(0) from t_yx_demand_order t where t.create_time >= date(concat(year(curdate()),'-',elt(quarter(curdate()),1,4,7,10),'-',1))) season,
+	(select count(0) from t_yx_demand_order t where t.create_time >= DATE_SUB(CURDATE(),INTERVAL dayofyear(now())-1 DAY)) year
+  </select>
+  
+  <select id="selectIncomeCount" resultType="map">
+  	select '新增营收' name,
+	(select ifnull(sum(cast(t.total_income as  decimal(10,2))),0) from t_yx_demand_order t where DATEDIFF(t.create_time, curdate()) = 0) day,
+	(select ifnull(sum(cast(t.total_income as  decimal(10,2))),0) from t_yx_demand_order t where t.create_time >= date_sub(curdate(),interval WEEKDAY(curdate()) day)) week,
+	(select ifnull(sum(cast(t.total_income as  decimal(10,2))),0) from t_yx_demand_order t where t.create_time >= date_sub(curdate(),interval DAY(curdate())-1 day)) month,
+	(select ifnull(sum(cast(t.total_income as  decimal(10,2))),0) from t_yx_demand_order t where t.create_time >= date(concat(year(curdate()),'-',elt(quarter(curdate()),1,4,7,10),'-',1))) season,
+	(select ifnull(sum(cast(t.total_income as  decimal(10,2))),0) from t_yx_demand_order t where t.create_time >= DATE_SUB(CURDATE(),INTERVAL dayofyear(now())-1 DAY)) year
+  </select>
+  
+  <select id="selectOrderWorkerCount" resultType="map">
+  	select '新增签订人数' name,
+	(select ifnull(sum(worker_count),0) from t_yx_demand_order t where DATEDIFF(t.create_time, curdate()) = 0) day,
+	(select ifnull(sum(worker_count),0) from t_yx_demand_order t where t.create_time >= date_sub(curdate(),interval WEEKDAY(curdate()) day)) week,
+	(select ifnull(sum(worker_count),0) from t_yx_demand_order t where t.create_time >= date_sub(curdate(),interval DAY(curdate())-1 day)) month,
+	(select ifnull(sum(worker_count),0) from t_yx_demand_order t where t.create_time >= date(concat(year(curdate()),'-',elt(quarter(curdate()),1,4,7,10),'-',1))) season,
+	(select ifnull(sum(worker_count),0) from t_yx_demand_order t where t.create_time >= DATE_SUB(CURDATE(),INTERVAL dayofyear(now())-1 DAY)) year
+  </select>
 </mapper>

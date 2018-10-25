@@ -117,4 +117,8 @@ public interface DemandOrderMapper {
     
     int selectCount(Map<String, Object> map);
     
+    List<Map<String, Object>> selectOrderCount();
+    List<Map<String, Object>> selectIncomeCount();
+    List<Map<String, Object>> selectOrderWorkerCount();
+    
 }

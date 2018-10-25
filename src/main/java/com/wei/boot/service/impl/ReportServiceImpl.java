@@ -1,6 +1,7 @@
 package com.wei.boot.service.impl;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -51,9 +52,8 @@ public class ReportServiceImpl implements ReportService {
 				cal.add(Calendar.YEAR, -1);
 				map.put("beginTime", cal.getTime());
 			}
-			return demandOrderMapper.selectOrderCountByTime(map);
 		}
-		return 0;
+		return demandOrderMapper.selectOrderCountByTime(map);
 	}
 
 	@Override
@@ -86,9 +86,9 @@ public class ReportServiceImpl implements ReportService {
 				cal.add(Calendar.YEAR, -1);
 				map.put("beginTime", cal.getTime());
 			}
-			return demandOrderMapper.selectIncomeByTime(map);
+			
 		}
-		return null;
+		return demandOrderMapper.selectIncomeByTime(map);
 	}
 
 	@Override
@@ -121,9 +121,9 @@ public class ReportServiceImpl implements ReportService {
 				cal.add(Calendar.YEAR, -1);
 				map.put("beginTime", cal.getTime());
 			}
-			return demandOrderMapper.selectOrderWorkerCountByTime(map);
+			
 		}
-		return 0;
+		return demandOrderMapper.selectOrderWorkerCountByTime(map);
 	}
 
 	@Override
@@ -193,6 +193,22 @@ public class ReportServiceImpl implements ReportService {
 		map.put("beginTime", beginTime);
 		map.put("endTime", endTime);
 		return workerMapper.selectMonthBar(map);
+	}
+	
+	@Override
+	public List<ReportInfo> queryWorkerDayBar(String beginDate, String endDate) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Date beginTime = null;
+		Date endTime = null;
+		if(!StringUtils.isEmpty(beginDate)) {
+			beginTime = DateUtils.parseDate(beginDate+" 00:00:00", "yyyy-MM-dd HH:mm:ss");
+		}
+		if(!StringUtils.isEmpty(endDate)) {
+			endTime = DateUtils.parseDate(endDate+" 23:59:59", "yyyy-MM-dd HH:mm:ss");
+		}
+		map.put("beginTime", beginTime);
+		map.put("endTime", endTime);
+		return workerMapper.selectDayBar(map);
 	}
 
 	@Override
@@ -337,6 +353,17 @@ public class ReportServiceImpl implements ReportService {
 		map.put("beginTime", beginTime);
 		map.put("endTime", endTime);
 		return workerMapper.selectOrderIncomeUndertakerPie(map);
+	}
+
+	@Override
+	public List<Map<String, Object>> querySomeCount() {
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+		list.addAll(workerMapper.selectWorkerCount());
+		list.addAll(demandOrderMapper.selectOrderCount());
+		list.addAll(demandOrderMapper.selectOrderWorkerCount());
+		list.addAll(demandOrderMapper.selectIncomeCount());
+		
+		return list;
 	}
 
 }

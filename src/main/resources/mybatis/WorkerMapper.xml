@@ -892,6 +892,24 @@
 		DATE_FORMAT( t.create_time, '%Y年%m月' )
   </select>
   
+  <select id="selectDayBar" parameterType="map" resultType="com.wei.boot.model.report.ReportInfo">
+  	SELECT
+		DATE_FORMAT( t.create_time, '%Y年%m月%d日' ) NAME,
+		count( 0 ) count 
+	FROM
+		t_yx_worker t 
+	<where>
+  		<if test="beginTime != null">
+			and t.create_time &gt;= #{beginTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="endTime != null">
+			and t.create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+		</if>
+  	</where>
+	GROUP BY
+		DATE_FORMAT( t.create_time, '%Y年%m月%d日' )
+  </select>
+  
   <select id="selectDemandMonthBar" parameterType="map" resultType="com.wei.boot.model.report.ReportInfo">
   	SELECT
 		DATE_FORMAT( t.create_time, '%Y年%m月' ) NAME,
@@ -1103,4 +1121,14 @@
 		) x
 		LEFT JOIN t_sys_user u ON x.undertake_user = u.id
   </select>
+  
+  <select id="selectWorkerCount" resultType="map">
+	select '新增人才' name,
+	(select count(0) from t_yx_worker t where DATEDIFF(t.create_time, curdate()) = 0) day,
+	(select count(0) from t_yx_worker t where t.create_time &gt;= date_sub(curdate(),interval WEEKDAY(curdate()) day)) week,
+	(select count(0) from t_yx_worker t where t.create_time &gt;= date_sub(curdate(),interval DAY(curdate())-1 day)) month,
+	(select count(0) from t_yx_worker t where t.create_time &gt;= date(concat(year(curdate()),'-',elt(quarter(curdate()),1,4,7,10),'-',1))) season,
+	(select count(0) from t_yx_worker t where t.create_time &gt;= DATE_SUB(CURDATE(),INTERVAL dayofyear(now())-1 DAY)) year
+  </select>
+  
 </mapper>
