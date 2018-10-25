@@ -141,6 +141,56 @@ public class ReportController {
 		return result;
 	}
 	
+	@GetMapping("/orderBar")
+	public Result orderBar(String beginDate, String endDate) {
+		Result result = Result.SUCCESS;
+		try {
+			Map<String, List<ReportInfo>> map = new HashMap<String, List<ReportInfo>>();
+			if(StringUtils.isEmpty(beginDate)) {
+				beginDate = getDefaultBeginDate();
+			}
+			List<ReportInfo> demandList = reportService.queryDemandMonthBar(beginDate, endDate);
+			map.put("demandBar", demandList);
+			List<ReportInfo> orderList = reportService.queryOrderMonthBar(beginDate, endDate);
+			map.put("orderBar", orderList);
+			List<ReportInfo> orderMemberList = reportService.queryOrderMemberMonthBar(beginDate, endDate);
+			map.put("orderMemberBar", orderMemberList);
+			List<ReportInfo> orderIncomeList = reportService.queryOrderIncomeMonthBar(beginDate, endDate);
+			map.put("orderIncomeBar", orderIncomeList);
+			result.setData(map);
+		} catch (Exception e) {
+			log.error("查询失败", e);
+			result = Result.fail(e);
+		}
+		return result;
+	}
+	
+	@GetMapping("/orderPie")
+	public Result orderPie(String beginDate, String endDate) {
+		Result result = Result.SUCCESS;
+		try {
+			Map<String, List<ReportInfo>> map = new HashMap<String, List<ReportInfo>>();
+			if(StringUtils.isEmpty(beginDate)) {
+				beginDate = getDefaultBeginDate();
+			}
+			List<ReportInfo> demandTakerList = reportService.queryDemandUnderTakerPie(beginDate, endDate);
+			map.put("demandTakerPie", demandTakerList);
+			List<ReportInfo> demandStateList = reportService.queryDemandStatePie(beginDate, endDate);
+			map.put("demandStatePie", demandStateList);
+			List<ReportInfo> orderTakerList = reportService.queryOrderUndertakerPie(beginDate, endDate);
+			map.put("orderTakerPie", orderTakerList);
+			List<ReportInfo> orderMemberTakerList = reportService.queryOrderMemberUndertakerPie(beginDate, endDate);
+			map.put("orderMemberTakerPie", orderMemberTakerList);
+			List<ReportInfo> orderIncomeTakerList = reportService.queryOrderIncomeUndertakerPie(beginDate, endDate);
+			map.put("orderIncomeTakerBar", orderIncomeTakerList);
+			result.setData(map);
+		} catch (Exception e) {
+			log.error("查询失败", e);
+			result = Result.fail(e);
+		}
+		return result;
+	}
+	
 	@GetMapping("/demandBar")
 	public Result demandBar(String beginDate, String endDate) {
 		Result result = Result.SUCCESS;

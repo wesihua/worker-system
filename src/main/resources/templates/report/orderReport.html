@@ -16,7 +16,7 @@
 <link rel="stylesheet" href="../datepicker/css/datepicker.css" />
 <script src="../datepicker/js/plugins/moment.min.js"></script>
 <script src="../datepicker/js/datepicker.all.js"></script>
-<script src="js/report/report.js"></script>
+<script src="js/report/orderReport.js"></script>
 
 </head>
 <body>
@@ -24,7 +24,7 @@
 	<div id="content">
 		<div id="reportForm">
 			<div class="public-single-page-nav">
-				<span class="title">人才报表</span>
+				<span class="title">签约报表</span>
 				<!--<span class="control public-small-bottom" id="download"><i class="fa fa-cloud-download"></i>导出列表</span>-->
 				<!--<span class="public-small-bottom control" id="add-user"><i class="fa fa-plus"></i>新增账号</span>-->
 			</div>
@@ -55,42 +55,23 @@
 						class="new">新增签单数</span><span class="n">23</span> <span
 						class="public-small-bottom"><i class="fa fa-cloud-download"></i>数据导出</span>
 				</div> -->
-				<div class="table-area">
-					<table cellpadding="0" cellspacing="0" id="someCount">
-						<thead>
-							<tr>
-								<th>统计项</th>
-								<th>今天</th>
-								<th>本周</th>
-								<th>本月</th>
-								<th>本季度</th>
-								<th>本年</th>
-							</tr>
-						</thead>
-						<tbody>
-						</tbody>
-					</table>
-				</div>
 				<div class="oneBox">
 					<select id="type">
 						<option value="month">按月</option>
 						<option value="day">按日</option>
 					</select>
-					<div id="workerBar" style="margin: 0 auto"></div>
+					<div id="demandBar" style="margin: 0 auto"></div>
 				</div>
 				<div class="oneBox">
-					<div id="workerSourcePie"
+					<div id="orderbar"
 						style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 				</div>
 				<div class="oneBox">
-					<div id="workerDegreePie"
+					<div id="orderMember"
 						style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 				</div>
 				<div class="oneBox">
-					<div id="workerCreateUserBar" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-				</div>
-				<div class="oneBox">
-					<div id="workerCreateUserPie" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+					<div id="orderIncomeBar" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 				</div>
 
 				<!-- <div class="twoBox">
