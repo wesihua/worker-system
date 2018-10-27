@@ -17,24 +17,33 @@
     left:50%;
     top:50%;
     margin-left:-500px;
+    margin-top:-237px;
     width: 1000px;
-    height: 600px;
-    top:20px;
+    height:475px;
     background-color: #ffffff;
 }
 .add-worker-box-content .head{
-    height:40px;
-    line-height:40px;
+    height:60px;
+    line-height:60px;
     padding: 0px 20px;
     border-bottom:1px solid #cccccc;
     margin-bottom: 15px;
 }
+.add-worker-box-content .head .title{
+  font-size: 14px;
+    font-weight: bold;
+}
 
 .add-worker-box-content .head .fa-close{
-    float:right;
+    float: right;
+    margin-top: 20px;
+    font-size: 20px;
+    cursor: pointer;
 }
 #add-worker-box {
     width:670px;
+    height:400px;
+    overflow: auto;
     float: left;
   }
 
@@ -84,6 +93,8 @@
   
         #qiandan-select-result{
             float: right;
+            height: 400px;
+            overflow: auto;
             width:320px;
             background-color: #f8f8f8;
             padding-left: 10px;

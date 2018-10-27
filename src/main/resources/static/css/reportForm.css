@@ -84,7 +84,9 @@
    float: left;
    margin-right: 15px;
 }
-#reportForm .a-m-content .oneBox #type,#reportForm .a-m-content .oneBox  #demandtype{
+#reportForm .a-m-content .oneBox #type,#reportForm .a-m-content .oneBox  #demandtype
+,#reportForm .a-m-content .oneBox  #orderType,#reportForm .a-m-content .oneBox  #orderMembertype
+,#reportForm .a-m-content .oneBox  #orderIncometype{
       height:40px;
       line-height: 40px;
       margin:10px 0px 0px 10px;
