@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
+import com.wei.boot.model.report.CompanyReportInfo;
 import com.wei.boot.model.report.ReportInfo;
 
 /**
@@ -164,4 +165,13 @@ public interface ReportService {
 	 */
 	List<Map<String, Object>> querySomeCount();
 	
+	List<ReportInfo> queryDemandDayBar(String beginDate, String endDate);
+	
+	List<ReportInfo> queryOrderDayBar(String beginDate, String endDate);
+	
+	List<ReportInfo> queryOrderMemberDayBar(String beginDate, String endDate);
+	
+	List<ReportInfo> queryOrderIncomeDayBar(String beginDate, String endDate);
+	
+	List<CompanyReportInfo> queryCompanyOrderReport(String startDate, String endDate, String companyName);
 }

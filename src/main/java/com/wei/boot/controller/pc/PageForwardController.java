@@ -58,6 +58,10 @@ public class PageForwardController {
 	public String orderIndex() {
 		return "order/order";
 	}
+	@GetMapping("/companyReport")
+	public String companyReport() {
+		return "report/companyReport";
+	}
 	
 	@GetMapping("/worker/add")
 	public String workerAdd() {

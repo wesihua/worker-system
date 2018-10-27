@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.wei.boot.model.DemandOrder;
 import com.wei.boot.model.DemandOrderExample;
+import com.wei.boot.model.report.CompanyReportInfo;
 
 public interface DemandOrderMapper {
     /**
@@ -120,5 +121,6 @@ public interface DemandOrderMapper {
     List<Map<String, Object>> selectOrderCount();
     List<Map<String, Object>> selectIncomeCount();
     List<Map<String, Object>> selectOrderWorkerCount();
+    List<CompanyReportInfo> selectCompanyOrderReport(Map<String, Object> map);
     
 }

@@ -1056,7 +1056,7 @@
 	SELECT
 		d.undertake_user,
 		sum( t.worker_count ) c,
-		( SELECT sum( t.worker_count ) FROM t_yx_demand_order ) cnt 
+		( SELECT sum( worker_count ) FROM t_yx_demand_order ) cnt 
 	FROM
 		t_yx_demand d,
 		t_yx_demand_order t 
@@ -1103,7 +1103,7 @@
 	SELECT
 		d.undertake_user,
 		sum(cast(t.total_income as  decimal(10,2))) c,
-		( SELECT sum(cast(t.total_income as  decimal(10,2))) FROM t_yx_demand_order ) cnt 
+		( SELECT sum(cast(total_income as  decimal(10,2))) FROM t_yx_demand_order ) cnt 
 	FROM
 		t_yx_demand d,
 		t_yx_demand_order t 
@@ -1129,6 +1129,77 @@
 	(select count(0) from t_yx_worker t where t.create_time &gt;= date_sub(curdate(),interval DAY(curdate())-1 day)) month,
 	(select count(0) from t_yx_worker t where t.create_time &gt;= date(concat(year(curdate()),'-',elt(quarter(curdate()),1,4,7,10),'-',1))) season,
 	(select count(0) from t_yx_worker t where t.create_time &gt;= DATE_SUB(CURDATE(),INTERVAL dayofyear(now())-1 DAY)) year
+  </select>
+  
+  <select id="selectDemandDayBar" parameterType="map" resultType="com.wei.boot.model.report.ReportInfo">
+  	SELECT
+		DATE_FORMAT( t.create_time, '%Y年%m月%d日' ) NAME,
+		count( 0 ) count 
+	FROM
+		t_yx_demand t 
+	<where>
+  		<if test="beginTime != null">
+			and t.create_time &gt;= #{beginTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="endTime != null">
+			and t.create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+		</if>
+  	</where>
+	GROUP BY
+		DATE_FORMAT( t.create_time, '%Y年%m月%d日' )
+  </select>
+  
+  <select id="selectOrderDayBar" parameterType="map" resultType="com.wei.boot.model.report.ReportInfo">
+  	SELECT
+		DATE_FORMAT( t.create_time, '%Y年%m月%d日' ) NAME,
+		count( 0 ) count 
+	FROM
+		t_yx_demand_order t 
+	<where>
+  		<if test="beginTime != null">
+			and t.create_time &gt;= #{beginTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="endTime != null">
+			and t.create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+		</if>
+  	</where>
+	GROUP BY
+		DATE_FORMAT( t.create_time, '%Y年%m月%d日' )
+  </select>
+  
+  <select id="selectOrderMemberDayBar" parameterType="map" resultType="com.wei.boot.model.report.ReportInfo">
+  	SELECT
+		DATE_FORMAT( t.create_time, '%Y年%m月%d日' ) name,
+		sum(t.worker_count) count 
+	FROM
+		t_yx_demand_order t 
+	<where>
+  		<if test="beginTime != null">
+			and t.create_time &gt;= #{beginTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="endTime != null">
+			and t.create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+		</if>
+  	</where>
+	GROUP BY
+		DATE_FORMAT( t.create_time, '%Y年%m月%d日' )
+  </select>
+  <select id="selectOrderIncomeDayBar" parameterType="map" resultType="com.wei.boot.model.report.ReportInfo">
+  	SELECT
+		DATE_FORMAT( t.create_time, '%Y年%m月%d日' ) name,
+		sum(cast(t.total_income as  decimal(10,2))) count 
+	FROM
+		t_yx_demand_order t 
+	<where>
+  		<if test="beginTime != null">
+			and t.create_time &gt;= #{beginTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="endTime != null">
+			and t.create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+		</if>
+  	</where>
+	GROUP BY
+		DATE_FORMAT( t.create_time, '%Y年%m月%d日' )
   </select>
   
 </mapper>

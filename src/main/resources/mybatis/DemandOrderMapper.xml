@@ -551,4 +551,29 @@
 	(select ifnull(sum(worker_count),0) from t_yx_demand_order t where t.create_time >= date(concat(year(curdate()),'-',elt(quarter(curdate()),1,4,7,10),'-',1))) season,
 	(select ifnull(sum(worker_count),0) from t_yx_demand_order t where t.create_time >= DATE_SUB(CURDATE(),INTERVAL dayofyear(now())-1 DAY)) year
   </select>
+  <select id="selectCompanyOrderReport" parameterType="map" resultType="com.wei.boot.model.report.CompanyReportInfo">
+  	SELECT
+		c.NAME companyName,
+		count( 0 ) orderCount,
+		sum( o.worker_count ) orderMemberCount,
+		sum( cast( o.total_income AS DECIMAL ( 10, 2 ) ) ) orderIncome 
+	FROM
+		t_yx_demand d,
+		t_yx_demand_order o,
+		t_yx_company c 
+	WHERE
+		d.id = o.demand_id 
+		AND d.company_id = c.id 
+		<if test="beginTime != null">
+			and o.create_time &gt;= #{beginTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="endTime != null">
+			and o.create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="companyName != null">
+			and c.name like #{companyName,jdbcType=VARCHAR}
+		</if>
+	GROUP BY
+		c.NAME
+  </select>
 </mapper>

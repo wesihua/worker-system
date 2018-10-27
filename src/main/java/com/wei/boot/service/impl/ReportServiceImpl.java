@@ -14,6 +14,7 @@ import org.springframework.util.StringUtils;
 
 import com.wei.boot.mapper.DemandOrderMapper;
 import com.wei.boot.mapper.WorkerMapper;
+import com.wei.boot.model.report.CompanyReportInfo;
 import com.wei.boot.model.report.ReportInfo;
 import com.wei.boot.service.ReportService;
 import com.wei.boot.util.DateUtils;
@@ -364,6 +365,91 @@ public class ReportServiceImpl implements ReportService {
 		list.addAll(demandOrderMapper.selectIncomeCount());
 		
 		return list;
+	}
+
+	@Override
+	public List<ReportInfo> queryDemandDayBar(String beginDate, String endDate) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Date beginTime = null;
+		Date endTime = null;
+		if(!StringUtils.isEmpty(beginDate)) {
+			beginTime = DateUtils.parseDate(beginDate+" 00:00:00", "yyyy-MM-dd HH:mm:ss");
+		}
+		if(!StringUtils.isEmpty(endDate)) {
+			endTime = DateUtils.parseDate(endDate+" 23:59:59", "yyyy-MM-dd HH:mm:ss");
+		}
+		map.put("beginTime", beginTime);
+		map.put("endTime", endTime);
+		return workerMapper.selectDemandDayBar(map);
+	}
+
+	@Override
+	public List<ReportInfo> queryOrderDayBar(String beginDate, String endDate) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Date beginTime = null;
+		Date endTime = null;
+		if(!StringUtils.isEmpty(beginDate)) {
+			beginTime = DateUtils.parseDate(beginDate+" 00:00:00", "yyyy-MM-dd HH:mm:ss");
+		}
+		if(!StringUtils.isEmpty(endDate)) {
+			endTime = DateUtils.parseDate(endDate+" 23:59:59", "yyyy-MM-dd HH:mm:ss");
+		}
+		map.put("beginTime", beginTime);
+		map.put("endTime", endTime);
+		return workerMapper.selectOrderDayBar(map);
+	}
+
+	@Override
+	public List<ReportInfo> queryOrderMemberDayBar(String beginDate, String endDate) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Date beginTime = null;
+		Date endTime = null;
+		if(!StringUtils.isEmpty(beginDate)) {
+			beginTime = DateUtils.parseDate(beginDate+" 00:00:00", "yyyy-MM-dd HH:mm:ss");
+		}
+		if(!StringUtils.isEmpty(endDate)) {
+			endTime = DateUtils.parseDate(endDate+" 23:59:59", "yyyy-MM-dd HH:mm:ss");
+		}
+		map.put("beginTime", beginTime);
+		map.put("endTime", endTime);
+		return workerMapper.selectOrderMemberDayBar(map);
+	}
+
+	@Override
+	public List<ReportInfo> queryOrderIncomeDayBar(String beginDate, String endDate) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Date beginTime = null;
+		Date endTime = null;
+		if(!StringUtils.isEmpty(beginDate)) {
+			beginTime = DateUtils.parseDate(beginDate+" 00:00:00", "yyyy-MM-dd HH:mm:ss");
+		}
+		if(!StringUtils.isEmpty(endDate)) {
+			endTime = DateUtils.parseDate(endDate+" 23:59:59", "yyyy-MM-dd HH:mm:ss");
+		}
+		map.put("beginTime", beginTime);
+		map.put("endTime", endTime);
+		return workerMapper.selectOrderIncomeDayBar(map);
+	}
+
+	@Override
+	public List<CompanyReportInfo> queryCompanyOrderReport(String startDate, String endDate, String companyName) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Date beginTime = null;
+		Date endTime = null;
+		if(!StringUtils.isEmpty(startDate)) {
+			beginTime = DateUtils.parseDate(startDate+" 00:00:00", "yyyy-MM-dd HH:mm:ss");
+		}
+		if(!StringUtils.isEmpty(endDate)) {
+			endTime = DateUtils.parseDate(endDate+" 23:59:59", "yyyy-MM-dd HH:mm:ss");
+		}
+		if(!StringUtils.isEmpty(companyName)) {
+			companyName = companyName + "%";
+			map.put("companyName", companyName);
+		}
+		map.put("beginTime", beginTime);
+		map.put("endTime", endTime);
+		
+		return demandOrderMapper.selectCompanyOrderReport(map);
 	}
 
 }

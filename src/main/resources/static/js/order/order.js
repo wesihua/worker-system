@@ -25,6 +25,29 @@ $(function(){
 		window.open("/order/export?companyName="+companyName+"&orderNumber="+orderNumber+"&createUserName="+
 				createUserName+"&beginTime="+beginTime+"&endTime="+endTime);
 	});
+	
+	$('.J-datepicker-range').datePicker({
+        hasShortcut: true,
+        format: 'YYYY-MM-DD',
+        isRange: true,
+        shortcutOptions: [{
+          name: '昨天',
+          day: '-1,-1',
+          time: '00:00:00,23:59:59'
+        },{
+          name: '最近一周',
+          day: '-7,0',
+          time:'00:00:00,'
+        }, {
+          name: '最近一个月',
+          day: '-30,0',
+          time: '00:00:00,'
+        }, {
+          name: '最近三个月',
+          day: '-90, 0',
+          time: '00:00:00,'
+        }]
+      });
 });
 
 /**

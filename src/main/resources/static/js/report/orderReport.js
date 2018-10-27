@@ -54,9 +54,23 @@ $(function(){
 	loadBar();
 	loadPie();
 	
-	$("#type").change(function(){
-		var startDate = $("#startDate").val();
-		loadWorkerBar(startDate);
+	$("#demandtype").change(function(){
+//		var startDate = $("#startDate").val();
+//		var endDate = $("#endDate").val();
+		var type = this.value;
+		loadDemandBar(type);
+	});
+	$("#orderType").change(function(){
+		var type = this.value;
+		loadOrderBar(type);
+	});
+	$("#orderMembertype").change(function(){
+		var type = this.value;
+		loadOrderMemberBar(type);
+	});
+	$("#orderIncometype").change(function(){
+		var type = this.value;
+		loadOrderIncomeBar(type);
 	});
 });
 
@@ -310,7 +324,7 @@ function renderDemandBar(data){
 	    tooltip: {
 	        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
 	        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-	            '<td style="padding:0"><b>{point.y:.1f} 人</b></td></tr>',
+	            '<td style="padding:0"><b>{point.y:.1f} 个</b></td></tr>',
 	        footerFormat: '</table>',
 	        shared: true,
 	        useHTML: true
@@ -340,7 +354,7 @@ function renderOrderBar(data){
 		orderBarSeries.push(info.count);
 	}
 	// 订单bar chart
-	Highcharts.chart('orderbar', {
+	Highcharts.chart('orderBar', {
 	    chart: {
 	        type: 'column'
 	    },
@@ -360,7 +374,7 @@ function renderOrderBar(data){
 	    tooltip: {
 	        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
 	        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-	            '<td style="padding:0"><b>{point.y:.1f} 人</b></td></tr>',
+	            '<td style="padding:0"><b>{point.y:.1f} 个</b></td></tr>',
 	        footerFormat: '</table>',
 	        shared: true,
 	        useHTML: true
@@ -446,7 +460,7 @@ function renderOrderIncomeBar(data){
 			type: 'column'
 		},
 		title: {
-			text: '订单收入总额'
+			text: '订单收入金额'
 		},
 		xAxis: {
 			categories: orderIncomeBarCategories,
@@ -461,7 +475,7 @@ function renderOrderIncomeBar(data){
 		tooltip: {
 			headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
 			pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-			'<td style="padding:0"><b>{point.y:.1f} 人</b></td></tr>',
+			'<td style="padding:0"><b>{point.y:.1f} 元</b></td></tr>',
 			footerFormat: '</table>',
 			shared: true,
 			useHTML: true
@@ -549,4 +563,273 @@ function getNowFormatDate() {
     }
     var currentdate = year + seperator1 + month + seperator1 + strDate;
     return currentdate;
+}
+
+function loadDemandBar(type){
+	var url = "/report/demandMonthBar";
+	if(type == "day"){
+		url = "/report/demandDayBar";
+	}
+	var startDate = $("#startDate").val();
+	var endDate = $("#endDate").val();
+	$.ajax({
+		url:url,
+		type:"get",
+		//async:false,
+		dataType:"json",
+		data:{beginDate:startDate,endDate:endDate},
+		success:function(data){
+			if(data.code == 1){
+				var reportData = data.data;
+				// 订单金额
+				var barCategories = [];
+				var barSeries = [];
+				for(var i=0; i<reportData.length; i++){
+					var info = reportData[i];
+					barCategories.push(info.name);
+					barSeries.push(info.count);
+				}
+				
+				Highcharts.chart('demandBar', {
+				    chart: {
+				        type: 'column'
+				    },
+				    title: {
+				        text: '企业招聘需求数量'
+				    },
+				    xAxis: {
+				        categories: barCategories,
+				        crosshair: true
+				    },
+				    yAxis: {
+				        min: 0,
+				        title: {
+				            text: '数量 (个)'
+				        }
+				    },
+				    tooltip: {
+				        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+				        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+				            '<td style="padding:0"><b>{point.y:.1f} 人</b></td></tr>',
+				        footerFormat: '</table>',
+				        shared: true,
+				        useHTML: true
+				    },
+				    plotOptions: {
+				        column: {
+				            pointPadding: 0.2,
+				            borderWidth: 0
+				        }
+				    },
+				    series: [{
+				        name: '新增招聘需求',
+				        data: barSeries
+
+				    }]
+				});
+			}
+		}
+	});
+	
+}
+function loadOrderBar(type){
+	var url = "/report/orderMonthBar";
+	if(type == "day"){
+		url = "/report/orderDayBar";
+	}
+	var startDate = $("#startDate").val();
+	var endDate = $("#endDate").val();
+	$.ajax({
+		url:url,
+		type:"get",
+		//async:false,
+		dataType:"json",
+		data:{beginDate:startDate,endDate:endDate},
+		success:function(data){
+			if(data.code == 1){
+				var reportData = data.data;
+				// 订单金额
+				var barCategories = [];
+				var barSeries = [];
+				for(var i=0; i<reportData.length; i++){
+					var info = reportData[i];
+					barCategories.push(info.name);
+					barSeries.push(info.count);
+				}
+				
+				Highcharts.chart('orderBar', {
+					chart: {
+						type: 'column'
+					},
+					title: {
+						text: '订单数量'
+					},
+					xAxis: {
+						categories: barCategories,
+						crosshair: true
+					},
+					yAxis: {
+						min: 0,
+						title: {
+							text: '数量 (个)'
+						}
+					},
+					tooltip: {
+						headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+						pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+						'<td style="padding:0"><b>{point.y:.1f} 个</b></td></tr>',
+						footerFormat: '</table>',
+						shared: true,
+						useHTML: true
+					},
+					plotOptions: {
+						column: {
+							pointPadding: 0.2,
+							borderWidth: 0
+						}
+					},
+					series: [{
+						name: '新增订单数',
+						data: barSeries
+						
+					}]
+				});
+			}
+		}
+	});
+	
+}
+function loadOrderMemberBar(type){
+	var url = "/report/orderMemberMonthBar";
+	if(type == "day"){
+		url = "/report/orderMemberDayBar";
+	}
+	var startDate = $("#startDate").val();
+	var endDate = $("#endDate").val();
+	$.ajax({
+		url:url,
+		type:"get",
+		//async:false,
+		dataType:"json",
+		data:{beginDate:startDate,endDate:endDate},
+		success:function(data){
+			if(data.code == 1){
+				var reportData = data.data;
+				// 订单金额
+				var barCategories = [];
+				var barSeries = [];
+				for(var i=0; i<reportData.length; i++){
+					var info = reportData[i];
+					barCategories.push(info.name);
+					barSeries.push(info.count);
+				}
+				
+				Highcharts.chart('orderMemberBar', {
+					chart: {
+						type: 'column'
+					},
+					title: {
+						text: '订单签订人数'
+					},
+					xAxis: {
+						categories: barCategories,
+						crosshair: true
+					},
+					yAxis: {
+						min: 0,
+						title: {
+							text: '数量 (人)'
+						}
+					},
+					tooltip: {
+						headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+						pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+						'<td style="padding:0"><b>{point.y:.1f} 人</b></td></tr>',
+						footerFormat: '</table>',
+						shared: true,
+						useHTML: true
+					},
+					plotOptions: {
+						column: {
+							pointPadding: 0.2,
+							borderWidth: 0
+						}
+					},
+					series: [{
+						name: '签订人数',
+						data: barSeries
+						
+					}]
+				});
+			}
+		}
+	});
+	
+}
+function loadOrderIncomeBar(type){
+	var url = "/report/orderIncomeMonthBar";
+	if(type == "day"){
+		url = "/report/orderIncomeDayBar";
+	}
+	var startDate = $("#startDate").val();
+	var endDate = $("#endDate").val();
+	$.ajax({
+		url:url,
+		type:"get",
+		//async:false,
+		dataType:"json",
+		data:{beginDate:startDate,endDate:endDate},
+		success:function(data){
+			if(data.code == 1){
+				var reportData = data.data;
+				// 订单金额
+				var barCategories = [];
+				var barSeries = [];
+				for(var i=0; i<reportData.length; i++){
+					var info = reportData[i];
+					barCategories.push(info.name);
+					barSeries.push(info.count);
+				}
+				
+				Highcharts.chart('orderIncomeBar', {
+					chart: {
+						type: 'column'
+					},
+					title: {
+						text: '订单收入金额'
+					},
+					xAxis: {
+						categories: barCategories,
+						crosshair: true
+					},
+					yAxis: {
+						min: 0,
+						title: {
+							text: '金额 (元)'
+						}
+					},
+					tooltip: {
+						headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+						pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+						'<td style="padding:0"><b>{point.y:.1f} 元</b></td></tr>',
+						footerFormat: '</table>',
+						shared: true,
+						useHTML: true
+					},
+					plotOptions: {
+						column: {
+							pointPadding: 0.2,
+							borderWidth: 0
+						}
+					},
+					series: [{
+						name: '签订金额',
+						data: barSeries
+						
+					}]
+				});
+			}
+		}
+	});
+	
 }
