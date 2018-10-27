@@ -5,11 +5,11 @@ $(function(){
 			top.location.href="/";
 		}
 	});
-//	$(document).bind("ajaxSend", function () {
-//		parent.$("#loading").show();
-//    }).bind("ajaxComplete", function () {
-//    	parent.$("#loading").hide();
-//    });
+	$(document).bind("ajaxSend", function () {
+		parent.$("#loading").show();
+    }).bind("ajaxComplete", function () {
+    	parent.$("#loading").hide();
+    });
 	
 	$('.J-yearMonthPicker-single').datePicker({
         format: 'YYYY-MM-DD'
@@ -17,53 +17,42 @@ $(function(){
 	$("#query").click(function(){
 		var startDate = $("#startDate").val();
 		var endDate = $("#endDate").val();
-		loadWorkerBar(startDate, endDate);
-		loadWorkerSourcePie(startDate, endDate);
-		loadWorkerCreateUserPie(startDate, endDate);
-		loadWorkerDegreePie(startDate, endDate);
+		loadBar(startDate, endDate);
+		loadPie(startDate, endDate);
 	});
 	$("#today").click(function(){
 		var startDate = getNowFormatDate();
 		$("#startDate").val(startDate);
-		loadWorkerBar(startDate);
-		loadWorkerSourcePie(startDate);
-		loadWorkerCreateUserPie(startDate);
-		loadWorkerDegreePie(startDate);
+		loadBar(startDate);
+		loadPie(startDate);
 	});
 	$("#thisWeek").click(function(){
 		var startDate = getFirstDayOfWeek(new Date());
 		$("#startDate").val(startDate);
-		loadWorkerBar(startDate);
-		loadWorkerSourcePie(startDate);
-		loadWorkerCreateUserPie(startDate);
-		loadWorkerDegreePie(startDate);
+		loadBar(startDate);
+		loadPie(startDate);
 	});
 	$("#thisMonth").click(function(){
 		var startDate = getFirstDayOfMonth(new Date());
 		$("#startDate").val(startDate);
-		loadWorkerBar(startDate);
-		loadWorkerSourcePie(startDate);
-		loadWorkerCreateUserPie(startDate);
-		loadWorkerDegreePie(startDate);
+		loadBar(startDate);
+		loadPie(startDate);
 	});
 	$("#thisSeason").click(function(){
 		var startDate = getFirstDayOfSeason(new Date());
 		$("#startDate").val(startDate);
-		loadWorkerBar(startDate);
-		loadWorkerSourcePie(startDate);
-		loadWorkerCreateUserPie(startDate);
-		loadWorkerDegreePie(startDate);
+		loadBar(startDate);
+		loadPie(startDate);
 	});
 	$("#thisYear").click(function(){
 		var startDate = getFirstDayOfYear(new Date());
 		$("#startDate").val(startDate);
-		loadWorkerBar(startDate);
-		loadWorkerSourcePie(startDate);
-		loadWorkerCreateUserPie(startDate);
-		loadWorkerDegreePie(startDate);
+		loadBar(startDate);
+		loadPie(startDate);
 	});
 	
 	loadBar();
+	loadPie();
 	
 	$("#type").change(function(){
 		var startDate = $("#startDate").val();
@@ -75,211 +64,40 @@ function loadBar(startDate,endDate){
 	$.ajax({
 		url:"/report/orderBar",
 		type:"get",
-		//async:false,
+		async:false,
 		dataType:"json",
 		data:{beginDate:startDate,endDate:endDate},
 		success:function(data){
 			if(data.code == 1){
-				// 企业需求
-				var demandBarCategories = [];
-				var demandBarSeries = [];
-				// 订单
-				var orderBarCategories = [];
-				var orderBarSeries = [];
-				// 订单人数
-				var orderMemberBarCategories = [];
-				var orderMemberBarSeries = [];
-				// 订单金额
-				var orderIncomeBarCategories = [];
-				var orderIncomeBarSeries = [];
-				
 				var data = data.data;
-				var demandData = data.demandBar;
-				for(var i=0; i<demandData.length; i++){
-					var info = demandData[i];
-					demandBarCategories.push(info.name);
-					demandBarSeries.push(info.count);
-				}
-				// 企业招聘需求bar chart
-				Highcharts.chart('demandBar', {
-				    chart: {
-				        type: 'column'
-				    },
-				    title: {
-				        text: '企业招聘需求数量'
-				    },
-				    xAxis: {
-				        categories: demandBarCategories,
-				        crosshair: true
-				    },
-				    yAxis: {
-				        min: 0,
-				        title: {
-				            text: '数量 (人)'
-				        }
-				    },
-				    tooltip: {
-				        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-				        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-				            '<td style="padding:0"><b>{point.y:.1f} 人</b></td></tr>',
-				        footerFormat: '</table>',
-				        shared: true,
-				        useHTML: true
-				    },
-				    plotOptions: {
-				        column: {
-				            pointPadding: 0.2,
-				            borderWidth: 0
-				        }
-				    },
-				    series: [{
-				        name: '新增人数',
-				        data: demandBarSeries
-
-				    }]
-				});
 				
-				var orderData = data.orderBar;
-				for(var i=0; i<orderData.length; i++){
-					var info = orderData[i];
-					orderBarCategories.push(info.name);
-					orderBarSeries.push(info.count);
-				}
-				// 订单bar chart
-				Highcharts.chart('orderBar', {
-				    chart: {
-				        type: 'column'
-				    },
-				    title: {
-				        text: '订单数量'
-				    },
-				    xAxis: {
-				        categories: orderBarCategories,
-				        crosshair: true
-				    },
-				    yAxis: {
-				        min: 0,
-				        title: {
-				            text: '数量 (人)'
-				        }
-				    },
-				    tooltip: {
-				        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-				        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-				            '<td style="padding:0"><b>{point.y:.1f} 人</b></td></tr>',
-				        footerFormat: '</table>',
-				        shared: true,
-				        useHTML: true
-				    },
-				    plotOptions: {
-				        column: {
-				            pointPadding: 0.2,
-				            borderWidth: 0
-				        }
-				    },
-				    series: [{
-				        name: '新增人数',
-				        data: orderBarSeries
-
-				    }]
-				});
-				
-				var orderMemberData = data.orderMemberBar;
-				for(var i=0; i<orderMemberData.length; i++){
-					var info = orderMemberData[i];
-					orderMemberBarCategories.push(info.name);
-					orderMemberBarSeries.push(info.count);
-				}
-				// 订单签订人数bar chart
-				Highcharts.chart('orderMemberBar', {
-				    chart: {
-				        type: 'column'
-				    },
-				    title: {
-				        text: '订单数量'
-				    },
-				    xAxis: {
-				        categories: orderMemberBarCategories,
-				        crosshair: true
-				    },
-				    yAxis: {
-				        min: 0,
-				        title: {
-				            text: '数量 (人)'
-				        }
-				    },
-				    tooltip: {
-				        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-				        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-				            '<td style="padding:0"><b>{point.y:.1f} 人</b></td></tr>',
-				        footerFormat: '</table>',
-				        shared: true,
-				        useHTML: true
-				    },
-				    plotOptions: {
-				        column: {
-				            pointPadding: 0.2,
-				            borderWidth: 0
-				        }
-				    },
-				    series: [{
-				        name: '新增人数',
-				        data: orderMemberBarSeries
-
-				    }]
-				});
-				
-				var orderIncomeData = data.orderIncomeBar;
-				for(var i=0; i<orderIncomeData.length; i++){
-					var info = orderIncomeData[i];
-					orderIncomeBarCategories.push(info.name);
-					orderIncomeBarSeries.push(info.count);
-				}
-				// 订单签订金额bar chart
-				Highcharts.chart('orderIncomeBar', {
-					chart: {
-						type: 'column'
-					},
-					title: {
-						text: '订单数量'
-					},
-					xAxis: {
-						categories: orderIncomeBarCategories,
-						crosshair: true
-					},
-					yAxis: {
-						min: 0,
-						title: {
-							text: '数量 (人)'
-						}
-					},
-					tooltip: {
-						headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-						pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-						'<td style="padding:0"><b>{point.y:.1f} 人</b></td></tr>',
-						footerFormat: '</table>',
-						shared: true,
-						useHTML: true
-					},
-					plotOptions: {
-						column: {
-							pointPadding: 0.2,
-							borderWidth: 0
-						}
-					},
-					series: [{
-						name: '新增人数',
-						data: orderIncomeBarSeries
-						
-					}]
-				});
+				renderDemandBar(data.demandBar);
+				renderOrderBar(data.orderBar);
+				renderOrderMemberBar(data.orderMemberBar);
+				renderOrderIncomeBar(data.orderIncomeBar);
 			}
 		}
 	});
 }
 
 function loadPie(startDate,endDate){
-	
+	$.ajax({
+		url:"/report/orderPie",
+		type:"get",
+		async:false,
+		dataType:"json",
+		data:{beginDate:startDate,endDate:endDate},
+		success:function(data){
+			if(data.code == 1){
+				var data = data.data;
+				
+				renderDemandTakerPie(data.demandTakerPie);
+				renderOrderTakerPie(data.orderTakerPie);
+				renderOrderMemberTakerPie(data.orderMemberTakerPie);
+				renderOrderIncomeTakerPie(data.orderIncomeTakerPie);
+			}
+		}
+	});
 }
 
 function loadWorkerBar(startDate,endDate){
@@ -288,245 +106,379 @@ function loadWorkerBar(startDate,endDate){
 }
 
 
-function loadWorkerSourcePie(startDate,endDate){
-	$.ajax({
-		url:"/report/workerSourcePie",
-		type:"get",
-		async:false,
-		dataType:"json",
-		data:{beginDate:startDate,endDate:endDate},
-		success:function(sourcedata){
-			if(sourcedata.code == 1){
-				var workerSourceSeries = [];
-				var data = sourcedata.data;
-				for(var i=0; i<data.length; i++){
-					var info = data[i];
-					var obj = {};
-					obj.name = info.name;
-					obj.y = info.percentage;
-					workerSourceSeries.push(obj);
+function renderDemandTakerPie(data){
+	var series = [];
+	for(var i=0; i<data.length; i++){
+		var info = data[i];
+		var obj = {};
+		obj.name = info.name;
+		obj.y = info.percentage;
+		series.push(obj);
+	}
+	// 企业招聘需求接单人pie
+	Highcharts.chart('demandTakerPie', {
+		chart: {
+				plotBackgroundColor: null,
+				plotBorderWidth: null,
+				plotShadow: false,
+				type: 'pie'
+		},
+		title: {
+				text: '招聘需求接单人分布'
+		},
+		tooltip: {
+				pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+		},
+		plotOptions: {
+				pie: {
+						allowPointSelect: true,
+						cursor: 'pointer',
+						dataLabels: {
+								enabled: true,
+								format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+								style: {
+										color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+								}
+						}
 				}
-				// 生产pie chart
-				Highcharts.chart('workerSourcePie', {
-					chart: {
-							plotBackgroundColor: null,
-							plotBorderWidth: null,
-							plotShadow: false,
-							type: 'pie'
-					},
-					title: {
-							text: '人才信息来源分布'
-					},
-					tooltip: {
-							pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-					},
-					plotOptions: {
-							pie: {
-									allowPointSelect: true,
-									cursor: 'pointer',
-									dataLabels: {
-											enabled: true,
-											format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-											style: {
-													color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-											}
-									}
-							}
-					},
-					series: [{
-							name: '占比',
-							colorByPoint: true,
-							data: workerSourceSeries
-					}]
-				});
+		},
+		series: [{
+				name: '占比',
+				colorByPoint: true,
+				data: series
+		}]
+	});
+}
+function renderOrderTakerPie(data){
+	var series = [];
+	for(var i=0; i<data.length; i++){
+		var info = data[i];
+		var obj = {};
+		obj.name = info.name;
+		obj.y = info.percentage;
+		series.push(obj);
+	}
+	Highcharts.chart('orderTakerPie', {
+		chart: {
+			plotBackgroundColor: null,
+			plotBorderWidth: null,
+			plotShadow: false,
+			type: 'pie'
+		},
+		title: {
+			text: '已签订订单接单人分布'
+		},
+		tooltip: {
+			pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+		},
+		plotOptions: {
+			pie: {
+				allowPointSelect: true,
+				cursor: 'pointer',
+				dataLabels: {
+					enabled: true,
+					format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+					style: {
+						color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+					}
+				}
 			}
-		}
+		},
+		series: [{
+			name: '占比',
+			colorByPoint: true,
+			data: series
+		}]
+	});
+}
+function renderOrderMemberTakerPie(data){
+	var series = [];
+	for(var i=0; i<data.length; i++){
+		var info = data[i];
+		var obj = {};
+		obj.name = info.name;
+		obj.y = info.percentage;
+		series.push(obj);
+	}
+	// 企业招聘需求接单人pie
+	Highcharts.chart('orderMemberTakerPie', {
+		chart: {
+			plotBackgroundColor: null,
+			plotBorderWidth: null,
+			plotShadow: false,
+			type: 'pie'
+		},
+		title: {
+			text: '已签订人数接单人分布'
+		},
+		tooltip: {
+			pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+		},
+		plotOptions: {
+			pie: {
+				allowPointSelect: true,
+				cursor: 'pointer',
+				dataLabels: {
+					enabled: true,
+					format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+					style: {
+						color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+					}
+				}
+			}
+		},
+		series: [{
+			name: '占比',
+			colorByPoint: true,
+			data: series
+		}]
+	});
+}
+function renderOrderIncomeTakerPie(data){
+	var series = [];
+	for(var i=0; i<data.length; i++){
+		var info = data[i];
+		var obj = {};
+		obj.name = info.name;
+		obj.y = info.percentage;
+		series.push(obj);
+	}
+	// 企业招聘需求接单人pie
+	Highcharts.chart('orderIncomeTakerPie', {
+		chart: {
+			plotBackgroundColor: null,
+			plotBorderWidth: null,
+			plotShadow: false,
+			type: 'pie'
+		},
+		title: {
+			text: '订单总收入接单人分布'
+		},
+		tooltip: {
+			pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+		},
+		plotOptions: {
+			pie: {
+				allowPointSelect: true,
+				cursor: 'pointer',
+				dataLabels: {
+					enabled: true,
+					format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+					style: {
+						color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+					}
+				}
+			}
+		},
+		series: [{
+			name: '占比',
+			colorByPoint: true,
+			data: series
+		}]
 	});
 }
 
-function loadWorkerCreateUserPie(startDate,endDate){
+function renderDemandBar(data){
+	// 企业需求
+	var demandBarCategories = [];
+	var demandBarSeries = [];
 	
-	$.ajax({
-		url:"/report/workerCreateUserPie",
-		type:"get",
-		async:false,
-		dataType:"json",
-		data:{beginDate:startDate,endDate:endDate},
-		success:function(createUserdata){
-			if(createUserdata.code == 1){
-				var barCategories = [];
-				var barData = [];
-				var workerCreateUserSeries = [];
-				var data = createUserdata.data;
-				for(var i=0; i<data.length; i++){
-					var info = data[i];
-					barCategories.push(info.name);
-					barData.push(info.count);
-					var obj = {};
-					obj.name = info.name;
-					obj.y = info.percentage;
-					workerCreateUserSeries.push(obj);
-				}
-				// 生产pie chart
-				Highcharts.chart('workerCreateUserPie', {
-					chart: {
-							plotBackgroundColor: null,
-							plotBorderWidth: null,
-							plotShadow: false,
-							type: 'pie'
-					},
-					title: {
-							text: '人才信息录入人分布'
-					},
-					tooltip: {
-							pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-					},
-					plotOptions: {
-							pie: {
-									allowPointSelect: true,
-									cursor: 'pointer',
-									dataLabels: {
-											enabled: true,
-											format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-											style: {
-													color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-											}
-									}
-							}
-					},
-					series: [{
-							name: '占比',
-							colorByPoint: true,
-							data: workerCreateUserSeries
-					}]
-				});
-				// 生成柱状图
-				Highcharts.chart('workerCreateUserBar', {
-				    chart: {
-				        type: 'column'
-				    },
-				    title: {
-				        text: '录入人录入数量'
-				    },
-				    xAxis: {
-				        categories: barCategories,
-				        crosshair: true
-				    },
-				    yAxis: {
-				        min: 0,
-				        title: {
-				            text: '数量 (人)'
-				        }
-				    },
-				    tooltip: {
-				        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-				        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-				            '<td style="padding:0"><b>{point.y:.1f} 人</b></td></tr>',
-				        footerFormat: '</table>',
-				        shared: true,
-				        useHTML: true
-				    },
-				    plotOptions: {
-				        column: {
-				            pointPadding: 0.2,
-				            borderWidth: 0
-				        }
-				    },
-				    series: [{
-				        name: '新增人数',
-				        data: barData
+	var demandData = data;
+	for(var i=0; i<demandData.length; i++){
+		var info = demandData[i];
+		demandBarCategories.push(info.name);
+		demandBarSeries.push(info.count);
+	}
+	// 企业招聘需求bar chart
+	Highcharts.chart('demandBar', {
+	    chart: {
+	        type: 'column'
+	    },
+	    title: {
+	        text: '企业招聘需求数量'
+	    },
+	    xAxis: {
+	        categories: demandBarCategories,
+	        crosshair: true
+	    },
+	    yAxis: {
+	        min: 0,
+	        title: {
+	            text: '数量 (个)'
+	        }
+	    },
+	    tooltip: {
+	        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+	        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+	            '<td style="padding:0"><b>{point.y:.1f} 人</b></td></tr>',
+	        footerFormat: '</table>',
+	        shared: true,
+	        useHTML: true
+	    },
+	    plotOptions: {
+	        column: {
+	            pointPadding: 0.2,
+	            borderWidth: 0
+	        }
+	    },
+	    series: [{
+	        name: '新增企业需求数',
+	        data: demandBarSeries
 
-				    }]
-				});
-			}
-		}
+	    }]
+	});
+}
+function renderOrderBar(data){
+	var orderData = data;
+	// 订单
+	var orderBarCategories = [];
+	var orderBarSeries = [];
+	
+	for(var i=0; i<orderData.length; i++){
+		var info = orderData[i];
+		orderBarCategories.push(info.name);
+		orderBarSeries.push(info.count);
+	}
+	// 订单bar chart
+	Highcharts.chart('orderbar', {
+	    chart: {
+	        type: 'column'
+	    },
+	    title: {
+	        text: '订单数量'
+	    },
+	    xAxis: {
+	        categories: orderBarCategories,
+	        crosshair: true
+	    },
+	    yAxis: {
+	        min: 0,
+	        title: {
+	            text: '数量 (个)'
+	        }
+	    },
+	    tooltip: {
+	        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+	        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+	            '<td style="padding:0"><b>{point.y:.1f} 人</b></td></tr>',
+	        footerFormat: '</table>',
+	        shared: true,
+	        useHTML: true
+	    },
+	    plotOptions: {
+	        column: {
+	            pointPadding: 0.2,
+	            borderWidth: 0
+	        }
+	    },
+	    series: [{
+	        name: '新增订单数',
+	        data: orderBarSeries
+
+	    }]
 	});
 }
 
-function loadWorkerDegreePie(startDate,endDate){
-	$.ajax({
-		url:"/report/workerDegreePie",
-		type:"get",
-		async:false,
-		dataType:"json",
-		data:{beginDate:startDate,endDate:endDate},
-		success:function(degreedata){
-			if(degreedata.code == 1){
-				var workerDegreeSeries = [];
-				var data = degreedata.data;
-				for(var i=0; i<data.length; i++){
-					var info = data[i];
-					var obj = {};
-					obj.name = info.name;
-					obj.y = info.percentage;
-					workerDegreeSeries.push(obj);
-				}
-				// 生产pie chart
-				Highcharts.chart('workerDegreePie', {
-					chart: {
-							plotBackgroundColor: null,
-							plotBorderWidth: null,
-							plotShadow: false,
-							type: 'pie'
-					},
-					title: {
-							text: '人才信息学历分布'
-					},
-					tooltip: {
-							pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-					},
-					plotOptions: {
-							pie: {
-									allowPointSelect: true,
-									cursor: 'pointer',
-									dataLabels: {
-											enabled: true,
-											format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-											style: {
-													color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-											}
-									}
-							}
-					},
-					series: [{
-							name: '占比',
-							colorByPoint: true,
-							data: workerDegreeSeries
-					}]
-				});
-			}
-		}
+function renderOrderMemberBar(data){
+	var orderMemberData = data;
+	// 订单人数
+	var orderMemberBarCategories = [];
+	var orderMemberBarSeries = [];
+	
+	for(var i=0; i<orderMemberData.length; i++){
+		var info = orderMemberData[i];
+		orderMemberBarCategories.push(info.name);
+		orderMemberBarSeries.push(info.count);
+	}
+	// 订单签订人数bar chart
+	Highcharts.chart('orderMemberBar', {
+	    chart: {
+	        type: 'column'
+	    },
+	    title: {
+	        text: '订单签订人数'
+	    },
+	    xAxis: {
+	        categories: orderMemberBarCategories,
+	        crosshair: true
+	    },
+	    yAxis: {
+	        min: 0,
+	        title: {
+	            text: '数量 (人)'
+	        }
+	    },
+	    tooltip: {
+	        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+	        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+	            '<td style="padding:0"><b>{point.y:.1f} 人</b></td></tr>',
+	        footerFormat: '</table>',
+	        shared: true,
+	        useHTML: true
+	    },
+	    plotOptions: {
+	        column: {
+	            pointPadding: 0.2,
+	            borderWidth: 0
+	        }
+	    },
+	    series: [{
+	        name: '签订人数',
+	        data: orderMemberBarSeries
+
+	    }]
 	});
 }
 
-function loadCountTable(){
-	$.ajax({
-		url:"/report/statistic",
-		type:"get",
-		dataType:"json",
-		success:function(data){
-			if(data.code == 1){
-				var roleArr = data.data;
-				var tableContent="";
-				for(var i=0; i<roleArr.length; i++){
-					var role = roleArr[i];
-					tableContent+=  "<tr>"+
-									"	<td>"+role.name+"</td>"+
-									"	<td>"+role.day+"</td>"+
-									"	<td>"+role.week+"</td>"+
-									"	<td>"+role.month+"</td>"+
-									"	<td>"+role.season+"</td>"+
-									"	<td>"+role.year+"</td>"+
-									"</tr>";
-				}
-				$("#someCount").find("tbody").empty().append(tableContent);
+function renderOrderIncomeBar(data){
+	var orderIncomeData = data;
+	// 订单金额
+	var orderIncomeBarCategories = [];
+	var orderIncomeBarSeries = [];
+	for(var i=0; i<orderIncomeData.length; i++){
+		var info = orderIncomeData[i];
+		orderIncomeBarCategories.push(info.name);
+		orderIncomeBarSeries.push(info.count);
+	}
+	// 订单签订金额bar chart
+	Highcharts.chart('orderIncomeBar', {
+		chart: {
+			type: 'column'
+		},
+		title: {
+			text: '订单收入总额'
+		},
+		xAxis: {
+			categories: orderIncomeBarCategories,
+			crosshair: true
+		},
+		yAxis: {
+			min: 0,
+			title: {
+				text: '金额 (元)'
 			}
-		}
+		},
+		tooltip: {
+			headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+			pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+			'<td style="padding:0"><b>{point.y:.1f} 人</b></td></tr>',
+			footerFormat: '</table>',
+			shared: true,
+			useHTML: true
+		},
+		plotOptions: {
+			column: {
+				pointPadding: 0.2,
+				borderWidth: 0
+			}
+		},
+		series: [{
+			name: '签订金额',
+			data: orderIncomeBarSeries
+			
+		}]
 	});
 }
-
-
-
 /**
  * 获取指定日期的周的第一天、月的第一天、季的第一天、年的第一天
  * @param date new Date()形式，或是自定义参数的new Date()

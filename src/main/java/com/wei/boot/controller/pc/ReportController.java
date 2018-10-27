@@ -175,14 +175,14 @@ public class ReportController {
 			}
 			List<ReportInfo> demandTakerList = reportService.queryDemandUnderTakerPie(beginDate, endDate);
 			map.put("demandTakerPie", demandTakerList);
-			List<ReportInfo> demandStateList = reportService.queryDemandStatePie(beginDate, endDate);
-			map.put("demandStatePie", demandStateList);
+			//List<ReportInfo> demandStateList = reportService.queryDemandStatePie(beginDate, endDate);
+			//map.put("demandStatePie", demandStateList);
 			List<ReportInfo> orderTakerList = reportService.queryOrderUndertakerPie(beginDate, endDate);
 			map.put("orderTakerPie", orderTakerList);
 			List<ReportInfo> orderMemberTakerList = reportService.queryOrderMemberUndertakerPie(beginDate, endDate);
 			map.put("orderMemberTakerPie", orderMemberTakerList);
 			List<ReportInfo> orderIncomeTakerList = reportService.queryOrderIncomeUndertakerPie(beginDate, endDate);
-			map.put("orderIncomeTakerBar", orderIncomeTakerList);
+			map.put("orderIncomeTakerPie", orderIncomeTakerList);
 			result.setData(map);
 		} catch (Exception e) {
 			log.error("查询失败", e);
