@@ -8,6 +8,7 @@
 }
 #select-menu-box .box-content .middle{
     height: 300px;
+    overflow:auto;
     
 }
 #select-menu-box .middle .t-area table {
@@ -16,17 +17,17 @@
     overflow:auto;
     border-collapse: collapse; }
     #select-menu-box .middle .t-area{
-        width:557px;
-        float: left;
+        width:100%;
+        /* float: left; */
     }
-    .export-area{
+    /* .export-area{
         width:100px;
         text-align: center;
         float:right;
         height: 300px;
         line-height: 300px;
         background-color:#FAFAFA;
-    }
+    } */
     #select-menu-box .middle .t-area table tr th {
       text-align: center;
       height: 40px;

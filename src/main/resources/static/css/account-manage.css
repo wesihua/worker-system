@@ -30,10 +30,20 @@
       height: 30px;
       margin-right: 20px; 
       background-color: #ffffff;
+      vertical-align: top;
     }
     #account-manage .a-m-content .input-area .se option {
       height:32px;
       line-height: 32px; }
+
+      #account-manage .a-m-content .input-area .c-datepicker-date-editor{
+        height: 32px !important;
+        line-height: 32px !important;
+      }
+      #account-manage .a-m-content .input-area .public-small-bottom{
+        vertical-align: top;
+        margin-left:20px;
+      }
     /* #account-manage .a-m-content .input-area #public-bottom2 {
       float: right;
       margin-top: 20px; } */
