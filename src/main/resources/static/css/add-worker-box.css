@@ -15,16 +15,28 @@
 .add-worker-box-content{
     position: fixed;
     left:50%;
-    top:50%;
+    top:20px;
     margin-left:-500px;
-    margin-top:-237px;
+    /* margin-top:-237px; */
     width: 1000px;
-    height:475px;
+    /* height:475px; */
     background-color: #ffffff;
+    border-radius:5px;
 }
+
+.add-worker-box-content .control-botton {
+  padding:20px;
+  text-align: center; 
+  clear:both;
+
+}
+  .add-worker-box-content .control-botton span {
+    margin: 0px 40px; }
+
+
 .add-worker-box-content .head{
-    height:60px;
-    line-height:60px;
+    height:50px;
+    line-height:50px;
     padding: 0px 20px;
     border-bottom:1px solid #cccccc;
     margin-bottom: 15px;
@@ -36,13 +48,13 @@
 
 .add-worker-box-content .head .fa-close{
     float: right;
-    margin-top: 20px;
-    font-size: 20px;
+    margin-top:14px;
+    font-size:14px;
     cursor: pointer;
 }
 #add-worker-box {
     width:670px;
-    height:400px;
+    height:500px;
     overflow: auto;
     float: left;
   }
@@ -50,10 +62,14 @@
   
   #add-worker-box .qiandan-content {
     padding: 0px 20px; }
+
+    
+
+
     #add-worker-box .qiandan-content .wait-handle .search-area {
       background-color: #f8f8f8;
-      padding: 20px;
-      margin-bottom: 20px; }
+      padding: 10px;
+      margin-bottom: 10px; }
       #add-worker-box .qiandan-content .wait-handle .search-area input {
         height:30px;
         line-height:30px;
@@ -85,15 +101,11 @@
           cursor: pointer; 
         color: #5595d6;}
   
-    #add-worker-box .qiandan-content .control-botton {
-      padding-top: 40px;
-      text-align: center; }
-      #add-worker-box .qiandan-content .control-botton span {
-        margin: 0px 40px; }
+    
   
         #qiandan-select-result{
             float: right;
-            height: 400px;
+            height: 500px;
             overflow: auto;
             width:320px;
             background-color: #f8f8f8;
