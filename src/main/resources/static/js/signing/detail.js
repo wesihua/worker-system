@@ -141,7 +141,7 @@ function queryDetail(){
 									"	<th>用工人数</th>"+
 									"	<th>签约人数</th>";
 					if(isHaveAssign){
-						tableContent+= "	<th>已分配签约人数</th>";
+						tableContent+= "	<th>已分配人数</th>";
 						$(".signing-botton").show();
 					}
 					tableContent+=	"	<th>操作</th>"+
