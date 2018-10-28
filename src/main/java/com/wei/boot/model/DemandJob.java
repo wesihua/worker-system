@@ -160,10 +160,26 @@ public class DemandJob {
      */
     private int signingCount;
     
+    /**
+     * 收入
+     */
+    private String income;
+    
+    
     /**************以上翻译字段*********************/
+    
+    
 
     public String getJobTypeName() {
 		return jobTypeName;
+	}
+
+	public String getIncome() {
+		return income;
+	}
+
+	public void setIncome(String income) {
+		this.income = income;
 	}
 
 	public void setJobTypeName(String jobTypeName) {

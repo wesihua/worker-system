@@ -92,4 +92,10 @@ public interface DemandService {
 	int queryAllCount();
 
 	public JobTypeModel queryOrderWorkerList(int signing, Integer demandJobId);
+    /**
+     * 
+     * @param demandJobId
+     * @return 
+     */
+	public Demand waitingSigningOrder(Integer demandJobId);
 }

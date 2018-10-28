@@ -260,8 +260,6 @@ public class DemandController {
 					orderWorker.setCreateUser(userId);
 				}
 			}
-			
-			
 			demandService.addOrderWorker(demandJobId,workers);
 		} catch (Exception e) {
 			log.error("添加用工失败", e);
@@ -269,5 +267,25 @@ public class DemandController {
 		}
 		return result;
 	}
+	
+	// waitingSigning
+	
+	@ApiOperation(value = "待签约详情",notes = "")
+	@GetMapping("/waitingSigning")
+	public Result waitingSigning(Integer demandId,
+			HttpServletRequest request) {
+		Result result = Result.SUCCESS;
+		
+		try {
+			Demand demand = demandService.waitingSigningOrder(demandId);
+			result.setData(demand);
+		} catch (Exception e) {
+			log.error("查询待签约详情失败", e);
+			result = Result.fail("查询待签约详情失败！");
+		}
+		return result;
+	}
+	
+	
 	
 }

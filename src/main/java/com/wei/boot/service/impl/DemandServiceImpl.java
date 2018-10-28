@@ -249,8 +249,6 @@ public class DemandServiceImpl implements DemandService {
 			String jobTypeName = queryJobTypeName(demandJob.getJobTypeId());
 			
 			demandJob.setJobTypeName(jobTypeName);
-			
-			// TODO 修改签约人数
 		}
 		
 	}
@@ -494,27 +492,27 @@ public class DemandServiceImpl implements DemandService {
 		demandOrder.setOperatorUser(demand.getUndertakeUser());
 		
 		// 计算收入总额
-		BigDecimal totalIncome = orderWorkerMapper.selectIncomeByDemandJobIds(demandJobIds);
+		BigDecimal totalIncome = orderWorkerMapper.selectWaitingSignIncomeByDemandJobIds(demandJobIds);
 		demandOrder.setTotalIncome(totalIncome.toString());
 		demandOrder.setCreateTime(new Date());
 		demandOrder.setCreateUser(demand.getUndertakeUser());
 		// 修改用工的orderId
 		int demandOrderId = demandOrderMapper.insertSelective(demandOrder);
 		
-		OrderWorkerExample example = new OrderWorkerExample();
-		example.createCriteria().andDemandJobIdIn(demandJobIds).andOrderIdIsNull();
-		OrderWorker record = new OrderWorker();
-		record.setOrderId(demandOrderId);
-		record.setUpdateTime( new Date());
-		record.setUpdateUser(demand.getUndertakeUser());
-		orderWorkerMapper.updateByExample(record , example);
+//		OrderWorkerExample example = new OrderWorkerExample();
+//		example.createCriteria().andDemandJobIdIn(demandJobIds).andOrderIdIsNull();
+//		OrderWorker record = new OrderWorker();
+//		record.setOrderId(demandOrderId);
+//		record.setUpdateTime( new Date());
+//		record.setUpdateUser(demand.getUndertakeUser());
+//		orderWorkerMapper.updateByExample(record , example);
 		
-//		Map<String, Object> map = new HashMap<>();
-//		map.put("demandJobIds", demandJobIds);
-//		map.put("orderId", demandOrderId);
-//		map.put("updateUser", demand.getUndertakeUser());
-//		map.put("updateTime", new Date());
-//		orderWorkerMapper.updateOrderIdByDemandJobIds(map);
+		Map<String, Object> map = new HashMap<>();
+		map.put("demandJobIds", demandJobIds);
+		map.put("orderId", demandOrderId);
+		map.put("updateUser", demand.getUndertakeUser());
+		map.put("updateTime", new Date());
+		orderWorkerMapper.updateOrderIdByDemandJobIds(map);
 		
 	}
 
@@ -555,6 +553,36 @@ public class DemandServiceImpl implements DemandService {
 		jobTypeModel.setOrderWorkerList(orderWorkerList);
 		
 		return jobTypeModel;
+	}
+
+	@Override
+	public Demand waitingSigningOrder(Integer demandId) {
+	
+		// 客户名称:
+		Demand demandDb = demandMapper.selectByPrimaryKey(demandId);
+		Company company = companyService.queryById(demandDb.getCompanyId());
+		demandDb.setCompanyName(company == null ? "":company.getName());
+		// 各工种人数和 要签约人数  签约总额
+		List<DemandJob> demandJobs = queryDemandJobByDemandId(demandId);
+		
+		List<DemandJob> waitingSigningdemandJobs = new ArrayList<>();
+		if(!CollectionUtils.isEmpty(demandJobs)) {
+			for (DemandJob demandJob : demandJobs) {
+				int assignCount = getAssignCountByDemandJobId(demandJob.getId());
+				if(assignCount > 0) {
+					waitingSigningdemandJobs.add(demandJob);
+					demandJob.setAssignCount(assignCount);
+					translateDemandJob(null, demandJob);
+					BigDecimal incomeBd = orderWorkerMapper.selectWaitingSignIncomeByDemandJobId(demandJob.getId());
+					if(Objects.nonNull(incomeBd)) {
+						demandJob.setIncome(incomeBd.toString());
+					}
+				}
+			}
+		}
+		
+		demandDb.setDemandJobList(waitingSigningdemandJobs);
+		return demandDb;
 	}
 
 }

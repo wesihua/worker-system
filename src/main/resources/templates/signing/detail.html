@@ -73,7 +73,7 @@
 				</div>
 				<div class="control-botton public-page-submit-area signing-botton" style="display: none;">
                     <span class="public-bottom1" onclick="window.history.go(-1)">取消</span>
-                    <span class="public-bottom2" onclick="signing()">完成</span>
+                    <span class="public-bottom2" onclick="signingDetail()">完成</span>
                 </div>
 			</div>
 		</div>
@@ -132,6 +132,61 @@
 	            <div class="bottom">
 	                <span class="public-bottom1 cancel-dialog">取消</span>
 	                <span class="public-bottom2 on cancel-dialog">确定</span>
+	            </div>
+	        </div>
+	
+	    </div>
+    </div>
+    
+    
+    <div  id="signing-detail" style="display: none;">
+		<div class="public-box-css" id="add-gz-box">
+	        <div class="mask"></div>
+	        <div class="box-content">
+	            <div class="head">
+	                <span class="title">本次签约详情&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+	                <span class="title" id="companyName"></span>
+	                <span class="fa fa-close cancel-dialog"></span>
+	            </div>
+	            <div class="middle">
+	                <div class="t-area">
+	                        <table  cellpadding="0" cellspacing="0">
+	                                <thead id="signing-detail-table">
+	                                    <tr>
+	                                        <th>用户姓名</th>
+	                                        <th>籍贯</th>
+	                                        <th>身份证号</th>
+	                                        <th>联系电话</th>
+	                                        <th>擅长工种</th>
+	                                        <th>签约月工资（元）</th>
+	                                        <th>到岗日期</th>
+	
+	                                        <th>业务收入（元）</th>
+	                                        <th>操作</th>
+	                                        
+	                      				</tr>
+	                                    <tr>
+	                                        <td>xxxxx</td>
+	                                        <td>xxxxx</td>
+	                                        <td>xxxxx</td>
+	                                        <td>xxxxxx</td>
+	                                        <td>xxxxx</td>
+	                                        <td>xxxxx</td>
+	                                        <td>xxxxx</td>
+	                                        <td>xxxxx</td>
+	                                        <td><span class="delete">移除</span><span class="edit">编辑</span></td>
+	                                    </tr>
+	                                   
+	                                </thead>
+	                                <tbody>
+	                                </tbody>
+	                            </table>
+	                </div>
+	                
+	            </div>
+	            <div class="bottom">
+	                <span class="public-bottom1 cancel-dialog">取消</span>
+	                <span class="public-bottom2 on cancel-dialog " id="confirm-signing">确定</span>
 	            </div>
 	        </div>
 	

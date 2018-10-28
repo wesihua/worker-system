@@ -423,12 +423,21 @@
 		</where>
 	</select>
 	
+	<select id="selectWaitingSignIncomeByDemandJobId"
+		resultType="bigdecimal" parameterType="int">
+		select  sum(cast(t.business_income as  decimal(10,2)))  from t_yx_order_worker as t  
+		<where>
+				t.order_id is null
+				and t.demand_job_id = #{demandJobId,jdbcType=INTEGER}
+			
+		</where>
+	</select>
 	
 	
 	
-	<select id="selectIncomeByDemandJobIds"
+	<select id="selectWaitingSignIncomeByDemandJobIds"
 		resultType="bigdecimal" parameterType="java.util.List">
-		select  sum(cast(t.business_income as  decimal(10,2)))  from t_yx_order_worker as t where demand_job_id in
+		select  sum(cast(t.business_income as  decimal(10,2)))  from t_yx_order_worker as t where t.order_id is null and demand_job_id in
 		<foreach collection="list" index="index" item="item" open="("
 			separator="," close=")">
 			#{item}
@@ -448,7 +457,7 @@
 				update_time = #{updateTime,jdbcType=TIMESTAMP},
 			</if>
 		</set>
-		where demand_job_id in
+		where order_id is null and demand_job_id  in
 		<foreach collection="demandJobIds" index="index" item="item"
 			open="(" separator="," close=")">
 			#{item}

@@ -184,7 +184,7 @@ function queryDetail(){
 										"	<td>"+firm.requirement+"</td>"+
 										"	<td>"+firm.workerCount+"</td>"+
 										"	<td>"+firm.signingCount+"</td>"+
-										"	<td><span class=\"des\" onClick=\"workerList("+firm.id+")\">查看签约列表</span></td>"+
+										"	<td><span class=\"des\" onClick=\"showSigningList("+firm.id+")\">查看签约列表</span></td>"+
 										"</tr>";
 					}
 				}
@@ -346,6 +346,7 @@ function queryWorkerList(pageNum){
 							success:function(data){
 								if(data.code == 1){
 									alert("添加用工信息成功！");
+									queryDetail();
 								}
 								else{
 									alert("添加用工信息失败！原因："+data.msg);
@@ -370,30 +371,88 @@ function workerList(jobTypeId){
 }
 
 /**
+ * 查询签约信息
+ * @param demandId
+ * @returns
+ */
+function signingDetail(){
+	var demandId = $("input[name=demandId]").val();
+
+	$.ajax({
+		url:"/demand/waitingSigning",
+		type:"get",
+		dataType:"json",
+		data:{demandId:demandId},
+		success:function(data){
+			if(data.code == 1){
+
+
+                var firmArr = data.data.demandJobList;
+                var tableContent = "";
+                $("#companyName").text("客户名称:" + data.data.companyName);
+               // $(".worker-count").text("（需求"+ data.data.demandJob.workerCount +"人）");
+                tableContent += "<tr>" +
+                    "	<th>用工工种</th>" +
+                    "	<th>签约人数</th>" +
+                    "	<th>收入总额</th>" +
+                    "</tr>";
+
+                for (var i = 0; i < firmArr.length; i++) {
+                    var firm = firmArr[i];
+                    tableContent += "<tr>" +
+                        "	<td>" + firm.jobTypeName + "</td>" +
+                        "	<td>" + firm.assignCount + "</td>" +
+                        "	<td>" + firm.income + "</td>" +
+                        "</tr>";
+                }
+                
+                if(firmArr.length > 0){
+                	openDialog("signing-detail");
+                    parent.$("#signing-detail-table").empty().append(tableContent);
+                    
+                    parent.$('#confirm-signing').click(function(){
+                    	signing();
+                    });
+                    
+                    
+                }else{
+                	alert("暂无分配用工！");
+                }
+			}
+			else{
+				alert("查询待签约详情失败！原因："+data.msg);
+			}
+		}
+	});
+
+}
+
+
+/**
  * 签约
  * @param demandId
  * @returns
  */
-function signing(){
+function signing() {
 	var demandId = $("input[name=demandId]").val();
-	var b = confirm("确认签约？");
-	if(b){
-		$.ajax({
-			url:"/demand/signing",
-			type:"get",
-			dataType:"json",
-			data:{demandId:demandId},
-			success:function(data){
-				if(data.code == 1){
-					alert("签约成功！");
-					queryDetail();
-				}
-				else{
-					alert("签约失败！原因："+data.msg);
-				}
+
+	$.ajax({
+		url : "/demand/signing",
+		type : "get",
+		dataType : "json",
+		data : {
+			demandId : demandId
+		},
+		success : function(data) {
+			if (data.code == 1) {
+				alert("签约成功！");
+				queryDetail();
+			} else {
+				alert("签约失败！原因：" + data.msg);
 			}
-		});
-	}
+		}
+	});
+
 }
 
 /**
@@ -530,7 +589,7 @@ function showSigningList(jobTypeId){
                         "	<td>" + firm.signSalary + "</td>" +
                         "	<td>" + firm.arriveWorkTime + "</td>" +
                         "	<td width='120'>" + firm.businessIncome + "</td>" +
-                        "   <td><span class=\"des\" onClick=\"deleteOrderWorker(" + firm.id + ")\">移除</span><span class=\"jiedan\" onClick=\"updateOrderWorker(" + firm.id + ",'"+ worker.name + "'," + firm.signSalary + ",'" + firm.arriveWorkTime + "'," + firm.businessIncome +")\">编辑</span></td>" +
+                        "   <td><span class=\"delete\" onClick=\"deleteOrderWorker(" + firm.id + ")\">移除</span><span class=\"edit\" onClick=\"updateOrderWorker(" + firm.id + ",'"+ worker.name + "'," + firm.signSalary + ",'" + firm.arriveWorkTime + "'," + firm.businessIncome +")\">编辑</span></td>" +
                         "</tr>";
                 }
                 
