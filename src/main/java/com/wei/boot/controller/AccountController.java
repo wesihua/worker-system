@@ -121,7 +121,7 @@ public class AccountController {
 			}
 		} catch (Exception e) {
 			log.error("退出登录失败", e);
-			result = Result.fail("退出登录失败！");
+			//result = Result.fail("退出登录失败！");
 		}
 		finally {
 			jedis.close();
