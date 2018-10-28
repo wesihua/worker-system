@@ -475,7 +475,7 @@ function showAssignList(jobTypeId){
                         "	<td>" + firm.signSalary + "</td>" +
                         "	<td>" + firm.arriveWorkTime + "</td>" +
                         "	<td width='120'>" + firm.businessIncome + "</td>" +
-                        "   <td><span class=\"des\" onClick=\"deleteOrderWorker(" + firm.id + ")\">移除</span><span class=\"jiedan\" onClick=\"updateOrderWorker(" + firm.id + ",'"+ worker.name + "'," + firm.signSalary + ",'" + firm.arriveWorkTime + "'," + firm.businessIncome +")\">编辑</span></td>" +
+                        "   <td><span class=\"delete\" onClick=\"deleteOrderWorker(" + firm.id + ")\">移除</span><span class=\"edit\" onClick=\"updateOrderWorker(" + firm.id + ",'"+ worker.name + "'," + firm.signSalary + ",'" + firm.arriveWorkTime + "'," + firm.businessIncome +")\">编辑</span></td>" +
                         "</tr>";
                 }
                 
@@ -492,7 +492,7 @@ function showAssignList(jobTypeId){
     });
 }
 
-function showAssignList(jobTypeId){
+function showAssignList2(jobTypeId){
 	
 	var pageNum = 1;
     $.ajax({
