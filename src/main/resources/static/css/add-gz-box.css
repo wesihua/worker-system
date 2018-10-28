@@ -1,9 +1,9 @@
 
 #add-gz-box .box-content{
-    width:700px;
+    width:950px;
     /* height: 400px; */
     overflow:auto;
-    margin-left:-350px;
+    margin-left:-470px;
     top:100px;
 }
 #add-gz-box .box-content .middle{
