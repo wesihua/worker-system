@@ -26,6 +26,11 @@ $(function(){
 	$('#companyName').bind('input propertychange', function() {
 		queryCompany();
 	});
+	
+	// 监听公司输入框失去焦点 事件
+	$("#companyName").blur(function(){
+		$("#companyList").hide();
+	});
 });
 
 
@@ -209,7 +214,7 @@ function query(currentPage){
 										"	<td>"+firm.companyName+"</td>"+
 										"	<td>"+firm.jobTypeName+"</td>"+
 										"	<td>"+firm.workCount+"</td>"+
-										"	<td>"+firm.createTime+"</td>"+
+										"	<td>"+firm.signingCount+"</td>"+
 										"	<td>"+firm.stateName+"</td>"+
 										"	<td>"+firm.createUserName+"</td>"+
 										"	<td>"+firm.undertakeUserName+"</td>"+

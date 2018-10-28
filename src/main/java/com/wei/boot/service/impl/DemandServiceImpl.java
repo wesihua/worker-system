@@ -201,6 +201,10 @@ public class DemandServiceImpl implements DemandService {
 				// 计算已分派人数 assignCount
 				int assignCount = getAssignCountByDemandJobId(demandJob.getId());
 				demandJob.setAssignCount(assignCount);
+				
+				// 计算已签约人数 signingCount
+				int signingCount = getSigningCountDemandJobId(demandJob.getId());
+				demandJob.setSigningCount(signingCount);
 			});
 		}
 		demand.setDemandJobList(demandJobList);
@@ -209,6 +213,13 @@ public class DemandServiceImpl implements DemandService {
 	}
 
 	
+
+	private int getSigningCountDemandJobId(Integer id) {
+		OrderWorkerExample example = new OrderWorkerExample();
+		example.createCriteria().andOrderIdIsNotNull().andDemandJobIdEqualTo(id);
+
+		return orderWorkerMapper.countByExample(example);
+	}
 
 	private int getAssignCountByDemandJobId(Integer id) {
 		OrderWorkerExample example = new OrderWorkerExample();
@@ -264,9 +275,16 @@ public class DemandServiceImpl implements DemandService {
 			// 操作人员
 			demand.setUndertakeUserName(commonService.queryUserName(demand.getUndertakeUser()));
 			
-			if(Objects.equals(GlobalConstant.DemandState.SIGNING, demand.getState())) {
-				// TODO  收入总额
-				demand.setTotalIncome(0);
+			if(Objects.equals(GlobalConstant.DemandState.SIGNING, demand.getState())
+					|| Objects.equals(GlobalConstant.DemandState.CLOSE, demand.getState())) {
+				int signingCount = getSigningCountDemandId(demand.getId());
+				//   已签人数
+				demand.setSigningCount(signingCount );
+				//   收入总额
+				BigDecimal income = demandOrderMapper.selectIncomeByDemandId(demand.getId());
+				if(Objects.nonNull(income)) {
+					demand.setTotalIncome(income.toString());
+				}
 			}
 			
 			// 状态
@@ -288,6 +306,12 @@ public class DemandServiceImpl implements DemandService {
 			}
 			// 
 		}
+	}
+
+	private int getSigningCountDemandId(Integer demandId) {
+		
+		return demandOrderMapper.selectSigningCountByDemandId(demandId );
+		
 	}
 
 	@Override

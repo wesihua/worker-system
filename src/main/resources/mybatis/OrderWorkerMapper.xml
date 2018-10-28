@@ -428,7 +428,7 @@
 	
 	<select id="selectIncomeByDemandJobIds"
 		resultType="bigdecimal" parameterType="java.util.List">
-		select  sum(cast(t.business_income as  decimal(10,2)))  from t_yx_order_worker where demand_job_id in
+		select  sum(cast(t.business_income as  decimal(10,2)))  from t_yx_order_worker as t where demand_job_id in
 		<foreach collection="list" index="index" item="item" open="("
 			separator="," close=")">
 			#{item}
