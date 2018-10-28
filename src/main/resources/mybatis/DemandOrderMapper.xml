@@ -447,6 +447,20 @@
   	</where>
   </select>
   
+  <select id="selectIncomeByDemandId" parameterType="int" resultType="bigdecimal">
+  	select sum(cast(t.total_income as  decimal(10,2))) from t_yx_demand_order t
+  	<where>
+	  t.demand_id = #{demandId,jdbcType=INTEGER}
+	</where>
+  </select>
+  
+  <select id="selectSigningCountByDemandId" parameterType="int" resultType="int">
+  	select sum(t.worker_count) from t_yx_demand_order t
+  	<where>
+	  t.demand_id = #{demandId,jdbcType=INTEGER}
+	</where>
+  </select>
+  
   
   <select id="selectByPage" parameterType="map" resultMap="BaseResultMap">
   	SELECT

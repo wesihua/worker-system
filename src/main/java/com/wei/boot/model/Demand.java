@@ -148,7 +148,7 @@ public class Demand {
     
     private String closeUserName = "";
     
-    private int totalIncome;
+    private String totalIncome = "0.0";
     
     /**
      * 工种名字  ,号隔开
@@ -202,11 +202,12 @@ public class Demand {
 		this.signingCount = signingCount;
 	}
 
-	public int getTotalIncome() {
+
+	public String getTotalIncome() {
 		return totalIncome;
 	}
 
-	public void setTotalIncome(int totalIncome) {
+	public void setTotalIncome(String totalIncome) {
 		this.totalIncome = totalIncome;
 	}
 

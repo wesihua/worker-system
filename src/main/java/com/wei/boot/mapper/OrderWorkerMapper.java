@@ -102,9 +102,11 @@ public interface OrderWorkerMapper {
 
 	int selectCount(Map<String, Object> map);
 
-	BigDecimal selectIncomeByDemandJobIds(List<Integer> demandJobIds);
+	BigDecimal selectWaitingSignIncomeByDemandJobIds(List<Integer> demandJobIds);
 
 	void updateOrderIdByDemandJobIds(Map<String, Object> map);
 	
 	List<OrderWorker> selectByOrderId(int orderId);
+
+	BigDecimal selectWaitingSignIncomeByDemandJobId(Integer demandJobId);
 }

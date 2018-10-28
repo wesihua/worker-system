@@ -181,6 +181,19 @@ function addJob(){
 		
 		var p_check = checkParameter();	
 		
+		// 判断工种是否已存在
+		$(".tr-body").each(function(){
+			
+			var this_jobTypeId =  $(this).children("#jobTypeId").val();
+			if(this_jobTypeId == jobTypeId){
+				p_check = false;
+				alert("此工种在列表种已存在！");
+				return;
+			}
+			
+		});
+		
+		
 		if(p_check){
 			top.closeDialog();
 			
@@ -188,8 +201,8 @@ function addJob(){
 						  "  <td id='jobTypeName'>"+jobTypeName+"</td>"+
 						  "  <input id='jobTypeId' type=\"hidden\" name=\"jobTypeId\" value="+ jobTypeId +">" +
 						  "  <td id='workerCount'>"+workerCount+"</td>"+
-						  "  <td id='salary'>"+salary+"</td>"+
 						  "  <td id='requireTime'>"+requireTime+"</td>"+
+						  "  <td id='salary'>"+salary+"</td>"+
 						  "  <td id='workAreaName'>"+workAreaName+"</td>"+
 						  "  <input id='workArea' type='hidden' name='workArea' value="+ workArea +">" +
 						  "  <input id='parentCode' type='hidden' name='parentCode' value="+ parentCode +">" +
@@ -293,6 +306,23 @@ function editJob(obj) {
 		var requirement_ = parent.$("#requirement").val();
 
 		var p_check = checkParameter();
+		
+		var jobIdCount = 0;
+        $(".tr-body").each(function(){
+			
+			var this_jobTypeId =  $(this).children("#jobTypeId").val();
+			if(this_jobTypeId == jobTypeId_){
+				jobIdCount= jobIdCount+1;
+			}
+			
+		});
+        
+        // 如果换了
+        if(jobTypeId!=jobTypeId_ && jobIdCount>=1){
+        	alert("此工种在列表种已存在！");
+        	p_check = false;
+        	return;
+        }
 
 		if (p_check) {
 

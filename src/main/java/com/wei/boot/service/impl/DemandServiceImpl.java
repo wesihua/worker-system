@@ -20,6 +20,7 @@ import org.springframework.util.StringUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wei.boot.contant.GlobalConstant;
 import com.wei.boot.contant.GlobalConstant.DemandState;
+import com.wei.boot.contant.GlobalConstant.OrderWorkerState;
 import com.wei.boot.mapper.DemandJobMapper;
 import com.wei.boot.mapper.DemandMapper;
 import com.wei.boot.mapper.DemandOrderMapper;
@@ -38,6 +39,7 @@ import com.wei.boot.model.DemandStateStatistic;
 import com.wei.boot.model.JobType;
 import com.wei.boot.model.OrderWorker;
 import com.wei.boot.model.OrderWorkerExample;
+import com.wei.boot.model.OrderWorkerExample.Criteria;
 import com.wei.boot.model.Page;
 import com.wei.boot.model.Worker;
 import com.wei.boot.model.signing.JobTypeModel;
@@ -201,6 +203,10 @@ public class DemandServiceImpl implements DemandService {
 				// 计算已分派人数 assignCount
 				int assignCount = getAssignCountByDemandJobId(demandJob.getId());
 				demandJob.setAssignCount(assignCount);
+				
+				// 计算已签约人数 signingCount
+				int signingCount = getSigningCountDemandJobId(demandJob.getId());
+				demandJob.setSigningCount(signingCount);
 			});
 		}
 		demand.setDemandJobList(demandJobList);
@@ -209,6 +215,13 @@ public class DemandServiceImpl implements DemandService {
 	}
 
 	
+
+	private int getSigningCountDemandJobId(Integer id) {
+		OrderWorkerExample example = new OrderWorkerExample();
+		example.createCriteria().andOrderIdIsNotNull().andDemandJobIdEqualTo(id);
+
+		return orderWorkerMapper.countByExample(example);
+	}
 
 	private int getAssignCountByDemandJobId(Integer id) {
 		OrderWorkerExample example = new OrderWorkerExample();
@@ -236,8 +249,6 @@ public class DemandServiceImpl implements DemandService {
 			String jobTypeName = queryJobTypeName(demandJob.getJobTypeId());
 			
 			demandJob.setJobTypeName(jobTypeName);
-			
-			// TODO 修改签约人数
 		}
 		
 	}
@@ -264,9 +275,16 @@ public class DemandServiceImpl implements DemandService {
 			// 操作人员
 			demand.setUndertakeUserName(commonService.queryUserName(demand.getUndertakeUser()));
 			
-			if(Objects.equals(GlobalConstant.DemandState.SIGNING, demand.getState())) {
-				// TODO  收入总额
-				demand.setTotalIncome(0);
+			if(Objects.equals(GlobalConstant.DemandState.SIGNING, demand.getState())
+					|| Objects.equals(GlobalConstant.DemandState.CLOSE, demand.getState())) {
+				int signingCount = getSigningCountDemandId(demand.getId());
+				//   已签人数
+				demand.setSigningCount(signingCount );
+				//   收入总额
+				BigDecimal income = demandOrderMapper.selectIncomeByDemandId(demand.getId());
+				if(Objects.nonNull(income)) {
+					demand.setTotalIncome(income.toString());
+				}
 			}
 			
 			// 状态
@@ -288,6 +306,12 @@ public class DemandServiceImpl implements DemandService {
 			}
 			// 
 		}
+	}
+
+	private int getSigningCountDemandId(Integer demandId) {
+		
+		return demandOrderMapper.selectSigningCountByDemandId(demandId );
+		
 	}
 
 	@Override
@@ -468,12 +492,21 @@ public class DemandServiceImpl implements DemandService {
 		demandOrder.setOperatorUser(demand.getUndertakeUser());
 		
 		// 计算收入总额
-		BigDecimal totalIncome = orderWorkerMapper.selectIncomeByDemandJobIds(demandJobIds);
+		BigDecimal totalIncome = orderWorkerMapper.selectWaitingSignIncomeByDemandJobIds(demandJobIds);
 		demandOrder.setTotalIncome(totalIncome.toString());
 		demandOrder.setCreateTime(new Date());
 		demandOrder.setCreateUser(demand.getUndertakeUser());
 		// 修改用工的orderId
 		int demandOrderId = demandOrderMapper.insertSelective(demandOrder);
+		
+//		OrderWorkerExample example = new OrderWorkerExample();
+//		example.createCriteria().andDemandJobIdIn(demandJobIds).andOrderIdIsNull();
+//		OrderWorker record = new OrderWorker();
+//		record.setOrderId(demandOrderId);
+//		record.setUpdateTime( new Date());
+//		record.setUpdateUser(demand.getUndertakeUser());
+//		orderWorkerMapper.updateByExample(record , example);
+		
 		Map<String, Object> map = new HashMap<>();
 		map.put("demandJobIds", demandJobIds);
 		map.put("orderId", demandOrderId);
@@ -493,6 +526,63 @@ public class DemandServiceImpl implements DemandService {
 		DemandOrderExample example = new DemandOrderExample();
 		example.createCriteria().andDemandIdEqualTo(demandId);
 		return demandOrderMapper.countByExample(example );
+	}
+
+	@Override
+	public JobTypeModel queryOrderWorkerList(int state, Integer demandJobId) {
+		JobTypeModel jobTypeModel = new JobTypeModel();
+		
+		OrderWorkerExample example = new OrderWorkerExample();
+		Criteria criteria = example.createCriteria().andDemandJobIdEqualTo(demandJobId);
+		if(Objects.equals(OrderWorkerState.ASSIGN, state)) {
+			criteria.andOrderIdIsNull();
+		}
+		if(Objects.equals(OrderWorkerState.SIGNING, state)) {
+			criteria.andOrderIdIsNotNull();
+		}
+		List<OrderWorker> orderWorkerList = orderWorkerMapper.selectByExample(example);
+		
+		if(!CollectionUtils.isEmpty(orderWorkerList)) {
+			for (OrderWorker orderWorker : orderWorkerList) {
+				translateOrderWorker(orderWorker);
+			}
+		}
+		
+		DemandJob demandJob = queryDemandJobById(demandJobId);
+		jobTypeModel.setDemandJob(demandJob);
+		jobTypeModel.setOrderWorkerList(orderWorkerList);
+		
+		return jobTypeModel;
+	}
+
+	@Override
+	public Demand waitingSigningOrder(Integer demandId) {
+	
+		// 客户名称:
+		Demand demandDb = demandMapper.selectByPrimaryKey(demandId);
+		Company company = companyService.queryById(demandDb.getCompanyId());
+		demandDb.setCompanyName(company == null ? "":company.getName());
+		// 各工种人数和 要签约人数  签约总额
+		List<DemandJob> demandJobs = queryDemandJobByDemandId(demandId);
+		
+		List<DemandJob> waitingSigningdemandJobs = new ArrayList<>();
+		if(!CollectionUtils.isEmpty(demandJobs)) {
+			for (DemandJob demandJob : demandJobs) {
+				int assignCount = getAssignCountByDemandJobId(demandJob.getId());
+				if(assignCount > 0) {
+					waitingSigningdemandJobs.add(demandJob);
+					demandJob.setAssignCount(assignCount);
+					translateDemandJob(null, demandJob);
+					BigDecimal incomeBd = orderWorkerMapper.selectWaitingSignIncomeByDemandJobId(demandJob.getId());
+					if(Objects.nonNull(incomeBd)) {
+						demandJob.setIncome(incomeBd.toString());
+					}
+				}
+			}
+		}
+		
+		demandDb.setDemandJobList(waitingSigningdemandJobs);
+		return demandDb;
 	}
 
 }
