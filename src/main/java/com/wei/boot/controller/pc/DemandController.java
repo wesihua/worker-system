@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.wei.boot.contant.GlobalConstant.OrderWorkerState;
 import com.wei.boot.model.Demand;
 import com.wei.boot.model.DemandQuery;
 import com.wei.boot.model.DemandStateStatistic;
@@ -109,6 +110,36 @@ public class DemandController {
 		}
 		return result;
 	}
+	
+	
+	@ApiOperation(value = "需求单工种签约列表",notes = "")
+	@GetMapping("/orderWorkerAssignList")
+	public Result orderWorkerAssignList(@RequestParam Integer demandJobId) {
+		Result result = Result.SUCCESS;
+		try {
+			JobTypeModel data = demandService.queryOrderWorkerList(OrderWorkerState.ASSIGN,demandJobId);
+			result.setData(data);
+		} catch (Exception e) {
+			log.error("查询需求单工种签约列表失败", e);
+			result = Result.fail("查询需求单工种签约列表失败！");
+		}
+		return result;
+	}
+	
+	@ApiOperation(value = "需求单工种签约列表",notes = "")
+	@GetMapping("/orderWorkerSigningList")
+	public Result orderWorkerSigningList(@RequestParam Integer demandJobId) {
+		Result result = Result.SUCCESS;
+		try {
+			JobTypeModel data = demandService.queryOrderWorkerList(OrderWorkerState.SIGNING,demandJobId);
+			result.setData(data);
+		} catch (Exception e) {
+			log.error("查询需求单工种签约列表失败", e);
+			result = Result.fail("查询需求单工种签约列表失败！");
+		}
+		return result;
+	}
+	
 	
 	@ApiOperation(value = "删除签约用工",notes = "")
 	@GetMapping("/deleteOrderWorker")

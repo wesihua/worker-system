@@ -87,4 +87,11 @@ public interface GlobalConstant {
 		int SIGNING = 2;
 		int CLOSE = 3;
 	}
+	
+	interface OrderWorkerState {
+		// 分配状态
+		int ASSIGN = 0;
+		// 签约状态
+		int SIGNING = 1;
+	}
 }

@@ -154,7 +154,7 @@ function queryDetail(){
 										"	<td>"+firm.workAreaName +"</td>"+
 										"	<td>"+firm.requirement+"</td>"+
 										"	<td>"+firm.workerCount+"</td>"+
-										"	<td><span class=\"des\" onClick=\"showAssignList("+firm.id+")\">"+firm.signingCount+"</span></td>";
+										"	<td><span class=\"des\" onClick=\"showSigningList("+firm.id+")\">"+firm.signingCount+"</span></td>";
 						if(isHaveAssign){
 							tableContent+="	<td><span class=\"des\" onClick=\"showAssignList("+firm.id+")\">"+firm.assignCount+"</span></td>";
 						}
@@ -440,14 +440,14 @@ function showAssignList(jobTypeId){
 	
 	var pageNum = 1;
     $.ajax({
-        url: "/demand/orderWorkerList",
-        type: "post",
-        data: { demandJobId: jobTypeId ,pageNumber:pageNum},
+        url: "/demand/orderWorkerAssignList",
+        type: "get",
+        data: { demandJobId: jobTypeId},
         dataType: "json",
         success: function (data) {
             if (data.code == 1) {
 
-                var firmArr = data.data.pageData.data;
+                var firmArr = data.data.orderWorkerList;
                 var tableContent = "";
                // $(".order-work-job-name").text(data.data.demandJob.jobTypeName);
                // $(".worker-count").text("（需求"+ data.data.demandJob.workerCount +"人）");
@@ -492,18 +492,17 @@ function showAssignList(jobTypeId){
     });
 }
 
-function showAssignList2(jobTypeId){
+function showSigningList(jobTypeId){
 	
-	var pageNum = 1;
     $.ajax({
-        url: "/demand/orderWorkerList",
-        type: "post",
-        data: { demandJobId: jobTypeId ,pageNumber:pageNum},
+        url: "/demand/orderWorkerSigningList",
+        type: "get",
+        data: { demandJobId: jobTypeId},
         dataType: "json",
         success: function (data) {
             if (data.code == 1) {
 
-                var firmArr = data.data.pageData.data;
+                var firmArr = data.data.orderWorkerList;
                 var tableContent = "";
                // $(".order-work-job-name").text(data.data.demandJob.jobTypeName);
                // $(".worker-count").text("（需求"+ data.data.demandJob.workerCount +"人）");

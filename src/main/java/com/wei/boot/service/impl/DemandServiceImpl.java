@@ -20,6 +20,7 @@ import org.springframework.util.StringUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wei.boot.contant.GlobalConstant;
 import com.wei.boot.contant.GlobalConstant.DemandState;
+import com.wei.boot.contant.GlobalConstant.OrderWorkerState;
 import com.wei.boot.mapper.DemandJobMapper;
 import com.wei.boot.mapper.DemandMapper;
 import com.wei.boot.mapper.DemandOrderMapper;
@@ -38,6 +39,7 @@ import com.wei.boot.model.DemandStateStatistic;
 import com.wei.boot.model.JobType;
 import com.wei.boot.model.OrderWorker;
 import com.wei.boot.model.OrderWorkerExample;
+import com.wei.boot.model.OrderWorkerExample.Criteria;
 import com.wei.boot.model.Page;
 import com.wei.boot.model.Worker;
 import com.wei.boot.model.signing.JobTypeModel;
@@ -498,12 +500,21 @@ public class DemandServiceImpl implements DemandService {
 		demandOrder.setCreateUser(demand.getUndertakeUser());
 		// 修改用工的orderId
 		int demandOrderId = demandOrderMapper.insertSelective(demandOrder);
-		Map<String, Object> map = new HashMap<>();
-		map.put("demandJobIds", demandJobIds);
-		map.put("orderId", demandOrderId);
-		map.put("updateUser", demand.getUndertakeUser());
-		map.put("updateTime", new Date());
-		orderWorkerMapper.updateOrderIdByDemandJobIds(map);
+		
+		OrderWorkerExample example = new OrderWorkerExample();
+		example.createCriteria().andDemandJobIdIn(demandJobIds).andOrderIdIsNull();
+		OrderWorker record = new OrderWorker();
+		record.setOrderId(demandOrderId);
+		record.setUpdateTime( new Date());
+		record.setUpdateUser(demand.getUndertakeUser());
+		orderWorkerMapper.updateByExample(record , example);
+		
+//		Map<String, Object> map = new HashMap<>();
+//		map.put("demandJobIds", demandJobIds);
+//		map.put("orderId", demandOrderId);
+//		map.put("updateUser", demand.getUndertakeUser());
+//		map.put("updateTime", new Date());
+//		orderWorkerMapper.updateOrderIdByDemandJobIds(map);
 		
 	}
 
@@ -517,6 +528,33 @@ public class DemandServiceImpl implements DemandService {
 		DemandOrderExample example = new DemandOrderExample();
 		example.createCriteria().andDemandIdEqualTo(demandId);
 		return demandOrderMapper.countByExample(example );
+	}
+
+	@Override
+	public JobTypeModel queryOrderWorkerList(int state, Integer demandJobId) {
+		JobTypeModel jobTypeModel = new JobTypeModel();
+		
+		OrderWorkerExample example = new OrderWorkerExample();
+		Criteria criteria = example.createCriteria().andDemandJobIdEqualTo(demandJobId);
+		if(Objects.equals(OrderWorkerState.ASSIGN, state)) {
+			criteria.andOrderIdIsNull();
+		}
+		if(Objects.equals(OrderWorkerState.SIGNING, state)) {
+			criteria.andOrderIdIsNotNull();
+		}
+		List<OrderWorker> orderWorkerList = orderWorkerMapper.selectByExample(example);
+		
+		if(!CollectionUtils.isEmpty(orderWorkerList)) {
+			for (OrderWorker orderWorker : orderWorkerList) {
+				translateOrderWorker(orderWorker);
+			}
+		}
+		
+		DemandJob demandJob = queryDemandJobById(demandJobId);
+		jobTypeModel.setDemandJob(demandJob);
+		jobTypeModel.setOrderWorkerList(orderWorkerList);
+		
+		return jobTypeModel;
 	}
 
 }

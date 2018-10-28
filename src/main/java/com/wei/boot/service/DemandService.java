@@ -90,4 +90,6 @@ public interface DemandService {
 	int queryCountByTime(String type);
 	
 	int queryAllCount();
+
+	public JobTypeModel queryOrderWorkerList(int signing, Integer demandJobId);
 }

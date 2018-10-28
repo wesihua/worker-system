@@ -1,6 +1,7 @@
 package com.wei.boot.model.signing;
 
 import java.io.Serializable;
+import java.util.List;
 
 import com.wei.boot.model.DemandJob;
 import com.wei.boot.model.OrderWorker;
@@ -15,7 +16,17 @@ public class JobTypeModel implements Serializable{
 
 	private DemandJob demandJob;
 	
+	private List<OrderWorker> orderWorkerList; 
+	
 	private Page<OrderWorker> pageData;
+	
+	public List<OrderWorker> getOrderWorkerList() {
+		return orderWorkerList;
+	}
+
+	public void setOrderWorkerList(List<OrderWorker> orderWorkerList) {
+		this.orderWorkerList = orderWorkerList;
+	}
 
 	public DemandJob getDemandJob() {
 		return demandJob;
