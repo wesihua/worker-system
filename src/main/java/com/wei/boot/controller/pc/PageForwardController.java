@@ -106,7 +106,8 @@ public class PageForwardController {
 	}
 	
 	@GetMapping("/signing/addDemand")
-	public String addDemand() {
+	public String addDemand(Integer demandId,ModelMap map) {
+		map.addAttribute("demandId", demandId);
 		return "signing/addDemand";
 	}
 	
@@ -121,6 +122,11 @@ public class PageForwardController {
 	public String addWorker(Integer jobTypeId,ModelMap map) {
 		map.addAttribute("jobTypeId", jobTypeId);
 		return "signing/addWorker";
+	}
+	
+	@GetMapping("/signing/waiting")
+	public String waiting() {
+		return "signing/demand_waiting";
 	}
 	
 }

@@ -14,13 +14,76 @@ $(function(){
 //	$("#add-demand-bottom").click(function(){
 //		addDemand();
 //	});
+	var demandId = $("input:hidden[name='demandId']").val();
+	if(demandId > 0){
+		$("#title-name").text("编辑需求单");
+	}
 	
 	//监听公司名称变化
 	$('#companyName').bind('input propertychange', function() {
 		queryCompany();
 	});
 	
+	queryDetail();
+	
 });
+
+/**
+ * 查询
+ * @returns
+ */
+function queryDetail(){
+	
+	var demandId = $("input:hidden[name='demandId']").val();
+	if(demandId > 0){
+		$.ajax({
+			url:"/demand/waitingDemand",
+			type:"get",
+			data:{demandId:demandId},
+			dataType:"json",
+			success:function(data){
+				if(data.code == 1){
+					var state = data.data.state;
+					var tableContent="";
+					var firmArr = data.data.demandJobList;
+					$("#companyId").val(data.data.companyId);
+					$("#companyName").val(data.data.companyName);
+					$("#description").text(data.data.description);
+					if(firmArr.length > 0){
+						tableContent+= "<tr>"+
+										"	<th>用工工种</th>"+
+										"	<th>用工人数</th>"+
+										"	<th>到岗日期</th>"+
+										"	<th>月工资（元）</th>"+
+										"	<th>工作地区</th>"+
+										"	<th>用工要求</th>"+
+										"	<th>操作</th>"+
+										"</tr>";
+						for(var i=0; i<firmArr.length; i++){
+							var firm = firmArr[i];
+							tableContent+=  "<tr class=\"tr-body\">"+
+											"  <td id='jobTypeName'>"+firm.jobTypeName+"</td>"+
+											"  <td id='workerCount'>"+firm.workerCount+"</td>"+
+											"  <td id='requireTime'>"+firm.requireTime+"</td>"+
+											"  <td id='salary'>"+firm.salary+"</td>"+
+											"  <td id='workAreaName'>"+firm.workAreaName+"</td>"+
+											"  <td id='requirement'>"+firm.requirement+"</td>"+
+											"   <input id='id' type=\"hidden\" name=\"id\" value="+ firm.id +">" +
+											"   <input id='jobTypeId' type=\"hidden\" name=\"jobTypeId\" value="+ firm.jobTypeId +">" +
+											"   <input id='workArea' type='hidden' name='workArea' value="+ firm.workArea +">" +
+											"   <input id='parentCode' type='hidden' name='parentCode' value="+ firm.parentCode +">" +
+											"   <td><span class=\"des\" onclick=\"editJob(this)\">编辑</span><span class=\"delete\" onclick=\"deleteJob(this)\">移除</span></td>"+
+											"</tr>";
+						}
+					}
+					$("table").empty().append(tableContent);
+				}
+			}
+		});
+
+	}
+	
+}
 
 function deleteJob(obj){
 	var thisObj=$(obj);
@@ -35,6 +98,7 @@ function queryJobType(jobTypeId){
 		url:"/jobType/queryChildJobType",
 		type:"get",
 		dataType:"json",
+		async:true,
 		success:function(data){
 			if(data.code == 1){
 				var dics = data.data;
@@ -131,6 +195,7 @@ function queryArea(parentCode,areaCode){
 		url:"/common/queryAreaByParentCode",
 		type:"get",
 		dataType:"json",
+		async:true,
 		data:{parentCode:parentCode},
 		success:function(data){
 			if(data.code == 1){
@@ -363,6 +428,7 @@ function openDialog(id){
 function addDemand(){
 
 	var demand = {};
+	demand.id=$("input:hidden[name='demandId']").val();
 	demand.companyId =$("#companyId").val();
 	demand.description =$("#description").val();
 	
@@ -378,6 +444,7 @@ function addDemand(){
 	var demandJobList = [];
 	$(".tr-body").each(function(){
 		var demandJob = {};
+		demandJob.id = $(this).children("#id").val();
 		demandJob.jobTypeId =  $(this).children("#jobTypeId").val();
 		demandJob.workerCount =  $(this).children("#workerCount").html();
 		demandJob.salary =  $(this).children("#salary").html();
@@ -394,19 +461,36 @@ function addDemand(){
 		return false;
 	}
 	
+	var demandId = $("input:hidden[name='demandId']").val();
+	
+	var v_url = "/demand/saveDemand";
+	if (demandId > 0){
+		v_url = "/demand/editDemand";
+	}
+	
 	$.ajax({
-		url:"/demand/saveDemand",
+		url:v_url,
 		type:"post",
 		dataType:"json",
 		contentType:"application/json",
 		data:JSON.stringify(demand),
 		success:function(data){
 			if(data.code == 1){
-				alert("新增成功！");
-				location.href="/signing/index";
+				if (demandId > 0){
+					alert("编辑成功！");
+				}else{
+					alert("新增成功！");
+				}
+				
+				location.href="/signing/waiting";
 			}
 			else{
-				alert("新增失败！原因："+data.msg);
+				if (demandId > 0){
+					alert("编辑失败！原因："+data.msg);
+				}else{
+					alert("新增失败！原因："+data.msg);
+				}
+				
 			}
 		}
 	});
@@ -419,6 +503,7 @@ function initProvinceSelect(provinceCode){
 		url:"/common/queryAllProvince",
 		type:"get",
 		dataType:"json",
+		async:true,
 		success:function(data){
 			if(data.code == 1){
 				var dics = data.data;

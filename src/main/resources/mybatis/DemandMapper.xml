@@ -23,6 +23,7 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_user" jdbcType="INTEGER" property="updateUser" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="company_name" jdbcType="VARCHAR" property="companyName" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <!--
@@ -464,47 +465,64 @@
   
   
   <select id="selectByPage" resultMap="BaseResultMap" parameterType="map" >
-    select 
-    <include refid="Base_Column_List" />
-    from t_yx_demand
+    select t_yx_company.name as company_name, t_yx_demand.*
+    from t_yx_demand left join t_yx_company on t_yx_demand.company_id = t_yx_company.id
     <where>
-    	id &lt;= (select id from t_yx_demand order by id desc limit #{offset,jdbcType=INTEGER},1)
+    	t_yx_demand.id &lt;= (select id from t_yx_demand order by t_yx_demand.id desc limit #{offset,jdbcType=INTEGER},1)
     	<if test="companyId != null">
-    		and company_id = #{companyId,jdbcType=INTEGER}
+    		and t_yx_demand.company_id = #{companyId,jdbcType=INTEGER}
+    	</if>
+    	<if test="demandNumber != null">
+    		and t_yx_demand.demand_number like #{demandNumber,jdbcType=VARCHAR}
+    	</if>
+    	<if test="companyName != null">
+    		and t_yx_company.name like #{companyName,jdbcType=VARCHAR}
     	</if>
     	<if test="state != null">
-    		and state = #{state,jdbcType=INTEGER}
+    		and t_yx_demand.state = #{state,jdbcType=INTEGER}
     	</if>
     	<if test="createBeginTime != null">
-    		and create_time &gt;= #{createBeginTime,jdbcType=TIMESTAMP}
+    		and t_yx_demand.create_time &gt;= #{createBeginTime,jdbcType=TIMESTAMP}
     	</if>
     	<if test="createEndTime != null">
-    		and create_time &lt;= #{createEndTime,jdbcType=TIMESTAMP}
+    		and t_yx_demand.create_time &lt;= #{createEndTime,jdbcType=TIMESTAMP}
     	</if>
     	<if test="closeBeginTime != null">
-    		and close_time &gt;= #{closeBeginTime,jdbcType=TIMESTAMP}
+    		and t_yx_demand.close_time &gt;= #{closeBeginTime,jdbcType=TIMESTAMP}
     	</if>
     	<if test="closeEndTime != null">
-    		and close_time &lt;= #{closeEndTime,jdbcType=TIMESTAMP}
+    		and t_yx_demand.close_time &lt;= #{closeEndTime,jdbcType=TIMESTAMP}
     	</if>
     </where>
-    order by id desc limit #{pageSize,jdbcType=INTEGER}
+    order by t_yx_demand.id desc limit #{pageSize,jdbcType=INTEGER}
   </select>
   
   <select id="selectCount" resultType="int" parameterType="map" >
-    select count(id) from t_yx_demand
+    select count(t_yx_demand.id) from t_yx_demand left join t_yx_company on t_yx_demand.company_id = t_yx_company.id
     <where>
     	<if test="companyId != null">
-    		and company_id = #{companyId,jdbcType=INTEGER}
+    		and t_yx_demand.company_id = #{companyId,jdbcType=INTEGER}
+    	</if>
+    	<if test="companyName != null">
+    		and t_yx_company.name like #{companyName,jdbcType=VARCHAR}
+    	</if>
+    	<if test="demandNumber != null">
+    		and t_yx_demand.demand_number like #{demandNumber,jdbcType=VARCHAR}
     	</if>
     	<if test="state != null">
-    		and state = #{state,jdbcType=INTEGER}
+    		and t_yx_demand.state = #{state,jdbcType=INTEGER}
     	</if>
     	<if test="createBeginTime != null">
-    		and create_time &gt;= #{createBeginTime,jdbcType=TIMESTAMP}
+    		and t_yx_demand.create_time &gt;= #{createBeginTime,jdbcType=TIMESTAMP}
     	</if>
     	<if test="createEndTime != null">
-    		and create_time &lt;= #{createEndTime,jdbcType=TIMESTAMP}
+    		and t_yx_demand.create_time &lt;= #{createEndTime,jdbcType=TIMESTAMP}
+    	</if>
+    	<if test="closeBeginTime != null">
+    		and t_yx_demand.close_time &gt;= #{closeBeginTime,jdbcType=TIMESTAMP}
+    	</if>
+    	<if test="closeEndTime != null">
+    		and t_yx_demand.close_time &lt;= #{closeEndTime,jdbcType=TIMESTAMP}
     	</if>
     </where>
   </select>

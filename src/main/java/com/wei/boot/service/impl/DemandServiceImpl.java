@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wei.boot.contant.GlobalConstant;
 import com.wei.boot.contant.GlobalConstant.DemandState;
 import com.wei.boot.contant.GlobalConstant.OrderWorkerState;
+import com.wei.boot.exception.NormalException;
 import com.wei.boot.mapper.DemandJobMapper;
 import com.wei.boot.mapper.DemandMapper;
 import com.wei.boot.mapper.DemandOrderMapper;
@@ -104,7 +105,6 @@ public class DemandServiceImpl implements DemandService {
 				demandJob.setCreateTime(createTime);
 				demandJob.setCreateUser(demand.getCreateUser());
 				// 到岗时间
-				demandJob.setRequireTime(createTime);
 				demandJobMapper.insertSelective(demandJob);
 			});
 		}
@@ -128,8 +128,14 @@ public class DemandServiceImpl implements DemandService {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-		//处理时间
-		timeTransform(demandQuery);
+		if(!StringUtils.isEmpty(demandQuery.getCompanyName())) {
+			map.put("companyName", demandQuery.getCompanyName() + "%");
+		}
+		
+		if(!StringUtils.isEmpty(demandQuery.getDemandNumber())) {
+			map.put("demandNumber","%"+ demandQuery.getDemandNumber() + "%");
+		}
+		
 		if(Objects.nonNull(demandQuery.getCompanyId())) {
 			map.put("companyId", demandQuery.getCompanyId());
 		}
@@ -157,12 +163,24 @@ public class DemandServiceImpl implements DemandService {
 		List<Demand> list = demandMapper.selectByPage(map);
 		if(!CollectionUtils.isEmpty(list)) {
 			list.stream().forEach(demand->{
-				translateDemand(demand);
+				translateWaitingDemand(demand);
 			});
 		}
 		
 		page.pageData(list, totalCount);
 		return page;
+		
+	}
+
+	private void translateWaitingDemand(Demand demand) {
+
+		if(null != demand) {
+			// 创建人
+			demand.setCreateUserName(commonService.queryUserName(demand.getCreateUser()));
+			// 状态
+			demand.setStateName(commonService.queryDicText(GlobalConstant.DictionaryType.DEMAND_STATE, demand.getState()));
+		}
+	
 		
 	}
 
@@ -194,6 +212,10 @@ public class DemandServiceImpl implements DemandService {
 		
 		// 翻译需求
 		translateDemand(demand);
+		
+		// 公司
+		Company company = companyService.queryById(demand.getCompanyId());
+		demand.setCompanyName(company == null ? "":company.getName());
 		
 		List<DemandJob> demandJobList = queryDemandJobByDemandId(demandId);
 		if (!CollectionUtils.isEmpty(demandJobList)) {
@@ -245,6 +267,8 @@ public class DemandServiceImpl implements DemandService {
 			
 			demandJob.setWorkAreaName(area == null ? "": area.getName());
 			
+			demandJob.setParentCode(area == null ? 0: area.getParentCode());
+			
 			// 工种名字
 			String jobTypeName = queryJobTypeName(demandJob.getJobTypeId());
 			
@@ -265,9 +289,7 @@ public class DemandServiceImpl implements DemandService {
 
 	private void translateDemand(Demand demand) {
 		if(null != demand) {
-			// 公司名称
-			Company company = companyService.queryById(demand.getCompanyId());
-			demand.setCompanyName(company == null ? "":company.getName());
+			
 			// 关单人
 			demand.setCloseUserName(commonService.queryUserName(demand.getCloseUser()));
 			// 创建人
@@ -585,4 +607,74 @@ public class DemandServiceImpl implements DemandService {
 		return demandDb;
 	}
 
+	@Override
+	public Demand waitingDemand(Integer demandId) {
+		
+		// 需求单
+		Demand demand = demandMapper.selectByPrimaryKey(demandId);
+		// 公司
+		Company company = companyService.queryById(demand.getCompanyId());
+		demand.setCompanyName(company == null ? "":company.getName());
+		
+		List<DemandJob> demandJobList = queryDemandJobByDemandId(demandId);
+		if (!CollectionUtils.isEmpty(demandJobList)) {
+			demandJobList.stream().forEach(demandJob -> {
+				translateDemandJob(demand, demandJob);
+			});
+		}
+		demand.setDemandJobList(demandJobList);
+		
+		return demand;
+	
+	}
+
+	@Override
+	@Transactional
+	public void editDemand(Demand demand) throws NormalException {
+		Demand demandDb = demandMapper.selectByPrimaryKey(demand.getId());
+
+		if (GlobalConstant.DemandState.PENDING < demandDb.getState()) {
+			throw new NormalException("需求单已接单不能进行修改！");
+		}
+		Date date = new Date();
+		demandDb.setUpdateTime(date);
+		demandDb.setUpdateUser(demand.getUpdateUser());
+		demandDb.setDescription(demand.getDescription());
+		demandDb.setCompanyId(demand.getCompanyId());
+
+		demandMapper.updateByPrimaryKeySelective(demandDb);
+
+		List<DemandJob> demandJobList = queryDemandJobByDemandId(demand.getId());
+		if (!CollectionUtils.isEmpty(demandJobList)) {
+
+			List<Integer> demandJobIds = new ArrayList<>();
+
+			demand.getDemandJobList().stream().forEach(demandJob -> {
+				demandJobIds.add(demandJob.getId());
+			});
+			
+			// 删除
+			demandJobList.stream().forEach(dj -> {
+				if (!demandJobIds.contains(dj.getId())) {
+					demandJobMapper.deleteByPrimaryKey(dj.getId());
+				}
+			});
+			
+
+			demand.getDemandJobList().stream().forEach(demandJob -> {
+				if (demandJob.getId() == null) {
+					// 新增
+					demandJob.setDemandId(demand.getId());
+					demandJob.setCreateTime(date);
+					demandJob.setCreateUser(demand.getUpdateUser());
+					demandJobMapper.insertSelective(demandJob);
+				}  else {
+					demandJob.setUpdateTime(date);
+					demandJob.setUpdateUser(demand.getUpdateUser());
+					demandJob.setDemandId(demand.getId());
+					demandJobMapper.updateByPrimaryKeySelective(demandJob);
+				}
+			});
+		}
+	}
 }

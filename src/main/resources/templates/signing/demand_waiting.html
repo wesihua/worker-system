@@ -15,24 +15,24 @@
 <script src="../datepicker/js/plugins/moment.min.js"></script>
 <script src="../datepicker/js/datepicker.all.js"></script>
 <!-- <script src="../js/common.js"></script>  -->
-<script src="../js/signing/demand.js"></script>
+<script src="../js/signing/demand.waiting.js"></script>
 
 </head>
 <body>
 	<div id="content">
 		<div id="qiandan-manage">
 			<div class="public-single-page-nav">
-				<span class="title">签单管理</span> 
+				<span class="title">待处理需求单</span> 
 				<span class="public-small-bottom" onclick="addDemand()"><i class="fa fa-plus"></i>新增需求单</span> 
-				<span class="public-small-bottom"><i class="fa fa-cloud-download"></i>导出列表</span>
+				<!--  <span class="public-small-bottom"><i class="fa fa-cloud-download"></i>导出列表</span>-->
 			</div>
 			<div class="qiandan-content">
-				<ul class="qiandan-nav">
+				<!--<ul class="qiandan-nav">
 					<li class="on" onClick="stateChange(this)" state="0">待处理（<span id="count-state-0">0</span>）</li>
 					<li onClick="stateChange(this)" state="1">处理中（<span id="count-state-1">0</span>）</li>
 					<li onClick="stateChange(this)" state="2">已签约（<span id="count-state-2">0</span>）</li>
 					<li onClick="stateChange(this)" state="3">已结束（<span id="count-state-3">0</span>）</li>
-				</ul>
+				</ul>  -->
 				<!-- 待处理部分 -->
 				<div class="wait-handle" >
 					<div class="search-area clearFix">
@@ -44,16 +44,11 @@
 						<div class="lenove-area">
 							<input placeholder="需求单编号" class="" id="demandNo" name="demandNo"/>
 						</div>
-						 
-						<div class="c-datepicker-date-editor c-datepicker-single-editor J-yearMonthPicker-single mt10">
-								<i class="c-datepicker-range__icon kxiconfont icon-clock"></i> 
-								<input autocomplete="off" type="text" placeholder="录单日期" class="c-datepicker-data-input" id="createBeginTime" name="createTimeBegin"/>
-						</div>
-						
-						<div class="c-datepicker-date-editor c-datepicker-single-editor J-yearMonthPicker-single mt10">
-								<i class="c-datepicker-range__icon kxiconfont icon-clock"></i> 
-								<input autocomplete="off" type="text" placeholder="录单日期" class="c-datepicker-data-input" id="createEndTime" name="createTimeEnd"/>
-						</div>
+						<div class="c-datepicker-date-editor J-datepicker-range mt10">
+				          <i class="c-datepicker-range__icon kxiconfont icon-clock"></i>
+				          <input placeholder="开始日期" name="" style="width: 140px;" class="c-datepicker-data-input" id="beginTime"/>-
+				          <input placeholder="结束日期" name="" style="width: 140px;" class="c-datepicker-data-input" id="endTime"/>
+				        </div>
 						
 						<span id="query-bottom" class="public-small-bottom h42"><i class="fa fa-search"></i>查询</span>
 						<input name="state" type="hidden" value="0"/>
@@ -254,21 +249,5 @@
 			</div>
 		</div>
 	</div>
-
-	
-	
-	<script>
-		
-		$(function() {
-				$("#pagination1").pagination({
-					currentPage: 1,
-					totalPage: 12,
-					callback: function(current) {
-						$("#current1").text(current)
-					}
-				});
-			});
-
-	</script>
 </body>
 </html>
