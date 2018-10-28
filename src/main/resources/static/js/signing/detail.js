@@ -199,7 +199,7 @@ function queryDetail(){
  */
 function assignWorker(jobTypeId){
 	// 打开弹框
-	openDialog("add-worker-box-wp");
+	openDialog("add-worker-box-wp-div");
 	
 	// 搜索工人 按钮
 	parent.$(".select-worker").click(function(){
