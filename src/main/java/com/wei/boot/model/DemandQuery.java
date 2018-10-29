@@ -27,6 +27,26 @@ public class DemandQuery {
 	// 关单时间范围-结束时间
 	private Date closeEndTime;
 	
+	private String startDate;
+	
+	private String endDate;
+	
+	public String getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+
 	public String getTimeStr() {
 		return timeStr;
 	}

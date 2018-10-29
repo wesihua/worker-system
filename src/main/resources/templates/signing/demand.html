@@ -45,10 +45,16 @@
 							</div> 
 						</div>
 						 
-						<div class="c-datepicker-date-editor c-datepicker-single-editor J-yearMonthPicker-single mt10">
+						<!-- <div class="c-datepicker-date-editor c-datepicker-single-editor J-yearMonthPicker-single mt10">
 								<i class="c-datepicker-range__icon kxiconfont icon-clock"></i> 
 								<input autocomplete="off" type="text" placeholder="录单日期" class="c-datepicker-data-input" id="createTime" name="createTime"/>
-						</div>
+						</div> -->
+						
+						<div class="c-datepicker-date-editor J-datepicker-range mt10">
+				          <i class="c-datepicker-range__icon kxiconfont icon-clock"></i>
+				          <input placeholder="开始日期" name="" class="c-datepicker-data-input" id="beginTime"/>-
+				          <input placeholder="结束日期" name="" class="c-datepicker-data-input" id="endTime"/>
+				        </div>
 						
 						<span id="query-bottom" class="public-small-bottom h42"><i class="fa fa-search"></i>查询</span>
 						<input name="state" type="hidden" value="0"/>

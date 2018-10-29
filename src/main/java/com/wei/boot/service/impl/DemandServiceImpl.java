@@ -150,6 +150,13 @@ public class DemandServiceImpl implements DemandService {
 		if(Objects.nonNull(demandQuery.getState())) {
 			map.put("state", demandQuery.getState());
 		}
+		if(Objects.nonNull(demandQuery.getStartDate())) {
+			map.put("startDate", DateUtils.parseDate(demandQuery.getStartDate()+" 00:00:00"));
+		}
+		if(Objects.nonNull(demandQuery.getEndDate())) {
+			map.put("endDate", DateUtils.parseDate(demandQuery.getEndDate()+" 23:59:59"));
+		}
+		
 		int totalCount = demandMapper.selectCount(map);
 		
 		map.put("pageSize", page.getPageSize());
@@ -240,10 +247,12 @@ public class DemandServiceImpl implements DemandService {
 	
 	private void translateDemandJob(Demand demand, DemandJob demandJob) {
 		if(null != demandJob) {
-			// 用工地区
-			Area area = commonService.queryAreaByCode(demandJob.getWorkArea());
-			
-			demandJob.setWorkAreaName(area == null ? "": area.getName());
+			if(null != demandJob.getWorkArea()) {
+				// 用工地区
+				Area area = commonService.queryAreaByCode(demandJob.getWorkArea());
+				
+				demandJob.setWorkAreaName(area == null ? "": area.getName());
+			}
 			
 			// 工种名字
 			String jobTypeName = queryJobTypeName(demandJob.getJobTypeId());

@@ -31,6 +31,29 @@ $(function(){
 	$("#companyName").blur(function(){
 		$("#companyList").hide();
 	});
+	
+	$('.J-datepicker-range').datePicker({
+        hasShortcut: true,
+        format: 'YYYY-MM-DD',
+        isRange: true,
+        shortcutOptions: [{
+          name: '昨天',
+          day: '-1,-1',
+          time: '00:00:00,23:59:59'
+        },{
+          name: '最近一周',
+          day: '-7,0',
+          time:'00:00:00,'
+        }, {
+          name: '最近一个月',
+          day: '-30,0',
+          time: '00:00:00,'
+        }, {
+          name: '最近三个月',
+          day: '-90, 0',
+          time: '00:00:00,'
+        }]
+      });
 });
 
 
@@ -81,14 +104,17 @@ function changCompany(obj){
 function query(currentPage){
 	
 	var companyId = $("#companyId").val();
-	var createTime = $("#createTime").val();
+	//var createTime = $("#createTime").val();
+	var beginTime = $("#beginTime").val();
+	var endTime = $("#endTime").val();
 	var state = $("input:hidden[name='state']").val();
 	parent.$("#loading").show();
 	$.ajax({
 		url:"/demand/queryDemand",
 		type:"post",
 		data:{companyId:companyId,
-			timeStr:createTime, 
+			startDate:beginTime,
+			endDate:endTime,
 			state:state,
 			pageNumber:currentPage},
 		dataType:"json",

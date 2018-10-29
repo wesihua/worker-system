@@ -239,6 +239,7 @@ function checkParameter() {
 		alert("用工人数不少于0！");
 		return false;
 	}
+	/*
 	if (!requireTime) {
 		alert("到岗日期不能为空！");
 		return false;
@@ -260,7 +261,7 @@ function checkParameter() {
 		alert("用工要求不能为空！");
 		return false;
 	}
-	
+	*/
 	return true;
 
 }
@@ -367,7 +368,7 @@ function addDemand(){
 	demand.description =$("#description").val();
 	
 	if (!demand.companyId) {
-		alert("企业客户不能为空！");
+		alert("请搜索已有企业！");
 		return false;
 	}
 	if (!demand.description) {
