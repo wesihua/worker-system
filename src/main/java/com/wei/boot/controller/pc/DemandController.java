@@ -68,12 +68,36 @@ public class DemandController {
 		return result;
 	}
 	
+	
+	
+	/**
+	 * 编辑企业用工需求信息
+	 * @param demand
+	 * @return
+	 */
+	@ApiOperation(value = "编辑企业用工需求信息",notes = "")
+	@PostMapping("/editDemand")
+	public Result editDemand(@ApiParam(value = "用工需求",required = true) @RequestBody Demand demand,
+			HttpServletRequest request) {
+		Result result = Result.SUCCESS;
+		try {
+			int userId = ToolsUtil.getUserId(request);
+			demand.setUpdateUser(userId);
+			demandService.editDemand(demand);
+		} catch (Exception e) {
+			log.error("保存失败", e);
+			result = Result.fail("保存用工需求信息失败！");
+		}
+		return result;
+	}
+	
 	@ApiOperation(value = "根据条件查需求单列表",notes = "")
 	@PostMapping("/queryDemand")
-	public Result queryDemand(@ApiParam(value = "用工需求条件",required = true)  DemandQuery demandQuery,
+	public Result queryDemand(@ApiParam(value = "用工需求条件",required = true)  String demandQueryJson,
 			@ApiParam(value = "分页条件",required = true)   Page<Demand> page) {
 		Result result = Result.SUCCESS;
 		try {
+			DemandQuery demandQuery = JsonUtil.json2Bean(demandQueryJson, DemandQuery.class);;
 			Page<Demand> data = demandService.queryDemand(page,demandQuery);
 			result.setData(data);
 		} catch (Exception e) {
@@ -82,6 +106,21 @@ public class DemandController {
 		}
 		return result;
 	}
+	
+	@ApiOperation(value = "待处理需求单详情",notes = "")
+	@GetMapping("/waitingDemand")
+	public Result waitingDemand(@ApiParam(value = "需求单id",required = true) @RequestParam Integer demandId) {
+		Result result = Result.SUCCESS;
+		try {
+			Demand demand = demandService.waitingDemand(demandId);
+			result.setData(demand);
+		} catch (Exception e) {
+			log.error("查询需求单详情失败", e);
+			result = Result.fail("查询需求单详情失败！");
+		}
+		return result;
+	}
+	
 	
 	@ApiOperation(value = "需求单详情",notes = "")
 	@GetMapping("/demandDetail")

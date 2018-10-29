@@ -2,15 +2,19 @@ package com.wei.boot.model;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class DemandQuery {
 	
 	// 企业id 
 	private Integer companyId;
 	
 	// 录单时间范围-开始时间
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm")
 	private Date createBeginTime;
 	
 	// 录单时间范围-结束时间
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm")
 	private Date createEndTime;
 	
 	private Date createTime;
@@ -22,29 +26,31 @@ public class DemandQuery {
 	
 	
 	// 关单时间范围-开始时间
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm")
 	private Date closeBeginTime;
 	
 	// 关单时间范围-结束时间
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm")
 	private Date closeEndTime;
 	
-	private String startDate;
+	private String companyName;
 	
-	private String endDate;
+	private String demandNumber;
 	
-	public String getStartDate() {
-		return startDate;
+	public String getDemandNumber() {
+		return demandNumber;
 	}
 
-	public void setStartDate(String startDate) {
-		this.startDate = startDate;
+	public void setDemandNumber(String demandNumber) {
+		this.demandNumber = demandNumber;
 	}
 
-	public String getEndDate() {
-		return endDate;
+	public String getCompanyName() {
+		return companyName;
 	}
 
-	public void setEndDate(String endDate) {
-		this.endDate = endDate;
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
 	}
 
 	public String getTimeStr() {

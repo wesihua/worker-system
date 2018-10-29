@@ -165,13 +165,25 @@ public class DemandJob {
      */
     private String income;
     
+    /**
+     * 地区父code
+     */
+    private Integer parentCode;
+    
     
     /**************以上翻译字段*********************/
-    
     
 
     public String getJobTypeName() {
 		return jobTypeName;
+	}
+
+	public Integer getParentCode() {
+		return parentCode;
+	}
+
+	public void setParentCode(Integer parentCode) {
+		this.parentCode = parentCode;
 	}
 
 	public String getIncome() {

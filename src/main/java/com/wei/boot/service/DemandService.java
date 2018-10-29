@@ -1,6 +1,8 @@
 package com.wei.boot.service;
 
 import java.util.List;
+
+import com.wei.boot.exception.NormalException;
 import com.wei.boot.model.Demand;
 import com.wei.boot.model.DemandQuery;
 import com.wei.boot.model.DemandStateStatistic;
@@ -98,4 +100,13 @@ public interface DemandService {
      * @return 
      */
 	public Demand waitingSigningOrder(Integer demandJobId);
+
+	public Demand waitingDemand(Integer demandId);
+
+	/**
+	 * 编辑
+	 * @param demand
+	 * @throws NormalException 
+	 */
+	public void editDemand(Demand demand) throws NormalException;
 }

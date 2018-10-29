@@ -108,14 +108,19 @@ function query(currentPage){
 	var beginTime = $("#beginTime").val();
 	var endTime = $("#endTime").val();
 	var state = $("input:hidden[name='state']").val();
+	
+	var quertJson = {};
+	quertJson.companyName = $("#companyName").val();
+	quertJson.demandNumber = $("#demandNo").val();
+	quertJson.createBeginTime = $("#createBeginTime").val();
+	quertJson.createEndTime = $("#createEndTime").val();
+	quertJson.state = $("input:hidden[name='state']").val();
+	
 	parent.$("#loading").show();
 	$.ajax({
 		url:"/demand/queryDemand",
 		type:"post",
-		data:{companyId:companyId,
-			startDate:beginTime,
-			endDate:endTime,
-			state:state,
+		data:{demandQueryJson : JSON.stringify(quertJson),
 			pageNumber:currentPage},
 		dataType:"json",
 		success:function(data){
