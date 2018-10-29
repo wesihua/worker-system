@@ -325,6 +325,23 @@ public class DemandController {
 		return result;
 	}
 	
-	
+	/**
+	 * 关单列表
+	 * @param page
+	 * @param demandQuery
+	 * @return
+	 */
+	@GetMapping("/queryByPage4Close")
+	public Result queryByPage4Close(Page<Demand> page, DemandQuery demandQuery) {
+		Result result = Result.SUCCESS;
+		try {
+			Page<Demand> data = demandService.queryByPage4Close(page, demandQuery);
+			result.setData(data);
+		} catch (Exception e) {
+			log.error("查询需求单列表失败", e);
+			result = Result.fail("查询需求单列表失败！");
+		}
+		return result;
+	}
 	
 }

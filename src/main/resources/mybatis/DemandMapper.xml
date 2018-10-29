@@ -24,6 +24,10 @@
     <result column="update_user" jdbcType="INTEGER" property="updateUser" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="company_name" jdbcType="VARCHAR" property="companyName" />
+    <result column="create_user_name" jdbcType="VARCHAR" property="createUserName" />
+    <result column="undertake_user_name" jdbcType="VARCHAR" property="undertakeUserName" />
+    <result column="close_user_name" jdbcType="VARCHAR" property="closeUserName" />
+    <result column="state_name" jdbcType="VARCHAR" property="stateName" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <!--
@@ -562,5 +566,81 @@
 		</if>
   	</where>
   </select>
+  
+  <select id="selectByPage4Close" resultMap="BaseResultMap" parameterType="map" >
+	SELECT
+		c.NAME company_name,
+		taker_u.real_name undertake_user_name,
+		close_u.real_name close_user_name,
+		create_u.real_name create_user_name,
+		(case when d.state = 0 then '待处理' when d.state = 1 then '处理中' when d.state = 2 then '已签约' when d.state = 3 then '已结束' end) state_name,
+		d.id, d.demand_number, d.company_id, d.state, d.description, d.other_treatment, d.undertake_time, 
+	    d.undertake_user, d.close_time, d.close_status, d.close_user, d.close_reason, d.create_user, 
+	    d.create_time
+	FROM
+		t_yx_demand d
+		LEFT JOIN t_yx_company c ON d.company_id = c.id
+		LEFT JOIN t_sys_user taker_u ON d.undertake_user = taker_u.id
+		LEFT JOIN t_sys_user close_u ON d.close_user = close_u.id
+		LEFT JOIN t_sys_user create_u ON d.create_user = create_u.id
+	<where>
+		d.id &lt;= (select t.id from t_yx_demand t order by t.id desc limit #{offset,jdbcType=INTEGER},1)
+		<if test="companyName != null">
+    		and c.name like #{companyName,jdbcType=VARCHAR}
+    	</if>
+		<if test="undertakeUserName != null">
+    		and taker_u.real_name like #{undertakeUserName,jdbcType=VARCHAR}
+    	</if>
+		<if test="closeUserName != null">
+    		and close_u.real_name like #{closeUserName,jdbcType=VARCHAR}
+    	</if>
+    	<if test="demandNumber != null">
+    		and d.demand_number like #{demandNumber,jdbcType=VARCHAR}
+    	</if>
+    	<if test="state != null">
+    		and d.state = #{state,jdbcType=INTEGER}
+    	</if>
+    	<if test="beginTime != null">
+    		and d.create_time &gt;= #{beginTime,jdbcType=TIMESTAMP}
+    	</if>
+    	<if test="endTime != null">
+    		and d.create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+    	</if>
+	</where> 
+	order by d.id desc limit #{pageSize,jdbcType=INTEGER}
+  </select>
+  <select id="selectCount4Close" resultType="int" parameterType="map" >
+  	SELECT count(1)
+	FROM
+		t_yx_demand d
+		LEFT JOIN t_yx_company c ON d.company_id = c.id
+		LEFT JOIN t_sys_user taker_u ON d.undertake_user = taker_u.id
+		LEFT JOIN t_sys_user close_u ON d.close_user = close_u.id
+		LEFT JOIN t_sys_user create_u ON d.create_user = create_u.id
+	<where>
+		<if test="companyName != null">
+    		and c.name like #{companyName,jdbcType=VARCHAR}
+    	</if>
+		<if test="undertakeUserName != null">
+    		and taker_u.real_name like #{undertakeUserName,jdbcType=VARCHAR}
+    	</if>
+		<if test="closeUserName != null">
+    		and close_u.real_name like #{closeUserName,jdbcType=VARCHAR}
+    	</if>
+    	<if test="demandNumber != null">
+    		and d.demand_number like #{demandNumber,jdbcType=VARCHAR}
+    	</if>
+    	<if test="state != null">
+    		and d.state = #{state,jdbcType=INTEGER}
+    	</if>
+    	<if test="beginTime != null">
+    		and d.create_time &gt;= #{beginTime,jdbcType=TIMESTAMP}
+    	</if>
+    	<if test="endTime != null">
+    		and d.create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+    	</if>
+	</where> 
+  </select>
+  
   
 </mapper>

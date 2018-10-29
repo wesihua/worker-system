@@ -129,4 +129,8 @@ public class PageForwardController {
 		return "signing/demand_waiting";
 	}
 	
+	@GetMapping("/demand/close")
+	public String demandClose() {
+		return "demand_close/demand_close";
+	}
 }

@@ -40,10 +40,10 @@ public class OrderServiceImpl implements OrderService {
 			map.put("createUserName", info.getCreateUserName()+"%");
 		}
 		if(!StringUtils.isEmpty(info.getBeginTime())) {
-			map.put("beginTime", DateUtils.parseDate(info.getBeginTime()));
+			map.put("beginTime", DateUtils.parseDate(info.getBeginTime()+" 00:00:00", "yyyy-MM-dd HH:mm:ss"));
 		}
 		if(!StringUtils.isEmpty(info.getEndTime())) {
-			map.put("endTime", DateUtils.parseDate(info.getEndTime()));
+			map.put("endTime", DateUtils.parseDate(info.getEndTime()+" 23:59:59", "yyyy-MM-dd HH:mm:ss"));
 		}
 		List<DemandOrder> list = demandOrderMapper.selectByPage(map);
 		int totalCount = demandOrderMapper.selectCount(map);

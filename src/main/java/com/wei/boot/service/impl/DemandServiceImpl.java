@@ -677,4 +677,36 @@ public class DemandServiceImpl implements DemandService {
 			});
 		}
 	}
+
+	@Override
+	public Page<Demand> queryByPage4Close(Page<Demand> page, DemandQuery demandQuery) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("offset", page.getOffset());
+		map.put("pageSize", page.getPageSize());
+		if(null != demandQuery.getState()) {
+			map.put("state", demandQuery.getState());
+		}
+		if(null != demandQuery.getBeginTime()) {
+			map.put("beginTime", DateUtils.parseDate(demandQuery.getBeginTime()+" 00:00:00", "yyyy-MM-dd HH:mm:ss"));
+		}
+		if(null != demandQuery.getEndTime()) {
+			map.put("endTime", DateUtils.parseDate(demandQuery.getEndTime()+" 23:59:59", "yyyy-MM-dd HH:mm:ss"));
+		}
+		if(!StringUtils.isEmpty(demandQuery.getCompanyName())) {
+			map.put("companyName", demandQuery.getCompanyName() + "%");
+		}
+		if(!StringUtils.isEmpty(demandQuery.getDemandNumber())) {
+			map.put("demandNumber", demandQuery.getDemandNumber() + "%");
+		}
+		if(!StringUtils.isEmpty(demandQuery.getUndertakeUserName())) {
+			map.put("undertakeUserName", demandQuery.getUndertakeUserName() + "%");
+		}
+		if(!StringUtils.isEmpty(demandQuery.getCloseUserName())) {
+			map.put("closeUserName", demandQuery.getCloseUserName() + "%");
+		}
+		List<Demand> list = demandMapper.selectByPage4Close(map);
+		int totalCount = demandMapper.selectCount4Close(map);
+		page.pageData(list, totalCount);
+		return page;
+	}
 }

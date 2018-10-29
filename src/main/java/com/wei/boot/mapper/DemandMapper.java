@@ -111,4 +111,8 @@ public interface DemandMapper {
 	
 	int selectAllCount();
 	
+	List<Demand> selectByPage4Close(Map<String, Object> map);
+	
+	int selectCount4Close(Map<String, Object> map);
+	
 }

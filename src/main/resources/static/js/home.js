@@ -140,9 +140,6 @@ function logout(){
 			if(data.code == 1){
 				location.href="/";
 			}
-			else{
-				alert("退出登录失败！");
-			}
 		}
 	});
 }

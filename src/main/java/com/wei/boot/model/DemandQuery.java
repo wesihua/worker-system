@@ -37,6 +37,46 @@ public class DemandQuery {
 	
 	private String demandNumber;
 	
+	private String undertakeUserName = "";
+    
+    private String closeUserName = "";
+    
+    private String beginTime;
+    
+    private String endTime;
+	
+	public String getBeginTime() {
+		return beginTime;
+	}
+
+	public void setBeginTime(String beginTime) {
+		this.beginTime = beginTime;
+	}
+
+	public String getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
+	}
+
+	public String getUndertakeUserName() {
+		return undertakeUserName;
+	}
+
+	public void setUndertakeUserName(String undertakeUserName) {
+		this.undertakeUserName = undertakeUserName;
+	}
+
+	public String getCloseUserName() {
+		return closeUserName;
+	}
+
+	public void setCloseUserName(String closeUserName) {
+		this.closeUserName = closeUserName;
+	}
+
 	public String getDemandNumber() {
 		return demandNumber;
 	}

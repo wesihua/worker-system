@@ -109,4 +109,11 @@ public interface DemandService {
 	 * @throws NormalException 
 	 */
 	public void editDemand(Demand demand) throws NormalException;
+	
+	/**
+	 * 关单列表查询
+	 * @param demand
+	 * @return
+	 */
+	public Page<Demand> queryByPage4Close(Page<Demand> page, DemandQuery demandQuery);
 }
