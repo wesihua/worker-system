@@ -266,12 +266,9 @@ public class DemandServiceImpl implements DemandService {
 			if(null != demandJob.getWorkArea()) {
 				// 用工地区
 				Area area = commonService.queryAreaByCode(demandJob.getWorkArea());
-				
+				demandJob.setParentCode(area == null ? 0: area.getParentCode());
 				demandJob.setWorkAreaName(area == null ? "": area.getName());
 			}
-			
-			demandJob.setParentCode(area == null ? 0: area.getParentCode());
-			
 			// 工种名字
 			String jobTypeName = queryJobTypeName(demandJob.getJobTypeId());
 			
