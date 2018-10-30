@@ -686,10 +686,10 @@ public class DemandServiceImpl implements DemandService {
 		if(null != demandQuery.getState()) {
 			map.put("state", demandQuery.getState());
 		}
-		if(null != demandQuery.getBeginTime()) {
+		if(!StringUtils.isEmpty(demandQuery.getBeginTime())) {
 			map.put("beginTime", DateUtils.parseDate(demandQuery.getBeginTime()+" 00:00:00", "yyyy-MM-dd HH:mm:ss"));
 		}
-		if(null != demandQuery.getEndTime()) {
+		if(!StringUtils.isEmpty(demandQuery.getEndTime())) {
 			map.put("endTime", DateUtils.parseDate(demandQuery.getEndTime()+" 23:59:59", "yyyy-MM-dd HH:mm:ss"));
 		}
 		if(!StringUtils.isEmpty(demandQuery.getCompanyName())) {

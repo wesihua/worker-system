@@ -93,7 +93,7 @@ function query(currentPage){
 									"	<td>"+worker.createTime+"</td>";
 									if(worker.state != 3){
 										tableContent += "<td><span class=\"delete\" onClick=\"closeDemand("+worker.id+")\">关单</span>"+
-										"<span class=\"des\" onClick=\"detailDemand("+worker.id+")\">详情</span></td>";
+										"<span class=\"des\" onClick=\"detailDemand("+worker.id+","+worker.state+")\">详情</span></td>";
 									}
 									else{
 										tableContent += "<td><span class=\"des\" onClick=\"detailDemand("+worker.id+","+worker.state+")\">详情</span></td>";
