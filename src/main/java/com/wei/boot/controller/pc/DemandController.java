@@ -344,4 +344,29 @@ public class DemandController {
 		return result;
 	}
 	
+	@GetMapping("/queryDetail")
+	public Result queryDetail(int demandId) {
+		Result result = Result.SUCCESS;
+		try {
+			Demand demand = demandService.queryDetail(demandId);
+			result.setData(demand);
+		} catch (Exception e) {
+			log.error("查询需求单详情失败", e);
+			result = Result.fail("查询需求单详情失败！");
+		}
+		return result;
+	}
+	
+	@GetMapping("/queryDetailWithOrder")
+	public Result queryDetailWithOrder(int demandId) {
+		Result result = Result.SUCCESS;
+		try {
+			Demand demand = demandService.queryDetailWithOrder(demandId);
+			result.setData(demand);
+		} catch (Exception e) {
+			log.error("查询需求单详情失败", e);
+			result = Result.fail("查询需求单详情失败！");
+		}
+		return result;
+	}
 }

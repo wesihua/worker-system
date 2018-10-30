@@ -709,4 +709,53 @@ public class DemandServiceImpl implements DemandService {
 		page.pageData(list, totalCount);
 		return page;
 	}
+
+	@Override
+	public Demand queryDetail(int demandId) {
+		Demand demand = demandMapper.selectDetail(demandId);
+		if(null != demand) {
+			List<DemandJob> jobList = demandJobMapper.selectByDemandId(demand.getId());
+			demand.setDemandJobList(jobList);
+			// 计算总要求人数
+			int workerCount = 0;
+			if(null != jobList && jobList.size() > 0) {
+				for(DemandJob job : jobList) {
+					workerCount += job.getWorkerCount();
+				}
+			}
+			demand.setWorkCount(workerCount);
+		}
+		return demand;
+	}
+
+	@Override
+	public Demand queryDetailWithOrder(int demandId) {
+		Demand demand = demandMapper.selectDetail(demandId);
+		if(null != demand) {
+			List<DemandJob> jobList = demandJobMapper.selectByDemandId(demand.getId());
+			// 计算总要求人数
+			int workerCount = 0;
+			if(null != jobList && jobList.size() > 0) {
+				for(DemandJob job : jobList) {
+					workerCount += job.getWorkerCount();
+				}
+			}
+			demand.setWorkCount(workerCount);
+			demand.setDemandJobList(jobList);
+			List<DemandOrder> orderList = demandOrderMapper.selectByDemandId(demandId);
+			// 计算总签订人数
+			int signCount = 0;
+			BigDecimal totalIncome = new BigDecimal(0);
+			if(null != orderList && orderList.size() > 0) {
+				for(DemandOrder order : orderList) {
+					signCount += order.getWorkerCount();
+					totalIncome = totalIncome.add(new BigDecimal(order.getTotalIncome()));
+				}
+			}
+			demand.setSigningCount(signCount);
+			demand.setTotalIncome(totalIncome.toString());
+			demand.setDemandOrderList(orderList);
+		}
+		return demand;
+	}
 }

@@ -14,14 +14,18 @@
     <result column="salary" property="salary" jdbcType="VARCHAR" />
     <result column="require_time" property="requireTime" jdbcType="DATE" />
     <result column="work_area" property="workArea" jdbcType="INTEGER" />
-    <result column="gender" property="gender" jdbcType="VARCHAR" />
+    <result column="gender" property="gender" jdbcType="INTEGER" />
     <result column="age" property="age" jdbcType="VARCHAR" />
-    <result column="degree" property="degree" jdbcType="VARCHAR" />
+    <result column="degree" property="degree" jdbcType="INTEGER" />
     <result column="requirement" property="requirement" jdbcType="VARCHAR" />
     <result column="create_user" property="createUser" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_user" property="updateUser" jdbcType="INTEGER" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="work_area_name" property="workAreaName" jdbcType="VARCHAR" />
+    <result column="job_type_name" property="jobTypeName" jdbcType="VARCHAR" />
+    <result column="gender_name" property="genderName" jdbcType="VARCHAR" />
+    <result column="degree_name" property="degreeName" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <!--
@@ -164,8 +168,8 @@
       )
     values (#{id,jdbcType=INTEGER}, #{demandId,jdbcType=INTEGER}, #{jobTypeId,jdbcType=INTEGER}, 
       #{workerCount,jdbcType=INTEGER}, #{salary,jdbcType=VARCHAR}, #{requireTime,jdbcType=TIMESTAMP}, 
-      #{workArea,jdbcType=INTEGER}, #{gender,jdbcType=VARCHAR}, #{age,jdbcType=VARCHAR}, 
-      #{degree,jdbcType=VARCHAR}, #{requirement,jdbcType=VARCHAR}, #{createUser,jdbcType=INTEGER}, 
+      #{workArea,jdbcType=INTEGER}, #{gender,jdbcType=INTEGER}, #{age,jdbcType=VARCHAR}, 
+      #{degree,jdbcType=INTEGER}, #{requirement,jdbcType=VARCHAR}, #{createUser,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}
       )
   </insert>
@@ -246,13 +250,13 @@
         #{workArea,jdbcType=INTEGER},
       </if>
       <if test="gender != null" >
-        #{gender,jdbcType=VARCHAR},
+        #{gender,jdbcType=INTEGER},
       </if>
       <if test="age != null" >
         #{age,jdbcType=VARCHAR},
       </if>
       <if test="degree != null" >
-        #{degree,jdbcType=VARCHAR},
+        #{degree,jdbcType=INTEGER},
       </if>
       <if test="requirement != null" >
         #{requirement,jdbcType=VARCHAR},
@@ -312,13 +316,13 @@
         work_area = #{record.workArea,jdbcType=INTEGER},
       </if>
       <if test="record.gender != null" >
-        gender = #{record.gender,jdbcType=VARCHAR},
+        gender = #{record.gender,jdbcType=INTEGER},
       </if>
       <if test="record.age != null" >
         age = #{record.age,jdbcType=VARCHAR},
       </if>
       <if test="record.degree != null" >
-        degree = #{record.degree,jdbcType=VARCHAR},
+        degree = #{record.degree,jdbcType=INTEGER},
       </if>
       <if test="record.requirement != null" >
         requirement = #{record.requirement,jdbcType=VARCHAR},
@@ -354,9 +358,9 @@
       salary = #{record.salary,jdbcType=VARCHAR},
       require_time = #{record.requireTime,jdbcType=TIMESTAMP},
       work_area = #{record.workArea,jdbcType=INTEGER},
-      gender = #{record.gender,jdbcType=VARCHAR},
+      gender = #{record.gender,jdbcType=INTEGER},
       age = #{record.age,jdbcType=VARCHAR},
-      degree = #{record.degree,jdbcType=VARCHAR},
+      degree = #{record.degree,jdbcType=INTEGER},
       requirement = #{record.requirement,jdbcType=VARCHAR},
       create_user = #{record.createUser,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -393,13 +397,13 @@
         work_area = #{workArea,jdbcType=INTEGER},
       </if>
       <if test="gender != null" >
-        gender = #{gender,jdbcType=VARCHAR},
+        gender = #{gender,jdbcType=INTEGER},
       </if>
       <if test="age != null" >
         age = #{age,jdbcType=VARCHAR},
       </if>
       <if test="degree != null" >
-        degree = #{degree,jdbcType=VARCHAR},
+        degree = #{degree,jdbcType=INTEGER},
       </if>
       <if test="requirement != null" >
         requirement = #{requirement,jdbcType=VARCHAR},
@@ -432,9 +436,9 @@
       salary = #{salary,jdbcType=VARCHAR},
       require_time = #{requireTime,jdbcType=TIMESTAMP},
       work_area = #{workArea,jdbcType=INTEGER},
-      gender = #{gender,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=INTEGER},
       age = #{age,jdbcType=VARCHAR},
-      degree = #{degree,jdbcType=VARCHAR},
+      degree = #{degree,jdbcType=INTEGER},
       requirement = #{requirement,jdbcType=VARCHAR},
       create_user = #{createUser,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -442,4 +446,23 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <select id="selectByDemandId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    SELECT
+		jt.NAME job_type_name,
+		a.NAME work_area_name,
+		d1.NAME genderName,
+		d2.NAME degreeName,
+		t.* 
+	FROM
+		t_yx_demand_job t
+		LEFT JOIN t_sys_job_type jt ON t.job_type_id = jt.id
+		LEFT JOIN t_sys_area a ON t.work_area = a.
+		CODE LEFT JOIN t_sys_dictionary d1 ON t.gender = d1.CODE 
+		AND d1.type = 'gender'
+		LEFT JOIN t_sys_dictionary d2 ON t.degree = d2.CODE 
+		AND d2.type = 'degree'
+    where t.demand_id = #{demandId,jdbcType=INTEGER}
+  </select>
+  
 </mapper>

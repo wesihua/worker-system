@@ -95,5 +95,7 @@ public interface DemandJobMapper {
      * @mbggenerated Sat Sep 15 21:46:36 CST 2018
      */
     int updateByPrimaryKey(DemandJob record);
+    
+    List<DemandJob> selectByDemandId(int demandId);
 	
 }

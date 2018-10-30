@@ -90,10 +90,15 @@ function query(currentPage){
 									"	<td>"+(worker.closeReason == null ? "" : worker.closeReason)+"</td>"+
 									"	<td>"+worker.stateName+"</td>"+
 									"	<td>"+worker.createUserName+"</td>"+
-									"	<td>"+worker.createTime+"</td>"+
-									"	<td><span class=\"delete\" onClick=\"closeDemand("+worker.id+")\">关单</span>" +
-									"<span class=\"des\" onClick=\"deleteDemand("+worker.id+")\">详情</span>" +
-									"</tr>";
+									"	<td>"+worker.createTime+"</td>";
+									if(worker.state != 3){
+										tableContent += "<td><span class=\"delete\" onClick=\"closeDemand("+worker.id+")\">关单</span>"+
+										"<span class=\"des\" onClick=\"detailDemand("+worker.id+")\">详情</span></td>";
+									}
+									else{
+										tableContent += "<td><span class=\"des\" onClick=\"detailDemand("+worker.id+","+worker.state+")\">详情</span></td>";
+									}
+									tableContent += "</tr>";
 				}
 				$("tbody").empty().append(tableContent);
 				$("#totalCount").text(data.data.totalCount+"个结果");
@@ -109,10 +114,34 @@ function query(currentPage){
 	});
 }
 
-function detailDemand(demandId){
-	location.href="/worker/detail?workerId="+workerId+"&createUserName="+createUserName;
+function detailDemand(demandId,state){
+	if(state == 0 || state == 1){
+		location.href="/demand/detail?demandId="+demandId;
+	}
+	else{
+		location.href="/demand/detailWithOrder?demandId="+demandId;
+	}
 }
 
+function closeDemand(demandId){
+	openDialog("close-demand-dialog");
+	parent.$("#confirm-close-demand").click(function(){
+		var content = parent.$("#close-demand-textarea").val();
+		$.ajax({
+			url:"/demand/closeDemand",
+			type:"get",
+			data:{demandId:demandId,closeReason:content},
+			dataType:"json",
+			success:function(data){
+				if(data.code == 1){
+					alert("关单成功！");
+					top.closeDialog();
+					query(1);
+				}
+			}
+		});
+	});
+}
 /**
  * 打开弹窗
  * @returns

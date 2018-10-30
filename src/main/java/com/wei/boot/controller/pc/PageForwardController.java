@@ -133,4 +133,15 @@ public class PageForwardController {
 	public String demandClose() {
 		return "demand_close/demand_close";
 	}
+	
+	@GetMapping("/demand/detail")
+	public String demandDetail(Model model, String demandId) {
+		model.addAttribute("demandId", demandId);
+		return "demand_close/detail";
+	}
+	@GetMapping("/demand/detailWithOrder")
+	public String demandDetailWithOrder(Model model, String demandId) {
+		model.addAttribute("demandId", demandId);
+		return "demand_close/detailWithOrder";
+	}
 }

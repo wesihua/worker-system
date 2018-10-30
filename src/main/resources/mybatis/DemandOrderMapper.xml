@@ -590,4 +590,9 @@
 	GROUP BY
 		c.NAME
   </select>
+  
+  <select id="selectByDemandId" parameterType="int" resultMap="BaseResultMap">
+  	select u.real_name create_user_name,t.* from t_yx_demand_order t,t_sys_user u where t.create_user = u.id
+  	and t.demand_id = #{demandId,jdbcType=INTEGER}
+  </select>
 </mapper>

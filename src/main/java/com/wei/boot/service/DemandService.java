@@ -116,4 +116,8 @@ public interface DemandService {
 	 * @return
 	 */
 	public Page<Demand> queryByPage4Close(Page<Demand> page, DemandQuery demandQuery);
+	
+	Demand queryDetail(int demandId);
+	
+	Demand queryDetailWithOrder(int demandId);
 }

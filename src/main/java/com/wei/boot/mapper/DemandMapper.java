@@ -115,4 +115,6 @@ public interface DemandMapper {
 	
 	int selectCount4Close(Map<String, Object> map);
 	
+	Demand selectDetail(int demandId);
+	
 }

@@ -137,6 +137,8 @@ public class Demand {
      */
     private List<DemandJob> demandJobList;
     
+    private List<DemandOrder> demandOrderList;
+    
     
  /*********************** 以下是翻译字段 **********************/
     
@@ -170,7 +172,15 @@ public class Demand {
      */
     private int signingCount;
     
-    public String getJobTypeName() {
+    public List<DemandOrder> getDemandOrderList() {
+		return demandOrderList;
+	}
+
+	public void setDemandOrderList(List<DemandOrder> demandOrderList) {
+		this.demandOrderList = demandOrderList;
+	}
+
+	public String getJobTypeName() {
 		return jobTypeName;
 	}
 

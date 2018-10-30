@@ -642,5 +642,23 @@
 	</where> 
   </select>
   
+  <select id="selectDetail" resultMap="BaseResultMap" parameterType="int">
+  	SELECT
+		c.NAME company_name,
+		taker_u.real_name undertake_user_name,
+		close_u.real_name close_user_name,
+		create_u.real_name create_user_name,
+		(case when d.state = 0 then '待处理' when d.state = 1 then '处理中' when d.state = 2 then '已签约' when d.state = 3 then '已结束' end) state_name,
+		d.id, d.demand_number, d.company_id, d.state, d.description, d.other_treatment, d.undertake_time, 
+	    d.undertake_user, d.close_time, d.close_status, d.close_user, d.close_reason, d.create_user, 
+	    d.create_time
+	FROM
+		t_yx_demand d
+		LEFT JOIN t_yx_company c ON d.company_id = c.id
+		LEFT JOIN t_sys_user taker_u ON d.undertake_user = taker_u.id
+		LEFT JOIN t_sys_user close_u ON d.close_user = close_u.id
+		LEFT JOIN t_sys_user create_u ON d.create_user = create_u.id
+	where d.id = #{demandId,jdbcType=INTEGER}
+  </select>
   
 </mapper>
