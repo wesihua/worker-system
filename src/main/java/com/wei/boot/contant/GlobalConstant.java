@@ -82,16 +82,23 @@ public interface GlobalConstant {
 	}
 	
 	interface DemandState {
-		int PENDING = 0;
-		int PROCESSING = 1;
-		int SIGNING = 2;
-		int CLOSE = 3;
+		Integer PENDING = 0;
+		Integer PROCESSING = 1;
+		Integer SIGNING = 2;
+		Integer CLOSE = 3;
 	}
 	
 	interface OrderWorkerState {
 		// 分配状态
-		int ASSIGN = 0;
+		Integer ASSIGN = 0;
 		// 签约状态
-		int SIGNING = 1;
+		Integer SIGNING = 1;
+	}
+	
+	
+	interface UserRole {
+		// 超级管理员
+		Integer ADMIN = 1;
+		
 	}
 }

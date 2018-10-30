@@ -125,9 +125,26 @@ public class PageForwardController {
 	}
 	
 	@GetMapping("/signing/waiting")
-	public String waiting() {
+	public String signingWaiting() {
 		return "signing/demand_waiting";
 	}
+	
+	@GetMapping("/signing/processing")
+	public String signingProcessing() {
+		return "signing/demand_processing";
+	}
+	
+	@GetMapping("/signing/signed")
+	public String signingSigned() {
+		return "signing/demand_signed";
+	}
+	
+	@GetMapping("/signing/end")
+	public String signingEnd() {
+		return "signing/demand_end";
+	}
+	
+	// 
 	
 	@GetMapping("/demand/close")
 	public String demandClose() {

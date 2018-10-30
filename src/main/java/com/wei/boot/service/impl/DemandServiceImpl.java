@@ -27,6 +27,7 @@ import com.wei.boot.mapper.DemandMapper;
 import com.wei.boot.mapper.DemandOrderMapper;
 import com.wei.boot.mapper.JobTypeMapper;
 import com.wei.boot.mapper.OrderWorkerMapper;
+import com.wei.boot.mapper.UserMapper;
 import com.wei.boot.mapper.WorkerMapper;
 import com.wei.boot.model.Area;
 import com.wei.boot.model.Company;
@@ -42,6 +43,7 @@ import com.wei.boot.model.OrderWorker;
 import com.wei.boot.model.OrderWorkerExample;
 import com.wei.boot.model.OrderWorkerExample.Criteria;
 import com.wei.boot.model.Page;
+import com.wei.boot.model.User;
 import com.wei.boot.model.Worker;
 import com.wei.boot.model.signing.JobTypeModel;
 import com.wei.boot.service.CommonService;
@@ -80,6 +82,9 @@ public class DemandServiceImpl implements DemandService {
 	
 	@Autowired
 	private DemandOrderMapper demandOrderMapper;
+	
+	@Autowired
+	private UserMapper userMapper;
 
 	@Override
 	@Transactional
@@ -128,6 +133,18 @@ public class DemandServiceImpl implements DemandService {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
+		// 签约中管理员只能选自己的
+		if(Objects.nonNull(demandQuery.getUserId()) 
+				&& Objects.nonNull(demandQuery.getState()) 
+				&& (Objects.equals(GlobalConstant.DemandState.SIGNING, demandQuery.getState()) 
+						|| Objects.equals(GlobalConstant.DemandState.SIGNING, demandQuery.getState()))) {
+
+			User user = userMapper.selectByPrimaryKey(demandQuery.getUserId());
+			if (!Objects.equals(GlobalConstant.UserRole.ADMIN, user.getRoleId())) {
+				map.put("undertakeUser", demandQuery.getUserId());
+			}
+		}
+		
 		if(!StringUtils.isEmpty(demandQuery.getCompanyName())) {
 			map.put("companyName", demandQuery.getCompanyName() + "%");
 		}
@@ -162,10 +179,16 @@ public class DemandServiceImpl implements DemandService {
 		map.put("pageSize", page.getPageSize());
 		map.put("offset", page.getOffset());
 		List<Demand> list = demandMapper.selectByPage(map);
-		if(!CollectionUtils.isEmpty(list)) {
-			list.stream().forEach(demand->{
-				translateWaitingDemand(demand);
-			});
+		if (!CollectionUtils.isEmpty(list)) {
+			
+			translateDemandList(list);
+
+			if (Objects.equals(GlobalConstant.DemandState.PENDING, demandQuery.getState())) {	
+			} else if (Objects.equals(GlobalConstant.DemandState.PROCESSING, demandQuery.getState())) {
+			} else if (Objects.equals(GlobalConstant.DemandState.SIGNING, demandQuery.getState())) {
+			} else if (Objects.equals(GlobalConstant.DemandState.CLOSE, demandQuery.getState())) {
+			}
+			
 		}
 		
 		page.pageData(list, totalCount);
@@ -173,17 +196,28 @@ public class DemandServiceImpl implements DemandService {
 		
 	}
 
-	private void translateWaitingDemand(Demand demand) {
-
-		if(null != demand) {
+	private void translateDemandList(List<Demand> list) {
+		list.stream().forEach(demand -> {
 			// 创建人
 			demand.setCreateUserName(commonService.queryUserName(demand.getCreateUser()));
+			// 操作人员
+			demand.setUndertakeUserName(commonService.queryUserName(demand.getUndertakeUser()));
 			// 状态
-			demand.setStateName(commonService.queryDicText(GlobalConstant.DictionaryType.DEMAND_STATE, demand.getState()));
-		}
-	
-		
+			demand.setStateName(
+					commonService.queryDicText(GlobalConstant.DictionaryType.DEMAND_STATE, demand.getState()));
+		});
+
 	}
+
+	private void translateCloseDemand(Demand demand) {}
+
+	private void translateSigningDemand(Demand demand) {}
+
+	private void translateProcessingDemand(Demand demand) {}
+
+	private void translatePendingDemand(Demand demand) {}
+
+	
 
 	private void timeTransform(DemandQuery demandQuery) {
 		try {
@@ -288,7 +322,7 @@ public class DemandServiceImpl implements DemandService {
 	}
 
 	private void translateDemand(Demand demand) {
-		if(null != demand) {
+		if(Objects.nonNull(demand)) {
 			
 			// 关单人
 			demand.setCloseUserName(commonService.queryUserName(demand.getCloseUser()));

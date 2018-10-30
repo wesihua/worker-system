@@ -94,9 +94,11 @@ public class DemandController {
 	@ApiOperation(value = "根据条件查需求单列表",notes = "")
 	@PostMapping("/queryDemand")
 	public Result queryDemand(@ApiParam(value = "用工需求条件",required = true)  String demandQueryJson,
-			@ApiParam(value = "分页条件",required = true)   Page<Demand> page) {
+			@ApiParam(value = "分页条件",required = true)   Page<Demand> page,
+			HttpServletRequest request) {
 		Result result = Result.SUCCESS;
 		try {
+			int userId = ToolsUtil.getUserId(request);
 			DemandQuery demandQuery = JsonUtil.json2Bean(demandQueryJson, DemandQuery.class);;
 			Page<Demand> data = demandService.queryDemand(page,demandQuery);
 			result.setData(data);

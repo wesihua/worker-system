@@ -476,6 +476,9 @@
     	<if test="companyId != null">
     		and t_yx_demand.company_id = #{companyId,jdbcType=INTEGER}
     	</if>
+    	<if test="undertakeUser != null">
+    		and t_yx_demand.undertake_user = #{undertakeUser,jdbcType=INTEGER}
+    	</if>
     	<if test="demandNumber != null">
     		and t_yx_demand.demand_number like #{demandNumber,jdbcType=VARCHAR}
     	</if>
@@ -506,6 +509,9 @@
     <where>
     	<if test="companyId != null">
     		and t_yx_demand.company_id = #{companyId,jdbcType=INTEGER}
+    	</if>
+    	<if test="undertakeUser != null">
+    		and t_yx_demand.undertake_user = #{undertakeUser,jdbcType=INTEGER}
     	</if>
     	<if test="companyName != null">
     		and t_yx_company.name like #{companyName,jdbcType=VARCHAR}

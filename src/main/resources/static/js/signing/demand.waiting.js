@@ -130,7 +130,7 @@ function query(currentPage) {
  * @returns
  */
 function demandDetail(demandId){
-	window.location.href= "/signing/demandDetail?source=0&demandId=" + demandId ;
+	window.location.href="/demand/detail?demandId="+demandId;
 }
 
 /**

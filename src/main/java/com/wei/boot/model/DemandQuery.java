@@ -44,7 +44,17 @@ public class DemandQuery {
     private String beginTime;
     
     private String endTime;
-	
+    
+    private Integer userId;
+    
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+
 	public String getBeginTime() {
 		return beginTime;
 	}
