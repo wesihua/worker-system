@@ -9,6 +9,7 @@ import com.wei.boot.model.DemandStateStatistic;
 import com.wei.boot.model.OrderWorker;
 import com.wei.boot.model.Page;
 import com.wei.boot.model.signing.JobTypeModel;
+import com.wei.boot.model.signing.OrderModel;
 
 /**
  * 用工需求接口
@@ -120,4 +121,6 @@ public interface DemandService {
 	Demand queryDetail(int demandId);
 	
 	Demand queryDetailWithOrder(int demandId);
+
+	public OrderModel demandAssignList(Integer demandId);
 }

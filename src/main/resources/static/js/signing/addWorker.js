@@ -101,6 +101,7 @@ $(function () {
 			url:"/demand/addOrderWorker",
 			type:"post",
 			dataType:"json",
+			async:true,
 			data:{json:JSON.stringify(workers),demandJobId:jobTypeId},
 			success:function(data){
 				if(data.code == 1){

@@ -5,16 +5,7 @@ $(function(){
 			top.location.href="/";
 		}
 	});
-	
-	// 统计信息
-	//statisticsByState();
-	
-//    $(document).bind("ajaxSend", function () {
-//		parent.$("#loading").show();
-//    }).bind("ajaxComplete", function () {
-//    	parent.$("#loading").hide();
-//    });
-    
+	  
 	// 进入页面自动查询
 	query(1);
 	//按钮事件绑定
@@ -82,9 +73,6 @@ function query(currentPage) {
 
 						$("table").empty().append(tableContent);
 						// 初始化时间控件
-//						$('.J-yearMonthPicker-single').datePicker({
-//							format : 'YYYY-MM-DD'
-//						});
 						
 						$('.J-datepicker-range').datePicker({
 							format : 'YYYY-MM-DD HH:mm',
@@ -134,12 +122,15 @@ function demandDetail(demandId){
 }
 
 /**
- * 编辑
+ * 编辑 跳转
  */
 function updateDemand(demandId){
 	window.location.href= "/signing/addDemand?demandId=" + demandId ;
 }
 
+/**
+ * 新增需求单 跳转
+ */ 
 function addDemand(){
 	window.location.href= "/signing/addDemand";
 }
@@ -169,7 +160,6 @@ function comfirmUndertake(demandId){
 		data:{demandId:demandId},
 		success : function(data) {
 			if (data.code == 1) {
-				statisticsByState();
 				query(1);
 				alert("接单成功！");
 			}

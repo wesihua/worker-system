@@ -23,6 +23,7 @@ import com.wei.boot.model.OrderWorker;
 import com.wei.boot.model.Page;
 import com.wei.boot.model.Result;
 import com.wei.boot.model.signing.JobTypeModel;
+import com.wei.boot.model.signing.OrderModel;
 import com.wei.boot.service.DemandService;
 import com.wei.boot.util.JsonUtil;
 import com.wei.boot.util.ToolsUtil;
@@ -167,6 +168,20 @@ public class DemandController {
 		return result;
 	}
 	
+	@ApiOperation(value = "需求单工种待签约列表",notes = "")
+	@GetMapping("/demandAssignList")
+	public Result demandAssignList(@RequestParam Integer demandId) {
+		Result result = Result.SUCCESS;
+		try {
+			OrderModel orderModel = demandService.demandAssignList(demandId);
+			result.setData(orderModel);
+		} catch (Exception e) {
+			log.error("查询需求单工种签约列表失败", e);
+			result = Result.fail("查询需求单工种签约列表失败！");
+		}
+		return result;
+	}
+	
 	@ApiOperation(value = "需求单工种签约列表",notes = "")
 	@GetMapping("/orderWorkerSigningList")
 	public Result orderWorkerSigningList(@RequestParam Integer demandJobId) {
@@ -296,7 +311,6 @@ public class DemandController {
 				// 生成订单
 				for (OrderWorker orderWorker : workers) {
 					orderWorker.setDemandJobId(demandJobId);
-					orderWorker.setArriveWorkTime(new Date());
 					orderWorker.setCreateTime(new Date());
 					orderWorker.setCreateUser(userId);
 				}

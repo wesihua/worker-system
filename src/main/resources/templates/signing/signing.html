@@ -9,7 +9,7 @@
 <link href="../css/jquery.pagination.css" rel="stylesheet" />
 <script src="../js/jquery-3.3.1.min.js"></script>
 <script src="../js/jquery.pagination.min.js"></script>
-<script src="../js/signing/detail.js"></script>
+<script src="../js/signing/signing.js"></script>
 
 <link href="../css/add-gz-box.css" rel="stylesheet" />
 <link href="../css/add-worker-box.css" rel="stylesheet"/>
@@ -20,7 +20,7 @@
 	<div id="content">
 		<div id="already-qiandan-des">
 			<div class="public-single-page-nav">
-				<span class="title">签约详情</span>
+				<span class="title">签约</span>
 				<span class="control public-small-bottom" id="back" onclick="window.history.go(-1)">  <i class="fa  fa-arrow-circle-left"></i> 返回</span>
 			</div>
 			<div class="qiandan-add-content">
@@ -90,7 +90,7 @@
 	        <div class="mask"></div>
 	        <div class="box-content">
 	            <div class="head">
-	                <span class="title">已分配用工</span>
+	                <span class="title" id="order-worker-list-span">已分配用工</span>
 	                <span class="fa fa-close cancel-dialog"></span>
 	            </div>
 	            <div class="middle">
@@ -145,7 +145,8 @@
 	        <div class="box-content">
 	            <div class="head">
 	                <span class="title">本次签约详情&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-	                <span class="title" id="companyName"></span>
+	                <span class="title" id="companyName"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	                <span class="title" id="demandNumber"></span>
 	                <span class="fa fa-close cancel-dialog"></span>
 	            </div>
 	            <div class="middle">

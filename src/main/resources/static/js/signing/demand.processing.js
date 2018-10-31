@@ -119,7 +119,7 @@ function query(currentPage) {
  * @returns
  */
 function signings(demandId){
-	window.location.href= "/signing/demandDetail?source=1&demandId=" + demandId;
+	window.location.href= "/signing/toSigning?demandId=" + demandId;
 }
 
 /**

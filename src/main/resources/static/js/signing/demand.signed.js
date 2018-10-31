@@ -67,7 +67,7 @@ function query(currentPage) {
 										"	<td>"+firm.signingCount+"</td>"+
 										"	<td>"+firm.undertakeUserName+"</td>"+
 										"	<td width='120'>"+firm.stateName+"</td>"+
-										"   <td><span class=\"des\" onClick=\"demandDetail("+firm.id+")\">详情</span><span class=\"delete \" onClick=\"closeDemand("+firm.id+")\">关单</span></td>"+
+										"   <td><span class=\"des\" onClick=\"demandDetail("+firm.id+")\">详情</span><span class=\"delete \" onClick=\"signings("+firm.id+")\">签约</span></td>"+
 										"</tr>";
 					}
 				
@@ -119,7 +119,7 @@ function query(currentPage) {
  * @returns
  */
 function signings(demandId){
-	window.location.href= "/signing/demandDetail?source=1&demandId=" + demandId;
+	window.location.href= "/signing/toSigning?demandId=" + demandId;
 }
 
 /**

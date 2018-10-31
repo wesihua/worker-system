@@ -46,6 +46,7 @@ import com.wei.boot.model.Page;
 import com.wei.boot.model.User;
 import com.wei.boot.model.Worker;
 import com.wei.boot.model.signing.JobTypeModel;
+import com.wei.boot.model.signing.OrderModel;
 import com.wei.boot.service.CommonService;
 import com.wei.boot.service.CompanyService;
 import com.wei.boot.service.DemandService;
@@ -470,7 +471,7 @@ public class DemandServiceImpl implements DemandService {
 		orderWorkerDb.setUpdateUser(orderWorker.getUpdateUser());
 		orderWorkerDb.setArriveWorkTime(orderWorker.getArriveWorkTime());
 		orderWorkerDb.setSignSalary(orderWorker.getSignSalary());
-		orderWorkerMapper.updateByPrimaryKey(orderWorkerDb);
+		orderWorkerMapper.updateByPrimaryKeySelective(orderWorkerDb);
 	}
 
 	@Override
@@ -791,5 +792,41 @@ public class DemandServiceImpl implements DemandService {
 			demand.setDemandOrderList(orderList);
 		}
 		return demand;
+	}
+
+	@Override
+	public OrderModel demandAssignList(Integer demandId) {
+
+		List<DemandJob> demandJobs = queryDemandJobByDemandId(demandId);
+		List<Integer> jobIds = new ArrayList<>();
+		if (!CollectionUtils.isEmpty(demandJobs)) {
+			for (DemandJob demandJob : demandJobs) {
+				jobIds.add(demandJob.getId());
+			}
+		}
+
+		OrderWorkerExample example = new OrderWorkerExample();
+		Criteria criteria = example.createCriteria().andDemandJobIdIn(jobIds);
+		criteria.andOrderIdIsNull();
+		List<OrderWorker> orderWorkerList = orderWorkerMapper.selectByExample(example);
+
+		if (!CollectionUtils.isEmpty(orderWorkerList)) {
+			for (OrderWorker orderWorker : orderWorkerList) {
+				Worker worker = workerMapper.selectByPrimaryKey(orderWorker.getWorkerId());
+				orderWorker.setWorker(worker);
+			}
+		}
+
+		// 客户名称:
+		Demand demandDb = demandMapper.selectByPrimaryKey(demandId);
+		Company company = companyService.queryById(demandDb.getCompanyId());
+		demandDb.setCompanyName(company == null ? "" : company.getName());
+
+		OrderModel orderModel = new OrderModel();
+
+		orderModel.setOrderWorkerList(orderWorkerList);
+		orderModel.setDemand(demandDb);
+
+		return orderModel;
 	}
 }

@@ -11,18 +11,12 @@ $(function(){
     	parent.$("#loading").hide();
     });
 	// 进入页面自动查询
-	queryDetail();
+	querySignDetail();
 	
 });
 
-/**
- * 查询
- * @returns
- */
-function queryDetail(){
-	
+function querySignDetail(){
 	var demandId = $("input:hidden[name='demandId']").val();
-	var source = $("input:hidden[name='source']").val();
 	$.ajax({
 		url:"/demand/demandDetail",
 		type:"get",
@@ -33,6 +27,7 @@ function queryDetail(){
 				var state = data.data.state;
 				var tableContent="";
 				var firmArr = data.data.demandJobList;
+				
 				$(".undertokeTime").text(data.data.undertakeTime);
 				$(".totalIncome").text(data.data.totalIncome);
 				$(".undertokeUserName").text(data.data.undertakeUserName);
@@ -45,57 +40,12 @@ function queryDetail(){
 					$(".undertokeUserName").parent().show();
 				}
 				
-				if(state == 1 && source == 1){
+				if(state == 1){
 					$(".signing-botton").show();
 				}
 				
-				if(state == 0){
-					tableContent+= "<tr>"+
-									"	<th>用工工种</th>"+
-									"	<th>用工人数</th>"+
-									"	<th>到岗日期</th>"+
-									"	<th>月工资（元）</th>"+
-									"	<th>工作地区</th>"+
-									"	<th>用工要求</th>"+
-									"</tr>";
-					for(var i=0; i<firmArr.length; i++){
-						var firm = firmArr[i];
-						tableContent+=  "<tr>"+
-										"	<td>"+firm.jobTypeName+"</td>"+
-										"	<td>"+firm.workerCount+"</td>"+
-										"	<td>"+firm.requireTime+"</td>"+
-										"	<td>"+firm.salary+"</td>"+
-										"	<td>"+firm.workAreaName +"</td>"+
-										"	<td>"+firm.requirement+"</td>"+
-										"</tr>";
-					}
-				}
-				
-				if(state == 1 && source == 0){
-					tableContent+= "<tr>"+
-									"	<th>用工工种</th>"+
-									"	<th>到岗日期</th>"+
-									"	<th>月工资（元）</th>"+
-									"	<th>工作地区</th>"+
-									"	<th>用工要求</th>"+
-									"	<th>用工人数</th>"+
-									"	<th>已分配人数</th>"+
-									"</tr>";
-					for(var i=0; i<firmArr.length; i++){
-						var firm = firmArr[i];
-						tableContent+=  "<tr>"+
-										"	<td>"+firm.jobTypeName+"</td>"+
-										"	<td>"+firm.requireTime+"</td>"+
-										"	<td>"+firm.salary+"</td>"+
-										"	<td>"+firm.workAreaName +"</td>"+
-										"	<td>"+firm.requirement+"</td>"+
-										"	<td>"+firm.workerCount+"</td>"+
-										"	<td>"+firm.assignCount+"</td>"+
-										"</tr>";
-					}
-				}
-				
-				if(state == 1 && source == 1){
+				// 处理中
+				if(state == 1){
 					tableContent+= "<tr>"+
 									"	<th>用工工种</th>"+
 									"	<th>到岗日期</th>"+
@@ -120,8 +70,6 @@ function queryDetail(){
 										"</tr>";
 					}
 				}
-				
-				// 已签约
 				if(state == 2){
 					// 查看是否有已分配人数
 					var isHaveAssign = false;
@@ -133,59 +81,58 @@ function queryDetail(){
 						}
 					}
 					
-					tableContent+= "<tr>"+
-									"	<th>用工工种</th>"+
-									"	<th>到岗日期</th>"+
-									"	<th>工作地区</th>"+
-									"	<th>用工要求</th>"+
-									"	<th>用工人数</th>"+
-									"	<th>签约人数</th>";
 					if(isHaveAssign){
-						tableContent+= "	<th>已分配人数</th>";
+						
 						$(".signing-botton").show();
-					}
-					tableContent+=	"	<th>操作</th>"+
-									"</tr>";
-					for(var i=0; i<firmArr.length; i++){
-						var firm = firmArr[i];
-						tableContent+=  "<tr>"+
-										"	<td>"+firm.jobTypeName+"</td>"+
-										"	<td>"+firm.requireTime+"</td>"+
-										"	<td>"+firm.workAreaName +"</td>"+
-										"	<td>"+firm.requirement+"</td>"+
-										"	<td>"+firm.workerCount+"</td>"+
-										"	<td><span class=\"des\" onClick=\"showSigningList("+firm.id+")\">"+firm.signingCount+"</span></td>";
-						if(isHaveAssign){
-							tableContent+="	<td><span class=\"des\" onClick=\"showAssignList("+firm.id+")\">"+firm.assignCount+"</span></td>";
+						
+						tableContent += "<tr>"+
+										"	<th>用工工种</th>"+
+										"	<th>到岗日期</th>"+
+										"	<th>工作地区</th>"+
+										"	<th>用工要求</th>"+
+										"	<th>用工人数</th>"+
+										"	<th>签约人数</th>"+
+										"	<th>已分配人数</th>"+
+										"	<th>操作</th>"+
+										"</tr>";
+						
+						for(var i=0; i<firmArr.length; i++){
+							var firm = firmArr[i];
+							tableContent+=  "<tr>"+
+											"	<td>"+firm.jobTypeName+"</td>"+
+											"	<td>"+firm.requireTime+"</td>"+
+											"	<td>"+firm.workAreaName +"</td>"+
+											"	<td>"+firm.requirement+"</td>"+
+											"	<td>"+firm.workerCount+"</td>"+
+											"	<td><span class=\"des\" onClick=\"showSigningList("+firm.id+")\">"+firm.signingCount+"</span></td>"+
+							                "	<td><span class=\"des\" onClick=\"showAssignList("+firm.id+")\">"+firm.assignCount+"</span></td>"+
+							                "	<td><span class=\"des\" onClick=\"assignWorker("+firm.id+")\">分配用工</span></td>"+
+											"</tr>";
 						}
-						tableContent+= "	<td><span class=\"des\" onClick=\"assignWorker("+firm.id+")\">分配用工</span></td>"+
+						
+					} else {
+						
+						tableContent += "<tr>"+
+										"	<th>用工工种</th>"+
+										"	<th>到岗日期</th>"+
+										"	<th>工作地区</th>"+
+										"	<th>用工要求</th>"+
+										"	<th>用工人数</th>"+
+										"	<th>签约人数</th>"+
+										"	<th>操作</th>"+
 										"</tr>";
-					}
-				}
-				
-				if(state == 3){
-					tableContent+= "<tr>"+
-									"	<th>用工工种</th>"+
-									"	<th>到岗日期</th>"+
-									"	<th>月工资（元）</th>"+
-									"	<th>工作地区</th>"+
-									"	<th>用工要求</th>"+
-									"	<th>用工人数</th>"+
-									"	<th>签约人数</th>"+
-									"	<th>操作</th>"+
-									"</tr>";
-					for(var i=0; i<firmArr.length; i++){
-						var firm = firmArr[i];
-						tableContent+=  "<tr>"+
-										"	<td>"+firm.jobTypeName+"</td>"+
-										"	<td>"+firm.requireTime+"</td>"+
-										"	<td>"+firm.salary+"</td>"+
-										"	<td>"+firm.workAreaName +"</td>"+
-										"	<td>"+firm.requirement+"</td>"+
-										"	<td>"+firm.workerCount+"</td>"+
-										"	<td>"+firm.signingCount+"</td>"+
-										"	<td><span class=\"des\" onClick=\"showSigningList("+firm.id+")\">查看签约列表</span></td>"+
-										"</tr>";
+						for(var i=0; i<firmArr.length; i++){
+							var firm = firmArr[i];
+							tableContent+=  "<tr>"+
+											"	<td>"+firm.jobTypeName+"</td>"+
+											"	<td>"+firm.requireTime+"</td>"+
+											"	<td>"+firm.workAreaName +"</td>"+
+											"	<td>"+firm.requirement+"</td>"+
+											"	<td>"+firm.workerCount+"</td>"+
+											"	<td><span class=\"des\" onClick=\"showSigningList("+firm.id+")\">"+firm.signingCount+"</span></td>"+
+											"	<td><span class=\"des\" onClick=\"assignWorker("+firm.id+")\">分配用工</span></td>"+
+											"</tr>";
+						}
 					}
 				}
 				$("#jobType-list-table").empty().append(tableContent);
@@ -193,6 +140,8 @@ function queryDetail(){
 		}
 	});
 }
+
+
 
 /**
  * 分配用工
@@ -309,11 +258,8 @@ function queryWorkerList(pageNum){
 				    		var arriveWorkTime = $that.find(".arriveWorkTime").val();
 				    		if(arriveWorkTime!=""&&arriveWorkTime.length>0){
 				    			orderWorker.arriveWorkTime = arriveWorkTime;
-				    		}else{
-				    			alert("到岗日期不能为空");
-				    			flag=true;
-				    			return;
 				    		}
+				    		
 				    		var businessIncome= $that.find(".businessIncome").val();
 				    		if(businessIncome!=""&&businessIncome.length>0){
 				    			orderWorker.businessIncome = businessIncome;
@@ -346,7 +292,7 @@ function queryWorkerList(pageNum){
 							success:function(data){
 								if(data.code == 1){
 									alert("添加用工信息成功！");
-									queryDetail();
+									querySignDetail();
 								}
 								else{
 									alert("添加用工信息失败！原因："+data.msg);
@@ -379,17 +325,20 @@ function signingDetail(){
 	var demandId = $("input[name=demandId]").val();
 
 	$.ajax({
-		url:"/demand/waitingSigning",
+		url:"/demand/demandAssignList",
 		type:"get",
 		dataType:"json",
 		data:{demandId:demandId},
 		success:function(data){
 			if(data.code == 1){
 
-
-                var firmArr = data.data.demandJobList;
-                var tableContent = "";
-                $("#companyName").text("客户名称:" + data.data.companyName);
+				
+                $("#companyName").text("客户名称:" + data.data.demand.companyName );
+               
+                $("#demandNumber").text("需求单号:" + data.data.demand.demandNumber);
+                /**
+                 * 
+                
                // $(".worker-count").text("（需求"+ data.data.demandJob.workerCount +"人）");
                 tableContent += "<tr>" +
                     "	<th>用工工种</th>" +
@@ -405,6 +354,38 @@ function signingDetail(){
                         "	<td>" + firm.income + "</td>" +
                         "</tr>";
                 }
+                 */
+                
+
+
+                var firmArr = data.data.orderWorkerList;
+                var tableContent = "";
+               // $(".order-work-job-name").text(data.data.demandJob.jobTypeName);
+               // $(".worker-count").text("（需求"+ data.data.demandJob.workerCount +"人）");
+                tableContent += "<tr>" +
+                    "	<th>用工姓名</th>" +
+                    "	<th>身份证号</th>" +
+                    "	<th>联系电话</th>" +
+                    "	<th>擅长工种</th>" +
+                    "	<th>签约月工资（元）</th>" +
+                    "	<th>到岗日期</th>" +
+                    "	<th width='120'>业务收入（元）</th>" +
+                    "</tr>";
+
+                for (var i = 0; i < firmArr.length; i++) {
+                    var firm = firmArr[i];
+                    var worker = firm.worker;
+                    tableContent += "<tr>" +
+                        "	<td>" + worker.name + "</td>" +
+                        "	<td>" + worker.idcard + "</td>" +
+                        "	<td>" + worker.telephone + "</td>" +
+                        "	<td>" + (worker.jobtypeName == null ? "" : worker.jobtypeName) + "</td>" +
+                        "	<td>" + firm.signSalary + "</td>" +
+                        "	<td>" + firm.arriveWorkTime + "</td>" +
+                        "	<td width='120'>" + firm.businessIncome + "</td>" +
+                        "</tr>";
+                }
+                
                 
                 if(firmArr.length > 0){
                 	openDialog("signing-detail");
@@ -446,7 +427,7 @@ function signing() {
 		success : function(data) {
 			if (data.code == 1) {
 				alert("签约成功！");
-				queryDetail();
+				querySignDetail();
 			} else {
 				alert("签约失败！原因：" + data.msg);
 			}
@@ -455,23 +436,6 @@ function signing() {
 
 }
 
-/**
- * 状态栏点击事件
- * @param obj
- * @returns
- */
-function stateChange(obj){
-	// 修改样式
-	var thisObj=$(obj);
-	thisObj.addClass("on");
-	thisObj.siblings().each(function(){
-	    $(this).removeClass("on");
-	  });
-	// 修改state值
-    var state=thisObj.attr("state"); 
-	$("input:hidden[name='state']").val(state);
-	query(1);
-}
 
 /**
  * 打开弹窗
@@ -508,7 +472,7 @@ function showAssignList(jobTypeId){
 
                 var firmArr = data.data.orderWorkerList;
                 var tableContent = "";
-               // $(".order-work-job-name").text(data.data.demandJob.jobTypeName);
+                $("#order-worker-list-span").text("本次已分配用工");
                // $(".worker-count").text("（需求"+ data.data.demandJob.workerCount +"人）");
                 tableContent += "<tr>" +
                     "	<th>用工姓名</th>" +
@@ -526,16 +490,19 @@ function showAssignList(jobTypeId){
                     var firm = firmArr[i];
                     var worker = firm.worker;
                     tableContent += "<tr>" +
-                        "	<td>" + worker.name + "</td>" +
+                        "   <input id=\"id\" type=\"hidden\" value="+ firm.id +">" +
+                        "	<td id=\"id\">" + worker.name + "</td>" +
                         "	<td>" + worker.birthplaceName + "</td>" +
                         "	<td>" + worker.idcard + "</td>" +
                         "	<td>" + worker.telephone + "</td>" +
                         "	<td>" + (worker.jobtypeName == null ? "" : worker.jobtypeName) + "</td>" +
-                        "	<td>" + firm.signSalary + "</td>" +
-                        "	<td>" + firm.arriveWorkTime + "</td>" +
-                        "	<td width='120'>" + firm.businessIncome + "</td>" +
-                        "   <td><span class=\"delete\" onClick=\"deleteOrderWorker(" + firm.id + ")\">移除</span><span class=\"edit\" onClick=\"updateOrderWorker(" + firm.id + ",'"+ worker.name + "'," + firm.signSalary + ",'" + firm.arriveWorkTime + "'," + firm.businessIncome +")\">编辑</span></td>" +
+                        "	<td id=\"signSalary\">" + firm.signSalary + "</td>" +
+                        "	<td id=\"arriveWorkTime\">" + firm.arriveWorkTime + "</td>" +
+                        "	<td id=\"businessIncome\" width='120'>" + firm.businessIncome + "</td>" +
+                        "   <td><span class=\"delete\" id=\"delete-worker\">移除</span></td>" +
                         "</tr>";
+                    
+                    // <span class=\"edit\" id=\"edit-worker\">编辑</span>
                 }
                 
                 if(firmArr.length > 0){
@@ -545,8 +512,100 @@ function showAssignList(jobTypeId){
                 	alert("暂无分配用工！");
                 }
                 
+                // 编辑 签约薪水
+                parent.$('#signSalary').dblclick(function(){
+                	var id = $(this).parents('tr').children('#id').val();
+                	var signSalary = $(this).text();
+                	var signSalaryTd = $(this);
+
+            		// 签约薪水变成可输入框
+            		var signSalaryTxt = $("<input type='text'>").val(signSalary);
+            		signSalaryTxt.blur(function(){
+            			// 失去焦点，保存值。
+            			var newSignSalary = $(this).val();
+            			
+            			if (!newSignSalary) {
+            				alert("签约工资不能为空！");
+            				return;
+            			}
+            			
+            			signSalaryTxt.remove();
+            		    // 移除文本框,显示新值
+            			signSalaryTd.text(newSignSalary);
+            		    if(signSalary != newSignSalary){
+            		    	updateOrderWorker(id,newSignSalary,null,null);
+            		    }
+            			
+            		       
+            		    });
+            		signSalaryTd.text("");
+            		signSalaryTd.append(signSalaryTxt);
+                });
+                
+                
+                // 编辑 业务收入
+                parent.$('#businessIncome').dblclick(function(){
+                	
+                	var id = $(this).parents('tr').children('#id').val();
+                	var businessIncome = $(this).text();
+                	var businessIncomeTd = $(this);
+                	
+                	var businessIncomeTxt = $("<input type='text'>").val(businessIncome);
+                	businessIncomeTxt.blur(function(){
+                		// 失去焦点，保存值。
+                		var newText = $(this).val();
+                		
+                		if (!newText) {
+            				alert("业务收入不能为空！");
+            				return;
+            			}
+                		$(this).remove();
+                	    // 移除文本框,显示新值
+                		businessIncomeTd.text(newText);
+                		if(newText != businessIncome){
+                			updateOrderWorker(id,null,newText,null);
+                		}
+                		   
+                	    });
+                	businessIncomeTd.text("");
+                	businessIncomeTd.append(businessIncomeTxt);
+                });
+                
+                // 编辑时间
+                parent.$('#arriveWorkTime').dblclick(function(){
+                	
+                	var id = $(this).parents('tr').children('#id').val();
+                	var arriveWorkTime = $(this).text();
+                	var arriveWorkTimeTd = $(this);
+                	
+                	var arriveWorkTimeDev = $('<div class="c-datepicker-date-editor c-datepicker-single-editor J-yearMonthPicker-single mt10">');
+                 	
+                 	var arriveWorkTimeTxt = $("<input type='text' placeholder='选择到岗日期'>").val(arriveWorkTime);
+                 	arriveWorkTimeTd.text("");
+                 	arriveWorkTimeDev.append(arriveWorkTimeTxt);
+                 	arriveWorkTimeTd.append(arriveWorkTimeDev);
+                 	parent.$('.J-yearMonthPicker-single').datePicker({
+                 		format : 'YYYY-MM-DD'
+                 	});
+                 	arriveWorkTimeTxt.blur(function(){
+                 		// 失去焦点，保存值。
+                 		var newText = $(this).val();
+                 		$(this).remove();
+                 	    // 移除文本框,显示新值
+                 		arriveWorkTimeTd.text(newText);
+                 		
+                 		updateOrderWorker(id,null,null,newText);
+                 		
+                 	    });
+                	
+                });
+               
+                
+                // 删除
+                parent.$('#delete-worker').click(function(){
+                	deleteOrderWorker($(this).parents('tr').children('#id').val());
+                });
             }
-           
         }
     });
 }
@@ -563,8 +622,7 @@ function showSigningList(jobTypeId){
 
                 var firmArr = data.data.orderWorkerList;
                 var tableContent = "";
-               // $(".order-work-job-name").text(data.data.demandJob.jobTypeName);
-               // $(".worker-count").text("（需求"+ data.data.demandJob.workerCount +"人）");
+                $("#order-worker-list-span").text("已签约用工");
                 tableContent += "<tr>" +
                     "	<th>用工姓名</th>" +
                     "	<th>籍贯</th>" +
@@ -574,7 +632,6 @@ function showSigningList(jobTypeId){
                     "	<th>签约月工资（元）</th>" +
                     "	<th>到岗日期</th>" +
                     "	<th width='120'>业务收入（元）</th>" +
-                    "	<th width='150'>操作</th>" +
                     "</tr>";
 
                 for (var i = 0; i < firmArr.length; i++) {
@@ -589,7 +646,6 @@ function showSigningList(jobTypeId){
                         "	<td>" + firm.signSalary + "</td>" +
                         "	<td>" + firm.arriveWorkTime + "</td>" +
                         "	<td width='120'>" + firm.businessIncome + "</td>" +
-                        "   <td><span class=\"delete\" onClick=\"deleteOrderWorker(" + firm.id + ")\">移除</span><span class=\"edit\" onClick=\"updateOrderWorker(" + firm.id + ",'"+ worker.name + "'," + firm.signSalary + ",'" + firm.arriveWorkTime + "'," + firm.businessIncome +")\">编辑</span></td>" +
                         "</tr>";
                 }
                 
@@ -599,15 +655,17 @@ function showSigningList(jobTypeId){
                 }else{
                 	alert("暂无分配用工！");
                 }
-                
             }
-           
         }
     });
 }
 
+/**
+ * 删除已分配用工
+ * @param orderWorkerId
+ * @returns
+ */
 function deleteOrderWorker(orderWorkerId) {
-
 	var b = confirm("是否移除该用工？");
 	if(b){
 		$.ajax({
@@ -618,15 +676,105 @@ function deleteOrderWorker(orderWorkerId) {
 			success:function(data){
 				if(data.code == 1){
 					alert("移除用工成功！");
-					query(1);
+					querySignDetail(1);
 				}
 				else{
 					alert("移除用工失败！原因："+data.msg);
 				}
+				
+				// 关闭弹框
+		    	top.closeDialog();
 			}
 		});
 	}
 
 }
+
+
+function updateOrderWorker(id,signSalary,businessIncome,arriveWorkTime) {
+	
+	var orderWorker = {};
+	if(signSalary != null){
+		orderWorker.signSalary=signSalary;
+	}
+	if(businessIncome != null){
+		orderWorker.businessIncome=businessIncome;
+	}
+	
+	orderWorker.id =id;
+	
+	$.ajax({
+		url : "/demand/editOrderWorker",
+		type : "post",
+		dataType : "json",
+		data : {json : JSON.stringify(orderWorker)},
+		success : function(data) {
+			if (data.code != 1) {
+				alert("更新用工信息失败！原因：" + data.msg);
+			}
+		}
+	});
+
+	/**
+	 * 
+	 
+	var $that = $(obj);
+	
+	var signSalaryTd = $that.parents('tr').children('#signSalary');
+	var arriveWorkTimeTd = $that.parents('tr').children('#arriveWorkTime');
+	var businessIncomeTd = $that.parents('tr').children('#businessIncome');
+	
+	var id = $that.parents('tr').children('#id').val();
+	var signSalary = signSalaryTd.text();
+	var arriveWorkTime = arriveWorkTimeTd.text();
+	var businessIncome = businessIncomeTd.text();
+	
+	// 初始化时间控件
+	parent.$('.J-yearMonthPicker-single').datePicker({
+		format : 'YYYY-MM-DD'
+	});
+	*/
+	
+	
+	
+	
+	/**
+	 * 
+	 
+	// 业务收入
+	
+	
+	
+	
+	
+
+
+	top.$(".complete-edit").click(function() {
+
+		var orderWorker = {};
+		var signSalary_ = parent.$("#worker-signSalary").val();
+		var arriveWorkTime_ = parent.$("#worker-arriveWorkTime").val();
+		var businessIncome_ = parent.$("#worker-businessIncome").val();
+		
+		if (!signSalary_) {
+			alert("签约工资不能为空！");
+			return false;
+		}
+		if (!businessIncome_) {
+			alert("业务收入不能为空！");
+			return false;
+		}
+		if (!arriveWorkTime_) {
+			alert("到岗时间不能为空！");
+			return false;
+		}
+		top.closeDialog();
+		
+
+	});
+	*/
+}
+
+
 
 
