@@ -11,6 +11,17 @@
 
 #already-qiandan-des .qiandan-add-content {
   padding: 0px 20px; }
+  #already-qiandan-des .qiandan-add-content.small .input-block{
+    min-height: 25px;
+    margin-bottom: 10px;
+  }
+  #already-qiandan-des .qiandan-add-content.small .input-block .name{
+    height: 25px;
+    line-height: 25px;
+  }
+  #already-qiandan-des .qiandan-add-content.small .input-block .word{
+    line-height: 25px;
+  }
   #already-qiandan-des .qiandan-add-content .input-block {
     position: relative;
     left: 0px;

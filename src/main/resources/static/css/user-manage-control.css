@@ -49,6 +49,7 @@
          #user-manage-control .party1 .base-info .inut-b div.inputValue {
           text-indent: 10px;
           color: #888888;
+          overflow:auto;
          }
       #user-manage-control .party1 .base-info .inut-b .selectControl {
         width: 290px;
