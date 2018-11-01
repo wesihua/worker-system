@@ -210,13 +210,13 @@ public class DemandServiceImpl implements DemandService {
 
 	}
 
-	private void translateCloseDemand(Demand demand) {}
-
-	private void translateSigningDemand(Demand demand) {}
-
-	private void translateProcessingDemand(Demand demand) {}
-
-	private void translatePendingDemand(Demand demand) {}
+//	private void translateCloseDemand(Demand demand) {}
+//
+//	private void translateSigningDemand(Demand demand) {}
+//
+//	private void translateProcessingDemand(Demand demand) {}
+//
+//	private void translatePendingDemand(Demand demand) {}
 
 	
 
@@ -554,7 +554,8 @@ public class DemandServiceImpl implements DemandService {
 		demandOrder.setCreateTime(new Date());
 		demandOrder.setCreateUser(demand.getUndertakeUser());
 		// 修改用工的orderId
-		int demandOrderId = demandOrderMapper.insertSelective(demandOrder);
+		demandOrderMapper.insertSelective(demandOrder);
+		int demandOrderId = demandOrder.getId();
 		
 //		OrderWorkerExample example = new OrderWorkerExample();
 //		example.createCriteria().andDemandJobIdIn(demandJobIds).andOrderIdIsNull();
@@ -796,6 +797,8 @@ public class DemandServiceImpl implements DemandService {
 
 	@Override
 	public OrderModel demandAssignList(Integer demandId) {
+		
+		OrderModel orderModel = new OrderModel();
 
 		List<DemandJob> demandJobs = queryDemandJobByDemandId(demandId);
 		List<Integer> jobIds = new ArrayList<>();
@@ -815,14 +818,21 @@ public class DemandServiceImpl implements DemandService {
 				Worker worker = workerMapper.selectByPrimaryKey(orderWorker.getWorkerId());
 				orderWorker.setWorker(worker);
 			}
+			
+			orderModel.setWorkerCount(orderWorkerList.size());
 		}
 
 		// 客户名称:
 		Demand demandDb = demandMapper.selectByPrimaryKey(demandId);
 		Company company = companyService.queryById(demandDb.getCompanyId());
 		demandDb.setCompanyName(company == null ? "" : company.getName());
-
-		OrderModel orderModel = new OrderModel();
+		
+		// 本次签约人数，和签约金额
+		BigDecimal incomeBd = orderWorkerMapper.selectWaitingSignIncomeByDemandJobIds(jobIds);
+		
+		if(Objects.nonNull(incomeBd)) {
+			orderModel.setIncome(incomeBd.toString());
+		}
 
 		orderModel.setOrderWorkerList(orderWorkerList);
 		orderModel.setDemand(demandDb);

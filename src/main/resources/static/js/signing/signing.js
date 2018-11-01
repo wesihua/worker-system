@@ -334,34 +334,14 @@ function signingDetail(){
 
 				
                 $("#companyName").text("客户名称:" + data.data.demand.companyName );
-               
                 $("#demandNumber").text("需求单号:" + data.data.demand.demandNumber);
-                /**
-                 * 
-                
-               // $(".worker-count").text("（需求"+ data.data.demandJob.workerCount +"人）");
-                tableContent += "<tr>" +
-                    "	<th>用工工种</th>" +
-                    "	<th>签约人数</th>" +
-                    "	<th>收入总额</th>" +
-                    "</tr>";
-
-                for (var i = 0; i < firmArr.length; i++) {
-                    var firm = firmArr[i];
-                    tableContent += "<tr>" +
-                        "	<td>" + firm.jobTypeName + "</td>" +
-                        "	<td>" + firm.assignCount + "</td>" +
-                        "	<td>" + firm.income + "</td>" +
-                        "</tr>";
-                }
-                 */
-                
-
-
+                $("#workerCount").text("本次签约人数:" + data.data.workerCount);
+                $("#income").text("本次签约总金额:" + data.data.income +"(元)");
+               
+               
                 var firmArr = data.data.orderWorkerList;
                 var tableContent = "";
-               // $(".order-work-job-name").text(data.data.demandJob.jobTypeName);
-               // $(".worker-count").text("（需求"+ data.data.demandJob.workerCount +"人）");
+      
                 tableContent += "<tr>" +
                     "	<th>用工姓名</th>" +
                     "	<th>身份证号</th>" +
@@ -427,13 +407,18 @@ function signing() {
 		success : function(data) {
 			if (data.code == 1) {
 				alert("签约成功！");
-				querySignDetail();
+				toSignedPage();
 			} else {
 				alert("签约失败！原因：" + data.msg);
 			}
 		}
 	});
 
+}
+
+
+function toSignedPage(){
+	window.location.href="/signing/signed";
 }
 
 
@@ -580,14 +565,14 @@ function showAssignList(jobTypeId){
                 	
                 	var arriveWorkTimeDev = $('<div class="c-datepicker-date-editor c-datepicker-single-editor J-yearMonthPicker-single mt10">');
                  	
-                 	var arriveWorkTimeTxt = $("<input type='text' placeholder='选择到岗日期'>").val(arriveWorkTime);
+                 	var arriveWorkTimeTxt = $("<input type='text' placeholder='选择到岗日期' onchange=''>").val(arriveWorkTime);
                  	arriveWorkTimeTd.text("");
                  	arriveWorkTimeDev.append(arriveWorkTimeTxt);
                  	arriveWorkTimeTd.append(arriveWorkTimeDev);
                  	parent.$('.J-yearMonthPicker-single').datePicker({
                  		format : 'YYYY-MM-DD'
                  	});
-                 	arriveWorkTimeTxt.blur(function(){
+                 	arriveWorkTimeTxt.change(function(){
                  		// 失去焦点，保存值。
                  		var newText = $(this).val();
                  		$(this).remove();

@@ -48,12 +48,13 @@ function query(currentPage) {
 					tableContent+= "<tr>"+
 									"	<th>单号</th>"+
 									"	<th>签约日期</th>"+
-									"	<th>企业客户</th>"+
-									"	<th>收入总金额（元）</th>"+
-									"	<th>用工人数</th>"+
-									"	<th>已签人数</th>"+
+									"	<th width='200'>企业客户</th>"+
+								//	"	<th>收入总金额（元）</th>"+
+								//	"	<th>用工人数</th>"+
+								//	"	<th>已签人数</th>"+
 									"	<th>操作人员</th>"+
 									"	<th>状态</th>"+
+									"	<th width='120'>备注说明</th>"+
 									"	<th width='150'>操作</th>"+
 									"</tr>";
 					for(var i=0; i<firmArr.length; i++){
@@ -61,12 +62,13 @@ function query(currentPage) {
 						tableContent+=  "<tr>"+
 										"	<td>"+firm.demandNumber+"</td>"+
 										"	<td>"+firm.createTime+"</td>"+
-										"	<td>"+firm.companyName+"</td>"+
-										"	<td>"+firm.totalIncome+"（元）</td>"+
-										"	<td>"+firm.workCount+"</td>"+
-										"	<td>"+firm.signingCount+"</td>"+
+										"	<td width='200'>"+firm.companyName+"</td>"+
+//										"	<td>"+firm.totalIncome+"（元）</td>"+
+//										"	<td>"+firm.workCount+"</td>"+
+//										"	<td>"+firm.signingCount+"</td>"+
 										"	<td>"+firm.undertakeUserName+"</td>"+
 										"	<td width='120'>"+firm.stateName+"</td>"+
+										"	<td width='120'>"+firm.description+"</td>"+
 										"   <td><span class=\"des\" onClick=\"demandDetail("+firm.id+")\">详情</span><span class=\"delete \" onClick=\"signings("+firm.id+")\">签约</span></td>"+
 										"</tr>";
 					}
@@ -129,6 +131,13 @@ function signings(demandId){
  */
 function demandDetail(demandId){
 	window.location.href="/demand/detailWithOrder?demandId="+demandId;
+}
+
+// signing/signed
+
+
+function toSignedPage(){
+	window.location.href="signing/signed";
 }
 
 
