@@ -405,7 +405,13 @@
 		<include refid="Base_Column_List" />
 		from t_yx_order_worker
 		<where>
-			id &lt;= (select id from t_yx_order_worker order by id desc limit
+			id &lt;= (select id from t_yx_order_worker 
+				<where>
+					<if test="demandJobId != null">
+						and demand_job_id = #{demandJobId,jdbcType=INTEGER}
+					</if>
+				</where>
+			order by id desc limit
 			#{offset,jdbcType=INTEGER},1)
 			<if test="demandJobId != null">
 				and demand_job_id = #{demandJobId,jdbcType=INTEGER}
