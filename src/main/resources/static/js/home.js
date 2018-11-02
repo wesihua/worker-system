@@ -30,6 +30,10 @@ $(function(){
 	$("#logout").click(function(){
 		logout();
 	});
+	window.onresize = function(){
+		$("#nav").height($(window).height()-110);
+		handleFrame();
+	};
 });
 
 /**

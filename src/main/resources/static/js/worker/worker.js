@@ -67,23 +67,24 @@ $(function(){
 	
 	$('.J-datepicker-range').datePicker({
         hasShortcut: true,
+        format : 'YYYY-MM-DD HH:mm',
         isRange: true,
         shortcutOptions: [{
           name: '昨天',
           day: '-1,-1',
-          time: '00:00:00,23:59:59'
+          time: '00:00,23:59'
         },{
           name: '最近一周',
           day: '-7,0',
-          time:'00:00:00,'
+          time:'00:00,'
         }, {
           name: '最近一个月',
           day: '-30,0',
-          time: '00:00:00,'
+          time: '00:00,'
         }, {
           name: '最近三个月',
           day: '-90, 0',
-          time: '00:00:00,'
+          time: '00:00,'
         }]
       });
 });
@@ -182,7 +183,7 @@ function initSelect(id,type){
 		success:function(data){
 			if(data.code == 1){
 				var dics = data.data;
-				var content = "<option value=\"\">---请选择---</option>";
+				var content = "<option value=\"\">---请选择来源---</option>";
 				for(var i=0; i<dics.length; i++){
 					var dic = dics[i];
 					content += "<option value=\""+dic.code+"\">"+dic.name+"</option>";
@@ -202,7 +203,7 @@ function initCreateUserSelect(id){
 		success:function(data){
 			if(data.code == 1){
 				var dics = data.data;
-				var content = "<option value=\"\">---请选择---</option>";
+				var content = "<option value=\"\">---请选择创建人---</option>";
 				for(var i=0; i<dics.length; i++){
 					var dic = dics[i];
 					content += "<option value=\""+dic.id+"\">"+dic.realName+"</option>";
@@ -222,7 +223,7 @@ function initFirstIdSelect(id){
 		success:function(data){
 			if(data.code == 1){
 				var dics = data.data;
-				var content = "<option value=\"\">---请选择---</option>";
+				var content = "<option value=\"\">---请选择一级工种---</option>";
 				for(var i=0; i<dics.length; i++){
 					var dic = dics[i];
 					content += "<option value=\""+dic.id+"\">"+dic.name+"</option>";
