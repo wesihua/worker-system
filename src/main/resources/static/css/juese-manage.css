@@ -35,13 +35,14 @@
     border-collapse: collapse; }
     #juese-manage .a-m-content table tr th {
       text-align: center;
-      height: 40px;
-      font-weight: normal;
+      height: 35px;
+      color: #888888;
+      font-weight: bold;
       border: 1px solid #e2e2e2;
-      font-size: 14px; }
+      font-size: 12px; }
     #juese-manage .a-m-content table tr td {
       text-align: center;
-      height: 40px;
+      height: 35px;
       font-weight: normal;
       border: 1px solid #e2e2e2;
       font-size: 12px; }

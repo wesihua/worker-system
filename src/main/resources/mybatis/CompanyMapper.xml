@@ -401,7 +401,21 @@
     <include refid="Base_Column_List" />
     from t_yx_company
     <where>
-    	id &lt;= (select id from t_yx_company order by id desc limit #{offset,jdbcType=INTEGER},1)
+    	id &lt;= (
+    		select id from t_yx_company t
+    		<where>
+    			<if test="companyName != null">
+		    		and t.name like #{companyName,jdbcType=VARCHAR}
+		    	</if>
+		    	<if test="contactName != null">
+		    		and t.contact_name like #{contactName,jdbcType=VARCHAR}
+		    	</if>
+		    	<if test="contactPhone != null">
+		    		and t.contact_phone = #{contactPhone,jdbcType=VARCHAR}
+		    	</if>
+    		</where>
+    		 order by t.id desc limit #{offset,jdbcType=INTEGER},1
+    	)
     	<if test="companyName != null">
     		and name like #{companyName,jdbcType=VARCHAR}
     	</if>

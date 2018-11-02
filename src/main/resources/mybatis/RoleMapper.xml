@@ -321,7 +321,15 @@
     <include refid="Base_Column_List" />
     from t_sys_role
     <where>
-    	id &lt;= (select id from t_sys_role order by id desc limit #{offset,jdbcType=INTEGER},1)
+    	id &lt;= (
+    		select id from t_sys_role t
+    			<where>
+    				<if test="name != null">
+			    		and t.name like #{name,jdbcType=VARCHAR}
+			    	</if>
+    			</where>
+    		 order by t.id desc limit #{offset,jdbcType=INTEGER},1
+    	)
     	<if test="name != null">
     		and name like #{name,jdbcType=VARCHAR}
     	</if>

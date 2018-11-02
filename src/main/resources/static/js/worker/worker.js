@@ -109,7 +109,7 @@ function query(currentPage){
 		type:"get",
 		data:{name:workerName,telephone:telephone,idcard:idcard,createUser:createUser,
 			souce:source,firstId:firstId,secondId:secondId,beginTime:beginTime,company:company,
-			endTime:endTime,pageNumber:currentPage,pageSize:6},
+			endTime:endTime,pageNumber:currentPage},
 		dataType:"json",
 		success:function(data){
 			if(data.code == 1){

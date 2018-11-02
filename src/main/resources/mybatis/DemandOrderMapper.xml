@@ -483,7 +483,25 @@
 		) x
 		LEFT JOIN t_sys_user u ON x.create_user = u.id 
 	<where>
-		x.id &lt;= (select id from t_yx_demand_order order by id desc limit #{offset,jdbcType=INTEGER},1)
+		x.id &lt;= (select m.id from t_yx_demand_order m, t_sys_user n 
+			<where>
+				<if test="beginTime != null">
+					and m.create_time &gt;= #{beginTime,jdbcType=TIMESTAMP}
+				</if>
+				<if test="endTime != null">
+					and m.create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+				</if>
+				<if test="companyName != null">
+					and m.company_name like #{companyName,jdbcType=VARCHAR}
+				</if>
+				<if test="orderNumber != null">
+					and m.order_number = #{orderNumber,jdbcType=VARCHAR}
+				</if>
+				<if test="createUserName != null">
+					and n.real_name like #{createUserName,jdbcType=VARCHAR}
+				</if>
+			</where>
+		 order by m.id desc limit #{offset,jdbcType=INTEGER},1)
   		<if test="beginTime != null">
 			and x.create_time &gt;= #{beginTime,jdbcType=TIMESTAMP}
 		</if>

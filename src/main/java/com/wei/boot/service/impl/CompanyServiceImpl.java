@@ -70,10 +70,10 @@ public class CompanyServiceImpl implements CompanyService {
 		map.put("pageSize", page.getPageSize());
 		map.put("offset", page.getOffset());
 		if(!StringUtils.isEmpty(company.getName())) {
-			map.put("companyName", "%"+company.getName()+"%");
+			map.put("companyName", company.getName()+"%");
 		}
 		if(!StringUtils.isEmpty(company.getContactName())) {
-			map.put("contactName", "%"+company.getContactName()+"%");
+			map.put("contactName", company.getContactName()+"%");
 		}
 		if(!StringUtils.isEmpty(company.getContactPhone())) {
 			map.put("contactPhone", company.getContactPhone());

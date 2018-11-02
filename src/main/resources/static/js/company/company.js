@@ -34,7 +34,7 @@ function query(currentPage){
 	$.ajax({
 		url:"/company/list",
 		type:"get",
-		data:{companyName:companyName,pageNumber:currentPage},
+		data:{name:companyName,pageNumber:currentPage},
 		dataType:"json",
 		success:function(data){
 			if(data.code == 1){

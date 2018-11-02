@@ -664,7 +664,48 @@
 		t_yx_worker t,t_sys_user u 
 	<where>
 		t.create_user = u.id
-		and t.id &lt;= (select id from t_yx_worker order by id desc limit #{offset,jdbcType=INTEGER},1)
+		and t.id &lt;= (
+			select id from t_yx_worker x
+			<where>
+				<if test="idcard != null and idcard != ''">
+					and x.idcard = #{idcard,jdbcType=VARCHAR}
+				</if>
+				<if test="telephone != null and telephone != ''">
+					and x.telephone = #{telephone,jdbcType=VARCHAR}
+				</if>
+				<if test="name != null and name != ''">
+					and x.name like #{name,jdbcType=VARCHAR}
+				</if>
+				<if test="beginTime != null and beginTime != ''">
+					and x.create_time &gt;= #{beginTime,jdbcType=VARCHAR}
+				</if>
+				<if test="endTime != null and endTime != ''">
+					and x.create_time &lt;= #{endTime,jdbcType=VARCHAR}
+				</if>
+				<if test="source != null">
+					and x.souce = #{source,jdbcType=INTEGER}
+				</if>
+				<if test="createUser != null">
+					and x.create_user = #{createUser,jdbcType=INTEGER}
+				</if>
+				<if test="firstId != null">
+					AND EXISTS ( 
+						SELECT 1 FROM t_yx__worker_jobtype j WHERE x.id = j.worker_id 
+						AND j.first_id = #{firstId,jdbcType=INTEGER}
+						<if test="secondId != null">
+							AND j.second_id = #{secondId,jdbcType=INTEGER}
+						</if>
+					)
+				</if>
+				<if test="company != null">
+					AND EXISTS ( 
+						SELECT 1 FROM t_yx__worker_experience e WHERE x.id = e.worker_id 
+						AND e.company like #{company,jdbcType=VARCHAR}
+					)
+				</if>
+			</where>
+			 order by x.id desc limit #{offset,jdbcType=INTEGER},1
+		)
 		<if test="idcard != null and idcard != ''">
 			and t.idcard = #{idcard,jdbcType=VARCHAR}
 		</if>

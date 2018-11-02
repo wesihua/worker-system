@@ -14,7 +14,7 @@ $(function(){
 	// 加载用户信息
 	userInfo();
 	// 设置菜单的高度
-	$("#nav").height($(window).height()-110);
+	$("#nav").height($(window).height()-89);
 	// alert提示框click事件
 	$("#alert_close").click(function(){
 		closeAlert();
@@ -31,7 +31,7 @@ $(function(){
 		logout();
 	});
 	window.onresize = function(){
-		$("#nav").height($(window).height()-110);
+		$("#nav").height($(window).height()-89);
 		handleFrame();
 	};
 });
@@ -156,7 +156,7 @@ function handleFrame(){
 		location.href="/";
 	}
 	else{
-		var height = $(window).height() - 110;
+		var height = $(window).height() - 89;
 		initIframeHeight(height);
 	}
 }

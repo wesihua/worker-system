@@ -590,7 +590,34 @@
 		LEFT JOIN t_sys_user close_u ON d.close_user = close_u.id
 		LEFT JOIN t_sys_user create_u ON d.create_user = create_u.id
 	<where>
-		d.id &lt;= (select t.id from t_yx_demand t order by t.id desc limit #{offset,jdbcType=INTEGER},1)
+		d.id &lt;= (select m.id from t_yx_demand m 
+			LEFT JOIN t_yx_company cm on m.company_id = cm.id
+			LEFT JOIN t_sys_user tu ON m.undertake_user = tu.id
+			LEFT JOIN t_sys_user cu ON m.close_user = cu.id
+			<where>
+				<if test="companyName != null">
+		    		and cm.name like #{companyName,jdbcType=VARCHAR}
+		    	</if>
+				<if test="undertakeUserName != null">
+		    		and tu.real_name like #{undertakeUserName,jdbcType=VARCHAR}
+		    	</if>
+				<if test="closeUserName != null">
+		    		and cu.real_name like #{closeUserName,jdbcType=VARCHAR}
+		    	</if>
+		    	<if test="demandNumber != null">
+		    		and m.demand_number like #{demandNumber,jdbcType=VARCHAR}
+		    	</if>
+		    	<if test="state != null">
+		    		and m.state = #{state,jdbcType=INTEGER}
+		    	</if>
+		    	<if test="beginTime != null">
+		    		and m.create_time &gt;= #{beginTime,jdbcType=TIMESTAMP}
+		    	</if>
+		    	<if test="endTime != null">
+		    		and m.create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+		    	</if>
+			</where>
+		 order by m.id desc limit #{offset,jdbcType=INTEGER},1)
 		<if test="companyName != null">
     		and c.name like #{companyName,jdbcType=VARCHAR}
     	</if>

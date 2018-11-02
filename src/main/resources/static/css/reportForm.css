@@ -115,15 +115,16 @@
 }
 #reportForm .a-m-content .table-area table tr th {
       text-align: center;
-      height: 40px;
-      font-weight: normal;
+      height: 35px;
+      font-weight: bold;
+      color: #888888;
       border: 1px solid #e2e2e2;
       font-size: 12px; }
 #reportForm .a-m-content .table-area table tr td {
       text-align: center;
-      height: 40px;
+      height: 35px;
       font-weight: normal;
       border: 1px solid #e2e2e2;
-      font-size: 14px; 
+      font-size: 12px; 
       width: 16%;
 }

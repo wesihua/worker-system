@@ -15,7 +15,7 @@ $(function(){
 	// 进入页面自动查询
 	query(1);
 	//按钮事件绑定
-	$("#query-bottom").click(function(){
+	$("#query-bottom2").click(function(){
 		query(1);
 	});
 	$("#add-user").click(function(){
@@ -35,7 +35,7 @@ $(function(){
  */
 function query(currentPage){
 	var userName = $("#userName").val();
-	var realName = $("#realName").val();
+	var realName = $("#real_name").val();
 	var roleId = $("#roleId").val();
 	$.ajax({
 		url:"/user/list",
@@ -78,7 +78,7 @@ function loadAllRole(){
 		global: false,
 		success:function(data){
 			if(data.code == 1){
-				var content = "<option value=\"\">---请选择---</option>";
+				var content = "<option value=\"\">---请选择角色---</option>";
 				var roleList = data.data;
 				for(var i=0; i<roleList.length; i++){
 					var role = roleList[i];
