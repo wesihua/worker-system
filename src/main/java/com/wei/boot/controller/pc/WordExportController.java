@@ -53,7 +53,7 @@ public class WordExportController {
 		BufferedInputStream bis = null;
 		BufferedOutputStream bos = null;
 		try {
-			String fileName = "简历-"+worker.getName()+".docx";
+			String fileName = "简历-"+worker.getName()+".doc";
 			long fileLength = file.length();
 			response.setContentType("text/html;charset=utf-8");
 			request.setCharacterEncoding("UTF-8");
@@ -121,7 +121,7 @@ public class WordExportController {
 		configuration.setClassForTemplateLoading(this.getClass(), "/tpl");
 		Template t = null;
 		// 临时生成word文件，用于文件流下载，下载完成会删掉
-		String name = "temp" + (int) (Math.random() * 1000) + ".docx";
+		String name = "temp" + (int) (Math.random() * 1000) + ".doc";
 		File file = new File(name);
 		try {
 			t = configuration.getTemplate("word_template.xml");

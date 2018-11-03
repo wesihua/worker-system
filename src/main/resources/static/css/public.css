@@ -14,6 +14,7 @@ input, textarea {
 body {
   font-size: 12px;
   color: #333;
+  overflow: auto;
   /* font-family: Arial, Helvetica, sans-serif; */
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -271,9 +272,9 @@ input,select, textarea {
 table tr:nth-of-type(odd){}
 table tr:nth-of-type(even){background-color: #FAFAFA;}
 table tr{
-  cursor: pointer;
+  cursor: default;
 }
-table tr:hover td{background: #e5e5e5;}
+table tr:hover td{background: #eeeeee;}
 /* 时间窗口的table颜色不需要变 */
 .c-datepicker-picker__content table tr:nth-of-type(even){background-color: #ffffff;}
 .c-datepicker-picker__content table tr:hover td{background: #ffffff;}

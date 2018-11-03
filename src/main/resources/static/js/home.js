@@ -156,7 +156,7 @@ function handleFrame(){
 		location.href="/";
 	}
 	else{
-		var height = $(window).height() - 89;
+		var height = $(window).height() - 92;
 		initIframeHeight(height);
 	}
 }
