@@ -209,26 +209,39 @@ function queryWorkerList(pageNum){
 			    	if(aaa){
 			    		var name = $that.parents('tr').find('.worker-name').text();
 			    		var idcard = $that.parents('tr').find('.worker-idcard').text();
-			    		var content = '<li class="order-worder" id=check_'+id+' data="'+ id +'">'+
-								            '<div class="select-name">'+name+'（'+ idcard +'）</div>'+
-								            '<div class="select-title">'+
-								                '<span class="a">签约月工资（元)</span>'+
-								                '<span class="b">到岗日期</span>'+
-								               ' <span class="c">业务收入（元）</span>'+
-								            '</div>'+
-								            '<div class="select-input">'+
-								                '<input class="a signSalary" type="text" value="" />'+
-								                '<div class="c-datepicker-date-editor c-datepicker-single-editor J-yearMonthPicker-single mt10">'+
-												'<input autocomplete="off" type="text" placeholder="选择到岗日期"  class="b arriveWorkTime" id="requireTime" name="createTime"/>'+
-										        '</div>'+
-								                '<input class="c businessIncome" type="text" value="" />'+
-								           ' </div>'+
-								        '</li>';
+			    		var content = "<li class=\"order-worder\" id=\"check_"+id+" data="+ id +">"+
+								            "<div class=\"select-name\">"+name+"（"+ idcard +"）</div>"+
+								            "<div class=\"select-title\">"+
+								                "<span class=\"a\">签约月工资（元)</span>"+
+								                "<span class=\"b\">到岗日期</span>"+
+								               " <span class=\"c\">业务收入（元）</span>"+
+								            "</div>"+
+								            "<div class=\"select-input\">"+
+								                "<input name='xiaoshu' class=\"a signSalary\" type=\"text\" value=''/>"+
+								                "<div class=\"c-datepicker-date-editor c-datepicker-single-editor J-yearMonthPicker-single mt10\">"+
+												"<input autocomplete=\"off\" type=\"text\" placeholder=\"选择到岗日期\"  class=\"b arriveWorkTime\" id=\"requireTime\" name=\"createTime\"/>"+
+										        "</div>"+
+								                "<input name='xiaoshu' class=\"c businessIncome\" type=\"text\" value=''/>"+
+								           "</div>"+
+								        "</li>";
 			    	}else{
 			    		parent.$("#check_"+id+"").remove();
 			    	}
 			    	
 			    	parent.$(".result-area ul").append(content);
+			    	
+			    	parent.$(".result-area ul").on("keyup afterpaste","input[name='xiaoshu']",function(){
+			    		
+			    		if(this.value.length==1){
+			    			this.value=this.value.replace(/[^1-9]/g,'')
+			    		}else{
+			    			this.value = this.value.replace(/[^\d.]/g,''); 
+			    			this.value = this.value.replace(/^\./g,'');
+			    			this.value = this.value.replace(/\.{2,}/g,'');
+			    			this.value = this.value.replace('.','$#$').replace(/\./g,'').replace('$#$','.');
+			    			this.value = this.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3');
+			    		}
+			    	});
 			    
 			    	parent.$('.J-yearMonthPicker-single').datePicker({
 			    		format : 'YYYY-MM-DD'
@@ -331,13 +344,10 @@ function signingDetail(){
 		data:{demandId:demandId},
 		success:function(data){
 			if(data.code == 1){
-
-				
                 $("#companyName").text("客户名称:" + data.data.demand.companyName );
                 $("#demandNumber").text("需求单号:" + data.data.demand.demandNumber);
                 $("#workerCount").text("本次签约人数:" + data.data.workerCount);
                 $("#income").text("本次签约总金额:" + data.data.income +"(元)");
-               
                
                 var firmArr = data.data.orderWorkerList;
                 var tableContent = "";
@@ -361,7 +371,7 @@ function signingDetail(){
                         "	<td>" + worker.telephone + "</td>" +
                         "	<td>" + (worker.jobtypeName == null ? "" : worker.jobtypeName) + "</td>" +
                         "	<td>" + firm.signSalary + "</td>" +
-                        "	<td>" + firm.arriveWorkTime + "</td>" +
+                        "	<td>" + (firm.arriveWorkTime == null ? "" : firm.arriveWorkTime) + "</td>" +
                         "	<td width='120'>" + firm.businessIncome + "</td>" +
                         "</tr>";
                 }
@@ -385,7 +395,6 @@ function signingDetail(){
 			}
 		}
 	});
-
 }
 
 
@@ -467,7 +476,7 @@ function showAssignList(jobTypeId){
                     "	<th>擅长工种</th>" +
                     "	<th>签约月工资（元）</th>" +
                     "	<th>到岗日期</th>" +
-                    "	<th width='120'>业务收入（元）</th>" +
+                    "	<th width='80'>业务收入（元）</th>" +
                     "	<th width='150'>操作</th>" +
                     "</tr>";
 
@@ -482,9 +491,9 @@ function showAssignList(jobTypeId){
                         "	<td>" + worker.telephone + "</td>" +
                         "	<td>" + (worker.jobtypeName == null ? "" : worker.jobtypeName) + "</td>" +
                         "	<td id=\"signSalary\">" + firm.signSalary + "</td>" +
-                        "	<td id=\"arriveWorkTime\">" + firm.arriveWorkTime + "</td>" +
+                        "	<td id=\"arriveWorkTime\">" + (firm.arriveWorkTime == null ? "" : firm.arriveWorkTime) + "</td>" +
                         "	<td id=\"businessIncome\" width='120'>" + firm.businessIncome + "</td>" +
-                        "   <td><span class=\"delete\" id=\"delete-worker\">移除</span></td>" +
+                        "   <td><span class='delete' id='delete-worker'>移除</span><span class='edit' id='edit-worker'>编辑</span><span class='edit' style ='display:none' id='confirm-edit'>确定</span></td>" +
                         "</tr>";
                     
                     // <span class=\"edit\" id=\"edit-worker\">编辑</span>
@@ -498,98 +507,171 @@ function showAssignList(jobTypeId){
                 }
                 
                 // 编辑 签约薪水
-                parent.$('#signSalary').dblclick(function(){
-                	var id = $(this).parents('tr').children('#id').val();
-                	var signSalary = $(this).text();
-                	var signSalaryTd = $(this);
-
-            		// 签约薪水变成可输入框
-            		var signSalaryTxt = $("<input type='text'>").val(signSalary);
-            		signSalaryTxt.blur(function(){
-            			// 失去焦点，保存值。
-            			var newSignSalary = $(this).val();
-            			
-            			if (!newSignSalary) {
-            				alert("签约工资不能为空！");
-            				return;
-            			}
-            			
-            			signSalaryTxt.remove();
-            		    // 移除文本框,显示新值
-            			signSalaryTd.text(newSignSalary);
-            		    if(signSalary != newSignSalary){
-            		    	updateOrderWorker(id,newSignSalary,null,null);
-            		    }
-            			
-            		       
-            		    });
-            		signSalaryTd.text("");
-            		signSalaryTd.append(signSalaryTxt);
-                });
+//                parent.$("#worker-list-table").on("dblclick","#signSalary",function(){
+//                	var id = $(this).parents('tr').children('#id').val();
+//                	var signSalary = $(this).text();
+//                	var signSalaryTd = $(this);
+//
+//            		// 签约薪水变成可输入框
+//            		var signSalaryTxt = $("<input type='text'>").val(signSalary);
+//            		signSalaryTxt.blur(function(){
+//            			// 失去焦点，保存值。
+//            			var newSignSalary = $(this).val();
+//            			
+//            			if (!newSignSalary) {
+//            				alert("签约工资不能为空！");
+//            				return;
+//            			}
+//            			
+//            			signSalaryTxt.remove();
+//            		    // 移除文本框,显示新值
+//            			signSalaryTd.text(newSignSalary);
+//            		    if(signSalary != newSignSalary){
+//            		    	updateOrderWorker(id,newSignSalary,null,null);
+//            		    }
+//            			
+//            		       
+//            		    });
+//            		signSalaryTd.text("");
+//            		signSalaryTd.append(signSalaryTxt);
+//                });
                 
                 
-                // 编辑 业务收入
-                parent.$('#businessIncome').dblclick(function(){
-                	
-                	var id = $(this).parents('tr').children('#id').val();
-                	var businessIncome = $(this).text();
-                	var businessIncomeTd = $(this);
-                	
-                	var businessIncomeTxt = $("<input type='text'>").val(businessIncome);
-                	businessIncomeTxt.blur(function(){
-                		// 失去焦点，保存值。
-                		var newText = $(this).val();
-                		
-                		if (!newText) {
-            				alert("业务收入不能为空！");
-            				return;
-            			}
-                		$(this).remove();
-                	    // 移除文本框,显示新值
-                		businessIncomeTd.text(newText);
-                		if(newText != businessIncome){
-                			updateOrderWorker(id,null,newText,null);
-                		}
-                		   
-                	    });
-                	businessIncomeTd.text("");
-                	businessIncomeTd.append(businessIncomeTxt);
-                });
+//                parent.$("#worker-list-table").on("dblclick","#businessIncome",function(){
+//            	
+//                	var id = $(this).parents('tr').children('#id').val();
+//                	var businessIncome = $(this).text();
+//                	var businessIncomeTd = $(this);
+//                	
+//                	var businessIncomeTxt = $("<input type='text'>").val(businessIncome);
+//                	businessIncomeTxt.blur(function(){
+//                		// 失去焦点，保存值。
+//                		var newText = $(this).val();
+//                		
+//                		if (!newText) {
+//            				alert("业务收入不能为空！");
+//            				return;
+//            			}
+//                		$(this).remove();
+//                	    // 移除文本框,显示新值
+//                		businessIncomeTd.text(newText);
+//                		if(newText != businessIncome){
+//                			updateOrderWorker(id,null,newText,null);
+//                		}
+//                		   
+//                	    });
+//                	businessIncomeTd.text("");
+//                	businessIncomeTd.append(businessIncomeTxt);
+//                });
                 
                 // 编辑时间
-                parent.$('#arriveWorkTime').dblclick(function(){
+//                parent.$("#worker-list-table").on("dblclick","#arriveWorkTime",function(){
+//                	
+//                	var id = $(this).parents('tr').children('#id').val();
+//                	var arriveWorkTime = $(this).text();
+//                	var arriveWorkTimeTd = $(this);
+//                	
+//                	var arriveWorkTimeDev = $('<div class="c-datepicker-date-editor c-datepicker-single-editor J-yearMonthPicker-single mt10">');
+//                 	
+//                 	var arriveWorkTimeTxt = $("<input type='text' placeholder='选择到岗日期'  onchange=''>").val(arriveWorkTime);
+//                 	arriveWorkTimeTd.text("");
+//                 	arriveWorkTimeDev.append(arriveWorkTimeTxt);
+//                 	arriveWorkTimeTd.append(arriveWorkTimeDev);
+//                 	parent.$('.J-yearMonthPicker-single').datePicker({
+//                 		format : 'YYYY-MM-DD'
+//                 	});
+//                 	arriveWorkTimeTxt.change(function(){
+//                 		// 
+//                 		var newText = $(this).val();
+//                 		$(this).remove();
+//                 	    // 移除文本框,显示新值
+//                 		arriveWorkTimeTd.text(newText);
+//                 		
+//                 		updateOrderWorker(id,null,null,newText);
+//                 		
+//                 	    });
+//                	
+//                });
+               
+                //#
+                
+                parent.$("#worker-list-table").on("click","#delete-worker",function(){
+                	deleteOrderWorker($(this).parents('tr').children('#id').val());
+                });
+                
+                // 点击编辑
+                parent.$("#worker-list-table").on("click","#edit-worker",function(){
+                	 $(this).parents('td').children('#confirm-edit').show();
+                	 $(this).hide();
+
+                	var signSalary = $(this).parents('tr').children('#signSalary').text();
+                	var signSalaryTd = $(this).parents('tr').children('#signSalary');
+
+            		// 签约薪水变成可输入框
+            		var signSalaryTxt = $("<input id='signSalary-input' type='text'>").val(signSalary);
+            		signSalaryTd.text("");
+            		signSalaryTd.append(signSalaryTxt);
+            		
+                	var businessIncome = $(this).parents('tr').children('#businessIncome').text();
+                	var businessIncomeTd = $(this).parents('tr').children('#businessIncome');
+                	var businessIncomeTxt = $("<input id='businessIncome-input' type='text'>").val(businessIncome);
+                	businessIncomeTd.text("");
+                	businessIncomeTd.append(businessIncomeTxt);
                 	
-                	var id = $(this).parents('tr').children('#id').val();
-                	var arriveWorkTime = $(this).text();
-                	var arriveWorkTimeTd = $(this);
+                	var arriveWorkTime = $(this).parents('tr').children('#arriveWorkTime').text();
+                	var arriveWorkTimeTd = $(this).parents('tr').children('#arriveWorkTime');
                 	
                 	var arriveWorkTimeDev = $('<div class="c-datepicker-date-editor c-datepicker-single-editor J-yearMonthPicker-single mt10">');
                  	
-                 	var arriveWorkTimeTxt = $("<input type='text' placeholder='选择到岗日期' onchange=''>").val(arriveWorkTime);
+                 	var arriveWorkTimeTxt = $("<input id='arriveWorkTime-input' type='text' placeholder='选择到岗日期'  onchange=''>").val(arriveWorkTime);
                  	arriveWorkTimeTd.text("");
                  	arriveWorkTimeDev.append(arriveWorkTimeTxt);
                  	arriveWorkTimeTd.append(arriveWorkTimeDev);
                  	parent.$('.J-yearMonthPicker-single').datePicker({
                  		format : 'YYYY-MM-DD'
                  	});
-                 	arriveWorkTimeTxt.change(function(){
-                 		// 失去焦点，保存值。
-                 		var newText = $(this).val();
-                 		$(this).remove();
-                 	    // 移除文本框,显示新值
-                 		arriveWorkTimeTd.text(newText);
-                 		
-                 		updateOrderWorker(id,null,null,newText);
-                 		
-                 	    });
-                	
                 });
-               
                 
-                // 删除
-                parent.$('#delete-worker').click(function(){
-                	deleteOrderWorker($(this).parents('tr').children('#id').val());
-                });
+                
+             
+                // 确认编辑
+            	parent.$("#worker-list-table").on("click","#confirm-edit",function(){
+            		
+            		var id = $(this).parents('tr').children('#id').val();
+	                	
+	                // 隐藏确定  恢复编辑按钮	
+	               	$(this).parents('td').children('#edit-worker').show();
+	               	$(this).hide();
+	               	 // 取值
+	               	var signSalary = $(this).parents('tr').find('#signSalary-input').val();
+	               	var signSalaryTd = $(this).parents('tr').children('#signSalary');
+	               	
+	               	$(this).parents('tr').children('#signSalary-input').remove();
+	               	signSalaryTd.text(signSalary);
+	
+	               	var businessIncome = $(this).parents('tr').find('#businessIncome-input').val();
+	               	$(this).parents('tr').children('#businessIncome').text(businessIncome);;
+	               	$(this).parents('tr').children('#businessIncome-input').remove();
+	               	
+	               	var arriveWorkTime = $(this).parents('tr').find('#arriveWorkTime-input').val();
+	               	var arriveWorkTimeTd = $(this).parents('tr').children('#arriveWorkTime');
+	               	$(this).parents('tr').children('#arriveWorkTime-input').remove();
+	               	$(this).parents('tr').children('#arriveWorkTime').text(arriveWorkTime);
+	               	
+	               	// 加校验
+	               	if (!signSalary) {
+        				alert("签约工资不能为空！");
+        				return;
+        			}
+	               		
+               		if (!businessIncome) {
+        				alert("业务收入不能为空！");
+        				return;
+        			}
+	               	
+	               	
+	               	updateOrderWorker(id,signSalary,businessIncome,arriveWorkTime);
+               });
             }
         }
     });
@@ -679,12 +761,12 @@ function deleteOrderWorker(orderWorkerId) {
 function updateOrderWorker(id,signSalary,businessIncome,arriveWorkTime) {
 	
 	var orderWorker = {};
-	if(signSalary != null){
-		orderWorker.signSalary=signSalary;
-	}
-	if(businessIncome != null){
-		orderWorker.businessIncome=businessIncome;
-	}
+	
+	orderWorker.signSalary=signSalary;
+	orderWorker.businessIncome=businessIncome;
+	
+	orderWorker.arriveWorkTime = arriveWorkTime;
+	
 	
 	orderWorker.id =id;
 	

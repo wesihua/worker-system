@@ -79,6 +79,8 @@ public interface GlobalConstant {
 		String EXPECT_SALARY = "expect_salary";	// 期望薪资
 		String LANGUAGE_LEVEL = "language_level";//外语能力
 		String DEMAND_STATE= "demand_state"; // 需求单状态
+		String DEGREE_DEMAND= "degree_demand"; // 学历要求
+		String GENDER_DEMAND= "gender_demand"; // 性别要求
 	}
 	
 	interface DemandState {

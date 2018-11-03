@@ -472,7 +472,37 @@
     select t_yx_company.name as company_name, t_yx_demand.*
     from t_yx_demand left join t_yx_company on t_yx_demand.company_id = t_yx_company.id
     <where>
-    	t_yx_demand.id &lt;= (select id from t_yx_demand order by t_yx_demand.id desc limit #{offset,jdbcType=INTEGER},1)
+    	t_yx_demand.id &lt;= (select id from t_yx_demand 
+    		<where>
+    			<if test="companyId != null">
+    				and t_yx_demand.company_id = #{companyId,jdbcType=INTEGER}
+		    	</if>
+		    	<if test="undertakeUser != null">
+		    		and t_yx_demand.undertake_user = #{undertakeUser,jdbcType=INTEGER}
+		    	</if>
+		    	<if test="demandNumber != null">
+		    		and t_yx_demand.demand_number like #{demandNumber,jdbcType=VARCHAR}
+		    	</if>
+		    	<if test="companyName != null">
+		    		and t_yx_company.name like #{companyName,jdbcType=VARCHAR}
+		    	</if>
+		    	<if test="state != null">
+		    		and t_yx_demand.state = #{state,jdbcType=INTEGER}
+		    	</if>
+		    	<if test="createBeginTime != null">
+		    		and t_yx_demand.create_time &gt;= #{createBeginTime,jdbcType=TIMESTAMP}
+		    	</if>
+		    	<if test="createEndTime != null">
+		    		and t_yx_demand.create_time &lt;= #{createEndTime,jdbcType=TIMESTAMP}
+		    	</if>
+		    	<if test="closeBeginTime != null">
+		    		and t_yx_demand.close_time &gt;= #{closeBeginTime,jdbcType=TIMESTAMP}
+		    	</if>
+		    	<if test="closeEndTime != null">
+		    		and t_yx_demand.close_time &lt;= #{closeEndTime,jdbcType=TIMESTAMP}
+		    	</if>
+    		</where>
+    	order by t_yx_demand.id desc limit #{offset,jdbcType=INTEGER},1)
     	<if test="companyId != null">
     		and t_yx_demand.company_id = #{companyId,jdbcType=INTEGER}
     	</if>

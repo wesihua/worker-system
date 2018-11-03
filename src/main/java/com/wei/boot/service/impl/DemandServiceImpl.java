@@ -50,7 +50,9 @@ import com.wei.boot.model.signing.OrderModel;
 import com.wei.boot.service.CommonService;
 import com.wei.boot.service.CompanyService;
 import com.wei.boot.service.DemandService;
+import com.wei.boot.util.CheckUtils;
 import com.wei.boot.util.DateUtils;
+import com.wei.boot.util.ToolsUtil;
 
 @Service
 public class DemandServiceImpl implements DemandService {
@@ -305,9 +307,26 @@ public class DemandServiceImpl implements DemandService {
 				demandJob.setWorkAreaName(area == null ? "": area.getName());
 			}
 			// 工种名字
-			String jobTypeName = queryJobTypeName(demandJob.getJobTypeId());
+			JobType jobType = jobTypeMapper.selectByPrimaryKey(demandJob.getJobTypeId());
 			
-			demandJob.setJobTypeName(jobTypeName);
+			demandJob.setJobTypeName(jobType == null ? "": jobType.getName());
+			demandJob.setParentJobTypeId(jobType == null ? null: jobType.getParentId());
+			
+			
+
+			// 翻译性别要求
+			if(null != demandJob.getGender()) {
+				String genderName = commonService.queryDicText(GlobalConstant.DictionaryType.GENDER_DEMAND, demandJob.getGender());
+				demandJob.setGenderName(genderName);			}
+	
+			// 翻译学历要求
+			if(null != demandJob.getDegree()) {
+				String degreeName = commonService.queryDicText(GlobalConstant.DictionaryType.DEGREE_DEMAND, demandJob.getDegree());
+				demandJob.setDegreeName(degreeName);
+			}
+			
+			
+		
 		}
 		
 	}
@@ -471,7 +490,7 @@ public class DemandServiceImpl implements DemandService {
 		orderWorkerDb.setUpdateUser(orderWorker.getUpdateUser());
 		orderWorkerDb.setArriveWorkTime(orderWorker.getArriveWorkTime());
 		orderWorkerDb.setSignSalary(orderWorker.getSignSalary());
-		orderWorkerMapper.updateByPrimaryKeySelective(orderWorkerDb);
+		orderWorkerMapper.updateByPrimaryKey(orderWorkerDb);
 	}
 
 	@Override
@@ -696,6 +715,8 @@ public class DemandServiceImpl implements DemandService {
 				}
 			});
 			
+			Map<Integer, DemandJob>  demandJobMap = new HashMap<>();
+ 			
 
 			demand.getDemandJobList().stream().forEach(demandJob -> {
 				if (demandJob.getId() == null) {
@@ -704,13 +725,31 @@ public class DemandServiceImpl implements DemandService {
 					demandJob.setCreateTime(date);
 					demandJob.setCreateUser(demand.getUpdateUser());
 					demandJobMapper.insertSelective(demandJob);
-				}  else {
-					demandJob.setUpdateTime(date);
-					demandJob.setUpdateUser(demand.getUpdateUser());
-					demandJob.setDemandId(demand.getId());
-					demandJobMapper.updateByPrimaryKeySelective(demandJob);
+				}  else {  // 修改
+					demandJobMap.put(demandJob.getId(), demandJob);
 				}
 			});
+			
+			// 修改
+			demandJobList.stream().forEach(djDb -> {
+				if (demandJobMap.get(djDb.getId()) != null) {
+					DemandJob editDj = demandJobMap.get(djDb.getId());
+					djDb.setUpdateTime(date);
+					djDb.setUpdateUser(demand.getUpdateUser());
+					djDb.setJobTypeId(editDj.getJobTypeId());
+					djDb.setWorkerCount(editDj.getWorkerCount());
+					djDb.setRequireTime(editDj.getRequireTime());
+					djDb.setSalary(editDj.getSalary());
+					djDb.setWorkArea(editDj.getWorkArea());
+					djDb.setGender(editDj.getGender());
+					djDb.setDegree(editDj.getDegree());
+					djDb.setAge(editDj.getAge());
+					djDb.setRequirement(editDj.getRequirement());
+					demandJobMapper.updateByPrimaryKey(djDb);
+				}
+			});
+			
+			
 		}
 	}
 

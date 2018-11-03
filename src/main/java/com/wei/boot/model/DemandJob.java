@@ -174,12 +174,25 @@ public class DemandJob {
      */
     private Integer parentCode;
     
+    private Integer parentJobTypeId;
+    
     
     /**************以上翻译字段*********************/
+    
+    
+    
     
 
     public String getJobTypeName() {
 		return jobTypeName;
+	}
+
+	public Integer getParentJobTypeId() {
+		return parentJobTypeId;
+	}
+
+	public void setParentJobTypeId(Integer parentJobTypeId) {
+		this.parentJobTypeId = parentJobTypeId;
 	}
 
 	public String getGenderName() {
