@@ -331,13 +331,10 @@ function signingDetail(){
 		data:{demandId:demandId},
 		success:function(data){
 			if(data.code == 1){
-
-				
                 $("#companyName").text("客户名称:" + data.data.demand.companyName );
                 $("#demandNumber").text("需求单号:" + data.data.demand.demandNumber);
                 $("#workerCount").text("本次签约人数:" + data.data.workerCount);
                 $("#income").text("本次签约总金额:" + data.data.income +"(元)");
-               
                
                 var firmArr = data.data.orderWorkerList;
                 var tableContent = "";
@@ -361,7 +358,7 @@ function signingDetail(){
                         "	<td>" + worker.telephone + "</td>" +
                         "	<td>" + (worker.jobtypeName == null ? "" : worker.jobtypeName) + "</td>" +
                         "	<td>" + firm.signSalary + "</td>" +
-                        "	<td>" + firm.arriveWorkTime + "</td>" +
+                        "	<td>" + (firm.arriveWorkTime == null ? "" : firm.arriveWorkTime) + "</td>" +
                         "	<td width='120'>" + firm.businessIncome + "</td>" +
                         "</tr>";
                 }
@@ -385,7 +382,6 @@ function signingDetail(){
 			}
 		}
 	});
-
 }
 
 
@@ -467,8 +463,8 @@ function showAssignList(jobTypeId){
                     "	<th>擅长工种</th>" +
                     "	<th>签约月工资（元）</th>" +
                     "	<th>到岗日期</th>" +
-                    "	<th width='120'>业务收入（元）</th>" +
-                    "	<th width='150'>操作</th>" +
+                    "	<th width='80'>业务收入（元）</th>" +
+                    "	<th width='100'>操作</th>" +
                     "</tr>";
 
                 for (var i = 0; i < firmArr.length; i++) {
@@ -482,9 +478,9 @@ function showAssignList(jobTypeId){
                         "	<td>" + worker.telephone + "</td>" +
                         "	<td>" + (worker.jobtypeName == null ? "" : worker.jobtypeName) + "</td>" +
                         "	<td id=\"signSalary\">" + firm.signSalary + "</td>" +
-                        "	<td id=\"arriveWorkTime\">" + firm.arriveWorkTime + "</td>" +
+                        "	<td id=\"arriveWorkTime\">" + (firm.arriveWorkTime == null ? "" : firm.arriveWorkTime) + "</td>" +
                         "	<td id=\"businessIncome\" width='120'>" + firm.businessIncome + "</td>" +
-                        "   <td><span class=\"delete\" id=\"delete-worker\">移除</span></td>" +
+                        "   <td><span class='delete' id='delete-worker'>移除</span></td>" +
                         "</tr>";
                     
                     // <span class=\"edit\" id=\"edit-worker\">编辑</span>
@@ -498,7 +494,7 @@ function showAssignList(jobTypeId){
                 }
                 
                 // 编辑 签约薪水
-                parent.$('#signSalary').dblclick(function(){
+                parent.$("#worker-list-table").on("dblclick","#signSalary",function(){
                 	var id = $(this).parents('tr').children('#id').val();
                 	var signSalary = $(this).text();
                 	var signSalaryTd = $(this);
@@ -528,9 +524,8 @@ function showAssignList(jobTypeId){
                 });
                 
                 
-                // 编辑 业务收入
-                parent.$('#businessIncome').dblclick(function(){
-                	
+                parent.$("#worker-list-table").on("dblclick","#businessIncome",function(){
+            	
                 	var id = $(this).parents('tr').children('#id').val();
                 	var businessIncome = $(this).text();
                 	var businessIncomeTd = $(this);
@@ -565,7 +560,7 @@ function showAssignList(jobTypeId){
                 	
                 	var arriveWorkTimeDev = $('<div class="c-datepicker-date-editor c-datepicker-single-editor J-yearMonthPicker-single mt10">');
                  	
-                 	var arriveWorkTimeTxt = $("<input type='text' placeholder='选择到岗日期' onchange=''>").val(arriveWorkTime);
+                 	var arriveWorkTimeTxt = $("<input type='text' placeholder='选择到岗日期'  onchange=''>").val(arriveWorkTime);
                  	arriveWorkTimeTd.text("");
                  	arriveWorkTimeDev.append(arriveWorkTimeTxt);
                  	arriveWorkTimeTd.append(arriveWorkTimeDev);
@@ -585,11 +580,16 @@ function showAssignList(jobTypeId){
                 	
                 });
                
+                //#
                 
-                // 删除
-                parent.$('#delete-worker').click(function(){
+                parent.$("#worker-list-table").on("click","#delete-worker",function(){
                 	deleteOrderWorker($(this).parents('tr').children('#id').val());
                 });
+                
+                // 删除
+//                parent.$('#delete-worker').click(function(){
+//                
+//                });
             }
         }
     });
