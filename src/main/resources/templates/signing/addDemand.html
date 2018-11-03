@@ -98,7 +98,9 @@
 					</div>
 					<div class="input-block">
 						<span class="name"><i>*</i>用工人数</span>
-						<input class="pt" id="workerCount"/>
+						<input class="pt" id="workerCount" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" 
+						onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+						/>
 					</div>
 					<div class="input-block">
 						<span class="name">到岗日期&nbsp;&nbsp;</span>
@@ -108,7 +110,10 @@
 					</div>
 					<div class="input-block">
 						<span class="name">月工资&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><input
-							class="pt" id="salary"/>
+							class="pt" id="salary"
+							onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value = this.value.replace(/[^\d.]/g,''); this.value = this.value.replace(/^\./g,'');this.value = this.value.replace(/\.{2,}/g,'');this.value = this.value.replace('.','$#$').replace(/\./g,'').replace('$#$','.');this.value = this.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3');}"
+							onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value = this.value.replace(/[^\d.]/g,''); this.value = this.value.replace(/^\./g,'');this.value = this.value.replace(/\.{2,}/g,'');this.value = this.value.replace('.','$#$').replace(/\./g,'').replace('$#$','.');this.value = this.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3');}"
+							/>
 					</div>
 					<div class="input-block">
 						<span class="name">工作地区&nbsp;&nbsp;</span> 

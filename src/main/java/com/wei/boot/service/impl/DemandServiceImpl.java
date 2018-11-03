@@ -490,7 +490,7 @@ public class DemandServiceImpl implements DemandService {
 		orderWorkerDb.setUpdateUser(orderWorker.getUpdateUser());
 		orderWorkerDb.setArriveWorkTime(orderWorker.getArriveWorkTime());
 		orderWorkerDb.setSignSalary(orderWorker.getSignSalary());
-		orderWorkerMapper.updateByPrimaryKeySelective(orderWorkerDb);
+		orderWorkerMapper.updateByPrimaryKey(orderWorkerDb);
 	}
 
 	@Override
