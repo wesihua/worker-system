@@ -26,6 +26,8 @@
     <result column="job_type_name" property="jobTypeName" jdbcType="VARCHAR" />
     <result column="gender_name" property="genderName" jdbcType="VARCHAR" />
     <result column="degree_name" property="degreeName" jdbcType="VARCHAR" />
+    <result column="create_user" property="parentJobTypeId" jdbcType="INTEGER" />
+    <result column="parent_job_type_id" property="parentCode" jdbcType="INTEGER" />	
   </resultMap>
   <sql id="Example_Where_Clause" >
     <!--
@@ -450,18 +452,20 @@
   <select id="selectByDemandId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     SELECT
 		jt.NAME job_type_name,
+		jt.parent_id parent_job_type_id,
+		a.parent_code parent_code,
 		a.NAME work_area_name,
-		d1.NAME genderName,
-		d2.NAME degreeName,
+		d1.NAME gender_name,
+		d2.NAME degree_name,
 		t.* 
 	FROM
 		t_yx_demand_job t
 		LEFT JOIN t_sys_job_type jt ON t.job_type_id = jt.id
 		LEFT JOIN t_sys_area a ON t.work_area = a.
 		CODE LEFT JOIN t_sys_dictionary d1 ON t.gender = d1.CODE 
-		AND d1.type = 'gender'
+		AND d1.type = 'gender_demand'
 		LEFT JOIN t_sys_dictionary d2 ON t.degree = d2.CODE 
-		AND d2.type = 'degree'
+		AND d2.type = 'degree_demand'
     where t.demand_id = #{demandId,jdbcType=INTEGER}
   </select>
   

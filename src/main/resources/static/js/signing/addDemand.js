@@ -67,7 +67,7 @@ function queryDetail(){
 							tableContent+=  "<tr class=\"tr-body\">"+
 											"  <td id='jobTypeName'>"+firm.jobTypeName+"</td>"+
 											"  <td id='workerCount'>"+firm.workerCount+"</td>"+
-											"  <td id='requireTime'>"+firm.requireTime+"</td>"+
+											"  <td id='requireTime'>"+(firm.requireTime == null ? '' : firm.requireTime)+"</td>"+
 											"  <td id='salary'>"+firm.salary+"</td>"+
 											"  <td id='workAreaName'>"+firm.workAreaName+"</td>"+
 											"  <td id='genderName'>"+(firm.genderName == null ? '': firm.genderName)+"</td>"+
@@ -108,7 +108,7 @@ function queryJobType(parentJobTypeId,jobTypeId){
 		type:"get",
 		dataType:"json",
 		data:{parentId : parentJobTypeId},
-		async:true,
+		async:false,
 		success:function(data){
 			if(data.code == 1){
 				var dics = data.data;
@@ -135,7 +135,7 @@ function queryParentJobType(parentJobTypeId){
 		url:"/jobType/queryRootJobType",
 		type:"get",
 		dataType:"json",
-		async:true,
+		async:false,
 		success:function(data){
 			if(data.code == 1){
 				var dics = data.data;
@@ -158,12 +158,13 @@ function queryParentJobType(parentJobTypeId){
 // 查公司
 function queryCompany(){
 	var name = $("#companyName").val();
-
+	$("input:hidden[name='companyId']").val(0);
 	$.ajax({
 		url:"/company/queryByName",
 		type:"get",
 		data:{name:name},
 		dataType:"json",
+		async:false,
 		success:function(data){
 			if(data.code == 1){
 				var firmArr = data.data;
@@ -196,7 +197,7 @@ function initOtherSelect(gender,degree){
 	$.ajax({
 		url:"/common/queryDicByTypes",
 		type:"get",
-		async:true,
+		async:false,
 		dataType:"json",
 		data:{types:types},
 		success:function(data){
@@ -306,7 +307,7 @@ function queryArea(parentCode,areaCode){
 		url:"/common/queryAreaByParentCode",
 		type:"get",
 		dataType:"json",
-		async:true,
+		async:false,
 		data:{parentCode:parentCode},
 		success:function(data){
 			if(data.code == 1){
@@ -608,7 +609,7 @@ function addDemand(){
 	demand.companyId =$("#companyId").val();
 	demand.description =$("#description").val();
 	
-	if (!demand.companyId) {
+	if (!demand.companyId  || demand.companyId ==0) {
 		alert("请搜索已有企业！");
 		return false;
 	}
@@ -682,7 +683,7 @@ function initProvinceSelect(provinceCode){
 		url:"/common/queryAllProvince",
 		type:"get",
 		dataType:"json",
-		async:true,
+		async:false,
 		success:function(data){
 			if(data.code == 1){
 				var dics = data.data;
@@ -707,7 +708,7 @@ function initParentJobType(provinceCode){
 		url:"/common/queryAllProvince",
 		type:"get",
 		dataType:"json",
-		async:true,
+		async:false,
 		success:function(data){
 			if(data.code == 1){
 				var dics = data.data;
