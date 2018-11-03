@@ -305,7 +305,7 @@ public class DemandServiceImpl implements DemandService {
 				demandJob.setWorkAreaName(area == null ? "": area.getName());
 			}
 			// 工种名字
-			JobType jobType = jobTypeMapper.selectByPrimaryKey(demandJob.getId());
+			JobType jobType = jobTypeMapper.selectByPrimaryKey(demandJob.getJobTypeId());
 			
 			demandJob.setJobTypeName(jobType == null ? "": jobType.getName());
 			demandJob.setParentJobTypeId(jobType == null ? null: jobType.getParentId());

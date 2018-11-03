@@ -271,17 +271,22 @@ function addJob(){
 	
 	parent.$(".add-job-type-content").click(function(){
 		
-		
+		var workAreaName ='';
+		var parentCode = 0;
 		var jobTypeName = parent.$("#jobTypeName").val();
 		var jobTypeId = parent.$("#jobTypeId").val();
 		var parentJobTypeId = parent.$("#parentJobTypeId").val();
 		var workerCount = parent.$("#workerCount").val();
 		var salary = parent.$("#salary").val();
 		var requireTime = parent.$("#requireTime").val();
-		var workAreaName = parent.$("#workAreaName").val();
 		var workArea = parent.$("#workAreaList").val();
-		var parentCode = parent.$("#parentCode").val();
 		var requirement = parent.$("#requirement").val();
+		
+		// var 
+		if(workArea > 0){
+			workAreaName = parent.$("#workAreaName").val();
+			parentCode = parent.$("#parentCode").val();
+		}
 		
 		
 		var p_check = checkParameter();	
@@ -404,6 +409,9 @@ function editJob(obj) {
 	parent.$("#parentCode").val(parentCode);
 	parent.$("#workAreaName").val(workAreaName);
 	parent.$(".add-job-type-content").click(function() {
+		
+		var workAreaName_ = "";
+		var parentCode_ = 0;
 
 		var jobTypeName_ = parent.$("#jobTypeName").val();
 		var jobTypeId_ = parent.$("#jobTypeId").val();
@@ -412,9 +420,12 @@ function editJob(obj) {
 		var salary_ = parent.$("#salary").val();
 		var requireTime_ = parent.$("#requireTime").val();
 		var workArea_ = parent.$("#workArea").val();
-		var workAreaName_ = parent.$("#workAreaName").val();
-		var parentCode_ = parent.$("#parentCode").val();
 		var requirement_ = parent.$("#requirement").val();
+		
+		if(workArea_ > 0){
+			workAreaName_ = parent.$("#workAreaName").val();
+			parentCode_ = parent.$("#parentCode").val();
+		}
 
 		var p_check = checkParameter();
 		
