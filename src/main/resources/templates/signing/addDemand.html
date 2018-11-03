@@ -51,8 +51,10 @@
 							<th>到岗日期</th>
 							<th>月工资（元）</th>
 							<th>工作地区</th>
+							<th>性别要求</th>
+							<th>学历要求</th>
+							<th>年龄要求</th>
 							<th width="220">用工要求</th>
-
 							<th width="150">操作</th>
 						</tr>
 					<!--  	<tr class="tr-body">
@@ -123,6 +125,25 @@
 						<input  id="workAreaName" type="hidden"/>
 						<input  id="parentCode" type="hidden"/>
 					</div>
+					<div class="input-block">
+						<span class="name">性别要求&nbsp;&nbsp;</span> 
+						<select class="se" id="gender">
+							<!--  <option value="1">1</option>-->
+						</select>
+						<input  id="genderName" type="hidden"/>
+					</div>
+					<div class="input-block">
+						<span class="name">学历要求&nbsp;&nbsp;</span> 
+						<select class="se" id="degree">
+							<!--  <option value="1">1</option>-->
+						</select>
+						<input  id="degreeName" type="hidden"/>
+					</div>
+					<div class="input-block">
+						<span class="name">年龄要求&nbsp;&nbsp;</span><input
+							class="pt" id="age"/>
+					</div>
+					
 					<div class="input-block">
 						<span class="name">用工要求</span>
 						<textarea class="textarea" id="requirement"></textarea>

@@ -56,6 +56,9 @@ function queryDetail(){
 										"	<th>到岗日期</th>"+
 										"	<th>月工资（元）</th>"+
 										"	<th>工作地区</th>"+
+										"	<th>性别要求</th>"+
+										"	<th>学历要求</th>"+
+										"	<th>年龄要求</th>"+
 										"	<th>用工要求</th>"+
 										"	<th>操作</th>"+
 										"</tr>";
@@ -67,13 +70,18 @@ function queryDetail(){
 											"  <td id='requireTime'>"+firm.requireTime+"</td>"+
 											"  <td id='salary'>"+firm.salary+"</td>"+
 											"  <td id='workAreaName'>"+firm.workAreaName+"</td>"+
+											"  <td id='genderName'>"+(firm.genderName == null ? '': firm.genderName)+"</td>"+
+											"  <td id='degreeName'>"+(firm.degreeName == null ? '': firm.degreeName)+"</td>"+
+											"  <td id='age'>"+(firm.age == null ? '':firm.age)+"</td>"+
 											"  <td id='requirement'>"+firm.requirement+"</td>"+
-											"   <input id='id' type=\"hidden\" name=\"id\" value="+ firm.id +">" +
-											"   <input id='jobTypeId' type=\"hidden\" name=\"jobTypeId\" value="+ firm.jobTypeId +">" +
-											"   <input id='parentJobTypeId' type=\"hidden\" name=\"parentJobTypeId\" value="+ firm.parentJobTypeId +">" +
-											"   <input id='workArea' type='hidden' name='workArea' value="+ firm.workArea +">" +
-											"   <input id='parentCode' type='hidden' name='parentCode' value="+ firm.parentCode +">" +
-											"   <td><span class=\"des\" onclick=\"editJob(this)\">编辑</span><span class=\"delete\" onclick=\"deleteJob(this)\">移除</span></td>"+
+											"  <input id='id' type=\"hidden\" name=\"id\" value="+ firm.id +">" +
+											"  <input id='jobTypeId' type=\"hidden\" name=\"jobTypeId\" value="+ firm.jobTypeId +">" +
+											"  <input id='parentJobTypeId' type=\"hidden\" name=\"parentJobTypeId\" value="+ firm.parentJobTypeId +">" +
+											"  <input id='workArea' type='hidden' name='workArea' value="+ firm.workArea +">" +
+											"  <input id='parentCode' type='hidden' name='parentCode' value="+ firm.parentCode +">" +
+											"  <input id='degree' type='hidden' name='degree' value="+ firm.degree +">" +
+											"  <input id='gender' type='hidden' name='gender' value="+ firm.gender +">" +
+											"  <td><span class=\"des\" onclick=\"editJob(this)\">编辑</span><span class=\"delete\" onclick=\"deleteJob(this)\">移除</span></td>"+
 											"</tr>";
 						}
 					}
@@ -182,6 +190,50 @@ function changCompany(obj){
 	$("#companyList").hide();
 }
 
+function initOtherSelect(gender,degree){
+
+	var types = "gender_demand,degree_demand";
+	$.ajax({
+		url:"/common/queryDicByTypes",
+		type:"get",
+		async:true,
+		dataType:"json",
+		data:{types:types},
+		success:function(data){
+			if(data.code == 1){
+				var all = data.data;
+				
+				// 性别
+				var genderDics = all.gender_demand;
+				var contentGender = "<option value=\"\">---请选择---</option>";
+				for(var i=0; i<genderDics.length; i++){
+					var genderDic = genderDics[i];
+					if(gender != undefined && gender == genderDic.code){
+						contentGender += "<option value=\""+genderDic.code+"\" selected=\"selected\">"+genderDic.name+"</option>";
+					} else {
+						contentGender += "<option value=\""+genderDic.code+"\">"+genderDic.name+"</option>";
+					}
+				}
+				parent.$("#gender").empty().html(contentGender);
+			
+				// 学历
+				var degreeDics = all.degree_demand;
+				var contentdegree = "<option value=\"\">---请选择---</option>";
+				for(var i=0; i<degreeDics.length; i++){
+					var degreeDic = degreeDics[i];
+					if(degree != undefined && degree == degreeDic.code){
+						contentdegree += "<option value=\""+degreeDic.code+"\" selected=\"selected\">"+degreeDic.name+"</option>";
+					} else {
+						contentdegree += "<option value=\""+degreeDic.code+"\">"+degreeDic.name+"</option>";
+					}
+					
+				}
+				parent.$("#degree").empty().html(contentdegree);	
+			}
+		}
+	});
+}
+
 function initJob(provinceCode,areaCode,parentJobTypeId,jobTypeId){
 	
 	
@@ -219,14 +271,34 @@ function initJob(provinceCode,areaCode,parentJobTypeId,jobTypeId){
 		
     });
 	
+	// 学历选中
+	parent.$("select#degree").change(function(){
+		// 选中事件
+		var degree = parent.$('select#degree option:selected').val();
+		var degreeName = parent.$('select#degree option:selected').text();
+		//parent.$('#degree').val(degree);
+		parent.$('#degreeName').val(degreeName);
+		
+    });
+	
+	
+	// 性别选中事件
+	parent.$("select#gender").change(function(){
+		// 选中事件
+		var gender = parent.$('select#gender option:selected').val();
+		var genderName = parent.$('select#gender option:selected').text();
+		//parent.$('#gender').val(gender);
+		parent.$('#genderName').val(genderName);
+		
+    });
+	
 	// 初始化省
 	initProvinceSelect(provinceCode);
 	
 	// 初始化父级工种
 	queryParentJobType(parentJobTypeId);
 	
-	// 查工种
-	//queryJobType(parentJobTypeId,jobTypeId);
+	
 }
 
 function queryArea(parentCode,areaCode){
@@ -269,10 +341,11 @@ function addJob(){
 	
 	initJob(null,null,null,null);
 	
+	initOtherSelect(null,null);
+	
 	parent.$(".add-job-type-content").click(function(){
 		
-		var workAreaName ='';
-		var parentCode = 0;
+		
 		var jobTypeName = parent.$("#jobTypeName").val();
 		var jobTypeId = parent.$("#jobTypeId").val();
 		var parentJobTypeId = parent.$("#parentJobTypeId").val();
@@ -281,13 +354,23 @@ function addJob(){
 		var requireTime = parent.$("#requireTime").val();
 		var workArea = parent.$("#workAreaList").val();
 		var requirement = parent.$("#requirement").val();
-		
-		// var 
+		var degree = parent.$("#degree").val();
+		var gender = parent.$("#gender").val();
+		var age = parent.$("#age").val();
+		var degreeName ="";
+		var genderName ="";
+		var workAreaName ='';
+		var parentCode = 0;
 		if(workArea > 0){
 			workAreaName = parent.$("#workAreaName").val();
 			parentCode = parent.$("#parentCode").val();
 		}
-		
+		if(degree > 0){
+			degreeName = parent.$("#degreeName").val();
+		}
+		if(gender > 0){
+			genderName = parent.$("#genderName").val();
+		}
 		
 		var p_check = checkParameter();	
 		
@@ -315,8 +398,13 @@ function addJob(){
 						  "  <td id='requireTime'>"+requireTime+"</td>"+
 						  "  <td id='salary'>"+salary+"</td>"+
 						  "  <td id='workAreaName'>"+workAreaName+"</td>"+
+						  "  <td id='genderName'>"+genderName+"</td>"+
+						  "  <td id='degreeName'>"+degreeName+"</td>"+
+						  "  <td id='age'>"+age+"</td>"+
 						  "  <input id='workArea' type='hidden' name='workArea' value="+ workArea +">" +
 						  "  <input id='parentCode' type='hidden' name='parentCode' value="+ parentCode +">" +
+						  "  <input id='degree' type='hidden' name='degree' value="+ degree +">" +
+						  "  <input id='gender' type='hidden' name='gender' value="+ gender +">" +
 						  "  <td id='requirement'>"+requirement+"</td>"+
 						  "  <td><span class=\"des\" onclick=\"editJob(this)\">编辑</span><span class=\"delete\" onclick=\"deleteJob(this)\">移除</span></td>"+
 						  "</tr>";
@@ -394,10 +482,17 @@ function editJob(obj) {
 	var parentCode = trobj.children("#parentCode").val();
 	var workAreaName = trobj.children("#workAreaName").html();
 	var parentJobTypeId = trobj.children("#parentJobTypeId").val();
+	var age = trobj.children("#age").html();
+    var degreeName = trobj.children("#degreeName").html();
+	var genderName = trobj.children("#genderName").html();
+	var degree = trobj.children("#degree").val();
+	var gender = trobj.children("#gender").val();
     // provinceCode,areaCode,parentJobTypeId,jobTypeId
 	initJob(parentCode,workArea,parentJobTypeId, jobTypeId)
 	queryArea(parentCode, workArea);
 	queryJobType(parentJobTypeId,jobTypeId);
+	initOtherSelect(gender,degree);
+	
 	parent.$("#jobTypeName").val(jobTypeName);
 	parent.$("#workerCount").val(workerCount);
 	parent.$("#salary").val(salary);
@@ -408,6 +503,12 @@ function editJob(obj) {
 	parent.$("#parentJobTypeId").val(parentJobTypeId);
 	parent.$("#parentCode").val(parentCode);
 	parent.$("#workAreaName").val(workAreaName);
+	parent.$("#age").val(age);
+	parent.$("#degree").val(degree);
+	parent.$("#gender").val(gender);
+	parent.$("#degreeName").val(degreeName);
+	parent.$("#genderName").val(genderName);
+	
 	parent.$(".add-job-type-content").click(function() {
 		
 		var workAreaName_ = "";
@@ -421,6 +522,18 @@ function editJob(obj) {
 		var requireTime_ = parent.$("#requireTime").val();
 		var workArea_ = parent.$("#workArea").val();
 		var requirement_ = parent.$("#requirement").val();
+		var age_ = parent.$("#age").val();
+		var degree_ = parent.$("#degree").val();
+		var gender_ = parent.$("#gender").val();
+		var degreeName_ = "";
+		var genderName_ = "";
+		
+		if(degree_ > 0){
+			degreeName_ = parent.$("#degreeName").val();
+		}
+		if(gender_ > 0){
+			genderName_ = parent.$("#genderName").val();
+		}
 		
 		if(workArea_ > 0){
 			workAreaName_ = parent.$("#workAreaName").val();
@@ -460,6 +573,11 @@ function editJob(obj) {
 			trobj.children("#workAreaName").html(workAreaName_);
 			trobj.children("#parentCode").val(parentCode_);
 			trobj.children("#requirement").html(requirement_);
+			trobj.children("#age").html(age_);
+			trobj.children("#degree").val(degree_);
+			trobj.children("#gender").val(gender_);
+			trobj.children("#degreeName").html(degreeName_);
+			trobj.children("#genderName").html(genderName_);
 		}
 
 	});
@@ -509,6 +627,9 @@ function addDemand(){
 		demandJob.requireTime =  $(this).children("#requireTime").html();
 		demandJob.workArea =  $(this).children("#workArea").val();
 		demandJob.requirement =  $(this).children("#requirement").html();
+		demandJob.age =  $(this).children("#age").html();
+		demandJob.degree =  $(this).children("#degree").val();
+		demandJob.gender =  $(this).children("#gender").val();
 		demandJobList.push(demandJob);
 	});
 	
