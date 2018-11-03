@@ -469,15 +469,15 @@ function showAssignList(jobTypeId){
                 $("#order-worker-list-span").text("本次已分配用工");
                // $(".worker-count").text("（需求"+ data.data.demandJob.workerCount +"人）");
                 tableContent += "<tr>" +
-                    "	<th>用工姓名</th>" +
-                    "	<th>籍贯</th>" +
-                    "	<th>身份证号</th>" +
-                    "	<th>联系电话</th>" +
-                    "	<th>擅长工种</th>" +
-                    "	<th>签约月工资（元）</th>" +
-                    "	<th>到岗日期</th>" +
+                    "	<th width='62'>用工姓名</th>" +
+                    "	<th width='40'>籍贯</th>" +
+                    "	<th width='160'>身份证号</th>" +
+                    "	<th width='93'>联系电话</th>" +
+                    "	<th width='90'>擅长工种</th>" +
+                    "	<th width='90'>签约月工资(元)</th>" +
+                    "	<th width='96'>到岗日期</th>" +
                     "	<th width='80'>业务收入（元）</th>" +
-                    "	<th width='150'>操作</th>" +
+                    "	<th width='100'>操作</th>" +
                     "</tr>";
 
                 for (var i = 0; i < firmArr.length; i++) {
