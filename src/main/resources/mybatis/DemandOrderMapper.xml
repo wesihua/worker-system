@@ -464,97 +464,83 @@
   
   <select id="selectByPage" parameterType="map" resultMap="BaseResultMap">
   	SELECT
-		x.id, x.demand_id, x.order_number, x.worker_count, x.operator_user, x.customer, x.total_income, 
-    	x.description, x.create_user, x.create_time, x.update_time, x.update_user, x.company_name,
-		u.real_name create_user_name 
-	FROM
-		(
-	SELECT
 		o.id, o.demand_id, o.order_number, o.worker_count, o.operator_user, o.customer, o.total_income, 
-    	o.description, o.create_user, o.create_time, o.update_time, o.update_user,
-		c.NAME company_name 
+    	o.description, o.create_user, o.create_time,
+		u.real_name create_user_name,
+		c.NAME company_name
 	FROM
+		t_yx_demand_order o,
 		t_yx_demand d,
 		t_yx_company c,
-		t_yx_demand_order o 
+		t_sys_user u 
 	WHERE
-		d.company_id = c.id 
-		AND o.demand_id = d.id 
-		) x
-		LEFT JOIN t_sys_user u ON x.create_user = u.id 
-	<where>
-		x.id &lt;= (select m.id from t_yx_demand_order m, t_sys_user n 
-			<where>
-				<if test="beginTime != null">
-					and m.create_time &gt;= #{beginTime,jdbcType=TIMESTAMP}
-				</if>
-				<if test="endTime != null">
-					and m.create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
-				</if>
-				<if test="companyName != null">
-					and m.company_name like #{companyName,jdbcType=VARCHAR}
-				</if>
-				<if test="orderNumber != null">
-					and m.order_number = #{orderNumber,jdbcType=VARCHAR}
-				</if>
-				<if test="createUserName != null">
-					and n.real_name like #{createUserName,jdbcType=VARCHAR}
-				</if>
-			</where>
-		 order by m.id desc limit #{offset,jdbcType=INTEGER},1)
-  		<if test="beginTime != null">
-			and x.create_time &gt;= #{beginTime,jdbcType=TIMESTAMP}
-		</if>
-		<if test="endTime != null">
-			and x.create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
-		</if>
-		<if test="companyName != null">
-			and x.company_name like #{companyName,jdbcType=VARCHAR}
-		</if>
-		<if test="orderNumber != null">
-			and x.order_number = #{orderNumber,jdbcType=VARCHAR}
-		</if>
-		<if test="createUserName != null">
-			and u.real_name like #{createUserName,jdbcType=VARCHAR}
-		</if>
-  	</where>
-  	order by x.id desc limit #{pageSize,jdbcType=INTEGER}
+		o.demand_id = d.id 
+		AND d.company_id = c.id
+		and d.undertake_user = u.id
+		and o.id &lt;= (
+			select o1.id from t_yx_demand_order o1,t_yx_demand d1,t_yx_company c1,t_sys_user u1
+			where o1.demand_id = d1.id AND d1.company_id = c1.id and d1.undertake_user = u1.id 
+			<if test="beginTime != null">
+				and o1.create_time &gt;= #{beginTime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="endTime != null">
+				and o1.create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="companyName != null">
+				and c1.name like #{companyName,jdbcType=VARCHAR}
+			</if>
+			<if test="orderNumber != null">
+				and o1.order_number = #{orderNumber,jdbcType=VARCHAR}
+			</if>
+			<if test="createUserName != null">
+				and u1.real_name like #{createUserName,jdbcType=VARCHAR}
+			</if>
+			order by o1.id desc limit #{offset,jdbcType=INTEGER},1
+		 )
+	<if test="beginTime != null">
+		and o.create_time &gt;= #{beginTime,jdbcType=TIMESTAMP}
+	</if>
+	<if test="endTime != null">
+		and o.create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+	</if>
+	<if test="companyName != null">
+		and c.name like #{companyName,jdbcType=VARCHAR}
+	</if>
+	<if test="orderNumber != null">
+		and o.order_number = #{orderNumber,jdbcType=VARCHAR}
+	</if>
+	<if test="createUserName != null">
+		and u.real_name like #{createUserName,jdbcType=VARCHAR}
+	</if>	
+  	order by o.id desc limit #{pageSize,jdbcType=INTEGER}
   </select>
   
   <select id="selectCount" parameterType="map" resultType="int">
   	SELECT count(1)
 	FROM
-		(
-	SELECT
-		o.id, o.demand_id, o.order_number, o.worker_count, o.operator_user, o.customer, o.total_income, 
-    	o.description, o.create_user, o.create_time, o.update_time, o.update_user,
-		c.NAME company_name 
-	FROM
+		t_yx_demand_order o,
 		t_yx_demand d,
 		t_yx_company c,
-		t_yx_demand_order o 
+		t_sys_user u 
 	WHERE
-		d.company_id = c.id 
-		AND o.demand_id = d.id 
-		) x
-		LEFT JOIN t_sys_user u ON x.create_user = u.id 
-	<where>
-  		<if test="beginTime != null">
-			and x.create_time &gt;= #{beginTime,jdbcType=TIMESTAMP}
-		</if>
-		<if test="endTime != null">
-			and x.create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
-		</if>
-		<if test="companyName != null">
-			and x.company_name like #{companyName,jdbcType=VARCHAR}
-		</if>
-		<if test="orderNumber != null">
-			and x.order_number = #{orderNumber,jdbcType=VARCHAR}
-		</if>
-		<if test="createUserName != null">
-			and u.real_name like #{createUserName,jdbcType=VARCHAR}
-		</if>
-  	</where>
+		o.demand_id = d.id 
+		AND d.company_id = c.id
+		and d.undertake_user = u.id
+	<if test="beginTime != null">
+		and o.create_time &gt;= #{beginTime,jdbcType=TIMESTAMP}
+	</if>
+	<if test="endTime != null">
+		and o.create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+	</if>
+	<if test="companyName != null">
+		and c.name like #{companyName,jdbcType=VARCHAR}
+	</if>
+	<if test="orderNumber != null">
+		and o.order_number = #{orderNumber,jdbcType=VARCHAR}
+	</if>
+	<if test="createUserName != null">
+		and u.real_name like #{createUserName,jdbcType=VARCHAR}
+	</if>	
   </select>
   
   <select id="selectOrderCount" resultType="map">
