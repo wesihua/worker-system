@@ -271,10 +271,14 @@ input,select, textarea {
 
 table tr:nth-of-type(odd){}
 table tr:nth-of-type(even){background-color: #FAFAFA;}
+<<<<<<< HEAD
+table tr:hover td{background: #e5e5e5;}
+=======
 table tr{
   cursor: default;
 }
 table tr:hover td{background: #eeeeee;}
+>>>>>>> 7fb9de06ccb28c62ba129d365a3bc49f49582f18
 /* 时间窗口的table颜色不需要变 */
 .c-datepicker-picker__content table tr:nth-of-type(even){background-color: #ffffff;}
 .c-datepicker-picker__content table tr:hover td{background: #ffffff;}
