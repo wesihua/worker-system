@@ -10,10 +10,11 @@
 #qiandan-manage-box2 .box-content {
   position: fixed;
   left: 50%;
-  top: 80px;
+  top: 50%;
   background-color: #ffffff;
   width: 500px;
   margin-left: -250px;
+  margin-top:-250px;
   border-radius: 10px; }
   #qiandan-manage-box2 .box-content .head {
     height: 60px;
@@ -30,14 +31,21 @@
       font-size: 20px;
       cursor: pointer; }
   #qiandan-manage-box2 .box-content .middle {
-    padding: 20px; }
+    height: 300px;
+    overflow:auto;
+    padding: 20px; 
+  margin-bottom:10px;}
     #qiandan-manage-box2 .box-content .middle .input-block {
-      min-height: 40px;
-      margin-bottom: 10px;
+      min-height: 30px;
+      margin-bottom:15px;
       font-size: 0px; }
+    #qiandan-manage-box2 .box-content .middle .input-block.small{
+        margin-bottom:5px;
+      }
       #qiandan-manage-box2 .box-content .middle .input-block .name {
+        display:inline-block;
         margin-right: 20px;
-        /* vertical-align: top; */
+        width:60px;
         font-size: 12px; }
         #qiandan-manage-box2 .box-content .middle .input-block .name.t {
           vertical-align: top; }
@@ -62,10 +70,8 @@
       #qiandan-manage-box2 .box-content .middle .input-block .textarea {
         vertical-align: top;
         height: 100px;
-        width: 350px;
+        width:281px;
         line-height: 20px;
-        
-        background-color: #eeeeee;
         resize: none;
         overflow: auto; }
   #qiandan-manage-box2 .box-content .bottom {
