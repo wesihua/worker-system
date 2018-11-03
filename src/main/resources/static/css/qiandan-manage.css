@@ -66,10 +66,13 @@
         width: 162px;
         border: 1px solid #cccccc;
         background-color: #ffffff;
+        height: 111px;
+        overflow:auto;
     }
 
     #qiandan-manage .qiandan-content .wait-handle .search-area .lenove-area .li{
-        width: 100%;
+        /* width: 100%; */
+        padding-left:5px;
         height:30px;
         line-height: 30px;
     }
