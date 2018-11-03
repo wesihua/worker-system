@@ -209,7 +209,7 @@ function queryWorkerList(pageNum){
 			    	if(aaa){
 			    		var name = $that.parents('tr').find('.worker-name').text();
 			    		var idcard = $that.parents('tr').find('.worker-idcard').text();
-			    		var content = "<li class=\"order-worder\" id=\"check_"+id+" data="+ id +">"+
+			    		var content = "<li class=\"order-worder\" id=\"check_"+ id +"\"" + " data="+ id +">"+
 								            "<div class=\"select-name\">"+name+"（"+ idcard +"）</div>"+
 								            "<div class=\"select-title\">"+
 								                "<span class=\"a\">签约月工资（元)</span>"+
@@ -607,17 +607,19 @@ function showAssignList(jobTypeId){
                 	var signSalary = $(this).parents('tr').children('#signSalary').text();
                 	var signSalaryTd = $(this).parents('tr').children('#signSalary');
 
-            		// 签约薪水变成可输入框
+            		// 签约工资变成可输入框
             		var signSalaryTxt = $("<input id='signSalary-input' type='text'>").val(signSalary);
             		signSalaryTd.text("");
             		signSalaryTd.append(signSalaryTxt);
             		
+            		// 业务收入变成可输入框
                 	var businessIncome = $(this).parents('tr').children('#businessIncome').text();
                 	var businessIncomeTd = $(this).parents('tr').children('#businessIncome');
                 	var businessIncomeTxt = $("<input id='businessIncome-input' type='text'>").val(businessIncome);
                 	businessIncomeTd.text("");
                 	businessIncomeTd.append(businessIncomeTxt);
                 	
+                	// 到岗日期变成可输入框
                 	var arriveWorkTime = $(this).parents('tr').children('#arriveWorkTime').text();
                 	var arriveWorkTimeTd = $(this).parents('tr').children('#arriveWorkTime');
                 	
