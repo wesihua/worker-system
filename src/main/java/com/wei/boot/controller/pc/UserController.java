@@ -80,7 +80,7 @@ public class UserController {
 					row.add(DateUtils.formatDate(info.getCreateTime()));
 					data.add(row);
 				}
-				ExcelUtil.exportExcel(headers, data, "用户信息.xlsx", response);
+				ExcelUtil.exportExcel(headers, data, "用户信息.xls", response);
 			}
 		} catch (Exception e) {
 			log.error("导出失败", e);

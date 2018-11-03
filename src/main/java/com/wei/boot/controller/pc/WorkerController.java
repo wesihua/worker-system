@@ -91,7 +91,7 @@ public class WorkerController {
 					row.add(info.getCreateTime());
 					data.add(row);
 				}
-				ExcelUtil.exportExcel(headers, data, "人才信息.xlsx", response);
+				ExcelUtil.exportExcel(headers, data, "人才信息.xls", response);
 			}
 		} catch (Exception e) {
 			log.error("导出失败", e);

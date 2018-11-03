@@ -345,7 +345,7 @@ public class ReportController {
 					row.add(info.getOrderIncome());
 					data.add(row);
 				}
-				ExcelUtil.exportExcel(headers, data, "订单信息.xlsx", response);
+				ExcelUtil.exportExcel(headers, data, "订单信息.xls", response);
 			}
 		} catch (Exception e) {
 			log.error("导出失败", e);
