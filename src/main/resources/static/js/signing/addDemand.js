@@ -35,8 +35,8 @@ $(function(){
 function queryDetail(){
 	
 	var demandId = $("input:hidden[name='demandId']").val();
-	$('#companyName').attr('readonly','readonly');
 	if(demandId > 0){
+		$('#companyName').attr('readonly','readonly');
 		$.ajax({
 			url:"/demand/waitingDemand",
 			type:"get",
