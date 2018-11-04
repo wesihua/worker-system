@@ -49,12 +49,12 @@ function query(currentPage) {
 						if (firmArr.length > 0) {
 
 							tableContent += "<tr>"
-								+ "	<th>单号</th>"
-								+ "	<th>录单日期</th>"
+								+ "	<th width='250'>单号</th>"
+								+ "	<th width='250'>录单日期</th>"
 								+ "	<th>企业客户</th>"
 								+ "	<th>状态</th>" 
 								+ "	<th>创建人员</th>"
-								+ "	<th width='120'>备注说明</th>"
+								+ "	<th width='400'>备注说明</th>"
 								+ "	<th width='150'>操作</th>" + "</tr>";
 
 							for (var i = 0; i < firmArr.length; i++) {
