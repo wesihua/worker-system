@@ -100,7 +100,8 @@ public class DemandController {
 		Result result = Result.SUCCESS;
 		try {
 			int userId = ToolsUtil.getUserId(request);
-			DemandQuery demandQuery = JsonUtil.json2Bean(demandQueryJson, DemandQuery.class);;
+			DemandQuery demandQuery = JsonUtil.json2Bean(demandQueryJson, DemandQuery.class);
+			demandQuery.setUserId(userId);
 			Page<Demand> data = demandService.queryDemand(page,demandQuery);
 			result.setData(data);
 		} catch (Exception e) {
