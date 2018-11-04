@@ -789,6 +789,89 @@
 	</where>
   </select>
   
+  
+
+  
+    <select id="selectAssignByPage" resultMap="BaseResultMap" parameterType="map" >
+  	SELECT
+		t.id, t.name, t.photo, t.sex, t.telephone, t.idcard, t.birthplace_code, t.work_year, t.marital_status, 
+		t.workplace_code, t.expect_salary,jobtype_name,t.work_expect
+	FROM
+		t_yx_worker t 
+	<where>
+		 t.id &lt;= (
+			select id from t_yx_worker x
+			<where>
+				<if test="idcard != null and idcard != ''">
+					and x.idcard = #{idcard,jdbcType=VARCHAR}
+				</if>
+				<if test="telephone != null and telephone != ''">
+					and x.telephone = #{telephone,jdbcType=VARCHAR}
+				</if>
+				<if test="name != null and name != ''">
+					and x.name like #{name,jdbcType=VARCHAR}
+				</if>
+				<if test="demandId != null">
+					and x.id NOT IN (
+					SELECT
+						t_yx_order_worker.worker_id	
+					FROM
+						t_yx_order_worker
+					WHERE
+						t_yx_order_worker.demand_job_id IN ( SELECT t_yx_demand_job.id FROM t_yx_demand_job WHERE t_yx_demand_job.demand_id = #{demandId,jdbcType=INTEGER} ))
+				</if>
+				
+			</where>
+			 order by x.id desc limit #{offset,jdbcType=INTEGER},1
+		)
+		<if test="idcard != null and idcard != ''">
+			and t.idcard = #{idcard,jdbcType=VARCHAR}
+		</if>
+		<if test="telephone != null and telephone != ''">
+			and t.telephone = #{telephone,jdbcType=VARCHAR}
+		</if>
+		<if test="name != null and name != ''">
+			and t.name like #{name,jdbcType=VARCHAR}
+		</if>
+		<if test="demandId != null">
+			and t.id NOT IN (
+			SELECT
+				t_yx_order_worker.worker_id	
+			FROM
+				t_yx_order_worker
+			WHERE
+				t_yx_order_worker.demand_job_id IN ( SELECT t_yx_demand_job.id FROM t_yx_demand_job WHERE t_yx_demand_job.demand_id = #{demandId,jdbcType=INTEGER} ))
+		</if>
+		
+	</where>
+	order by t.id desc limit #{pageSize,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectAssignCount" resultType="int" parameterType="map" >
+  	SELECT count(1) FROM t_yx_worker t
+	<where>
+		<if test="idcard != null and idcard != ''">
+			and t.idcard = #{idcard,jdbcType=VARCHAR}
+		</if>
+		<if test="telephone != null and telephone != ''">
+			and t.telephone = #{telephone,jdbcType=VARCHAR}
+		</if>
+		<if test="name != null and name != ''">
+			and t.name like #{name,jdbcType=VARCHAR}
+		</if>
+		<if test="demandId != null">
+			and t.id NOT IN (
+			SELECT
+				t_yx_order_worker.worker_id	
+			FROM
+				t_yx_order_worker
+			WHERE
+				t_yx_order_worker.demand_job_id IN ( SELECT t_yx_demand_job.id FROM t_yx_demand_job WHERE t_yx_demand_job.demand_id = #{demandId,jdbcType=INTEGER}))
+		</if>
+	</where>
+  </select>
+  
+
   <insert id="insertBatch" parameterType="list" >
     insert into t_yx_worker (
     	name, telephone, email, idcard, sex, work_year, degree,

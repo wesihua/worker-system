@@ -121,4 +121,6 @@ public interface WorkerService {
 	int queryCountByTime(String type);
 	
 	int queryAllCount();
+
+	Page<Worker> queryAssignByPage(Page<Worker> page, Worker worker, Integer demandId);
 }

@@ -670,15 +670,7 @@ public class DemandServiceImpl implements DemandService {
 		// 公司
 		Company company = companyService.queryById(demand.getCompanyId());
 		demand.setCompanyName(company == null ? "":company.getName());
-		
 		List<DemandJob> demandJobList = demandJobMapper.selectByDemandId(demand.getId());
-		
-//		List<DemandJob> demandJobList = queryDemandJobByDemandId(demandId);
-//		if (!CollectionUtils.isEmpty(demandJobList)) {
-//			demandJobList.stream().forEach(demandJob -> {
-//				translateDemandJob(demand, demandJob);
-//			});
-//		}
 		demand.setDemandJobList(demandJobList);
 		
 		return demand;

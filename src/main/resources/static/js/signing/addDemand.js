@@ -35,6 +35,7 @@ $(function(){
 function queryDetail(){
 	
 	var demandId = $("input:hidden[name='demandId']").val();
+	$('#companyName').attr('readonly','readonly');
 	if(demandId > 0){
 		$.ajax({
 			url:"/demand/waitingDemand",
@@ -86,6 +87,7 @@ function queryDetail(){
 						}
 					}
 					$("table").empty().append(tableContent);
+					
 				}
 			}
 		});

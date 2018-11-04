@@ -142,5 +142,9 @@ public interface WorkerMapper {
 	List<ReportInfo> selectOrderDayBar(Map<String, Object> map);
 	List<ReportInfo> selectOrderMemberDayBar(Map<String, Object> map);
 	List<ReportInfo> selectOrderIncomeDayBar(Map<String, Object> map);
+
+	List<Worker> selectAssignByPage(Map<String, Object> map);
+
+	int selectAssignCount(Map<String, Object> map);
 	
 }

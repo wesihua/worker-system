@@ -171,7 +171,7 @@ function assignWorker(jobTypeId){
 	$("input[name='jobTypeId']").val(jobTypeId)
 	
 	
-	parent.$("#confirm-addWorker-botton").one("click",function(){
+	parent.$("#confirm-addWorker-botton").on("click",function(){
 		  
     	//var jobTypeId = $("input[name='jobTypeId']").val();
     	var workers = [];
@@ -248,11 +248,14 @@ function queryWorkerList(pageNum){
     var workerName = parent.$("#workerName").val();
 	var telephone = parent.$("#telephone").val();
 	var idcard = parent.$("#idcard").val();
+	
+	// 
+	var demandId = $("input[name=demandId]").val();
 
     $.ajax({
-		url:"/worker/list",
+		url:"/worker/assignList",
 		type:"get",
-		data:{name:workerName,telephone:telephone,idcard:idcard,pageNumber:pageNum},
+		data:{name:workerName,telephone:telephone,idcard:idcard,pageNumber:pageNum,demandId:demandId},
 		dataType:"json",
 		success:function(data){
 			if(data.code == 1){
@@ -280,6 +283,20 @@ function queryWorkerList(pageNum){
 						queryWorkerList(current);
 					}
 				});
+				
+				// 如果右侧已选中
+				parent.$("#query-worker-list input[type='checkbox']").each(function(){
+					
+					var input_obj = $(this);
+					var input_id = input_obj.val();
+					    
+					parent.$(".result-area ul #delete-worker-x").each(function(){
+						var span_id = $(this).attr("data");
+						if(input_id == span_id){
+							$(input_obj).prop("checked",true);
+						}
+				    });
+			    });
 				
 				parent.$('.check-input').click(function(){
 
@@ -453,7 +470,7 @@ function signing() {
 
 
 function toSignedPage(){
-	window.location.href="/signing/signed";
+	window.location.href="/signing/processing";
 }
 
 

@@ -26,8 +26,8 @@
     <result column="job_type_name" property="jobTypeName" jdbcType="VARCHAR" />
     <result column="gender_name" property="genderName" jdbcType="VARCHAR" />
     <result column="degree_name" property="degreeName" jdbcType="VARCHAR" />
-    <result column="create_user" property="parentJobTypeId" jdbcType="INTEGER" />
-    <result column="parent_job_type_id" property="parentCode" jdbcType="INTEGER" />	
+    <result column="parent_job_type_id" property="parentJobTypeId" jdbcType="INTEGER" />
+    <result column="parent_code" property="parentCode" jdbcType="INTEGER" />	
   </resultMap>
   <sql id="Example_Where_Clause" >
     <!--

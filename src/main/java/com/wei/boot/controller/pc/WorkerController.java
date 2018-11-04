@@ -43,6 +43,29 @@ public class WorkerController {
 	@Autowired
 	private WorkerService workerService;
 	
+	
+	
+	
+	/**
+	 * 分配用工列表
+	 * @param page
+	 * @param worker
+	 * @param demandId
+	 * @return
+	 */
+	@RequestMapping("/assignList")
+	public Result assignList(Page<Worker> page, Worker worker,Integer demandId ) {
+		Result result = Result.SUCCESS;
+		try {
+			Page<Worker> data = workerService.queryAssignByPage(page, worker,demandId);
+			result.setData(data);
+		} catch (Exception e) {
+			log.error("查询失败", e);
+			result = Result.fail(e);
+		}
+		return result;
+	}
+	
 	/**
 	 * 列表
 	 * @param page

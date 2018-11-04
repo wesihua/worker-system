@@ -1,7 +1,5 @@
 package com.wei.boot.service.impl;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -19,14 +17,12 @@ import org.springframework.util.StringUtils;
 
 import com.wei.boot.contant.GlobalConstant;
 import com.wei.boot.exception.NormalException;
-import com.wei.boot.mapper.JobTypeMapper;
 import com.wei.boot.mapper.WorkerEducationMapper;
 import com.wei.boot.mapper.WorkerExperienceMapper;
 import com.wei.boot.mapper.WorkerJobTypeMapper;
 import com.wei.boot.mapper.WorkerMapper;
 import com.wei.boot.model.Area;
 import com.wei.boot.model.JobType;
-import com.wei.boot.model.JobTypeExample;
 import com.wei.boot.model.Page;
 import com.wei.boot.model.Worker;
 import com.wei.boot.model.WorkerEducation;
@@ -480,6 +476,32 @@ public class WorkerServiceImpl implements WorkerService {
 			}
 		}
 	}
+	
+	
+	
+	private void translateWorker4Assign(Worker worker) {
+		if(null != worker) {
+			// 翻译出生地
+			if(null != worker.getBirthplaceCode()) {
+				Area area = commonService.queryAreaByCode(worker.getBirthplaceCode());
+				if(null != area) {
+					worker.setBirthplaceName(area.getName());
+				}
+			}
+			// 翻译工作地区
+			if(null != worker.getWorkplaceCode()) {
+				Area area2 = commonService.queryAreaByCode(worker.getWorkplaceCode());
+				if(null != area2) {
+					worker.setWorkplaceName(area2.getName());
+				}
+			}
+			// 翻译期望薪资
+			if(null != worker.getExpectSalary()) {
+				String expectSalaryName = commonService.queryDicText(GlobalConstant.DictionaryType.EXPECT_SALARY, worker.getExpectSalary());
+				worker.setExpectSalaryName(expectSalaryName);
+			}
+		}
+	}
 
 	@Override
 	public void updateWorker4App(Worker worker) throws NormalException {
@@ -609,5 +631,35 @@ public class WorkerServiceImpl implements WorkerService {
 	@Override
 	public int queryAllCount() {
 		return workerMapper.selectAllCount();
+	}
+
+	@Override
+	public Page<Worker> queryAssignByPage(Page<Worker> page, Worker worker, Integer demandId) {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("offset", page.getOffset());
+		map.put("pageSize", page.getPageSize());
+		if(!StringUtils.isEmpty(worker.getIdcard())) {
+			map.put("idcard", worker.getIdcard());
+		}
+		if(!StringUtils.isEmpty(worker.getTelephone())) {
+			map.put("telephone", worker.getTelephone());
+		}
+		if(!StringUtils.isEmpty(worker.getName())) {
+			map.put("name", worker.getName()+"%");
+		}
+	
+		if(Objects.nonNull(demandId)) {
+			map.put("demandId", demandId);
+		}
+		List<Worker> workerList = workerMapper.selectAssignByPage(map);
+		if(null != workerList && workerList.size() > 0) {
+			for(Worker info : workerList) {
+				translateWorker4Assign(info);
+			}
+		}
+		int totalCount = workerMapper.selectAssignCount(map);
+		return page.pageData(workerList, totalCount);
+	
 	}
 }
