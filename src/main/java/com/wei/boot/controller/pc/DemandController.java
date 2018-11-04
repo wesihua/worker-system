@@ -278,7 +278,8 @@ public class DemandController {
 			Demand demand = new Demand();
 			demand.setId(demandId);
 			demand.setUndertakeUser(userId);
-			demandService.signing(demand);
+			int orderCount = demandService.signing(demand);
+			result.setData(orderCount);
 		} catch (Exception e) {
 			log.error("签约失败", e);
 			result = Result.fail("签约失败！");

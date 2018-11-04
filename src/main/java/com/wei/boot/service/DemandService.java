@@ -50,8 +50,9 @@ public interface DemandService {
 	/**
 	 * 完成签约
 	 * @param demand
+	 * @return 
 	 */
-	public void signing(Demand demand);
+	public int signing(Demand demand);
 	
 	/**
 	 * 关单

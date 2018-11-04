@@ -481,20 +481,6 @@ public class WorkerServiceImpl implements WorkerService {
 	
 	private void translateWorker4Assign(Worker worker) {
 		if(null != worker) {
-			// 翻译出生地
-			if(null != worker.getBirthplaceCode()) {
-				Area area = commonService.queryAreaByCode(worker.getBirthplaceCode());
-				if(null != area) {
-					worker.setBirthplaceName(area.getName());
-				}
-			}
-			// 翻译工作地区
-			if(null != worker.getWorkplaceCode()) {
-				Area area2 = commonService.queryAreaByCode(worker.getWorkplaceCode());
-				if(null != area2) {
-					worker.setWorkplaceName(area2.getName());
-				}
-			}
 			// 翻译期望薪资
 			if(null != worker.getExpectSalary()) {
 				String expectSalaryName = commonService.queryDicText(GlobalConstant.DictionaryType.EXPECT_SALARY, worker.getExpectSalary());

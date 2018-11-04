@@ -540,7 +540,7 @@ public class DemandServiceImpl implements DemandService {
 	}
 	
 	@Transactional
-	public void signing(Demand demand) {
+	public int signing(Demand demand) {
 		// 需求单状态修改
 		Integer demandId = demand.getId();
 		Demand demandDb = demandMapper.selectByPrimaryKey(demandId);
@@ -559,8 +559,8 @@ public class DemandServiceImpl implements DemandService {
 		DemandOrder demandOrder = new DemandOrder();
 		demandOrder.setDemandId(demandId);
 		// 订单号   = 需求号 + 序列号
-		int countByDemandId = countByDemandId(demandId);
-		String orderNo = demandDb.getDemandNumber() + "-0" + (countByDemandId+ 1);
+		int demandOrderCount = countByDemandId(demandId);
+		String orderNo = demandDb.getDemandNumber() + "-0" + (demandOrderCount + 1);
 		demandOrder.setOrderNumber(orderNo);
 		
 		int workerCount = countWorkerCountBydemandJobIds(demandJobIds);
@@ -590,7 +590,7 @@ public class DemandServiceImpl implements DemandService {
 		map.put("updateUser", demand.getUndertakeUser());
 		map.put("updateTime", new Date());
 		orderWorkerMapper.updateOrderIdByDemandJobIds(map);
-		
+		return demandOrderCount;
 	}
 
 	private int countWorkerCountBydemandJobIds(List<Integer> demandJobIds) {

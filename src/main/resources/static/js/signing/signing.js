@@ -266,10 +266,10 @@ function queryWorkerList(pageNum){
 					tableContent+=  "<tr>"+
 									"	<td class='worker-name'>"+worker.name+"</td>"+
 									"	<td class='worker-idcard'>"+worker.idcard+"</td>"+
-									"	<td>"+worker.birthplaceName+"</td>"+
+									//"	<td>"+worker.birthplaceName+"</td>"+
 									"	<td>"+(worker.jobtypeName == null ? "" : worker.jobtypeName)+"</td>"+
 									"	<td>"+worker.expectSalaryName+"</td>"+
-									"	<td>"+worker.workplaceName+"</td>"+
+									//"	<td>"+worker.workplaceName+"</td>"+
 									"	<td><input class='check-input' type=\"checkbox\" name=\"check\" value="+worker.id+" ></td>"+
 									"</tr>";
 				}
@@ -458,7 +458,13 @@ function signing() {
 		},
 		success : function(data) {
 			if (data.code == 1) {
+				
 				alert("签约成功！");
+				if(data.data >=1){
+					window.location.href="/signing/signed";
+				} else {
+					window.location.href="/signing/processing";
+				}
 				toSignedPage();
 			} else {
 				alert("签约失败！原因：" + data.msg);
@@ -470,7 +476,7 @@ function signing() {
 
 
 function toSignedPage(){
-	window.location.href="/signing/processing";
+	
 }
 
 
