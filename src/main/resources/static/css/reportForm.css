@@ -78,7 +78,27 @@
       /* display: inline-block; */
    width:350px;
    /* height: 400px; */
-   min-height:460px;
+   min-height:400px;
+   border:1px solid #cccccc;
+   margin-bottom:20px;
+   float: left;
+   margin-right: 15px;
+}
+#reportForm .a-m-content .oneBox3{
+      /* display: inline-block; */
+   width:356px;
+   /* height: 400px; */
+   min-height:350px;
+   border:1px solid #cccccc;
+   margin-bottom:20px;
+   float: left;
+   margin-right: 5px;
+}
+#reportForm .a-m-content .oneBox1{
+      /* display: inline-block; */
+   width:533px;
+   /* height: 400px; */
+   min-height:438px;
    border:1px solid #cccccc;
    margin-bottom:20px;
    float: left;
@@ -89,6 +109,13 @@
 ,#reportForm .a-m-content .oneBox  #orderIncometype{
       height:40px;
       line-height: 40px;
+      margin:10px 0px 0px 10px;
+}
+#reportForm .a-m-content .oneBox1 #type,#reportForm .a-m-content .oneBox1  #demandtype
+,#reportForm .a-m-content .oneBox1  #orderType,#reportForm .a-m-content .oneBox1  #orderMembertype
+,#reportForm .a-m-content .oneBox1  #orderIncometype{
+      height:30px;
+      line-height: 20px;
       margin:10px 0px 0px 10px;
 }
 /* #reportForm .a-m-content .twoBox{

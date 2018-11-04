@@ -75,6 +75,10 @@ $(function(){
 });
 
 function loadBar(startDate,endDate){
+	$("#demandtype").val("month");
+	$("#orderType").val("month");
+	$("#orderMembertype").val("month");
+	$("#orderIncometype").val("month");
 	$.ajax({
 		url:"/report/orderBar",
 		type:"get",

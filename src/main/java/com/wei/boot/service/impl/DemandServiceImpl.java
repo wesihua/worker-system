@@ -153,7 +153,7 @@ public class DemandServiceImpl implements DemandService {
 		}
 		
 		if(!StringUtils.isEmpty(demandQuery.getDemandNumber())) {
-			map.put("demandNumber","%"+ demandQuery.getDemandNumber() + "%");
+			map.put("demandNumber",demandQuery.getDemandNumber() + "%");
 		}
 		
 		if(Objects.nonNull(demandQuery.getCompanyId())) {
