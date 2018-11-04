@@ -118,8 +118,9 @@
         background-color: #ffffff;
       }
       #qiandan-select-result .result-area ul {
-        height: 700px;
-        overflow: auto; }
+        /* height: 700px;
+        overflow: auto;  */
+      }
         #qiandan-select-result .result-area ul li {
           border-bottom: 1px solid #cccccc;
           padding-bottom: 10px;
@@ -149,6 +150,7 @@
            #qiandan-select-result .result-area ul li .select-input .c-datepicker-date-editor{
             padding: 0px !important;
             border: none;
+            margin-right:5px;
             }
             #qiandan-select-result .result-area ul li .select-input input {
               line-height: 30px;
