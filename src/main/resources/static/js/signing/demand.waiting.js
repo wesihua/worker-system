@@ -49,22 +49,22 @@ function query(currentPage) {
 						if (firmArr.length > 0) {
 
 							tableContent += "<tr>"
-								+ "	<th width='250'>单号</th>"
-								+ "	<th width='250'>录单日期</th>"
-								+ "	<th>企业客户</th>"
-								+ "	<th>状态</th>" 
-								+ "	<th>创建人员</th>"
-								+ "	<th width='400'>备注说明</th>"
-								+ "	<th width='150'>操作</th>" + "</tr>";
+								+ "	<th width='200'>企业客户</th>"
+								+ "	<th width='200'>招聘编号</th>"
+								+ "	<th width='120'>状态</th>" 
+								+ "	<th width='120'>创建人</th>"
+								+ "	<th width='220'>创建时间</th>"
+								+ "	<th width='300'>备注说明</th>"
+								+ "	<th width='200'>操作</th>" + "</tr>";
 
 							for (var i = 0; i < firmArr.length; i++) {
 								var firm = firmArr[i];
 								tableContent += "<tr>" 
-									+ "	<td>" + firm.demandNumber + "</td>"
-									+ "	<td>" + firm.createTime + "</td>"
 									+ "	<td>" + firm.companyName	+ "</td>"
+									+ "	<td>" + firm.demandNumber + "</td>"
 									+ "	<td>" + firm.stateName + "</td>"
 									+ "	<td>" + firm.createUserName + "</td>"
+									+ "	<td>" + firm.createTime + "</td>"
 									+ "	<td width='120'>" + firm.description+ "</td>"
 									+ "   <td><span class=\"des\" onClick=\"updateDemand("+ firm.id+ ")\">编辑</span><span class=\"des\" onClick=\"demandDetail("+ firm.id+ ")\">详情</span><span class=\"jiedan\" onClick=\"undertakeDemand("+ firm.id + ")\">接单</span></td>"
 								+ "</tr>";

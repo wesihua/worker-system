@@ -23,6 +23,10 @@ $(function(){
 		loadWorkerDegreePie(startDate, endDate);
 	});
 	$("#today").click(function(){
+		$(this).css("background-color","#409eff");
+		$(this).css("color","#ffffff");
+		$(this).siblings().css("background-color","#ecf5ff");
+		$(this).siblings().css("color","#409eff");
 		var startDate = getNowFormatDate();
 		$("#startDate").val(startDate);
 		loadWorkerBar(startDate);
@@ -31,6 +35,10 @@ $(function(){
 		loadWorkerDegreePie(startDate);
 	});
 	$("#thisWeek").click(function(){
+		$(this).css("background-color","#409eff");
+		$(this).css("color","#ffffff");
+		$(this).siblings().css("background-color","#ecf5ff");
+		$(this).siblings().css("color","#409eff");
 		var startDate = getFirstDayOfWeek(new Date());
 		$("#startDate").val(startDate);
 		loadWorkerBar(startDate);
@@ -39,6 +47,10 @@ $(function(){
 		loadWorkerDegreePie(startDate);
 	});
 	$("#thisMonth").click(function(){
+		$(this).css("background-color","#409eff");
+		$(this).css("color","#ffffff");
+		$(this).siblings().css("background-color","#ecf5ff");
+		$(this).siblings().css("color","#409eff");
 		var startDate = getFirstDayOfMonth(new Date());
 		$("#startDate").val(startDate);
 		loadWorkerBar(startDate);
@@ -47,6 +59,10 @@ $(function(){
 		loadWorkerDegreePie(startDate);
 	});
 	$("#thisSeason").click(function(){
+		$(this).css("background-color","#409eff");
+		$(this).css("color","#ffffff");
+		$(this).siblings().css("background-color","#ecf5ff");
+		$(this).siblings().css("color","#409eff");
 		var startDate = getFirstDayOfSeason(new Date());
 		$("#startDate").val(startDate);
 		loadWorkerBar(startDate);
@@ -55,6 +71,10 @@ $(function(){
 		loadWorkerDegreePie(startDate);
 	});
 	$("#thisYear").click(function(){
+		$(this).css("background-color","#409eff");
+		$(this).css("color","#ffffff");
+		$(this).siblings().css("background-color","#ecf5ff");
+		$(this).siblings().css("color","#409eff");
 		var startDate = getFirstDayOfYear(new Date());
 		$("#startDate").val(startDate);
 		loadWorkerBar(startDate);

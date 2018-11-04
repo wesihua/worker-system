@@ -86,13 +86,14 @@
       border-collapse: collapse; }
       #add-worker-box .qiandan-content .wait-handle .table-area table tr th {
         text-align: center;
-        height: 40px;
-        font-weight: normal;
+        height: 30px;
+        font-weight: bold;
+        color: #888888;
         border: 1px solid #e2e2e2;
-        font-size: 14px; }
+        font-size: 12px; }
       #add-worker-box .qiandan-content .wait-handle .table-area table tr td {
         text-align: center;
-        height: 40px;
+        height: 30px;
         font-weight: normal;
         border: 1px solid #e2e2e2;
         font-size: 12px; }

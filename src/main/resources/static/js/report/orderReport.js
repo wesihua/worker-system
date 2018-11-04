@@ -21,30 +21,50 @@ $(function(){
 		loadPie(startDate, endDate);
 	});
 	$("#today").click(function(){
+		$(this).css("background-color","#409eff");
+		$(this).css("color","#ffffff");
+		$(this).siblings().css("background-color","#ecf5ff");
+		$(this).siblings().css("color","#409eff");
 		var startDate = getNowFormatDate();
 		$("#startDate").val(startDate);
 		loadBar(startDate);
 		loadPie(startDate);
 	});
 	$("#thisWeek").click(function(){
+		$(this).css("background-color","#409eff");
+		$(this).css("color","#ffffff");
+		$(this).siblings().css("background-color","#ecf5ff");
+		$(this).siblings().css("color","#409eff");
 		var startDate = getFirstDayOfWeek(new Date());
 		$("#startDate").val(startDate);
 		loadBar(startDate);
 		loadPie(startDate);
 	});
 	$("#thisMonth").click(function(){
+		$(this).css("background-color","#409eff");
+		$(this).css("color","#ffffff");
+		$(this).siblings().css("background-color","#ecf5ff");
+		$(this).siblings().css("color","#409eff");
 		var startDate = getFirstDayOfMonth(new Date());
 		$("#startDate").val(startDate);
 		loadBar(startDate);
 		loadPie(startDate);
 	});
 	$("#thisSeason").click(function(){
+		$(this).css("background-color","#409eff");
+		$(this).css("color","#ffffff");
+		$(this).siblings().css("background-color","#ecf5ff");
+		$(this).siblings().css("color","#409eff");
 		var startDate = getFirstDayOfSeason(new Date());
 		$("#startDate").val(startDate);
 		loadBar(startDate);
 		loadPie(startDate);
 	});
 	$("#thisYear").click(function(){
+		$(this).css("background-color","#409eff");
+		$(this).css("color","#ffffff");
+		$(this).siblings().css("background-color","#ecf5ff");
+		$(this).siblings().css("color","#409eff");
 		var startDate = getFirstDayOfYear(new Date());
 		$("#startDate").val(startDate);
 		loadBar(startDate);

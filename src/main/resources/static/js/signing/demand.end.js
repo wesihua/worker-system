@@ -46,27 +46,31 @@ function query(currentPage) {
 				if (firmArr.length > 0) {
 
 					tableContent+= "<tr>"+
-									"	<th>单号</th>"+
-									"	<th>录单日期</th>"+
-									"	<th>关单时间</th>"+
 									"	<th>企业客户</th>"+
+									"	<th>招聘编号</th>"+
 									"	<th>状态</th>"+
-									"	<th>录单人员</th>"+
-									"	<th>操作人员</th>"+
-									"	<th>关单说明</th>"+
+									"	<th>接单人</th>"+
+									"	<th>接单时间</th>"+
+									"	<th>关单人</th>"+
+									"	<th>关单时间</th>"+
+									"	<th>关单原因</th>"+
+									"	<th>创建人</th>"+
+									"	<th>创建时间</th>"+
 									"	<th width='80'>操作</th>"+
 									"</tr>";
 					for(var i=0; i<firmArr.length; i++){
 						var firm = firmArr[i];
 						tableContent+=  "<tr>"+
-										"	<td>"+firm.demandNumber+"</td>"+
-										"	<td>"+firm.createTime+"</td>"+
-										"	<td>"+firm.closeTime+"</td>"+
 										"	<td>"+firm.companyName+"</td>"+
+										"	<td>"+firm.demandNumber+"</td>"+
 										"	<td>"+firm.stateName+"</td>"+
-										"	<td>"+firm.createUserName+"</td>"+
 										"	<td>"+firm.undertakeUserName+"</td>"+
+										"	<td>"+(firm.undertakeTime == null ? "" : firm.undertakeTime)+"</td>"+
+										"	<td>"+firm.closeUserName+"</td>"+
+										"	<td>"+firm.closeTime+"</td>"+
 										"	<td>"+firm.closeReason+"</td>"+
+										"	<td>"+firm.createUserName+"</td>"+
+										"	<td>"+firm.createTime+"</td>"+
 										"   <td><span class=\"des\" onClick=\"demandDetail("+firm.id+")\">详情</span></td>"+
 										"</tr>";
 					}

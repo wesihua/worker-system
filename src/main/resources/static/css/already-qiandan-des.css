@@ -44,13 +44,14 @@
     border-collapse: collapse; }
     #already-qiandan-des .qiandan-add-content .table-area table tr th {
       text-align: center;
-      height: 40px;
-      font-weight: normal;
+      height: 30px;
+      color:#888888;
+      font-weight: bold;
       border: 1px solid #e2e2e2;
-      font-size: 14px; }
+      font-size: 12px; }
     #already-qiandan-des .qiandan-add-content .table-area table tr td {
       text-align: center;
-      height: 40px;
+      height: 30px;
       font-weight: normal;
       border: 1px solid #e2e2e2;
       font-size: 12px; }

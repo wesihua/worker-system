@@ -34,7 +34,6 @@
       vertical-align: top;
 }
 
-
 #reportForm .a-m-content .data-area ul{
       float:right;
 }
@@ -51,6 +50,7 @@
     cursor: pointer;
     margin-left:20px;
 }
+
 #reportForm .a-m-content .data-area ul li:hover{
       background-color:#409eff;
       color:#ffffff;

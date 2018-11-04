@@ -46,26 +46,26 @@ function query(currentPage) {
 				if (firmArr.length > 0) {
 
 					tableContent+= "<tr>"+
-									"	<th width='250'>单号</th>"+
-									"	<th width='250'>录单日期</th>"+
+									"	<th width='300'>企业客户</th>"+
+									"	<th width='250'>招聘编号</th>"+
+									"	<th width='200'>接单人</th>"+
 									"	<th width='250'>接单时间</th>"+
-									"	<th>企业客户</th>"+
-									"	<th>状态</th>"+
-									"	<th>录单人员</th>"+
-									"	<th>操作人员</th>"+
+									"	<th width='200'>创建人</th>"+
+									"	<th width='250'>创建时间</th>"+
+									"	<th width='200'>状态</th>"+
 									"	<th width='400'>备注说明</th>"+
 									"	<th width='150'>操作</th>"+
 									"</tr>";
 					for(var i=0; i<firmArr.length; i++){
 						var firm = firmArr[i];
 						tableContent+=  "<tr>"+
-										"	<td>"+firm.demandNumber+"</td>"+
-										"	<td>"+firm.createTime+"</td>"+
-										"	<td>"+firm.undertakeTime+"</td>"+
 										"	<td>"+firm.companyName+"</td>"+
-										"	<td>"+firm.stateName+"</td>"+
-										"	<td>"+firm.createUserName+"</td>"+
+										"	<td>"+firm.demandNumber+"</td>"+
 										"	<td>"+firm.undertakeUserName+"</td>"+
+										"	<td>"+firm.undertakeTime+"</td>"+
+										"	<td>"+firm.createUserName+"</td>"+
+										"	<td>"+firm.createTime+"</td>"+
+										"	<td>"+firm.stateName+"</td>"+
 										"	<td width='120'>"+firm.description+"</td>"+
 										"   <td><span class=\"des\" onClick=\"demandDetail("+firm.id+")\">详情</span><span class=\"jiedan\" onClick=\"signings("+firm.id+")\">签约</span></td>"+
 										"</tr>";
