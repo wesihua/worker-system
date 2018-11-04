@@ -906,8 +906,8 @@ function checkWorker(worker){
 		alert("联系地址长度不能超过200！");
 		return false;
 	}
-	if(worker.workExpect && worker.workExpect.length > 255){
-		alert("工作意向长度不能超过255！");
+	if(worker.workExpect && worker.workExpect.length > 100){
+		alert("工作意向长度不能超过100！");
 		return false;
 	}
 	if(worker.profile && worker.profile.length > 100){
