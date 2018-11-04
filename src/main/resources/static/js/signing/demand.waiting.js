@@ -50,7 +50,7 @@ function query(currentPage) {
 
 							tableContent += "<tr>"
 								+ "	<th>单号</th>"
-								+ "	<th>创建日期</th>"
+								+ "	<th>录单日期</th>"
 								+ "	<th>企业客户</th>"
 								+ "	<th>状态</th>" 
 								+ "	<th>创建人员</th>"

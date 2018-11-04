@@ -170,6 +170,75 @@ function assignWorker(jobTypeId){
 	
 	$("input[name='jobTypeId']").val(jobTypeId)
 	
+	
+	parent.$("#confirm-addWorker-botton").one("click",function(){
+		  
+    	//var jobTypeId = $("input[name='jobTypeId']").val();
+    	var workers = [];
+    	var flag = false;
+    	parent.$(".order-worder").each(function(){
+    		if(flag){
+    			return;
+    		}
+    		$that = $(this).find(".select-input");
+    		var orderWorker = {};
+    		var signSalary = $that.find(".signSalary").val();
+			if(signSalary!=""&&signSalary.length>0){
+				orderWorker.signSalary=signSalary;
+    		}else{
+    			alert("签约月工资不能为空");
+    			flag=true;
+    			return;
+    		}
+    		var arriveWorkTime = $that.find(".arriveWorkTime").val();
+    		if(arriveWorkTime!=""&&arriveWorkTime.length>0){
+    			orderWorker.arriveWorkTime = arriveWorkTime;
+    		}
+    		
+    		var businessIncome= $that.find(".businessIncome").val();
+    		if(businessIncome!=""&&businessIncome.length>0){
+    			orderWorker.businessIncome = businessIncome;
+    		}else{
+    			alert("业务收入不能为空");
+    			flag=true;
+    			return;
+    		}
+    		orderWorker.workerId = $(this).attr("data");
+    		workers.push(orderWorker);
+    	});
+    	
+    	if(flag){
+    		return;
+    	}
+    	
+    	if(workers.length == 0){
+    		alert("您未选择任何用工！");
+			flag=true;
+    		return;
+    	}
+    	
+    	// 关闭弹框
+    	top.closeDialog();
+    	
+		$.ajax({
+			url:"/demand/addOrderWorker",
+			type:"post",
+			dataType:"json",
+			async:false,
+			data:{json:JSON.stringify(workers),demandJobId:jobTypeId},
+			success:function(data){
+				if(data.code == 1){
+					alert("添加用工信息成功！");
+					querySignDetail();
+				}
+				else{
+					alert("添加用工信息失败！原因："+data.msg);
+				}
+			}
+		});
+	
+    });
+	
 }
 
 // 查工人
@@ -221,7 +290,10 @@ function queryWorkerList(pageNum){
 			    		var name = $that.parents('tr').find('.worker-name').text();
 			    		var idcard = $that.parents('tr').find('.worker-idcard').text();
 			    		var content = "<li class=\"order-worder\" id=\"check_"+ id +"\"" + " data="+ id +">"+
-								            "<div class=\"select-name\">"+name+"（"+ idcard +"）</div>"+
+								            "<div class=\"select-name\">" +
+								            	"<span>"+name+"（"+ idcard +"）</span>" +
+								            	"<span style=\"float:right;\" id=\"delete-worker-x\" class=\"fa fa-close\"" + " data="+ id +" >&nbsp&nbsp;</span>" +
+								            "</div>"+
 								            "<div class=\"select-title\">"+
 								                "<span class=\"a\">签约月工资（元)</span>"+
 								                "<span class=\"b\">到岗日期</span>"+
@@ -241,6 +313,15 @@ function queryWorkerList(pageNum){
 			    	
 			    	parent.$(".result-area ul").append(content);
 			    	
+			    	parent.$(".result-area ul").on("click","#delete-worker-x",function(){
+			    		var id = $(this).attr("data");
+			    		parent.$("#check_"+id+"").remove();
+			    		
+			    		//check   $(tr).find("select[name='measures']").val();
+			    		
+			    		parent.$("#query-worker-list").find("input[value='"+id+"']").prop("checked",false);
+			    	});
+			    	
 			    	parent.$(".result-area ul").on("keyup afterpaste","input[name='xiaoshu']",function(){
 			    		
 			    		if(this.value.length==1){
@@ -259,72 +340,6 @@ function queryWorkerList(pageNum){
 			    	});
 			    
 			    });
-				
-				  parent.$('#confirm-addWorker').click(function(){
-				    	
-				    	var jobTypeId = $("input[name='jobTypeId']").val();
-				    	var workers = [];
-				    	var flag = false;
-				    	parent.$(".order-worder").each(function(){
-				    		if(flag){
-				    			return;
-				    		}
-				    		$that = $(this).find(".select-input");
-				    		var orderWorker = {};
-				    		var signSalary = $that.find(".signSalary").val();
-							if(signSalary!=""&&signSalary.length>0){
-								orderWorker.signSalary=signSalary;
-				    		}else{
-				    			alert("签约月工资不能为空");
-				    			flag=true;
-				    			return;
-				    		}
-				    		var arriveWorkTime = $that.find(".arriveWorkTime").val();
-				    		if(arriveWorkTime!=""&&arriveWorkTime.length>0){
-				    			orderWorker.arriveWorkTime = arriveWorkTime;
-				    		}
-				    		
-				    		var businessIncome= $that.find(".businessIncome").val();
-				    		if(businessIncome!=""&&businessIncome.length>0){
-				    			orderWorker.businessIncome = businessIncome;
-				    		}else{
-				    			alert("业务收入不能为空");
-				    			flag=true;
-				    			return;
-				    		}
-				    		orderWorker.workerId = $(this).attr("data");
-				    		workers.push(orderWorker);
-				    	});
-				    	
-				    	if(flag){
-				    		return;
-				    	}
-				    	if(workers.length == 0){
-				    		alert("您未选择任何用工！");
-			    			flag=true;
-				    		return;
-				    	}
-				    	
-				    	// 关闭弹框
-				    	top.closeDialog();
-				    	
-						$.ajax({
-							url:"/demand/addOrderWorker",
-							type:"post",
-							dataType:"json",
-							data:{json:JSON.stringify(workers),demandJobId:jobTypeId},
-							success:function(data){
-								if(data.code == 1){
-									alert("添加用工信息成功！");
-									querySignDetail();
-								}
-								else{
-									alert("添加用工信息失败！原因："+data.msg);
-								}
-							}
-						});
-				    	
-				    });
 			}
 		}
     });
