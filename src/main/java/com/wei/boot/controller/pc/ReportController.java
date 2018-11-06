@@ -36,9 +36,6 @@ public class ReportController {
 	@Autowired
 	private ReportService reportService;
 	
-	@Autowired
-	private WorkerService workerService;
-	
 	@GetMapping("/statistic")
 	public Result statistic() {
 		Result result = Result.SUCCESS;
