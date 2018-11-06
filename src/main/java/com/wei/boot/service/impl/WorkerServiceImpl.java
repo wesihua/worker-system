@@ -231,7 +231,13 @@ public class WorkerServiceImpl implements WorkerService {
 	public void updateWorkerBody(Worker worker) throws NormalException {
 		validateWorker(worker);
 		worker.setUpdateTime(new Date());
-		workerMapper.updateByPrimaryKeySelective(worker);
+		//workerMapper.updateByPrimaryKeySelective(worker);
+		
+		Worker realWorker = workerMapper.selectByPrimaryKey(worker.getId());
+		worker.setCreateTime(realWorker.getCreateTime());
+		worker.setCreateUser(realWorker.getCreateUser());
+		worker.setSouce(realWorker.getSouce());
+		workerMapper.updateByPrimaryKey(worker);
 	}
 
 	@Override
@@ -240,7 +246,8 @@ public class WorkerServiceImpl implements WorkerService {
 		// 更改
 		if(education.getId() != null && education.getId() != 0) {
 			education.setUpdateTime(new Date());
-			workerEducationMapper.updateByPrimaryKeySelective(education);
+			education.setCreateTime(new Date());
+			workerEducationMapper.updateByPrimaryKey(education);
 			id = education.getId();
 		}
 		// 新增
@@ -258,7 +265,8 @@ public class WorkerServiceImpl implements WorkerService {
 		// 更改
 		if(experience.getId() != null && experience.getId() != 0) {
 			experience.setUpdateTime(new Date());
-			workerExperienceMapper.updateByPrimaryKeySelective(experience);
+			experience.setCreateTime(new Date());
+			workerExperienceMapper.updateByPrimaryKey(experience);
 			id = experience.getId();
 		}
 		// 新增
@@ -492,9 +500,23 @@ public class WorkerServiceImpl implements WorkerService {
 	@Override
 	public void updateWorker4App(Worker worker) throws NormalException {
 		validateWorker(worker);
-		worker.setUpdateTime(new Date());
 		int workerId = worker.getId();
-		workerMapper.updateByPrimaryKeySelective(worker);
+		Worker realWorker = workerMapper.selectByPrimaryKey(worker.getId());
+		realWorker.setUpdateTime(new Date());
+		realWorker.setName(worker.getName());
+		realWorker.setSex(worker.getSex());
+		realWorker.setTelephone(worker.getTelephone());
+		realWorker.setIdcard(worker.getIdcard());
+		realWorker.setBirthday(worker.getBirthday());
+		realWorker.setBirthplaceCode(worker.getBirthplaceCode());
+		realWorker.setWorkYear(worker.getWorkYear());
+		realWorker.setWorkExpect(worker.getWorkExpect());
+		realWorker.setJobtypeName(worker.getJobtypeName());
+		realWorker.setWorkplaceCode(worker.getWorkplaceCode());
+		realWorker.setExpectSalary(worker.getExpectSalary());
+		realWorker.setWorkStatus(worker.getWorkStatus());
+		realWorker.setDegree(worker.getDegree());
+		workerMapper.updateByPrimaryKey(realWorker);
 		
 		if(null != worker.getJobTypeList() && worker.getJobTypeList().size() > 0) {
 			WorkerJobTypeExample jobTypeExample = new WorkerJobTypeExample();
