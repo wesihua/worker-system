@@ -99,12 +99,23 @@ public class DemandServiceImpl implements DemandService {
 		// 保存需求信息
 		demand.setCreateTime(createTime);
 		demand.setState(0);
-		// 生成需求单号
-		String demandNumber = createDemandNumber(demand);
-		demand.setDemandNumber(demandNumber);
 		
 		demandMapper.insertSelective(demand);
 		int demandId =  demand.getId();
+		
+        Integer companyId = demand.getCompanyId();
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("companyId", companyId);
+		map.put("createTime", DateUtils.getYearStart(new Date()));
+		int demandCount =demandMapper.selectCampanyLastDemandNumber(map);
+		//DateUtils.getCurYear() + "-00" +companyId + "-00" + (demandCount + 1);
+		
+		// 生成需求单号
+		String demandNumber = DateUtils.getCurYear() + "" +demandId + "" + (demandCount + 1);
+		demand.setDemandNumber(demandNumber);
+		demandMapper.updateByPrimaryKeySelective(demand);
+		
 		// 保存需求用工信息
 		List<DemandJob> demandJobList = demand.getDemandJobList();
 		if(!CollectionUtils.isEmpty(demandJobList)) {
@@ -120,15 +131,15 @@ public class DemandServiceImpl implements DemandService {
 		LOGGER.debug("exit saveDemand");
 	}
 
-	private String createDemandNumber(Demand demand) {
-		Integer companyId = demand.getCompanyId();
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("companyId", companyId);
-		map.put("createTime", DateUtils.getYearStart(new Date()));
-		int demandCount =demandMapper.selectCampanyLastDemandNumber(map);
-		return DateUtils.getCurYear() + "-00" +companyId + "-00" + (demandCount + 1);
-	}
+//	private String createDemandNumber(Demand demand) {
+//		Integer companyId = demand.getCompanyId();
+//		
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		map.put("companyId", companyId);
+//		map.put("createTime", DateUtils.getYearStart(new Date()));
+//		int demandCount =demandMapper.selectCampanyLastDemandNumber(map);
+//		return DateUtils.getCurYear() + "-00" +companyId + "-00" + (demandCount + 1);
+//	}
 
 
 	@Override
@@ -186,11 +197,11 @@ public class DemandServiceImpl implements DemandService {
 			
 			translateDemandList(list);
 
-			if (Objects.equals(GlobalConstant.DemandState.PENDING, demandQuery.getState())) {	
-			} else if (Objects.equals(GlobalConstant.DemandState.PROCESSING, demandQuery.getState())) {
-			} else if (Objects.equals(GlobalConstant.DemandState.SIGNING, demandQuery.getState())) {
-			} else if (Objects.equals(GlobalConstant.DemandState.CLOSE, demandQuery.getState())) {
-			}
+//			if (Objects.equals(GlobalConstant.DemandState.PENDING, demandQuery.getState())) {	
+//			} else if (Objects.equals(GlobalConstant.DemandState.PROCESSING, demandQuery.getState())) {
+//			} else if (Objects.equals(GlobalConstant.DemandState.SIGNING, demandQuery.getState())) {
+//			} else if (Objects.equals(GlobalConstant.DemandState.CLOSE, demandQuery.getState())) {
+//			}
 			
 		}
 		
@@ -205,6 +216,8 @@ public class DemandServiceImpl implements DemandService {
 			demand.setCreateUserName(commonService.queryUserName(demand.getCreateUser()));
 			// 操作人员
 			demand.setUndertakeUserName(commonService.queryUserName(demand.getUndertakeUser()));
+			// 关单人员
+			demand.setCloseUserName(commonService.queryUserName(demand.getCloseUser()));
 			// 状态
 			demand.setStateName(
 					commonService.queryDicText(GlobalConstant.DictionaryType.DEMAND_STATE, demand.getState()));
@@ -222,25 +235,25 @@ public class DemandServiceImpl implements DemandService {
 
 	
 
-	private void timeTransform(DemandQuery demandQuery) {
-		try {
-			if (Objects.nonNull(demandQuery.getState()) || !StringUtils.isEmpty(demandQuery.getTimeStr())) {
-				Date date = DateUtils.parseDate(demandQuery.getTimeStr());
-				Date dayStart = DateUtils.getDayStart(date);
-				Date dayEnd = DateUtils.getDayEnd(date);
-				if (Objects.equals(DemandState.CLOSE, demandQuery.getState())) {
-					demandQuery.setCloseBeginTime(dayStart);
-					demandQuery.setCloseEndTime(dayEnd);
-				} else {
-					demandQuery.setCreateBeginTime(dayStart);
-					demandQuery.setCreateEndTime(dayEnd);
-				}
-			}
-		} catch (Exception e) {
-			LOGGER.error("timeTransform error demandQuery={}", demandQuery);
-		}
-
-	}
+//	private void timeTransform(DemandQuery demandQuery) {
+//		try {
+//			if (Objects.nonNull(demandQuery.getState()) || !StringUtils.isEmpty(demandQuery.getTimeStr())) {
+//				Date date = DateUtils.parseDate(demandQuery.getTimeStr());
+//				Date dayStart = DateUtils.getDayStart(date);
+//				Date dayEnd = DateUtils.getDayEnd(date);
+//				if (Objects.equals(DemandState.CLOSE, demandQuery.getState())) {
+//					demandQuery.setCloseBeginTime(dayStart);
+//					demandQuery.setCloseEndTime(dayEnd);
+//				} else {
+//					demandQuery.setCreateBeginTime(dayStart);
+//					demandQuery.setCreateEndTime(dayEnd);
+//				}
+//			}
+//		} catch (Exception e) {
+//			LOGGER.error("timeTransform error demandQuery={}", demandQuery);
+//		}
+//
+//	}
 
 	@Override
 	public Demand queryDemandById(Integer demandId) {

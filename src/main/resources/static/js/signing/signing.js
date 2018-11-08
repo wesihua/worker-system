@@ -681,6 +681,19 @@ function showAssignList(jobTypeId){
                  	parent.$('.J-yearMonthPicker-single').datePicker({
                  		format : 'YYYY-MM-DD'
                  	});
+                 	
+                 	parent.$("#worker-list-table").on("keyup afterpaste","#businessIncome-input,#signSalary-input",function(){
+			    		
+			    		if(this.value.length==1){
+			    			this.value=this.value.replace(/[^1-9]/g,'')
+			    		}else{
+			    			this.value = this.value.replace(/[^\d.]/g,''); 
+			    			this.value = this.value.replace(/^\./g,'');
+			    			this.value = this.value.replace(/\.{2,}/g,'');
+			    			this.value = this.value.replace('.','$#$').replace(/\./g,'').replace('$#$','.');
+			    			this.value = this.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3');
+			    		}
+			    	});
                 });
                 
                 
