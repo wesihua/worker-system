@@ -74,16 +74,10 @@
         margin-right:5px;
       }
       #user-manage .chaxun .select2  .public-small-bottom{
-        margin-left:20px;
+        margin-left:0px;
+        vertical-align:top;
       }
     #user-manage .chaxun .select2 select {
-      /* border:1px solid #dbdcdd;
-      height:32px;
-      width: 160px;
-      text-align: center;
-      background-color: #ffffff;
-      margin-right: 20px;
-      padding-left: 20px; */
       
       background:#ffffff;  
       color: #666666;
@@ -97,11 +91,35 @@
 	    margin-right: 20px;
       padding-left: 20px;
     }
+    #user-manage .chaxun .select2 #firstId,#user-manage .chaxun .select2 #secondId{
+      display:inline-block;
+      width:160px;
+      background-color:#ffffff;
+      height: 30px;
+      border: 1px solid #dbdcdd;
+      border-radius:5px;
+      margin-right:20px;
+      overflow: hidden;
+      outline: none;
+    }
+    #user-manage .chaxun .select2 #firstId .selectivity-single-select,#user-manage .chaxun .select2 #secondId .selectivity-single-select{
+      background-color:#ffffff;
+      padding: 0px;
+    }
+    #user-manage .chaxun .select2 #firstId .selectivity-single-select input,#user-manage .chaxun .select2 #secondId .selectivity-single-select input{
+      outline: none;
+      margin-right:0px;
+    }
+    #user-manage .chaxun .select2 .selectivity-single-result-container{
+      top:0px !important;
+    }
       #user-manage .chaxun .select2 select option{
         height: 32px;
         line-height: 32px;
         background: #ffffff;
       }
+
+      
 
 
 #user-manage table {
