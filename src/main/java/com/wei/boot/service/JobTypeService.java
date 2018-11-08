@@ -55,4 +55,10 @@ public interface JobTypeService {
 	 */
 	List<JobType> selectChildJobType();
 	
+	/**
+	 * 导入工种
+	 * @param list
+	 */
+	void insertJobType(List<JobType> list);
+	
 }

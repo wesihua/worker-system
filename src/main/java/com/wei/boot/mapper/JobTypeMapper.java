@@ -93,4 +93,8 @@ public interface JobTypeMapper {
      * @mbggenerated Wed Aug 08 19:17:56 CST 2018
      */
     int updateByPrimaryKey(JobType record);
+    
+    void insertBatch(List<JobType> list);
+    
+    List<JobType> selectAll();
 }

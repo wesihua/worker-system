@@ -1,5 +1,6 @@
 package com.wei.boot.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -76,10 +77,34 @@ public class JobTypeServiceImpl implements JobTypeService {
 
 	@Override
 	public List<JobType> selectAllTree() {
-		List<JobType> roots = selectTreeByParentId(0);
-		return roots;
+		List<JobType> allList = jobTypeMapper.selectAll();
+		List<JobType> firstList = findRoot(allList);
+		for(JobType first : firstList) {
+			List<JobType> children = findChildrenByRoot(allList, first);
+			first.setChildren(children);
+		}
+		return firstList;
 	}
 
+	private List<JobType> findRoot(List<JobType> list){
+		List<JobType> root = new ArrayList<JobType>();
+		for(JobType info : list) {
+			if(info.getLevel() == 1) {
+				root.add(info);
+			}
+		}
+		return root;
+	}
+	private List<JobType> findChildrenByRoot(List<JobType> list, JobType root){
+		List<JobType> children = new ArrayList<JobType>();
+		for(JobType info : list) {
+			if(info.getParentId().intValue() == root.getId().intValue()) {
+				children.add(info);
+			}
+		}
+		return children;
+	}
+	
 	public List<JobType> selectTreeByParentId(int parentId) {
 		JobTypeExample example = new JobTypeExample();
 		example.createCriteria().andParentIdEqualTo(parentId);
@@ -93,5 +118,10 @@ public class JobTypeServiceImpl implements JobTypeService {
 		JobTypeExample example = new JobTypeExample();
 		example.createCriteria().andLevelEqualTo(GlobalConstant.JobTypeLevel.SECOND);
 		return jobTypeMapper.selectByExample(example);
+	}
+
+	@Override
+	public void insertJobType(List<JobType> list) {
+		jobTypeMapper.insertBatch(list);
 	}
 }

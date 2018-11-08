@@ -12,10 +12,10 @@
   left: 50%;
   top: 50%;
   background-color: #ffffff;
-  width: 500px;
+  width: 800px;
   /* height: 230px; */
   margin-top: -270px;
-  margin-left: -250px;
+  margin-left: -400px;
   border-radius: 10px; }
   #juese-manage-box2 .box-content .head {
     height: 60px;
@@ -36,7 +36,7 @@
       }
   #juese-manage-box2 .box-content .middle {
     padding: 20px;
-    /* height: 250px; */
+    height: 350px;
     overflow: auto; }
     #juese-manage-box2 .box-content .middle  .select{
       margin-bottom: 15px;

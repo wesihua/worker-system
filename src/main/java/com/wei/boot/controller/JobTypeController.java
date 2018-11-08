@@ -9,12 +9,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wei.boot.model.JobType;
 import com.wei.boot.model.Result;
 import com.wei.boot.service.JobTypeService;
+import com.wei.boot.util.JsonUtil;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -59,7 +61,6 @@ public class JobTypeController {
 	 * @param info
 	 * @return
 	 */
-	@ApiOperation(value = "保存工种",notes = "")
 	@GetMapping("/saveJobType")
 	public Result saveJobType(JobType info) {
 		Result result = Result.SUCCESS;
@@ -139,6 +140,18 @@ public class JobTypeController {
 			result.setData(list);
 		} catch (Exception e) {
 			log.error("根据名字模糊查询工种", e);
+			result = Result.fail(e);
+		}
+		return result;
+	}
+	
+	@PostMapping("/importJobType")
+	public Result importJobType (@RequestBody List<JobType> jobTypeList) {
+		Result result = Result.SUCCESS;
+		try {
+			jobTypeService.insertJobType(jobTypeList);
+		} catch (Exception e) {
+			log.error("保存工种失败", e);
 			result = Result.fail(e);
 		}
 		return result;

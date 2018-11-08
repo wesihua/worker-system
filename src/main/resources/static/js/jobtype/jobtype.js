@@ -29,6 +29,57 @@ $(function(){
 	$("#add-jobtype-btn").click(function(){
 		saveJobtype();
 	});
+	$("#import-jobtype").click(function(){
+		$.ajax({
+			url:"/jobtype.json",
+			type:"get",
+			dataType:"json",
+			success:function(data){
+				var jobtypeArray = [];
+				var arr = data.data;
+				for(var i=0; i<arr.length; i++){
+					var firstInfo = arr[i];
+					var secondArr = firstInfo.subLevelModelList;
+					for(var j=0; j<secondArr.length; j++){
+						var secondInfo = secondArr[j];
+						var info = {};
+						info.id = secondInfo.code;
+						info.name = secondInfo.name;
+						info.parentId = 0;
+						info.level = 1;
+						jobtypeArray.push(info);
+						var thirdArr = secondInfo.subLevelModelList;
+						for(var k=0; k<thirdArr.length; k++){
+							var thirdInfo = thirdArr[k];
+							var info2 = {};
+							info2.id = thirdInfo.code;
+							info2.name = thirdInfo.name;
+							info2.parentId = secondInfo.code;
+							info2.level = 2;
+							jobtypeArray.push(info2);
+						}
+						
+					}
+				}
+				console.log(jobtypeArray);
+				var obj = {};
+				obj.jobTypeList = jobtypeArray;
+				
+				$.ajax({
+					url:"/jobType/importJobType",
+					contentType: "application/json",
+					type:"post",
+					dataType:"json",
+					data: JSON.stringify(jobtypeArray),
+					success:function(data){
+						if(data.code == 1){
+							alert("导入成功！");
+						}
+					}
+				});
+			}
+		});
+	});
 });
 
 /**

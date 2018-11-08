@@ -81,7 +81,7 @@ $(function(){
 	});
 
 	//加载人才信息
-	loadWorkerInfo();
+	//loadWorkerInfo();
 });
 
 
@@ -786,6 +786,8 @@ function initSelect(){
 				}
 				$("#degree").empty().html(contentdegree);
 				$("#current_degree").empty().html(contentdegree);
+				//加载人才信息
+				loadWorkerInfo();
 			}
 		}
 	});

@@ -120,7 +120,7 @@ CREATE TABLE t_yx_worker (
   profile varchar(255) NULL COMMENT '个人简介',
   description varchar(255) NULL COMMENT '备注',
   souce int(11) DEFAULT NULL COMMENT '来源 0:app,1:pc,2:导入,3:二维码',
-  jobtype_name varchar(50) NULL COMMENT '用来存放工种名称，防止翻译影响查询速度',
+  jobtype_name varchar(255) NULL COMMENT '用来存放工种名称，防止翻译影响查询速度',
   create_time datetime NOT NULL COMMENT '创建时间',
   create_user int(11) DEFAULT NULL COMMENT '创建人',
   update_time datetime DEFAULT NULL COMMENT '更新时间',
