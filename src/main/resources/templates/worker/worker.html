@@ -7,11 +7,13 @@
 <link href="../css/font-awesome.min.css" rel="stylesheet" />
 <link href="../css/user-manage.css" rel="stylesheet"/>
 <link rel="stylesheet" href="../datepicker/css/datepicker.css"/>
+<link rel="stylesheet" href="../selectivity/selectivity-jquery.css"/>
 <link href="../css/jquery.pagination.css" rel="stylesheet" />
 <script src="../js/jquery-3.3.1.min.js"></script>
 <script src="../js/jquery.pagination.min.js"></script>
 <script src="../datepicker/js/plugins/moment.min.js"></script>
 <script src="../datepicker/js/datepicker.all.js"></script>
+<script src="../selectivity/selectivity-jquery.js"></script>
 <script src="../js/worker/worker.js"></script>
 </head>
 <body>
@@ -28,9 +30,9 @@
 					<div class="select1">
 						
 						<span class="n"></span>
-						<input placeholder="搜索姓名" id="workerName"/> 
-						<input placeholder="搜索手机号" id="telephone"/> 
-						<input placeholder="搜索身份证号" id="idcard"/> 
+						<input placeholder="姓名" id="workerName"/> 
+						<input placeholder="手机号" id="telephone"/> 
+						<input placeholder="身份证号" id="idcard"/> 
 						<!-- <input placeholder="搜索企业" id="company"/>  -->
 						<select id="source"></select> 
 						<select id="createUser"></select> 
@@ -47,13 +49,9 @@
 				        <span class="n"></span>
 				        <span class="n"></span>
 				        <span class="n"></span>
-						<select id="firstId">
-							<option value="">选择一级工种</option>
-						</select> 
+						<div id="firstId"></div>
 						<!-- <span class="n"></span> -->
-						<select id="secondId">
-							<option value="">---选择二级工种---</option>
-						</select>
+						<div id="secondId"></div>
 						<span class="public-small-bottom on" id="query"><i class="fa fa-search"></i>查询</span>
 					</div>
 					<!-- <div class="select2">

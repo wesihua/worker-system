@@ -40,10 +40,7 @@ $(function(){
 	initFirstIdSelect("firstId");
 	// 二级工种联动
 	$("#firstId").change(function(){
-		var firstId = this.value;
-		if(!firstId){
-			$("#"+id).empty().html("<option value=\"\">---请选择---</option>");
-		}
+		var firstId = $(this).selectivity('data').id;
 		$.ajax({
 			url:"/jobType/queryByParentId",
 			type:"get",
@@ -52,12 +49,19 @@ $(function(){
 			success:function(data){
 				if(data.code == 1){
 					var dics = data.data;
-					var content = "<option value=\"\">---请选择---</option>";
+					var infoList = [];
 					for(var i=0; i<dics.length; i++){
 						var dic = dics[i];
-						content += "<option value=\""+dic.id+"\">"+dic.name+"</option>";
+						var info = {};
+						info.id = dic.id;
+						info.text = dic.name;
+						infoList.push(info);
 					}
-					$("#secondId").empty().html(content);
+					$("#secondId").selectivity({
+						allowClear: true,
+					    items: infoList,
+					    placeholder: '二级工种'
+					});
 				}
 			}
 		});
@@ -87,6 +91,8 @@ $(function(){
           time: '00:00,'
         }]
       });
+	
+	
 });
 
 /**
@@ -223,12 +229,19 @@ function initFirstIdSelect(id){
 		success:function(data){
 			if(data.code == 1){
 				var dics = data.data;
-				var content = "<option value=\"\">---请选择一级工种---</option>";
+				var infoList = [];
 				for(var i=0; i<dics.length; i++){
 					var dic = dics[i];
-					content += "<option value=\""+dic.id+"\">"+dic.name+"</option>";
+					var info = {};
+					info.id = dic.id;
+					info.text = dic.name;
+					infoList.push(info);
 				}
-				$("#"+id).empty().html(content);
+				$("#"+id).selectivity({
+					allowClear: true,
+				    items: infoList,
+				    placeholder: '一级工种'
+				});
 			}
 		}
 	});
