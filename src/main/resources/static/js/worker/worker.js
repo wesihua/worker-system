@@ -10,8 +10,7 @@ $(function(){
     }).bind("ajaxComplete", function () {
     	parent.$("#loading").hide();
     });
-	// 进入页面自动查询
-	query(1);
+	
 	//按钮事件绑定
 	$("#query").click(function(){
 		query(1);
@@ -23,8 +22,8 @@ $(function(){
 		var workerName = $("#workerName").val();
 		var telephone = $("#telephone").val();
 		var idcard = $("#idcard").val();
-		var firstId = $("#firstId").val();
-		var secondId = $("#secondId").val();
+		var firstId = $("#firstId").selectivity('data').id;
+		var secondId = $("#secondId").selectivity('data').id;
 		var createUser = $("#createUser").val();
 		var source = $("#source").val();
 		//var workStatus = $("#workStatus").val();
@@ -40,31 +39,43 @@ $(function(){
 	initFirstIdSelect("firstId");
 	// 二级工种联动
 	$("#firstId").change(function(){
-		var firstId = $(this).selectivity('data').id;
-		$.ajax({
-			url:"/jobType/queryByParentId",
-			type:"get",
-			dataType:"json",
-			data:{parentId:firstId},
-			success:function(data){
-				if(data.code == 1){
-					var dics = data.data;
-					var infoList = [];
-					for(var i=0; i<dics.length; i++){
-						var dic = dics[i];
-						var info = {};
-						info.id = dic.id;
-						info.text = dic.name;
-						infoList.push(info);
+		if(!$(this).selectivity('data')){
+			$("#secondId").selectivity('clear');
+			$("#secondId").selectivity({
+				allowClear: true,
+			    items: [],
+			    placeholder: '二级工种'
+			});
+		}
+		else{
+			var firstId = $(this).selectivity('data').id;
+			$("#secondId").selectivity('clear');
+			$.ajax({
+				url:"/jobType/queryByParentId",
+				type:"get",
+				dataType:"json",
+				data:{parentId:firstId},
+				success:function(data){
+					if(data.code == 1){
+						var dics = data.data;
+						var infoList = [];
+						for(var i=0; i<dics.length; i++){
+							var dic = dics[i];
+							var info = {};
+							info.id = dic.id;
+							info.text = dic.name;
+							infoList.push(info);
+						}
+						$("#secondId").selectivity({
+							allowClear: true,
+						    items: infoList,
+						    placeholder: '二级工种'
+						});
 					}
-					$("#secondId").selectivity({
-						allowClear: true,
-					    items: infoList,
-					    placeholder: '二级工种'
-					});
 				}
-			}
-		});
+			});
+		}
+		
 	});
 	// 初始化创建人
 	initCreateUserSelect("createUser");
@@ -92,19 +103,30 @@ $(function(){
         }]
       });
 	
-	
+	// 进入页面自动查询
+	query(1,1);
 });
 
 /**
  * 查询
  * @returns
  */
-function query(currentPage){
+function query(currentPage,onPage){
 	var workerName = $("#workerName").val();
 	var telephone = $("#telephone").val();
 	var idcard = $("#idcard").val();
-	var firstId = $("#firstId").val();
-	var secondId = $("#secondId").val();
+	
+	if(!onPage){
+		var firstId = "";
+		if($("#firstId").selectivity('data')){
+			firstId = $("#firstId").selectivity('data').id;
+		}
+		var secondId = "";
+		if($("#secondId").selectivity('data')){
+			secondId = $("#secondId").selectivity('data').id;
+		}
+	}
+	
 	var createUser = $("#createUser").val();
 	var source = $("#source").val();
 	var company = $("#company").val();
@@ -241,6 +263,11 @@ function initFirstIdSelect(id){
 					allowClear: true,
 				    items: infoList,
 				    placeholder: '一级工种'
+				});
+				$("#secondId").selectivity({
+					allowClear: true,
+				    items: [],
+				    placeholder: '二级工种'
 				});
 			}
 		}
