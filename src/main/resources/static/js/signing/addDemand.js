@@ -19,6 +19,9 @@ $(function(){
 		$("#title-name").text("编辑需求单");
 	}
 	
+	// 初始化企业下拉框
+	initCompanySelection();
+	
 	//监听公司名称变化
 	$('#companyName').bind('input propertychange', function() {
 		queryCompany();
@@ -36,7 +39,7 @@ function queryDetail(){
 	
 	var demandId = $("input:hidden[name='demandId']").val();
 	if(demandId > 0){
-		$('#companyName').attr('readonly','readonly');
+		$('#companyName').selectivity({readOnly:true});
 		$.ajax({
 			url:"/demand/waitingDemand",
 			type:"get",
@@ -47,8 +50,8 @@ function queryDetail(){
 					var state = data.data.state;
 					var tableContent="";
 					var firmArr = data.data.demandJobList;
-					$("#companyId").val(data.data.companyId);
-					$("#companyName").val(data.data.companyName);
+					//$("#companyId").val(data.data.companyId);
+					$("#companyName").selectivity('data',{id:data.data.companyId,"text":data.data.companyName});
 					$("#description").text(data.data.description);
 					if(firmArr.length > 0){
 						tableContent+= "<tr>"+
@@ -152,6 +155,45 @@ function queryParentJobType(parentJobTypeId){
 					}
 				}
 				parent.$("#jobType").empty().html(content);
+			}
+		}
+	});
+}
+
+function initCompanySelection(){
+	$.ajax({
+		url:"/company/queryAll",
+		type:"get",
+		dataType:"json",
+		async:false,
+		success:function(data){
+			if(data.code == 1){
+				var firmArr = data.data;
+				var frimList = [];
+				if(firmArr.length > 0){
+					for(var i=0; i<firmArr.length; i++){
+						var company = firmArr[i];
+						var info = {};
+						info.id = company.id;
+						info.text = company.name;
+						frimList.push(info);
+					}
+				}
+				$("#companyName").selectivity({
+					allowClear: true,
+				    items: frimList,
+				    placeholder: '选择企业'
+				});
+				$("#firstId").selectivity({
+					allowClear: true,
+				    items: ['11','22','33'],
+				    placeholder: '一级工种'
+				});
+				$("#secondId").selectivity({
+					allowClear: true,
+				    items: [],
+				    placeholder: '二级工种'
+				});
 			}
 		}
 	});
@@ -300,7 +342,6 @@ function initJob(provinceCode,areaCode,parentJobTypeId,jobTypeId){
 	
 	// 初始化父级工种
 	queryParentJobType(parentJobTypeId);
-	
 	
 }
 
@@ -608,7 +649,7 @@ function addDemand(){
 
 	var demand = {};
 	demand.id=$("input:hidden[name='demandId']").val();
-	demand.companyId =$("#companyId").val();
+	demand.companyId =$("#companyName").selectivity('data').id;
 	demand.description =$("#description").val();
 	
 	if (!demand.companyId  || demand.companyId ==0) {

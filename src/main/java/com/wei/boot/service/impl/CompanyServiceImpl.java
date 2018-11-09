@@ -113,5 +113,10 @@ public class CompanyServiceImpl implements CompanyService {
 		return companyMapper.selectByPrimaryKey(companyId);
 	}
 
+	@Override
+	public List<Company> queryAll() {
+		return companyMapper.selectByExample(new CompanyExample());
+	}
+
 
 }

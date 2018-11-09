@@ -9,11 +9,13 @@
 <link href="../css/qiandan-manage-add.css" rel="stylesheet" />
 <link href="../css/qiandan-manage-box2.css" rel="stylesheet" />
 <link href="../css/jquery.pagination.css" rel="stylesheet" />
+<link rel="stylesheet" href="../selectivity/selectivity-jquery.css"/>
 <script src="../js/jquery-3.3.1.min.js"></script>
 <script src="../js/jquery.pagination.min.js"></script>
 <script src="../js/signing/addDemand.js"></script>
 <script src="../datepicker/js/plugins/moment.min.js"></script>
 <script src="../datepicker/js/datepicker.all.js"></script>
+<script src="../selectivity/selectivity-jquery.js"></script>
 </head>
 <body>
 	<div id="content">
@@ -26,17 +28,13 @@
 			<div class="qiandan-add-content">
 				<div class="input-block">
 					<span class="name"><i>*</i>企业客户</span>
-					<div id="companyName"></div>
-					<!-- <span class="name"><i>*</i>企业客户</span> 
-					<input placeholder="搜索企业名称" class="" id="companyName" name="companyName"/>
+					<div id="companyName" class="company"></div>
+					
+					<!-- <input placeholder="搜索企业名称" class="" id="companyName" name="companyName"/>
 					<input type="hidden" class="" id="companyId" name="companyId"/>
 					<div class="lenove-list" id="companyList" style="display: none;">
 						<div class="li"  onclick="changCompany(id,name)"></div>
 					</div> -->
-					<!-- <select id="companyId">
-						<option value="1">1</option>
-						<option value="2">2</option>
-					</select> -->
 				</div>
 				<div class="input-block">
 					<span class="name"><i>*</i>备注说明</span>
@@ -85,20 +83,18 @@
 				<div class="middle">
 					<div class="input-block small">
 						<span class="name"><i>*</i>用工工种</span>
-						<div id="firstId"></div>
-						<!-- <select class="se" id="jobType">
-							 <option value="1">1</option>
+						<select class="se" id="jobType">
+							 <option value=""></option>
 						</select>
 						<input  id="parentJobTypeId" type="hidden"/>
 						<input  id="jobTypeId" type="hidden"/>
-						<input  id="jobTypeName" type="hidden"/> -->
+						<input  id="jobTypeName" type="hidden"/>
 					</div>
 					<div class="input-block">
 						<span class="name">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> 
-						<div id="firstId"></div>
-						<!-- <select class="se" id="jobTypeList">
-							 <option value="1">1</option>
-						</select> -->
+						<select class="se" id="jobTypeList">
+							 <option value=""></option>
+						</select>
 					</div>
 					<div class="input-block">
 						<span class="name"><i>*</i>用工人数</span>
@@ -165,7 +161,6 @@
 			</div>
 		</div>
 	</div>
-	
 	</div>
 </body>
 </html>

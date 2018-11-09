@@ -55,4 +55,10 @@ public interface CompanyService {
 	 */
 	public List<Company> query4Export(Company company);
 	
+	/**
+	 * 查询所有
+	 * @return
+	 */
+	public List<Company> queryAll();
+	
 }

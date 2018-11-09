@@ -106,6 +106,23 @@ public class CompanyController {
 		return result;
 	}
 	
+	/**
+	 * 查询所有企业
+	 * @return
+	 */
+	@GetMapping("/queryAll")
+	public Result queryAll() {
+		Result result = Result.SUCCESS;
+		try {
+			List<Company> list = companyService.queryAll();
+			result.setData(list);
+		} catch (Exception e) {
+			log.error("查询失败", e);
+			result = Result.fail("查询企业失败！");
+		}
+		return result;
+	}
+	
 	
 	/**
 	 * 根据名称查询
