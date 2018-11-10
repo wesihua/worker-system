@@ -99,6 +99,7 @@ function queryDetail(){
 	
 }
 
+// 删除工种
 function deleteJob(obj){
 	var thisObj=$(obj);
 	thisObj.parent().parent().remove();
@@ -158,7 +159,6 @@ function queryParentJobType(parentJobTypeId){
 //			}
 //		}
 //	});
-	parentJobTypeId = 100200;
 	$.ajax({
 		url:"/jobType/queryRootJobType",
 		type:"get",
@@ -181,26 +181,16 @@ function queryParentJobType(parentJobTypeId){
 						 default_name = dic.name;
 					}
 				}
+				parent.$("#firstId").selectivity({
+					allowClear: true,
+				    items: infoList,
+				    placeholder: '一级工种'
+				});
 				
-				
-				
-				if(parentJobTypeId != undefined && parentJobTypeId == dic.id){
-					parent.$("#firstId").selectivity({
-						allowClear: true,
-					    items: infoList,
-					    placeholder: '一级工种',
-					    value: parentJobTypeId 
-					});
-				} else {
-					parent.$("#firstId").selectivity({
-						allowClear: true,
-					    items: infoList,
-					    placeholder: '一级工种'
-					});
+				if(parentJobTypeId != undefined){
+					parent.$('#firstId').selectivity('data', { id: default_id, text: default_name});
 				}
 				
-				
-				//parent.$('#firstId').selectivity('data', { id: default_id, text: default_name });
 				parent.$("#secondId").selectivity({
 					allowClear: true,
 				    items: [],
@@ -236,16 +226,6 @@ function initCompanySelection(){
 				    items: frimList,
 				    placeholder: '选择企业'
 				});
-//				$("#firstId").selectivity({
-//					allowClear: true,
-//				    items: ['11','22','33'],
-//				    placeholder: '一级工种'
-//				});
-//				$("#secondId").selectivity({
-//					allowClear: true,
-//				    items: [],
-//				    placeholder: '二级工种'
-//				});
 			}
 		}
 	});
@@ -341,24 +321,6 @@ function initOtherSelect(gender,degree){
  */
 function initJob(provinceCode,areaCode,parentJobTypeId,jobTypeId){
 	
-	
-	// 二级工种选中事件
-	parent.$("select#jobTypeList").change(function(){
-		// 选中事件
-		var jobTypeId = parent.$('select#jobTypeList option:selected').val();
-		var jobTypeName = parent.$('select#jobTypeList option:selected').text();
-		parent.$('#jobTypeId').val(jobTypeId);
-		parent.$('#jobTypeName').val(jobTypeName);
-		
-    });
-	
-	// 一级工种选中事件
-	parent.$("select#jobType").change(function(){
-		var parentJobTypeId = this.value;
-		parent.$('#parentJobTypeId').val(parentJobTypeId);
-		queryJobType(parentJobTypeId,jobTypeId);
-	});
-	
 	// 省份选中事件
 	parent.$("#province").change(function(){
 		var parentCode = this.value;
@@ -403,8 +365,27 @@ function initJob(provinceCode,areaCode,parentJobTypeId,jobTypeId){
 	// 初始化父级工种
 	queryParentJobType(parentJobTypeId);
 	
+	
+	// 二级工种选中事件
+	parent.$("#secondId").change(function(){
+		// 选中事件
+		var jobTypeId = parent.$(this).selectivity('data').id;
+		var jobTypeName = parent.$(this).selectivity('data').text;
+		parent.$('#jobTypeId').val(jobTypeId);
+		parent.$('#jobTypeName').val(jobTypeName);
+		
+    });
+	
+	// 一级工种选中事件
+	parent.$("#firstId").change(function(){
+		var parentJobTypeId = this.value;
+		
+		queryJobType(parentJobTypeId,jobTypeId);
+	});
+	
 	// 二级工种联动
 	parent.$("#firstId").change(function(){
+		// 
 		if(!parent.$(this).selectivity('data')){
 			parent.$("#secondId").selectivity('clear');
 			parent.$("#secondId").selectivity({
@@ -412,10 +393,10 @@ function initJob(provinceCode,areaCode,parentJobTypeId,jobTypeId){
 			    items: [],
 			    placeholder: '二级工种'
 			});
-		}
-		else{
-			var firstId = $(this).selectivity('data').id;
+		}else{
+			var firstId = parent.$(this).selectivity('data').id;
 			parent.$("#secondId").selectivity('clear');
+			parent.$('#parentJobTypeId').val(firstId);
 			$.ajax({
 				url:"/jobType/queryByParentId",
 				type:"get",
@@ -425,18 +406,28 @@ function initJob(provinceCode,areaCode,parentJobTypeId,jobTypeId){
 					if(data.code == 1){
 						var dics = data.data;
 						var infoList = [];
+						var default_secondId;
+						var default_secondName;
 						for(var i=0; i<dics.length; i++){
 							var dic = dics[i];
 							var info = {};
 							info.id = dic.id;
 							info.text = dic.name;
 							infoList.push(info);
+							if(jobTypeId != undefined && jobTypeId == dic.id){
+								 default_secondId  = dic.id;
+								 default_secondName = dic.name;
+							}
 						}
 						parent.$("#secondId").selectivity({
 							allowClear: true,
 						    items: infoList,
 						    placeholder: '二级工种'
 						});
+						
+						if(jobTypeId != undefined){
+							parent.$('#secondId').selectivity('data', { id: default_secondId, text: default_secondName });
+						}
 					}
 				}
 			});
@@ -847,29 +838,29 @@ function initProvinceSelect(provinceCode){
 	});
 }
 
-function initParentJobType(provinceCode){
-	$.ajax({
-		url:"/common/queryAllProvince",
-		type:"get",
-		dataType:"json",
-		async:false,
-		success:function(data){
-			if(data.code == 1){
-				var dics = data.data;
-				var content = "<option value=\"\">---请选择---</option>";
-				for(var i=0; i<dics.length; i++){
-					var dic = dics[i];
-					if(provinceCode != undefined && provinceCode == dic.code){
-						content += "<option value=\""+dic.code+"\" selected=\"selected\">"+dic.name+"</option>";
-					}else{
-						content += "<option value=\""+dic.code+"\">"+dic.name+"</option>";
-					}
-					
-				}
-				parent.$("#province").empty().html(content);
-			}
-		}
-	});
-}
+//function initParentJobType(provinceCode){
+//	$.ajax({
+//		url:"/common/queryAllProvince",
+//		type:"get",
+//		dataType:"json",
+//		async:false,
+//		success:function(data){
+//			if(data.code == 1){
+//				var dics = data.data;
+//				var content = "<option value=\"\">---请选择---</option>";
+//				for(var i=0; i<dics.length; i++){
+//					var dic = dics[i];
+//					if(provinceCode != undefined && provinceCode == dic.code){
+//						content += "<option value=\""+dic.code+"\" selected=\"selected\">"+dic.name+"</option>";
+//					}else{
+//						content += "<option value=\""+dic.code+"\">"+dic.name+"</option>";
+//					}
+//					
+//				}
+//				parent.$("#province").empty().html(content);
+//			}
+//		}
+//	});
+//}
 
 
