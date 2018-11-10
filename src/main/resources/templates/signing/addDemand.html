@@ -81,8 +81,12 @@
 				<div class="head"><span class="title">添加用工</span><span class="close fa fa-close" id="close-dialog"></span>
 				</div>
 				<div class="middle">
-					<div class="input-block small">
-						<span class="name"><i>*</i>用工工种</span>
+					<span class="name"><i>*</i>用工工种</span>
+				    <div id="firstId"></div>
+				    <div id="secondId"></div>
+					
+					<!--
+					<div class="input-block">
 						<select class="se" id="jobType">
 							 <option value=""></option>
 						</select>
@@ -96,6 +100,7 @@
 							 <option value=""></option>
 						</select>
 					</div>
+					--> 
 					<div class="input-block">
 						<span class="name"><i>*</i>用工人数</span>
 						<input class="pt" id="workerCount" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" 

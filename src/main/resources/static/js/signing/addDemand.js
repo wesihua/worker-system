@@ -136,28 +136,80 @@ function queryJobType(parentJobTypeId,jobTypeId){
 
 // 查父级工种
 function queryParentJobType(parentJobTypeId){
+//	$.ajax({
+//		url:"/jobType/queryRootJobType",
+//		type:"get",
+//		dataType:"json",
+//		async:false,
+//		success:function(data){
+//			if(data.code == 1){
+//				var dics = data.data;
+//				var content = "<option value=\"\">---请选择---</option>";
+//				for(var i=0; i<dics.length; i++){
+//					var dic = dics[i];
+//					
+//					if(parentJobTypeId != undefined && parentJobTypeId == dic.id){
+//						content += "<option value=\""+dic.id+"\" selected=\"selected\">"+dic.name+"</option>";
+//					} else {
+//						content += "<option value=\""+dic.id+"\">"+dic.name+"</option>";
+//					}
+//				}
+//				parent.$("#jobType").empty().html(content);
+//			}
+//		}
+//	});
+	parentJobTypeId = 100200;
 	$.ajax({
 		url:"/jobType/queryRootJobType",
 		type:"get",
 		dataType:"json",
-		async:false,
+		global: false,
 		success:function(data){
 			if(data.code == 1){
 				var dics = data.data;
-				var content = "<option value=\"\">---请选择---</option>";
+				var infoList = [];
+				var default_id;
+				var default_name;
 				for(var i=0; i<dics.length; i++){
 					var dic = dics[i];
-					
+					var info = {};
+					info.id = dic.id;
+					info.text = dic.name;
+					infoList.push(info);
 					if(parentJobTypeId != undefined && parentJobTypeId == dic.id){
-						content += "<option value=\""+dic.id+"\" selected=\"selected\">"+dic.name+"</option>";
-					} else {
-						content += "<option value=\""+dic.id+"\">"+dic.name+"</option>";
+						 default_id = dic.id;
+						 default_name = dic.name;
 					}
 				}
-				parent.$("#jobType").empty().html(content);
+				
+				
+				
+				if(parentJobTypeId != undefined && parentJobTypeId == dic.id){
+					parent.$("#firstId").selectivity({
+						allowClear: true,
+					    items: infoList,
+					    placeholder: '一级工种',
+					    value: parentJobTypeId 
+					});
+				} else {
+					parent.$("#firstId").selectivity({
+						allowClear: true,
+					    items: infoList,
+					    placeholder: '一级工种'
+					});
+				}
+				
+				
+				//parent.$('#firstId').selectivity('data', { id: default_id, text: default_name });
+				parent.$("#secondId").selectivity({
+					allowClear: true,
+				    items: [],
+				    placeholder: '二级工种'
+				});
 			}
 		}
 	});
+
 }
 
 function initCompanySelection(){
@@ -184,16 +236,16 @@ function initCompanySelection(){
 				    items: frimList,
 				    placeholder: '选择企业'
 				});
-				$("#firstId").selectivity({
-					allowClear: true,
-				    items: ['11','22','33'],
-				    placeholder: '一级工种'
-				});
-				$("#secondId").selectivity({
-					allowClear: true,
-				    items: [],
-				    placeholder: '二级工种'
-				});
+//				$("#firstId").selectivity({
+//					allowClear: true,
+//				    items: ['11','22','33'],
+//				    placeholder: '一级工种'
+//				});
+//				$("#secondId").selectivity({
+//					allowClear: true,
+//				    items: [],
+//				    placeholder: '二级工种'
+//				});
 			}
 		}
 	});
@@ -279,6 +331,14 @@ function initOtherSelect(gender,degree){
 	});
 }
 
+/**
+ * 初始化工种
+ * @param provinceCode
+ * @param areaCode
+ * @param parentJobTypeId
+ * @param jobTypeId
+ * @returns
+ */
 function initJob(provinceCode,areaCode,parentJobTypeId,jobTypeId){
 	
 	
@@ -343,6 +403,47 @@ function initJob(provinceCode,areaCode,parentJobTypeId,jobTypeId){
 	// 初始化父级工种
 	queryParentJobType(parentJobTypeId);
 	
+	// 二级工种联动
+	parent.$("#firstId").change(function(){
+		if(!parent.$(this).selectivity('data')){
+			parent.$("#secondId").selectivity('clear');
+			parent.$("#secondId").selectivity({
+				allowClear: true,
+			    items: [],
+			    placeholder: '二级工种'
+			});
+		}
+		else{
+			var firstId = $(this).selectivity('data').id;
+			parent.$("#secondId").selectivity('clear');
+			$.ajax({
+				url:"/jobType/queryByParentId",
+				type:"get",
+				dataType:"json",
+				data:{parentId:firstId},
+				success:function(data){
+					if(data.code == 1){
+						var dics = data.data;
+						var infoList = [];
+						for(var i=0; i<dics.length; i++){
+							var dic = dics[i];
+							var info = {};
+							info.id = dic.id;
+							info.text = dic.name;
+							infoList.push(info);
+						}
+						parent.$("#secondId").selectivity({
+							allowClear: true,
+						    items: infoList,
+						    placeholder: '二级工种'
+						});
+					}
+				}
+			});
+		}
+		
+	});
+	
 }
 
 function queryArea(parentCode,areaCode){
@@ -382,7 +483,7 @@ function addJob(){
 	parent.$('.J-yearMonthPicker-single').datePicker({
         format: 'YYYY-MM-DD'
     });
-	
+	//  初始化工种
 	initJob(null,null,null,null);
 	
 	initOtherSelect(null,null);
