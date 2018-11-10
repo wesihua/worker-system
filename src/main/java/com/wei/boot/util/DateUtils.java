@@ -322,6 +322,10 @@ public class DateUtils {
 		return FORMAT_TIME.format(new Date());
 	}
 	
+	public static String getCurDate6Bit() {
+		return DATE_FORMAT_6.format(new Date());
+	}
+	
 	public static String getCurDate() {
 		return SHORT_DATE_FORMAT.format(new Date());
 	}
@@ -364,6 +368,8 @@ public class DateUtils {
 	public static final SimpleDateFormat YEAR_FORMAT = new SimpleDateFormat("yyyy");
 	public static final SimpleDateFormat SHORT_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 	public static final SimpleDateFormat FORMAT_TIME = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	
+	public static final SimpleDateFormat DATE_FORMAT_6 = new SimpleDateFormat("yyyyMMdd");
 
 	public static void main(String[] args) throws Exception {
 //		String date1 = "2017-03-01";

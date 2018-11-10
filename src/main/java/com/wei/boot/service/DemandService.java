@@ -19,7 +19,7 @@ import com.wei.boot.model.signing.OrderModel;
 public interface DemandService {
 
 	/**
-	 * 新增
+	 * 保存需求单
 	 * @param demand
 	 */
 	public void saveDemand(Demand demand);
@@ -85,7 +85,7 @@ public interface DemandService {
 	public void editOrderWorker(OrderWorker orderWorker);
 
 	/**
-	 * 
+	 * 分配用工
 	 * @param demandJobId
 	 * @param workers
 	 */

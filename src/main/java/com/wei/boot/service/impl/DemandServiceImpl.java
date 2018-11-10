@@ -19,7 +19,6 @@ import org.springframework.util.StringUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wei.boot.contant.GlobalConstant;
-import com.wei.boot.contant.GlobalConstant.DemandState;
 import com.wei.boot.contant.GlobalConstant.OrderWorkerState;
 import com.wei.boot.exception.NormalException;
 import com.wei.boot.mapper.DemandJobMapper;
@@ -50,9 +49,7 @@ import com.wei.boot.model.signing.OrderModel;
 import com.wei.boot.service.CommonService;
 import com.wei.boot.service.CompanyService;
 import com.wei.boot.service.DemandService;
-import com.wei.boot.util.CheckUtils;
 import com.wei.boot.util.DateUtils;
-import com.wei.boot.util.ToolsUtil;
 
 @Service
 public class DemandServiceImpl implements DemandService {
@@ -112,7 +109,7 @@ public class DemandServiceImpl implements DemandService {
 		//DateUtils.getCurYear() + "-00" +companyId + "-00" + (demandCount + 1);
 		
 		// 生成需求单号
-		String demandNumber = DateUtils.getCurYear() + "" +demandId + "" + (demandCount + 1);
+		String demandNumber = DateUtils.getCurDate6Bit() + "" +demandId + "" + (demandCount + 1);
 		demand.setDemandNumber(demandNumber);
 		demandMapper.updateByPrimaryKeySelective(demand);
 		
@@ -127,20 +124,8 @@ public class DemandServiceImpl implements DemandService {
 				demandJobMapper.insertSelective(demandJob);
 			});
 		}
-		
 		LOGGER.debug("exit saveDemand");
 	}
-
-//	private String createDemandNumber(Demand demand) {
-//		Integer companyId = demand.getCompanyId();
-//		
-//		Map<String, Object> map = new HashMap<String, Object>();
-//		map.put("companyId", companyId);
-//		map.put("createTime", DateUtils.getYearStart(new Date()));
-//		int demandCount =demandMapper.selectCampanyLastDemandNumber(map);
-//		return DateUtils.getCurYear() + "-00" +companyId + "-00" + (demandCount + 1);
-//	}
-
 
 	@Override
 	public Page<Demand> queryDemand(Page<Demand> page, DemandQuery demandQuery) {
@@ -194,15 +179,7 @@ public class DemandServiceImpl implements DemandService {
 		map.put("offset", page.getOffset());
 		List<Demand> list = demandMapper.selectByPage(map);
 		if (!CollectionUtils.isEmpty(list)) {
-			
 			translateDemandList(list);
-
-//			if (Objects.equals(GlobalConstant.DemandState.PENDING, demandQuery.getState())) {	
-//			} else if (Objects.equals(GlobalConstant.DemandState.PROCESSING, demandQuery.getState())) {
-//			} else if (Objects.equals(GlobalConstant.DemandState.SIGNING, demandQuery.getState())) {
-//			} else if (Objects.equals(GlobalConstant.DemandState.CLOSE, demandQuery.getState())) {
-//			}
-			
 		}
 		
 		page.pageData(list, totalCount);
@@ -211,13 +188,14 @@ public class DemandServiceImpl implements DemandService {
 	}
 
 	private void translateDemandList(List<Demand> list) {
+		Map<Integer, String>  idNameMap = new HashMap<>();
 		list.stream().forEach(demand -> {
 			// 创建人
-			demand.setCreateUserName(commonService.queryUserName(demand.getCreateUser()));
+			demand.setCreateUserName(getUserName(idNameMap,demand.getCreateUser()));
 			// 操作人员
-			demand.setUndertakeUserName(commonService.queryUserName(demand.getUndertakeUser()));
+			demand.setUndertakeUserName(getUserName(idNameMap,demand.getUndertakeUser()));
 			// 关单人员
-			demand.setCloseUserName(commonService.queryUserName(demand.getCloseUser()));
+			demand.setCloseUserName(getUserName(idNameMap,demand.getCloseUser()));
 			// 状态
 			demand.setStateName(
 					commonService.queryDicText(GlobalConstant.DictionaryType.DEMAND_STATE, demand.getState()));
@@ -225,35 +203,16 @@ public class DemandServiceImpl implements DemandService {
 
 	}
 
-//	private void translateCloseDemand(Demand demand) {}
-//
-//	private void translateSigningDemand(Demand demand) {}
-//
-//	private void translateProcessingDemand(Demand demand) {}
-//
-//	private void translatePendingDemand(Demand demand) {}
 
-	
-
-//	private void timeTransform(DemandQuery demandQuery) {
-//		try {
-//			if (Objects.nonNull(demandQuery.getState()) || !StringUtils.isEmpty(demandQuery.getTimeStr())) {
-//				Date date = DateUtils.parseDate(demandQuery.getTimeStr());
-//				Date dayStart = DateUtils.getDayStart(date);
-//				Date dayEnd = DateUtils.getDayEnd(date);
-//				if (Objects.equals(DemandState.CLOSE, demandQuery.getState())) {
-//					demandQuery.setCloseBeginTime(dayStart);
-//					demandQuery.setCloseEndTime(dayEnd);
-//				} else {
-//					demandQuery.setCreateBeginTime(dayStart);
-//					demandQuery.setCreateEndTime(dayEnd);
-//				}
-//			}
-//		} catch (Exception e) {
-//			LOGGER.error("timeTransform error demandQuery={}", demandQuery);
-//		}
-//
-//	}
+	private String getUserName(Map<Integer, String> idNameMap, Integer userId) {
+		if(!StringUtils.isEmpty(idNameMap.get(userId))) {
+			return idNameMap.get(userId);
+		}else {
+			String userName = commonService.queryUserName(userId);
+			idNameMap.put(userId, userName);
+			return userName;
+		}
+	}
 
 	@Override
 	public Demand queryDemandById(Integer demandId) {
@@ -283,11 +242,8 @@ public class DemandServiceImpl implements DemandService {
 			});
 		}
 		demand.setDemandJobList(demandJobList);
-		
 		return demand;
 	}
-
-	
 
 	private int getSigningCountDemandJobId(Integer id) {
 		OrderWorkerExample example = new OrderWorkerExample();
@@ -325,8 +281,6 @@ public class DemandServiceImpl implements DemandService {
 			demandJob.setJobTypeName(jobType == null ? "": jobType.getName());
 			demandJob.setParentJobTypeId(jobType == null ? null: jobType.getParentId());
 			
-			
-
 			// 翻译性别要求
 			if(null != demandJob.getGender()) {
 				String genderName = commonService.queryDicText(GlobalConstant.DictionaryType.GENDER_DEMAND, demandJob.getGender());
@@ -337,11 +291,7 @@ public class DemandServiceImpl implements DemandService {
 				String degreeName = commonService.queryDicText(GlobalConstant.DictionaryType.DEGREE_DEMAND, demandJob.getDegree());
 				demandJob.setDegreeName(degreeName);
 			}
-			
-			
-		
 		}
-		
 	}
 
 	/**
@@ -393,13 +343,11 @@ public class DemandServiceImpl implements DemandService {
 				demand.setWorkCount(workerCount);
 				demand.setJobTypeName(StringUtils.collectionToDelimitedString(jobNames, "、"));
 			}
-			// 
 		}
 	}
 
 	private int getSigningCountDemandId(Integer demandId) {
-		
-		return demandOrderMapper.selectSigningCountByDemandId(demandId );
+		return demandOrderMapper.selectSigningCountByDemandId(demandId);
 		
 	}
 
@@ -566,14 +514,13 @@ public class DemandServiceImpl implements DemandService {
         for (DemandJob demandJob : demandJobs) {
         	demandJobIds.add(demandJob.getId());
 		}
-
 		
 		// 生成订单
 		DemandOrder demandOrder = new DemandOrder();
 		demandOrder.setDemandId(demandId);
 		// 订单号   = 需求号 + 序列号
 		int demandOrderCount = countByDemandId(demandId);
-		String orderNo = demandDb.getDemandNumber() + "-0" + (demandOrderCount + 1);
+		String orderNo = demandDb.getDemandNumber() + "-" + (demandOrderCount + 1);
 		demandOrder.setOrderNumber(orderNo);
 		
 		int workerCount = countWorkerCountBydemandJobIds(demandJobIds);
@@ -588,14 +535,6 @@ public class DemandServiceImpl implements DemandService {
 		// 修改用工的orderId
 		demandOrderMapper.insertSelective(demandOrder);
 		int demandOrderId = demandOrder.getId();
-		
-//		OrderWorkerExample example = new OrderWorkerExample();
-//		example.createCriteria().andDemandJobIdIn(demandJobIds).andOrderIdIsNull();
-//		OrderWorker record = new OrderWorker();
-//		record.setOrderId(demandOrderId);
-//		record.setUpdateTime( new Date());
-//		record.setUpdateUser(demand.getUndertakeUser());
-//		orderWorkerMapper.updateByExample(record , example);
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("demandJobIds", demandJobIds);
@@ -755,8 +694,6 @@ public class DemandServiceImpl implements DemandService {
 					demandJobMapper.updateByPrimaryKey(djDb);
 				}
 			});
-			
-			
 		}
 	}
 
