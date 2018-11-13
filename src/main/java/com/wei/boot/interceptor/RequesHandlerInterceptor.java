@@ -25,7 +25,6 @@ public class RequesHandlerInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object arg2) {
 		
 		//测试情况，直接跳过拦截
-//		return true;
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("application/json; charset=utf-8");
 		
@@ -34,7 +33,7 @@ public class RequesHandlerInterceptor implements HandlerInterceptor {
 			jedis = JedisUtil.getJedis();
 			String path = request.getRequestURL().toString();
 			String servletPath = request.getServletPath();
-			log.info("拦截到请求URL： [ "+path+" ]，开始验证权限...");
+			log.info("拦截到请求URL： [ {} ]，开始验证权限...", path);
 			if("/".equals(servletPath) || "/logout".equals(servletPath) || "/error".equals(servletPath)
 					|| "/account/login".equals(servletPath) || "/home.html".equals(servletPath)) {
 				return true;
@@ -42,14 +41,14 @@ public class RequesHandlerInterceptor implements HandlerInterceptor {
 			// 首先确认token是否传递
 			String token = ToolsUtil.getToken(request);
 			if(StringUtils.isEmpty(token)) {
-				log.error("请求 [ "+path+" ] 验证失败， 非法请求");
+				log.error("请求 [ {} ] 验证失败， 非法请求", path);
 				String responseStr = JsonUtil.bean2Json(Result.fail(GlobalConstant.ILLEGAL_REQUEST, "非法请求"));
 				response.getWriter().write(responseStr);
 				return false;
 			}
 			// 再确认token是否已过期或者是假token,过期则直接跳到登录界面
 			if(!jedis.exists(token)) {
-				log.error("请求 [ "+path+" ]验证失败， token已过期");
+				log.error("请求 [ {} ]验证失败， token已过期", path);
 				String responseStr = JsonUtil.bean2Json(Result.fail(GlobalConstant.TOKEN_EXPIRED, "token已过期，请重新登录"));
 				response.getWriter().write(responseStr);
 				return false;
@@ -58,7 +57,7 @@ public class RequesHandlerInterceptor implements HandlerInterceptor {
 			String userId = jedis.get(token);
 			String storedToken = jedis.get(GlobalConstant.RedisKey.KEY_TOKEN_PREFIX+userId);
 			if(!token.equals(storedToken)) {
-				log.error("请求 [ "+path+" ]验证失败， token已过期");
+				log.error("请求 [ {} ]验证失败， token已过期", path);
 				String responseStr = JsonUtil.bean2Json(Result.fail(GlobalConstant.TOKEN_EXPIRED, "token已过期，请重新登录"));
 				response.getWriter().write(responseStr);
 				return false;
@@ -66,13 +65,15 @@ public class RequesHandlerInterceptor implements HandlerInterceptor {
 			// token验证通过，将token有效时间重置
 			jedis.set(GlobalConstant.RedisKey.KEY_TOKEN_PREFIX+userId, token, "XX", "EX", 30*60);// 30分钟有效期，用来存放token
 			jedis.set(token, userId, "XX", "EX", 30*60);// 30分钟有效期，用来存放userId
-			log.info("请求 [ "+path+" ] 验证通过！");
+			log.info("请求 [ {} ] 验证通过！", path);
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
 		finally {
-			jedis.close();
+			if(null != jedis) {
+				jedis.close();
+			}
 		}
 		return true;
 	}

@@ -2,7 +2,6 @@ package com.wei.boot.mapper;
 
 import com.wei.boot.model.Demand;
 import com.wei.boot.model.DemandExample;
-import com.wei.boot.model.DemandStateStatistic;
 
 import java.util.List;
 import java.util.Map;

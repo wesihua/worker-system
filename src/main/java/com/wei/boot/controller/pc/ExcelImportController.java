@@ -30,7 +30,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.wei.boot.contant.GlobalConstant;
-import com.wei.boot.exception.NormalException;
 import com.wei.boot.model.Result;
 import com.wei.boot.model.Worker;
 import com.wei.boot.model.excel.WorkerImportInfo;
@@ -58,17 +57,17 @@ public class ExcelImportController {
 	private WorkerService workerService;
 
 	@Value("${excel.upload.path}")
-	private String import_path;
+	private String importPath;
 
 	@RequestMapping("/import")
 	public String importExcel(Model model, HttpServletRequest request, @RequestParam("file") MultipartFile file,
 			HttpServletResponse response) {
 		Result result = Result.SUCCESS;
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<>();
 		int userId = ToolsUtil.getUserId(request);
 		// 首先上传excel文件，后缀 .xls .xlsx
 		String fileName = null;
-		String filePath = import_path;
+		String filePath = importPath;
 		try {
 			fileName = ToolsUtil.get36UUID()
 					+ file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));

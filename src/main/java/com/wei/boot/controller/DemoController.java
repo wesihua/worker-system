@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.wei.boot.model.Result;
 import com.wei.boot.model.TestUser;
 import com.wei.boot.model.excel.ExcelData;
 import com.wei.boot.model.excel.ExcelRow;

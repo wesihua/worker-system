@@ -3,12 +3,7 @@ package com.wei.boot.model;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.util.StringUtils;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.wei.boot.util.DateUtils;
-import com.wei.boot.util.ToolsUtil;
 
 public class Worker {
     /**

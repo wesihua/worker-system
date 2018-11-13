@@ -16,14 +16,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.wei.boot.model.DemandOrder;
 import com.wei.boot.model.Result;
 import com.wei.boot.model.excel.ExcelData;
 import com.wei.boot.model.excel.ExcelRow;
 import com.wei.boot.model.report.CompanyReportInfo;
 import com.wei.boot.model.report.ReportInfo;
 import com.wei.boot.service.ReportService;
-import com.wei.boot.service.WorkerService;
 import com.wei.boot.util.DateUtils;
 import com.wei.boot.util.ExcelUtil;
 

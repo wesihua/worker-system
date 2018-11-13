@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -63,10 +62,10 @@ public class CompanyController {
 	@GetMapping("/export")
 	public void export(HttpServletResponse response, Company company) {
 		try {
-			Page<Company> page = new Page<Company>();
+			Page<Company> page = new Page<>();
 			page.setPageSize(20000);
 			List<Company> list = companyService.queryByPage(page, company).getData();
-			if(null != list && list.size() > 0) {
+			if(null != list && !list.isEmpty()) {
 				ExcelRow headers = ExcelUtil.excelHeaders("企业名称","所属行业","联系人","已采集人数","联系电话","地址","创建时间");
 				ExcelData data = new ExcelData();
 				for(Company info : list) {

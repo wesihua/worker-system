@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.wei.boot.model.Company;
 import com.wei.boot.model.DemandOrder;
 import com.wei.boot.model.OrderWorker;
 import com.wei.boot.model.Page;
