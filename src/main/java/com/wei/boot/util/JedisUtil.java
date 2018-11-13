@@ -114,12 +114,4 @@ public class JedisUtil {
             return jedisPool;
         }
     }
-
-    
-    public static void main(String[] args) {
-		Jedis jedis = new Jedis("47.97.100.29", 6379);
-		jedis.auth("weisihua");
-		jedis.set("name", "weisihua");
-		System.out.println(jedis.get("name"));
-	}
 }

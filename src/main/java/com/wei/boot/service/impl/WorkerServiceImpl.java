@@ -558,7 +558,7 @@ public class WorkerServiceImpl implements WorkerService {
 			for(Worker info : workerList) {
 				WorkerJobTypeExample jobTypeExample = new WorkerJobTypeExample();
 				jobTypeExample.createCriteria().andWorkerIdEqualTo(info.getId()); 
-				List<WorkerJobType> jobTypeList = workerJobTypeMapper.selectByExample(jobTypeExample);
+				//List<WorkerJobType> jobTypeList = workerJobTypeMapper.selectByExample(jobTypeExample);
 				translateWorker4App(info);
 			}
 		}
