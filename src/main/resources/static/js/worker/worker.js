@@ -22,19 +22,40 @@ $(function(){
 		var workerName = $("#workerName").val();
 		var telephone = $("#telephone").val();
 		var idcard = $("#idcard").val();
-		var firstId = $("#firstId").selectivity('data').id;
-		var secondId = $("#secondId").selectivity('data').id;
+		var firstId = "";
+		var secondId = "";
+		if($("#firstId").selectivity('data')){
+			firstId = $("#firstId").selectivity('data').id;
+		}
+		if($("#secondId").selectivity('data')){
+			secondId = $("#secondId").selectivity('data').id;
+		}	
 		var createUser = $("#createUser").val();
 		var source = $("#source").val();
 		//var workStatus = $("#workStatus").val();
 		var beginTime = $("#beginTime").val();
 		var endTime = $("#endTime").val();
+		var company = $("#company").val();
+		var minAge = $("#minAge").val();
+		var maxAge = $("#maxAge").val();
+		var sex = $("#sex").val();
+		var degree = $("#degree").val();
+		var expectSalary = $("#expectSalary").val();
+		var workYear = $("#workYear").val();
+		var discipline = $("#discipline").val();
+		
 		window.open("/worker/export?name="+workerName+"&telephone="+telephone+"" +
 				"&idcard="+idcard+"&firstId="+firstId+"&secondId="+secondId+"" +
+				"&company="+company+"&minAge="+minAge+"&maxAge="+maxAge+"&sex="+sex+""+
+				"&degree="+degree+"&expectSalary="+expectSalary+"&workYear="+workYear+"&discipline="+discipline+""+
 				"&createUser="+createUser+"&source="+source+"&beginTime="+beginTime+"&endTime="+endTime);
 	});
 	// 初始化来源
 	initSelect("source","worker_souce");
+	// 初始化学历要求
+	initDegreeSelect("degree","degree");
+	// 初始化期望薪资
+	initExpectSalarySelect("expectSalary","expect_salary");
 	// 初始化一级工种
 	initFirstIdSelect("firstId");
 	// 二级工种联动
@@ -132,11 +153,20 @@ function query(currentPage,onPage){
 	var company = $("#company").val();
 	var beginTime = $("#beginTime").val();
 	var endTime = $("#endTime").val();
+	var minAge = $("#minAge").val();
+	var maxAge = $("#maxAge").val();
+	var sex = $("#sex").val();
+	var degree = $("#degree").val();
+	var expectSalary = $("#expectSalary").val();
+	var workYear = $("#workYear").val();
+	var discipline = $("#discipline").val();
 	$.ajax({
 		url:"/worker/list",
 		type:"get",
 		data:{name:workerName,telephone:telephone,idcard:idcard,createUser:createUser,
-			souce:source,firstId:firstId,secondId:secondId,beginTime:beginTime,company:company,
+			souce:source,firstId:firstId,secondId:secondId,beginTime:beginTime,
+			minAge:minAge,maxAge:maxAge,sex:sex,degree:degree,expectSalary:expectSalary,
+			workYear:workYear,company:company,discipline:discipline,
 			endTime:endTime,pageNumber:currentPage},
 		dataType:"json",
 		success:function(data){
@@ -150,7 +180,7 @@ function query(currentPage,onPage){
 									"	<td>"+worker.telephone+"</td>"+
 									"	<td>"+worker.idcard+"</td>"+
 									"	<td>"+worker.sexName+"</td>"+
-									"	<td>"+worker.age+"</td>"+
+									"	<td>"+(worker.age == null ? "" : worker.age)+"</td>"+
 									"	<td>"+(worker.title == null ? "" : worker.title)+"</td>"+
 									"	<td>"+(worker.jobtypeName == null ? "" : worker.jobtypeName)+"</td>"+
 									"	<td>"+worker.workStatusName+"</td>"+
@@ -221,6 +251,46 @@ function initSelect(id,type){
 		}
 	});
 }
+function initDegreeSelect(id,type){
+	$.ajax({
+		url:"/common/queryDicByType",
+		type:"get",
+		dataType:"json",
+		data:{type:type},
+		global: false,
+		success:function(data){
+			if(data.code == 1){
+				var dics = data.data;
+				var content = "<option value=\"\">---学历要求---</option>";
+				for(var i=0; i<dics.length; i++){
+					var dic = dics[i];
+					content += "<option value=\""+dic.code+"\">"+dic.name+"</option>";
+				}
+				$("#"+id).empty().html(content);
+			}
+		}
+	});
+}
+function initExpectSalarySelect(id,type){
+	$.ajax({
+		url:"/common/queryDicByType",
+		type:"get",
+		dataType:"json",
+		data:{type:type},
+		global: false,
+		success:function(data){
+			if(data.code == 1){
+				var dics = data.data;
+				var content = "<option value=\"\">---薪资要求---</option>";
+				for(var i=0; i<dics.length; i++){
+					var dic = dics[i];
+					content += "<option value=\""+dic.code+"\">"+dic.name+"</option>";
+				}
+				$("#"+id).empty().html(content);
+			}
+		}
+	});
+}
 
 function initCreateUserSelect(id){
 	$.ajax({
@@ -231,7 +301,7 @@ function initCreateUserSelect(id){
 		success:function(data){
 			if(data.code == 1){
 				var dics = data.data;
-				var content = "<option value=\"\">---请选择创建人---</option>";
+				var content = "<option value=\"\">---录入人---</option>";
 				for(var i=0; i<dics.length; i++){
 					var dic = dics[i];
 					content += "<option value=\""+dic.id+"\">"+dic.realName+"</option>";

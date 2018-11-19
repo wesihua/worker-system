@@ -105,7 +105,7 @@ public class WorkerController {
 					row.add(info.getTelephone());
 					row.add(info.getIdcard());
 					row.add(info.getSexName());
-					row.add(info.getAge());	// 由身份证号计算得出
+					row.add(info.getAge() == null ? "" : info.getAge().toString());	// 由身份证号计算得出
 					row.add(info.getTitle());
 					row.add(info.getJobtypeName());
 					row.add(info.getWorkStatusName());

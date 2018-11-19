@@ -99,6 +99,7 @@ CREATE TABLE t_yx_worker (
   name varchar(50) NOT NULL COMMENT '姓名',
   photo varchar(100) DEFAULT NULL COMMENT '头像',
   sex int(11) DEFAULT NULL COMMENT '性别0：男；1：女',
+  age int(11) DEFAULT NULL COMMENT '年龄，由身份证号计算得出',
   telephone varchar(50) NOT NULL COMMENT '手机号',
   idcard varchar(50) NOT NULL COMMENT '身份证号',
   birthday date NULL COMMENT '出生日期',

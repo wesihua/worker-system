@@ -242,6 +242,12 @@ public class Worker {
     
     private String company;
     
+    private String discipline;
+    
+    private Integer minAge;
+    
+    private Integer maxAge;
+    
     private String beginTime;
     
     private String endTime;
@@ -280,8 +286,31 @@ public class Worker {
     
     private String birthdayName = "";
     
-    private int age;
+    private Integer age;
+    
+	public String getDiscipline() {
+		return discipline;
+	}
 
+	public void setDiscipline(String discipline) {
+		this.discipline = discipline;
+	}
+
+	public Integer getMinAge() {
+		return minAge;
+	}
+
+	public void setMinAge(Integer minAge) {
+		this.minAge = minAge;
+	}
+
+	public Integer getMaxAge() {
+		return maxAge;
+	}
+
+	public void setMaxAge(Integer maxAge) {
+		this.maxAge = maxAge;
+	}
 
 	public String getCompany() {
 		return company;
@@ -339,11 +368,11 @@ public class Worker {
 		this.jobtypeName = jobtypeName;
 	}
 
-	public int getAge() {
+	public Integer getAge() {
 		return age;
 	}
 
-	public void setAge(int age) {
+	public void setAge(Integer age) {
 		this.age = age;
 	}
 

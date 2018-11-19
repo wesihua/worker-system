@@ -72,7 +72,7 @@ public class WorkerServiceImpl implements WorkerService {
 			map.put("telephone", worker.getTelephone());
 		}
 		if(!StringUtils.isEmpty(worker.getName())) {
-			map.put("name", worker.getName()+"%");
+			map.put("name", "%"+worker.getName()+"%");
 		}
 		if(!StringUtils.isEmpty(worker.getBeginTime())) {
 			map.put("beginTime", worker.getBeginTime());
@@ -83,11 +83,32 @@ public class WorkerServiceImpl implements WorkerService {
 		if(null != worker.getSouce()) {
 			map.put("source", worker.getSouce());
 		}
+		if(null != worker.getSex()) {
+			map.put("sex", worker.getSex());
+		}
+		if(null != worker.getDegree()) {
+			map.put("degree", worker.getDegree());
+		}
+		if(null != worker.getExpectSalary()) {
+			map.put("expectSalary", worker.getExpectSalary());
+		}
+		if(null != worker.getWorkYear()) {
+			map.put("workYear", worker.getWorkYear());
+		}
 		if(null != worker.getCreateUser() && worker.getCreateUser() != 0) {
 			map.put("createUser", worker.getCreateUser());
 		}
+		if(null != worker.getMinAge() && worker.getMinAge() != 0) {
+			map.put("minAge", worker.getMinAge());
+		}
+		if(null != worker.getMaxAge() && worker.getMaxAge() != 0) {
+			map.put("maxAge", worker.getMaxAge());
+		}
 		if(!StringUtils.isEmpty(worker.getCompany())) {
-			map.put("company", worker.getCompany()+"%");
+			map.put("company", "%"+worker.getCompany()+"%");
+		}
+		if(!StringUtils.isEmpty(worker.getDiscipline())) {
+			map.put("discipline", "%"+worker.getDiscipline()+"%");
 		}
 		map.put("firstId", worker.getFirstId());
 		map.put("secondId", worker.getSecondId());
@@ -107,6 +128,17 @@ public class WorkerServiceImpl implements WorkerService {
 	public void addWorker(Worker worker) throws NormalException {
 		worker.setCreateTime(new Date());
 		validateWorker(worker);
+		// 根据身份证号计算年龄
+		String birthday = null;
+		if(!StringUtils.isEmpty(worker.getIdcard()) && CheckUtils.isIdCard(worker.getIdcard())) {
+			birthday = DateUtils.formatDate(DateUtils.parseDate(worker.getIdcard().substring(6, 14)), "yyyy-MM-dd");
+		}
+		if(null != worker.getBirthday() && null == birthday) {
+			birthday = DateUtils.formatDate(worker.getBirthday(), "yyyy-MM-dd");
+		}
+		if(null != birthday) {
+			worker.setAge(ToolsUtil.getAgeFromBirthTime(birthday));
+		}
 		workerMapper.insertSelective(worker);
 		int workerId = worker.getId();
 		if(null != worker.getEducationList() && worker.getEducationList().size() > 0) {
@@ -232,6 +264,17 @@ public class WorkerServiceImpl implements WorkerService {
 		validateWorker(worker);
 		worker.setUpdateTime(new Date());
 		//workerMapper.updateByPrimaryKeySelective(worker);
+		// 根据身份证号计算年龄
+		String birthday = null;
+		if(!StringUtils.isEmpty(worker.getIdcard()) && CheckUtils.isIdCard(worker.getIdcard())) {
+			birthday = DateUtils.formatDate(DateUtils.parseDate(worker.getIdcard().substring(6, 14)), "yyyy-MM-dd");
+		}
+		if(null != worker.getBirthday() && null == birthday) {
+			birthday = DateUtils.formatDate(worker.getBirthday(), "yyyy-MM-dd");
+		}
+		if(null != birthday) {
+			worker.setAge(ToolsUtil.getAgeFromBirthTime(birthday));
+		}
 		
 		Worker realWorker = workerMapper.selectByPrimaryKey(worker.getId());
 		worker.setCreateTime(realWorker.getCreateTime());
@@ -398,23 +441,12 @@ public class WorkerServiceImpl implements WorkerService {
 				String sourceName = commonService.queryDicText(GlobalConstant.DictionaryType.WORKER_SOUCE, worker.getSouce());
 				worker.setSourceName(sourceName);
 			}
-			// 翻译年龄
+			// 翻译学历
 			if(null != worker.getDegree()) {
 				String degreeName = commonService.queryDicText("degree", worker.getDegree());
 				worker.setDegreeName(degreeName);
 			}
 			
-			// 翻译年龄
-			String birthday = null;
-			if(!StringUtils.isEmpty(worker.getIdcard()) && CheckUtils.isIdCard(worker.getIdcard())) {
-				birthday = DateUtils.formatDate(DateUtils.parseDate(worker.getIdcard().substring(6, 14)), "yyyy-MM-dd");
-			}
-			if(null != worker.getBirthday() && null == birthday) {
-				birthday = DateUtils.formatDate(worker.getBirthday(), "yyyy-MM-dd");
-			}
-			if(null != birthday) {
-				worker.setAge(ToolsUtil.getAgeFromBirthTime(birthday));
-			}
 		}
 	}
 	
@@ -432,17 +464,6 @@ public class WorkerServiceImpl implements WorkerService {
 			if(null != worker.getSouce()) {
 				String sourceName = commonService.queryDicText(GlobalConstant.DictionaryType.WORKER_SOUCE, worker.getSouce());
 				worker.setSourceName(sourceName);
-			}
-			// 翻译年龄
-			String birthday = null;
-			if(!StringUtils.isEmpty(worker.getIdcard()) && CheckUtils.isIdCard(worker.getIdcard())) {
-				birthday = DateUtils.formatDate(DateUtils.parseDate((worker.getIdcard().substring(6, 14))), "yyyy-MM-dd");
-			}
-			if(null != worker.getBirthday() && null == birthday) {
-				birthday = DateUtils.formatDate(worker.getBirthday(), "yyyy-MM-dd");
-			}
-			if(null != birthday) {
-				worker.setAge(ToolsUtil.getAgeFromBirthTime(birthday));
 			}
 		}
 	}
@@ -471,17 +492,6 @@ public class WorkerServiceImpl implements WorkerService {
 				String workStatusName = commonService.queryDicText(GlobalConstant.DictionaryType.WORK_STATUS, worker.getWorkStatus());
 				worker.setWorkStatusName(workStatusName);
 			}
-			// 翻译年龄
-			String birthday = null;
-			if(!StringUtils.isEmpty(worker.getIdcard()) && CheckUtils.isIdCard(worker.getIdcard())) {
-				birthday = DateUtils.formatDate(DateUtils.parseDate((worker.getIdcard().substring(6, 14))), "yyyy-MM-dd");
-			}
-			if(null != worker.getBirthday() && null == birthday) {
-				birthday = DateUtils.formatDate(worker.getBirthday(), "yyyy-MM-dd");
-			}
-			if(null != birthday) {
-				worker.setAge(ToolsUtil.getAgeFromBirthTime(birthday));
-			}
 		}
 	}
 	
@@ -500,11 +510,23 @@ public class WorkerServiceImpl implements WorkerService {
 	@Override
 	public void updateWorker4App(Worker worker) throws NormalException {
 		validateWorker(worker);
+		// 根据身份证号计算年龄
+		String birthday = null;
+		if(!StringUtils.isEmpty(worker.getIdcard()) && CheckUtils.isIdCard(worker.getIdcard())) {
+			birthday = DateUtils.formatDate(DateUtils.parseDate(worker.getIdcard().substring(6, 14)), "yyyy-MM-dd");
+		}
+		if(null != worker.getBirthday() && null == birthday) {
+			birthday = DateUtils.formatDate(worker.getBirthday(), "yyyy-MM-dd");
+		}
+		if(null != birthday) {
+			worker.setAge(ToolsUtil.getAgeFromBirthTime(birthday));
+		}
 		int workerId = worker.getId();
 		Worker realWorker = workerMapper.selectByPrimaryKey(worker.getId());
 		realWorker.setUpdateTime(new Date());
 		realWorker.setName(worker.getName());
 		realWorker.setSex(worker.getSex());
+		realWorker.setAge(worker.getAge());
 		realWorker.setTelephone(worker.getTelephone());
 		realWorker.setIdcard(worker.getIdcard());
 		realWorker.setBirthday(worker.getBirthday());

@@ -34,8 +34,32 @@
 						<input placeholder="手机号" id="telephone"/> 
 						<input placeholder="身份证号" id="idcard"/> 
 						<!-- <input placeholder="搜索企业" id="company"/>  -->
-						<select id="source"></select> 
+						<input placeholder="最小年龄" id="minAge" class="age" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" 
+							onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"/>
+						-&nbsp;<input placeholder="最大年龄" id="maxAge" class="age" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" 
+							onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"/> 
+						 
+					</div>
+					<div class="select1">
+						
+						<span class="n"></span>
+						<input placeholder="最低工作年限" id="workYear" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" 
+							onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"/> 
+						<input placeholder="所学专业" id="discipline"/> 
+						<input placeholder="所属企业" id="company"/> 
+						<!-- <input placeholder="搜索企业" id="company"/>  -->
+						<select id="sex">
+							<option value="">---选择性别---</option>
+							<option value="0">男</option>
+							<option value="1">女</option>
+						</select> 
+					</div>
+					<div class="select1">
+						<span class="n"></span>
+						<select id="degree"></select>
+						<select id="expectSalary"></select> 
 						<select id="createUser"></select> 
+						<select id="source"></select>
 					</div>
 					<div class="select2">
 						<span class="n"></span>
@@ -74,8 +98,8 @@
 							<th width="70">姓名</th>
 							<th width="90">手机号</th>
 							<th width="144">身份证号</th>
-							<th width="30">性别</th>
-							<th width="30">年龄</th>
+							<th width="40">性别</th>
+							<th width="40">年龄</th>
 							<th width="70">职称</th>
 							<th>擅长工种</th>
 							<th width="68">工作状态</th>
