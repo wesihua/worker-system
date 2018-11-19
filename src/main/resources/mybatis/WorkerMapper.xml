@@ -847,7 +847,7 @@
 			and t.expect_salary = #{expectSalary,jdbcType=INTEGER}
 		</if>
 		<if test="workYear != null">
-			and t.work_year &lt;= #{workYear,jdbcType=INTEGER}
+			and t.work_year &gt;= #{workYear,jdbcType=INTEGER}
 		</if>
 		<if test="createUser != null">
 			and t.create_user = #{createUser,jdbcType=INTEGER}
