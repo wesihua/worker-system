@@ -101,10 +101,14 @@ public class ExcelImportController {
 					for (int i = 0; i < sheetCount; i++) {
 						Sheet sheet = wb.getSheetAt(i);
 						// 开始读取数据，excel的格式一定是固定的，否则组装的数据不对
-						for (int j = 1; j <= sheet.getLastRowNum(); j++) {
+						for (int j = sheet.getFirstRowNum()+1; j <= sheet.getLastRowNum(); j++) {
 							Row row = sheet.getRow(j);
 							WorkerImportInfo info = new WorkerImportInfo();
 							if (null != row) {
+								if(row.getCell(0) == null || row.getCell(1) == null || row.getCell(3) == null || 
+										row.getCell(4) == null) {
+									continue;
+								}
 								info.setName(getValue(row.getCell(0)));
 								info.setTelephone(getValue(row.getCell(1)));
 								info.setEmail(getValue(row.getCell(2)));

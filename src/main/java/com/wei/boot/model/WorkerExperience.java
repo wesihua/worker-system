@@ -59,7 +59,7 @@ public class WorkerExperience {
      *
      * @mbggenerated Thu Aug 30 11:23:45 CST 2018
      */
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM")
     private Date beginTime;
 
     /**
@@ -68,7 +68,7 @@ public class WorkerExperience {
      *
      * @mbggenerated Thu Aug 30 11:23:45 CST 2018
      */
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM")
     private Date endTime;
 
     /**

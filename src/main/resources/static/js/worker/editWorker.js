@@ -565,7 +565,7 @@ function editEducationDialog(ts,school,degree,beginTime,endTime,discipline){
 function openExperienceDialog(){
 	openDialog("dialog-experience-content");
 	parent.$('.J-yearMonthPicker-single').datePicker({
-		format: 'YYYY-MM-DD'
+		format: 'YYYY-MM'
 	});
 	parent.$(".add-experience-content").click(function(){
 		if(checkWorkerExperience(parent.$("#exp_company").val(),parent.$("#exp_position").val())){
@@ -657,7 +657,7 @@ function editExperienceDialog(ts,companyName,position,beginTime,endTime,salary_v
 	var workerId = $("#workerId").val();
 	openDialog("dialog-experience-content");
 	parent.$('.J-yearMonthPicker-single').datePicker({
-		format: 'YYYY-MM-DD'
+		format: 'YYYY-MM'
 	});
 	parent.$("#exp_company").val(companyName);
 	parent.$("#exp_position").val(position);
