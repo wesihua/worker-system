@@ -13,10 +13,12 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import com.wei.boot.contant.GlobalConstant;
 import com.wei.boot.exception.NormalException;
+import com.wei.boot.mapper.JobTypeMapper;
 import com.wei.boot.mapper.WorkerEducationMapper;
 import com.wei.boot.mapper.WorkerExperienceMapper;
 import com.wei.boot.mapper.WorkerJobTypeMapper;
@@ -32,6 +34,7 @@ import com.wei.boot.model.WorkerExperience;
 import com.wei.boot.model.WorkerExperienceExample;
 import com.wei.boot.model.WorkerJobType;
 import com.wei.boot.model.WorkerJobTypeExample;
+import com.wei.boot.model.selectivity.TreeInfo;
 import com.wei.boot.service.CommonService;
 import com.wei.boot.service.JobTypeService;
 import com.wei.boot.service.WorkerService;
@@ -53,6 +56,9 @@ public class WorkerServiceImpl implements WorkerService {
 	
 	@Autowired
 	private WorkerJobTypeMapper workerJobTypeMapper;
+	
+	@Autowired
+	private JobTypeMapper jobTypeMapper;
 	
 	@Autowired
 	private JobTypeService jobTypeService;
@@ -231,6 +237,9 @@ public class WorkerServiceImpl implements WorkerService {
 			List<WorkerJobType> jobTypeList = workerJobTypeMapper.selectByExample(jobTypeExample);
 			worker.setJobTypeList(jobTypeList);
 			
+			List<TreeInfo> treeInfoList = jobTypeMapper.selectWorkerJobType(workerId);
+			worker.setTreeInfoList(treeInfoList);
+			
 			WorkerEducationExample eduExample = new WorkerEducationExample();
 			eduExample.createCriteria().andWorkerIdEqualTo(workerId);
 			List<WorkerEducation> educationList = workerEducationMapper.selectByExample(eduExample);
@@ -281,6 +290,20 @@ public class WorkerServiceImpl implements WorkerService {
 		worker.setCreateUser(realWorker.getCreateUser());
 		worker.setSouce(realWorker.getSouce());
 		workerMapper.updateByPrimaryKey(worker);
+		
+		// 处理工种
+		if(!CollectionUtils.isEmpty(worker.getJobTypeList())) {
+			List<WorkerJobType> jobTypeList = worker.getJobTypeList();
+			WorkerJobTypeExample jobTypeExample = new WorkerJobTypeExample();
+			jobTypeExample.createCriteria().andWorkerIdEqualTo(worker.getId());
+			workerJobTypeMapper.deleteByExample(jobTypeExample);
+			if(null != jobTypeList && jobTypeList.size() > 0) {
+				for(WorkerJobType jobType : jobTypeList) {
+					jobType.setWorkerId(worker.getId());
+					workerJobTypeMapper.insert(jobType);
+				}
+			}
+		}
 	}
 
 	@Override
@@ -602,12 +625,12 @@ public class WorkerServiceImpl implements WorkerService {
 	private void validateWorker(Worker worker) throws NormalException {
 		Objects.requireNonNull(worker.getName(), "请输入姓名！");
 		Objects.requireNonNull(worker.getTelephone(), "请输入手机号！");
-		Objects.requireNonNull(worker.getIdcard(), "请输入身份证号！");
+		//Objects.requireNonNull(worker.getIdcard(), "请输入身份证号！");
 		if(!CheckUtils.isPhone(worker.getTelephone()) && !CheckUtils.isMobile(worker.getTelephone())) {
 			throw new NormalException("请输入正确的联系电话！");
 		}
 		// 检查身份证
-		if(!CheckUtils.isIdCard(worker.getIdcard())) {
+		if(!StringUtils.isEmpty(worker.getIdcard()) && !CheckUtils.isIdCard(worker.getIdcard())) {
 			throw new NormalException("请输入正确的身份证号！");
 		}
 	}

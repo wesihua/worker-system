@@ -172,6 +172,20 @@ public class CommonController {
 		return result;
 	}
 	
+	@GetMapping("/queryAllAreaTree")
+	@ApiOperation(value = "查询全地区树")
+	public Result queryAllAreaTree() {
+		Result result = Result.SUCCESS;
+		try {
+			List<Area> province = commonService.queryAreaTreeNew(0);
+			result.setData(province);
+		} catch (Exception e) {
+			log.error("查询地区树失败", e);
+			result = Result.fail("查询地区树失败");
+		}
+		return result;
+	}
+	
 	/**
 	 * 根据code查询上级code
 	 * @param code

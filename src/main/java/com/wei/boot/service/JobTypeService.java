@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.wei.boot.exception.NormalException;
 import com.wei.boot.model.JobType;
+import com.wei.boot.model.selectivity.TreeInfo;
 
 /**
  * 工种service
@@ -60,5 +61,12 @@ public interface JobTypeService {
 	 * @param list
 	 */
 	void insertJobType(List<JobType> list);
+	
+	/**
+	 * 查询返回树形结构的全部工种--二级下拉框
+	 * @return
+	 * @throws Exception
+	 */
+	List<TreeInfo> queryAllTreeNew();
 	
 }

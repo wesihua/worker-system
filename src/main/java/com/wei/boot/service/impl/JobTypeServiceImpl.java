@@ -14,6 +14,7 @@ import com.wei.boot.exception.NormalException;
 import com.wei.boot.mapper.JobTypeMapper;
 import com.wei.boot.model.JobType;
 import com.wei.boot.model.JobTypeExample;
+import com.wei.boot.model.selectivity.TreeInfo;
 import com.wei.boot.service.JobTypeService;
 
 @Service
@@ -123,5 +124,38 @@ public class JobTypeServiceImpl implements JobTypeService {
 	@Override
 	public void insertJobType(List<JobType> list) {
 		jobTypeMapper.insertBatch(list);
+	}
+
+	
+	////////////////////////////////////////////////////////////////////
+	@Override
+	public List<TreeInfo> queryAllTreeNew() {
+		List<TreeInfo> allList = jobTypeMapper.selectAllNew();
+		List<TreeInfo> firstList = findRootNew(allList);
+		for(TreeInfo first : firstList) {
+			List<TreeInfo> children = findChildrenByRoot(allList, first);
+			first.setChildren(children);
+		}
+		return firstList;
+	}
+	
+	private List<TreeInfo> findRootNew(List<TreeInfo> list){
+		List<TreeInfo> root = new ArrayList<TreeInfo>();
+		for(TreeInfo info : list) {
+			if(info.getLevel() == 1) {
+				root.add(info);
+			}
+		}
+		return root;
+	}
+	
+	private List<TreeInfo> findChildrenByRoot(List<TreeInfo> list, TreeInfo root){
+		List<TreeInfo> children = new ArrayList<TreeInfo>();
+		for(TreeInfo info : list) {
+			if(info.getParentId().intValue() == root.getId().intValue()) {
+				children.add(info);
+			}
+		}
+		return children;
 	}
 }

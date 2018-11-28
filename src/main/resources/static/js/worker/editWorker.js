@@ -20,12 +20,15 @@ $(function(){
 	$("#back").click(function(){
 		history.back();
 	});
+	// 新的初始化工种
+	initJobType();
 	// 初始化所有下拉框
 	initSelect();
 	// 初始化工种
 	$("#jobtype").click(function(){
 		editJobType();
 	});
+	
 	// 初始化省份
 	initProvinceSelect();
 	// 初始化时间控件
@@ -122,9 +125,11 @@ function loadWorkerInfo(){
 				$("#current_degree").val(worker.degree);
 				$("#profile").val(worker.profile);
 				$("#description").val(worker.description);
-				$("#jobtype").val(worker.jobtypeName);
-				$("#jobtype_value").val(JSON.stringify(worker.jobTypeList));
+				//$("#jobtype").val(worker.jobtypeName);
+				//$("#jobtype_value").val(JSON.stringify(worker.jobTypeList));
 				
+				// 加载工种
+				displayJobType(worker.treeInfoList);
 				// 加载籍贯和工作地区
 				showPlace(worker.birthplaceCode,worker.workplaceCode);
 				// 加载教育经历
@@ -239,6 +244,13 @@ function displayEducationList(educationList){
 		var discipline = $(this).parent().find("span[name=discipline_text]").text();
 		editEducationDialog(this,school,degree_value,beginTime,endTime,discipline);
 	});
+}
+
+function displayJobType(treeInfoList){
+	if(treeInfoList != null && treeInfoList.length > 0){
+		$("#jobtype_new").selectivity('data', treeInfoList);
+	}
+	
 }
 /**
  * 展示工作经历列表
@@ -708,6 +720,32 @@ function editExperienceDialog(ts,companyName,position,beginTime,endTime,salary_v
 	});
 }
 
+function initJobType(){
+	$.ajax({
+		url:"/jobType/queryTreeNew",
+		type:"get",
+		async:true,
+		dataType:"json",
+		global: false,
+		success:function(data){
+			if(data.code == 1){
+				var infoList = data.data;
+				for(var i=0; i<infoList.length; i++){
+					var info = infoList[i];
+					if(info.level == 1){
+						delete info.id;
+					}
+				}
+				$("#jobtype_new").selectivity({
+					multiple: true,
+				    items: infoList,
+				    placeholder: '选择工种'
+				});
+			}
+		}
+	});
+}
+
 function initSelect(){
 	var types = "nation,gender,marital_status,expect_salary,work_status,language_level,night_work,degree";
 	$.ajax({
@@ -837,10 +875,27 @@ function addWorker(){
 	worker.address = $("#address").val();
 	worker.birthday = $("#birthday").val();
 	worker.workExpect = $("#workExpect").val();
-	worker.jobtypeName = $("#jobtype").val();
+	//worker.jobtypeName = $("#jobtype").val();
 	worker.degree = $("#current_degree").val();
 	worker.profile = $("#profile").val();
 	worker.description = $("#description").val();
+	
+	// 处理工种
+	var jobTypeArray = $("#jobtype_new").selectivity('data');
+	var jobtypeName = "";
+	var jobTypeList = [];
+	if(jobTypeArray != null && jobTypeArray.length > 0){
+		for(var i=0; i< jobTypeArray.length; i++){
+			var info = jobTypeArray[i];
+			jobtypeName += info.text+",";
+			var temp = {};
+			temp.firstId = info.parentId;
+			temp.secondId = info.id;
+			jobTypeList.push(temp);
+		}
+		worker.jobtypeName = jobtypeName;
+		worker.jobTypeList = jobTypeList;
+	}
 	
 	if(checkWorker(worker)){
 		$.ajax({
@@ -884,11 +939,7 @@ function checkWorker(worker){
 		alert("电话号码长度不能超过50个字！");
 		return false;
 	}
-	if(worker.idcard == null || worker.idcard.length == 0){
-		alert("身份证号不能为空！");
-		return false;
-	}
-	if(worker.idcard.length > 50){
+	if(null != worker.idcard && worker.idcard.length > 50){
 		alert("身份证号长度不能超过50个字！");
 		return false;
 	}

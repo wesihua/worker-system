@@ -164,4 +164,18 @@ public class CommonServiceImpl implements CommonService {
 		return areaMapper.selectByExample(example).get(0).getParentCode();
 	}
 
+	@Override
+	public List<Area> queryAreaTreeNew(int parentCode) {
+		List<Area> areas = queryAreaByParentCode(parentCode+"");
+		if(null != areas && areas.size() > 0) {
+			//provinces.stream().forEach(area -> area.setChildren(queryAreaTree(area.getCode())));
+			for(Area area : areas) {
+				if(area.getType() != 3) {
+					area.setChildren(queryAreaTreeNew(area.getCode()));
+				}
+			}
+		}
+		return areas;
+	}
+
 }

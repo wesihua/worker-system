@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.wei.boot.model.selectivity.TreeInfo;
 
 public class Worker {
     /**
@@ -238,6 +239,8 @@ public class Worker {
     
     private List<WorkerExperience> experienceList;
     
+    private List<TreeInfo> treeInfoList;
+    
     /*********************** 以下字段用于接收参数 **********************/
     
     private String company;
@@ -288,6 +291,14 @@ public class Worker {
     
     private Integer age;
     
+	public List<TreeInfo> getTreeInfoList() {
+		return treeInfoList;
+	}
+
+	public void setTreeInfoList(List<TreeInfo> treeInfoList) {
+		this.treeInfoList = treeInfoList;
+	}
+
 	public String getDiscipline() {
 		return discipline;
 	}

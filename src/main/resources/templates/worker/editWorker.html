@@ -9,11 +9,13 @@
 <link href="../css/font-awesome.min.css" rel="stylesheet" />
 <link href="../css/user-manage.css" rel="stylesheet" />
 <link rel="stylesheet" href="../datepicker/css/datepicker.css" />
+<link rel="stylesheet" href="../selectivity/selectivity-jquery.css"/>
 <link href="../css/jquery.pagination.css" rel="stylesheet" />
 <script src="../js/jquery-3.3.1.min.js"></script>
 <script src="../js/jquery.pagination.min.js"></script>
 <script src="../datepicker/js/plugins/moment.min.js"></script>
 <script src="../datepicker/js/datepicker.all.js"></script>
+<script src="../selectivity/selectivity-jquery.js"></script>
 <script src="../js/worker/editWorker.js"></script>
 </head>
 
@@ -42,7 +44,7 @@
 						</div>
 						
 						<div class="inut-b">
-							<span class="name"><i>*</i>身份证号</span> <input class="inputValue" id="idcard"/>
+							<span class="name">身份证号</span> <input class="inputValue" id="idcard"/>
 						</div>
 						<div class="inut-b">
 							<span class="name">工作年限</span> 
@@ -123,7 +125,9 @@
 						</div>
 						
 						<div class="inut-b">
-							<span class="name">擅长工种</span> <input class="inputValue" readonly="readonly" id="jobtype"/>
+							<span class="name">擅长工种</span> 
+							<!-- <input class="inputValue" readonly="readonly" id="jobtype"/> -->
+							<div id="jobtype_new"></div>
 							<input type="hidden" id="jobtype_value" />
 						</div>
 						<div class="inut-b">

@@ -133,8 +133,7 @@ public class ExcelImportController {
 				List<WorkerImportInfo> wrongPhone = new ArrayList<WorkerImportInfo>();
 				if (null != infoList && infoList.size() > 0) {
 					for (WorkerImportInfo info : infoList) {
-						if (StringUtils.isEmpty(info.getName()) || StringUtils.isEmpty(info.getTelephone())
-								|| StringUtils.isEmpty(info.getIdcard()) || StringUtils.isEmpty(info.getGender())) {
+						if (StringUtils.isEmpty(info.getName()) || StringUtils.isEmpty(info.getTelephone()) || StringUtils.isEmpty(info.getGender())) {
 							continue;
 						}
 						// 身份证号不正确的

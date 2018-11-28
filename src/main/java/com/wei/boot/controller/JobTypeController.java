@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.wei.boot.model.JobType;
 import com.wei.boot.model.Result;
+import com.wei.boot.model.selectivity.TreeInfo;
 import com.wei.boot.service.JobTypeService;
 
 import io.swagger.annotations.Api;
@@ -44,6 +45,19 @@ public class JobTypeController {
 		Result result = Result.SUCCESS;
 		try {
 			List<JobType> list = jobTypeService.selectAllTree();
+			result.setData(list);
+		} catch (Exception e) {
+			log.error("查询树形工种失败", e);
+			result = Result.fail(e);
+		}
+		return result;
+	}
+	
+	@GetMapping("/queryTreeNew")
+	public Result queryTreeNew() {
+		Result result = Result.SUCCESS;
+		try {
+			List<TreeInfo> list = jobTypeService.queryAllTreeNew();
 			result.setData(list);
 		} catch (Exception e) {
 			log.error("查询树形工种失败", e);

@@ -1,9 +1,12 @@
 package com.wei.boot.mapper;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.wei.boot.model.JobType;
 import com.wei.boot.model.JobTypeExample;
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
+import com.wei.boot.model.selectivity.TreeInfo;
 
 public interface JobTypeMapper {
     /**
@@ -97,4 +100,10 @@ public interface JobTypeMapper {
     void insertBatch(List<JobType> list);
     
     List<JobType> selectAll();
+    
+    List<TreeInfo> selectAllNew();
+    
+    List<TreeInfo> selectWorkerJobType(Integer workerId);
+    
+    
 }

@@ -41,6 +41,12 @@ public interface CommonService {
 	List<Area> queryAreaTree(int parentCode);
 	
 	/**
+	 * 查询地区树，查询三级
+	 * @return
+	 */
+	List<Area> queryAreaTreeNew(int parentCode);
+	
+	/**
 	 * 查询字典text
 	 * @param type
 	 * @param code
