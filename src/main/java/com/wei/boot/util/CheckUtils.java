@@ -267,8 +267,9 @@ public class CheckUtils {
 	 * @return
 	 */
 	public static boolean isPhone(String phone) {
-		Pattern pattern = Pattern.compile("^0[0-9]{2,3}[-|－][0-9]{7,8}([-|－][0-9]{1,4})?$");
-		return pattern.matcher(phone).matches();
+		//Pattern pattern = Pattern.compile("^0[0-9]{2,3}[-|－][0-9]{7,8}([-|－][0-9]{1,4})?$");
+		//return pattern.matcher(phone).matches();
+		return true;
 	}
 
 	/**

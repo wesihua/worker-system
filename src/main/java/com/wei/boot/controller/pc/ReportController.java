@@ -314,10 +314,22 @@ public class ReportController {
 		return result;
 	}
 	@GetMapping("/companyReport")
-	public Result companyReport(String beginDate, String endDate, String companyName) {
+	public Result companyReport(String startDate, String endDate, String companyName) {
 		Result result = Result.SUCCESS;
 		try {
-			List<CompanyReportInfo> list = reportService.queryCompanyOrderReport(beginDate, endDate, companyName);
+			List<CompanyReportInfo> list = reportService.queryCompanyOrderReport(startDate, endDate, companyName);
+			result.setData(list);
+		} catch (Exception e) {
+			log.error("查询失败", e);
+			result = Result.fail(e);
+		}
+		return result;
+	}
+	@GetMapping("/userReport")
+	public Result userReport(String startDate, String endDate, String userName) {
+		Result result = Result.SUCCESS;
+		try {
+			List<CompanyReportInfo> list = reportService.queryUserOrderReport(startDate, endDate, userName);
 			result.setData(list);
 		} catch (Exception e) {
 			log.error("查询失败", e);
@@ -326,9 +338,9 @@ public class ReportController {
 		return result;
 	}
 	@GetMapping("/companyReport/export")
-	public void companyReportExport(String beginDate, String endDate, String companyName, HttpServletResponse response) {
+	public void companyReportExport(String startDate, String endDate, String companyName, HttpServletResponse response) {
 		try {
-			List<CompanyReportInfo> list = reportService.queryCompanyOrderReport(beginDate, endDate, companyName);
+			List<CompanyReportInfo> list = reportService.queryCompanyOrderReport(startDate, endDate, companyName);
 			if(null != list && list.size() > 0) {
 				ExcelRow headers = ExcelUtil.excelHeaders("企业名称","订单数量","已签订人数","已签订金额");
 				ExcelData data = new ExcelData();
@@ -340,7 +352,30 @@ public class ReportController {
 					row.add(info.getOrderIncome());
 					data.add(row);
 				}
-				ExcelUtil.exportExcel(headers, data, "订单信息.xls", response);
+				ExcelUtil.exportExcel(headers, data, "企业报表信息.xls", response);
+			}
+		} catch (Exception e) {
+			log.error("导出失败", e);
+		}
+	}
+	@GetMapping("/userReport/export")
+	public void userReportExport(String startDate, String endDate, String userName, HttpServletResponse response) {
+		try {
+			List<CompanyReportInfo> list = reportService.queryUserOrderReport(startDate, endDate, userName);
+			if(null != list && list.size() > 0) {
+				ExcelRow headers = ExcelUtil.excelHeaders("姓名","录入人才数量","接单数量","成功订单数量","成功签订人数","成功签订金额");
+				ExcelData data = new ExcelData();
+				for(CompanyReportInfo info : list) {
+					ExcelRow row = new ExcelRow();
+					row.add(info.getUserName());
+					row.add(info.getWorkerCount());
+					row.add(info.getDemandCount());
+					row.add(info.getOrderCount());
+					row.add(info.getOrderMemberCount());
+					row.add(info.getOrderIncome());
+					data.add(row);
+				}
+				ExcelUtil.exportExcel(headers, data, "员工报表信息.xls", response);
 			}
 		} catch (Exception e) {
 			log.error("导出失败", e);

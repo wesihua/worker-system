@@ -150,7 +150,7 @@ function renderDemandTakerPie(data){
 		var info = data[i];
 		var obj = {};
 		obj.name = info.name;
-		obj.y = info.percentage;
+		obj.y = info.count;
 		series.push(obj);
 	}
 	// 企业招聘需求接单人pie
@@ -165,7 +165,7 @@ function renderDemandTakerPie(data){
 				text: '招聘需求接单人分布'
 		},
 		tooltip: {
-				pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+				pointFormat: '{series.name}:<b>{point.percentage:.1f}%</b>，数量：{point.y}'
 		},
 		plotOptions: {
 				pie: {
@@ -173,7 +173,7 @@ function renderDemandTakerPie(data){
 						cursor: 'pointer',
 						dataLabels: {
 								enabled: true,
-								format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+								format: '<b>{point.name}</b>: （{point.y}）{point.percentage:.1f} %',
 								style: {
 										color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
 								}
@@ -193,7 +193,7 @@ function renderOrderTakerPie(data){
 		var info = data[i];
 		var obj = {};
 		obj.name = info.name;
-		obj.y = info.percentage;
+		obj.y = info.count;
 		series.push(obj);
 	}
 	Highcharts.chart('orderTakerPie', {
@@ -207,7 +207,7 @@ function renderOrderTakerPie(data){
 			text: '已签订订单接单人分布'
 		},
 		tooltip: {
-			pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+			pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>，数量：{point.y}'
 		},
 		plotOptions: {
 			pie: {
@@ -215,7 +215,7 @@ function renderOrderTakerPie(data){
 				cursor: 'pointer',
 				dataLabels: {
 					enabled: true,
-					format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+					format: '<b>{point.name}</b>: （{point.y}）{point.percentage:.1f} %',
 					style: {
 						color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
 					}
@@ -235,7 +235,7 @@ function renderOrderMemberTakerPie(data){
 		var info = data[i];
 		var obj = {};
 		obj.name = info.name;
-		obj.y = info.percentage;
+		obj.y = info.count;
 		series.push(obj);
 	}
 	// 企业招聘需求接单人pie
@@ -250,7 +250,7 @@ function renderOrderMemberTakerPie(data){
 			text: '已签订人数接单人分布'
 		},
 		tooltip: {
-			pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+			pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>，数量：{point.y}'
 		},
 		plotOptions: {
 			pie: {
@@ -258,7 +258,7 @@ function renderOrderMemberTakerPie(data){
 				cursor: 'pointer',
 				dataLabels: {
 					enabled: true,
-					format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+					format: '<b>{point.name}</b>: （{point.y}）{point.percentage:.1f} %',
 					style: {
 						color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
 					}
@@ -278,7 +278,7 @@ function renderOrderIncomeTakerPie(data){
 		var info = data[i];
 		var obj = {};
 		obj.name = info.name;
-		obj.y = info.percentage;
+		obj.y = info.count;
 		series.push(obj);
 	}
 	// 企业招聘需求接单人pie
@@ -293,7 +293,7 @@ function renderOrderIncomeTakerPie(data){
 			text: '订单总收入接单人分布'
 		},
 		tooltip: {
-			pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+			pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>，数量：{point.y}'
 		},
 		plotOptions: {
 			pie: {
@@ -301,7 +301,7 @@ function renderOrderIncomeTakerPie(data){
 				cursor: 'pointer',
 				dataLabels: {
 					enabled: true,
-					format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+					format: '<b>{point.name}</b>: （{point.y}）{point.percentage:.1f} %',
 					style: {
 						color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
 					}

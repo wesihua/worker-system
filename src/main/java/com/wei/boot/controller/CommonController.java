@@ -26,7 +26,6 @@ import com.wei.boot.util.JsonUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import net.sf.json.JSONArray;
 import redis.clients.jedis.Jedis;
 
 /**

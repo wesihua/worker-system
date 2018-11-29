@@ -14,6 +14,26 @@ public class CompanyReportInfo {
 	
 	private BigDecimal orderIncome;
 
+	private String userName;
+	
+	private int workerCount;
+	
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public int getWorkerCount() {
+		return workerCount;
+	}
+
+	public void setWorkerCount(int workerCount) {
+		this.workerCount = workerCount;
+	}
+
 	public String getCompanyName() {
 		return companyName;
 	}

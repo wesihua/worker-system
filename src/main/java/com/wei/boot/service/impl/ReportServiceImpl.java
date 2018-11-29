@@ -443,13 +443,34 @@ public class ReportServiceImpl implements ReportService {
 			endTime = DateUtils.parseDate(endDate+" 23:59:59", "yyyy-MM-dd HH:mm:ss");
 		}
 		if(!StringUtils.isEmpty(companyName)) {
-			companyName = companyName + "%";
+			companyName = "%"+companyName + "%";
 			map.put("companyName", companyName);
 		}
 		map.put("beginTime", beginTime);
 		map.put("endTime", endTime);
 		
 		return demandOrderMapper.selectCompanyOrderReport(map);
+	}
+
+	@Override
+	public List<CompanyReportInfo> queryUserOrderReport(String startDate, String endDate, String userName) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Date beginTime = null;
+		Date endTime = null;
+		if(!StringUtils.isEmpty(startDate)) {
+			beginTime = DateUtils.parseDate(startDate+" 00:00:00", "yyyy-MM-dd HH:mm:ss");
+		}
+		if(!StringUtils.isEmpty(endDate)) {
+			endTime = DateUtils.parseDate(endDate+" 23:59:59", "yyyy-MM-dd HH:mm:ss");
+		}
+		if(!StringUtils.isEmpty(userName)) {
+			userName = "%"+userName + "%";
+			map.put("userName", userName);
+		}
+		map.put("beginTime", beginTime);
+		map.put("endTime", endTime);
+		
+		return demandOrderMapper.selectUserOrderReport(map);
 	}
 
 }

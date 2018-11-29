@@ -61,7 +61,7 @@ function displayDemandJobTable(demandJobList){
 			"	<td>"+(job.genderName == null ? "" : job.genderName)+"</td>"+
 			"	<td>"+(job.age == null ? "" : job.age)+"</td>"+
 			"	<td>"+(job.degreeName == null ? "" : job.degreeName)+"</td>"+
-			"	<td>"+(job.description == null ? "" : job.description)+"</td>"+
+			"	<td>"+(job.requirement == null ? "" : job.requirement)+"</td>"+
 			"</tr>";
 		$("#demand-job-table").find("tbody").empty().append(tableContent);
 	}

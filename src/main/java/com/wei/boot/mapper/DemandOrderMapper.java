@@ -122,6 +122,7 @@ public interface DemandOrderMapper {
     List<Map<String, Object>> selectIncomeCount();
     List<Map<String, Object>> selectOrderWorkerCount();
     List<CompanyReportInfo> selectCompanyOrderReport(Map<String, Object> map);
+    List<CompanyReportInfo> selectUserOrderReport(Map<String, Object> map);
 
 	BigDecimal selectIncomeByDemandId(Integer demandId);
 

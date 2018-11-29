@@ -595,6 +595,58 @@
 		c.NAME
   </select>
   
+  <select id="selectUserOrderReport" parameterType="map" resultType="com.wei.boot.model.report.CompanyReportInfo">
+  	SELECT
+		u.real_name userName,
+		ifnull( x.worker_count, 0 ) workerCount,
+		ifnull( y.demand_count, 0 ) demandCount,
+		ifnull( z.orderCount, 0 ) orderCount,
+		ifnull( orderMemberCount, 0 ) orderMemberCount,
+		ifnull( orderIncome, 0 ) orderIncome 
+	FROM
+		t_sys_user u
+		LEFT JOIN ( SELECT count( 0 ) worker_count, create_user FROM t_yx_worker where 1=1
+		<if test="beginTime != null">
+			and create_time &gt;= #{beginTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="endTime != null">
+			and create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+		</if>
+		 GROUP BY create_user ) x ON u.id = x.create_user
+		LEFT JOIN ( SELECT count( 1 ) demand_count, d.undertake_user FROM t_yx_demand d where 1=1
+		<if test="beginTime != null">
+			and d.undertake_time &gt;= #{beginTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="endTime != null">
+			and d.undertake_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+		</if>
+		 GROUP BY d.undertake_user ) y ON u.id = y.undertake_user
+		LEFT JOIN (
+			SELECT
+				count( 1 ) orderCount,
+				sum( o1.worker_count ) orderMemberCount,
+				sum( cast( o1.total_income AS DECIMAL ( 10, 2 ) ) ) orderIncome,
+				d1.undertake_user 
+			FROM
+				t_yx_demand d1,
+				t_yx_demand_order o1
+			WHERE
+				d1.id = o1.demand_id
+				<if test="beginTime != null">
+					and o1.create_time &gt;= #{beginTime,jdbcType=TIMESTAMP}
+				</if>
+				<if test="endTime != null">
+					and o1.create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+				</if>
+				 group by d1.undertake_user
+				) z ON u.id = z.undertake_user
+		where 1=1
+		<if test="userName != null">
+			and u.real_name like #{userName,jdbcType=VARCHAR}
+		</if>
+		
+  </select>
+  
   <select id="selectByDemandId" parameterType="int" resultMap="BaseResultMap">
   	select u.real_name create_user_name,t.* from t_yx_demand_order t,t_sys_user u where t.create_user = u.id
   	and t.demand_id = #{demandId,jdbcType=INTEGER}

@@ -172,7 +172,7 @@ function loadWorkerSourcePie(startDate,endDate){
 					var info = data[i];
 					var obj = {};
 					obj.name = info.name;
-					obj.y = info.percentage;
+					obj.y = info.count;
 					workerSourceSeries.push(obj);
 				}
 				// 生产pie chart
@@ -187,7 +187,7 @@ function loadWorkerSourcePie(startDate,endDate){
 							text: '人才信息来源分布'
 					},
 					tooltip: {
-							pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+							pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>，数量：{point.y}'
 					},
 					plotOptions: {
 							pie: {
@@ -195,7 +195,7 @@ function loadWorkerSourcePie(startDate,endDate){
 									cursor: 'pointer',
 									dataLabels: {
 											enabled: true,
-											format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+											format: '<b>{point.name}</b>: （{point.y}）{point.percentage:.1f} %',
 											style: {
 													color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
 											}
@@ -233,7 +233,7 @@ function loadWorkerCreateUserPie(startDate,endDate){
 					barData.push(info.count);
 					var obj = {};
 					obj.name = info.name;
-					obj.y = info.percentage;
+					obj.y = info.count;
 					workerCreateUserSeries.push(obj);
 				}
 				// 生产pie chart
@@ -248,7 +248,7 @@ function loadWorkerCreateUserPie(startDate,endDate){
 							text: '人才信息录入人分布'
 					},
 					tooltip: {
-							pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+							pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>，数量：{point.y}'
 					},
 					plotOptions: {
 							pie: {
@@ -256,7 +256,7 @@ function loadWorkerCreateUserPie(startDate,endDate){
 									cursor: 'pointer',
 									dataLabels: {
 											enabled: true,
-											format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+											format: '<b>{point.name}</b>: （{point.y}）{point.percentage:.1f} %',
 											style: {
 													color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
 											}
@@ -327,7 +327,7 @@ function loadWorkerDegreePie(startDate,endDate){
 					var info = data[i];
 					var obj = {};
 					obj.name = info.name;
-					obj.y = info.percentage;
+					obj.y = info.count;
 					workerDegreeSeries.push(obj);
 				}
 				// 生产pie chart
@@ -342,7 +342,7 @@ function loadWorkerDegreePie(startDate,endDate){
 							text: '人才信息学历分布'
 					},
 					tooltip: {
-							pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+							pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>，数量：{point.y}'
 					},
 					plotOptions: {
 							pie: {
@@ -350,7 +350,7 @@ function loadWorkerDegreePie(startDate,endDate){
 									cursor: 'pointer',
 									dataLabels: {
 											enabled: true,
-											format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+											format: '<b>{point.name}</b>: （{point.y}）{point.percentage:.1f} %',
 											style: {
 													color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
 											}

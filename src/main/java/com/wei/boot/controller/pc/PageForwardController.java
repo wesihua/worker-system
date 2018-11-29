@@ -62,6 +62,10 @@ public class PageForwardController {
 	public String companyReport() {
 		return "report/companyReport";
 	}
+	@GetMapping("/userReport")
+	public String userReport() {
+		return "report/userReport";
+	}
 	
 	@GetMapping("/worker/add")
 	public String workerAdd() {

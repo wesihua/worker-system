@@ -174,4 +174,6 @@ public interface ReportService {
 	List<ReportInfo> queryOrderIncomeDayBar(String beginDate, String endDate);
 	
 	List<CompanyReportInfo> queryCompanyOrderReport(String startDate, String endDate, String companyName);
+	
+	List<CompanyReportInfo> queryUserOrderReport(String startDate, String endDate, String userName);
 }
