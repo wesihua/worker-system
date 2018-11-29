@@ -26,6 +26,7 @@ import com.wei.boot.util.JsonUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import net.sf.json.JSONArray;
 import redis.clients.jedis.Jedis;
 
 /**
@@ -152,11 +153,11 @@ public class CommonController {
 		try {
 			// 先从redis中查询
 			jedis = JedisUtil.getJedis();
-			String jsonStr = jedis.get(GlobalConstant.RedisKey.KEY_AREA_TREE);
+			String jsonStr = jedis.get(GlobalConstant.RedisKey.KEY_AREA_CITY_TREE);
 			// 如果为空则从数据库中查询
 			if(StringUtils.isEmpty(jsonStr)) {
 				log.info("从数据库中查询地区树");
-				List<Area> province = commonService.queryAreaTree(0);
+				List<Area> province = commonService.queryAreaTree();
 				result.setData(province);
 			}
 			else {
@@ -176,12 +177,90 @@ public class CommonController {
 	@ApiOperation(value = "查询全地区树")
 	public Result queryAllAreaTree() {
 		Result result = Result.SUCCESS;
+		Jedis jedis = null;
 		try {
-			List<Area> province = commonService.queryAreaTreeNew(0);
-			result.setData(province);
+			// 先从redis中查询
+			jedis = JedisUtil.getJedis();
+			String jsonStr = jedis.get(GlobalConstant.RedisKey.KEY_AREA_ALL_TREE);
+			// 如果为空则从数据库中查询
+			if(StringUtils.isEmpty(jsonStr)) {
+				log.info("从数据库中查询地区树");
+				List<Area> province = commonService.queryAreaTreeNew();
+				result.setData(province);
+			}
+			else {
+				result.setData(JsonUtil.json2List(jsonStr, Area.class));
+			}
 		} catch (Exception e) {
 			log.error("查询地区树失败", e);
 			result = Result.fail("查询地区树失败");
+		}
+		finally {
+			jedis.close();
+		}
+		return result;
+	}
+	
+	/**
+	 * 自定义拼接的地区json
+	 * @return
+	 */
+	@GetMapping("/queryCityAreaSelectTree")
+	public Result queryCityAreaSelectTree() {
+		Result result = Result.SUCCESS;
+		Jedis jedis = null;
+		try {
+			// 先从redis中查询
+			jedis = JedisUtil.getJedis();
+			String jsonStr = jedis.get(GlobalConstant.RedisKey.KEY_AREA_CITY_JSON_TREE);
+			// 如果为空则从数据库中查询
+			if(StringUtils.isEmpty(jsonStr)) {
+				log.info("从数据库中查询地区树");
+				List<Area> areaList = commonService.queryAreaTree();
+				List<Map<String, Object>> province = commonService.queryAreaSelectTree(areaList);
+				result.setData(province);
+			}
+			else {
+				result.setData(jsonStr);
+			}
+		} catch (Exception e) {
+			log.error("查询地区树失败", e);
+			result = Result.fail("查询地区树失败");
+		}
+		finally {
+			jedis.close();
+		}
+		return result;
+	}
+	
+	/**
+	 * 自定义拼接的地区json
+	 * @return
+	 */
+	@GetMapping("/queryAllAreaSelectTree")
+	public Result queryAllAreaSelectTree() {
+		Result result = Result.SUCCESS;
+		Jedis jedis = null;
+		try {
+			// 先从redis中查询
+			jedis = JedisUtil.getJedis();
+			String jsonStr = jedis.get(GlobalConstant.RedisKey.KEY_AREA_JSON_TREE);
+			// 如果为空则从数据库中查询
+			if(StringUtils.isEmpty(jsonStr)) {
+				log.info("从数据库中查询地区树");
+				List<Area> areaList = commonService.queryAreaTreeNew();
+				List<Map<String, Object>> province = commonService.queryAreaSelectTree(areaList);
+				result.setData(province);
+			}
+			else {
+				result.setData(jsonStr);
+			}
+		} catch (Exception e) {
+			log.error("查询地区树失败", e);
+			result = Result.fail("查询地区树失败");
+		}
+		finally {
+			jedis.close();
 		}
 		return result;
 	}
@@ -222,7 +301,7 @@ public class CommonController {
 		try {
 			// 先从redis中查询
 			jedis = JedisUtil.getJedis();
-			String jsonStr = jedis.get(GlobalConstant.RedisKey.KEY_AREA_TREE);
+			String jsonStr = jedis.get(GlobalConstant.RedisKey.KEY_AREA_ALL_TREE);
 			// 如果为空则从数据库中查询
 			if(StringUtils.isEmpty(jsonStr)) {
 				log.info("从数据库中查询地区子集合");

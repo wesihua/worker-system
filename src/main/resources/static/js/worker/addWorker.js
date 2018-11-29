@@ -28,11 +28,14 @@ $(function(){
 	// 新的初始化工种
 	initJobType();
 	
-	// 初始化地区
+	// 初始化工作地区
 	initArea();
 	
+	// 初始化籍贯地区
+	initBirthplaceArea();
+	
 	// 初始化省份
-	initProvinceSelect();
+	//initProvinceSelect();
 	// 初始化时间控件
 	$('.J-yearMonthPicker-single').datePicker({
         format: 'YYYY-MM-DD'
@@ -87,164 +90,37 @@ $(function(){
 
 });
 
-/**
- * 组装下拉控件json结构
- * @param areaList
- * @returns
- */
-function recurseArea(areaList){
-	var provinceInfoList = [];
-	for(var i=0; i<areaList.length; i++){
-		var province = areaList[i];
-		var provinceInfo = {};
-		provinceInfo.id = province.code;
-		provinceInfo.text = province.name;
-		if(province.parentCode == 0){
-			provinceInfo.showSearchInput = true;
-			provinceInfo.showSearchInputInDropdown = false;
-		}
-		if(province.children != null && province.children.length > 0){
-			provinceInfo.submenu = {};
-			var cityList = province.children;
-			var cityInfoList = [];
-			for(var j=0; j<cityList.length; j++){
-				var city = cityList[j];
-				var cityInfo = {};
-				cityInfo.id = city.code;
-				cityInfo.text = city.name;
-				if(city.children != null && city.children.length > 0){
-					cityInfo.submenu = {};
-					var countyList = city.children;
-					var countyInfoList = [];
-					for(var m=0; m<countyList.length; m++){
-						var county = countyList[m];
-						var countyInfo = {};
-						countyInfo.id = county.code;
-						countyInfo.text = county.name;
-						countyInfoList.push(countyInfo);
-					}
-					cityInfo.submenu.items = countyInfoList;
-				}
-				cityInfoList.push(cityInfo);
-			}
-			provinceInfo.submenu.items = cityInfoList;
-		}
-		provinceInfoList.push(provinceInfo);
-	}
-	
-	return provinceInfoList;
-}
 
-function initArea(){
-	
-	/**
-	var infoList = [
-		{
-	        id: '+00:00',
-	        text: '江苏',
-	        showSearchInput: true,
-	        showSearchInputInDropdown: false,
-	        submenu: {
-	            items: [
-	                { 
-	                	id: 4,
-	                	text: '南京',
-	            		submenu: {
-	            			items:[
-	            				{ id:4, text:'鼓楼'},
-	            				{ id:41, text:'鼓楼1'},
-	            				{ id:42, text:'鼓楼2'},
-	            				{ id:43, text:'鼓楼3'}
-	        				]
-	            		}
-	                },
-	                { 
-	                	id: 2,
-	                	text: '苏州',
-	                	submenu: {
-	                		items:[
-	                			{ id:4, text:'鼓楼'},
-	                			{ id:41, text:'鼓楼1'},
-	                			{ id:42, text:'鼓楼2'},
-	                			{ id:43, text:'鼓楼3'}
-	                			]
-	                	}
-	                },
-	                { 
-	                	id: 1,
-	                	text: '无锡',
-	                	submenu: {
-	                		items:[
-	                			{ id:4, text:'鼓楼'},
-	                			{ id:41, text:'鼓楼1'},
-	                			{ id:42, text:'鼓楼2'},
-	                			{ id:43, text:'鼓楼3'}
-	                			]
-	                	}
-	                }
-	            ]
-	        }
-	    },
-		{
-			id: '+0的0:00',
-			text: '安徽',
-			showSearchInput: true,
-			showSearchInputInDropdown: false,
-			submenu: {
-				items: [
-					{ 
-						id: 4,
-						text: '南京',
-						submenu: {
-							items:[
-								{ id:4, text:'鼓楼'},
-								{ id:41, text:'鼓楼1'},
-								{ id:42, text:'鼓楼2'},
-								{ id:43, text:'鼓楼3'}
-								]
-						}
-					},
-					{ 
-						id: 2,
-						text: '苏州',
-						submenu: {
-							items:[
-								{ id:4, text:'鼓楼'},
-								{ id:41, text:'鼓楼1'},
-								{ id:42, text:'鼓楼2'},
-								{ id:43, text:'鼓楼3'}
-								]
-						}
-					},
-					{ 
-						id: 1,
-						text: '无锡',
-						submenu: {
-							items:[
-								{ id:4, text:'鼓楼'},
-								{ id:41, text:'鼓楼1'},
-								{ id:42, text:'鼓楼2'},
-								{ id:43, text:'鼓楼3'}
-								]
-						}
-					}
-					]
-			}
-		}
-		]
-	**/
+function initBirthplaceArea(){
 	$.ajax({
-		url:"/common/queryAllAreaTree",
+		url:"/common/queryCityAreaSelectTree",
 		type:"get",
 		dataType:"json",
 		global: false,
 		success:function(data){
 			if(data.code == 1){
-				var infoList = recurseArea(data.data);
-				console.log(infoList);
-				$("#area_test").selectivity({
+				var infoList = JSON.parse(data.data);
+				$("#birthplaceCode").selectivity({
 				    items: infoList,
-				    placeholder: '选择地区'
+				    placeholder: ''
+				});
+			}
+		}
+	});
+}
+
+function initArea(){
+	$.ajax({
+		url:"/common/queryAllAreaSelectTree",
+		type:"get",
+		dataType:"json",
+		global: false,
+		success:function(data){
+			if(data.code == 1){
+				var infoList = JSON.parse(data.data);
+				$("#workplaceCode").selectivity({
+				    items: infoList,
+				    placeholder: ''
 				});
 			}
 		}
@@ -268,8 +144,9 @@ function initJobType(){
 				}
 				$("#jobtype_new").selectivity({
 					multiple: true,
+					showSearchInput:false,
 				    items: infoList,
-				    placeholder: '选择工种'
+				    placeholder: ''
 				});
 			}
 		}
@@ -670,8 +547,11 @@ function addWorker(){
 	worker.workStatus = $("#workStatus").val();
 	worker.languageLevel = $("#languageLevel").val();
 	worker.nightWork = $("#nightWork").val();
-	worker.birthplaceCode = $("#birthplaceCode").val();
-	worker.workplaceCode = $("#workplaceCode").val();
+	//worker.birthplaceCode = $("#birthplaceCode").val();
+	//worker.workplaceCode = $("#workplaceCode").val();
+	worker.birthplaceCode = $("#birthplaceCode").selectivity('data').id;
+	worker.workplaceCode = $("#workplaceCode").selectivity('data').id;
+	
 	worker.nation = $("#nation").val();
 	worker.title = $("#title").val();
 	worker.sex = $("#sex").val();

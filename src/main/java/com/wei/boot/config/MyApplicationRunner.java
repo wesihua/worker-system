@@ -1,6 +1,7 @@
 package com.wei.boot.config;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,9 +51,22 @@ public class MyApplicationRunner implements ApplicationRunner {
 				jedis.set(type, JsonUtil.bean2Json(dicList));
 			}
 			// 查询地区树，放入redis中
-			log.info("将地区树放入redis...");
-			List<Area> areas = commonService.queryAreaTree(0);
-			jedis.set(GlobalConstant.RedisKey.KEY_AREA_TREE, JsonUtil.bean2Json(areas));
+			log.info("将二级地区树放入redis...");
+			List<Area> areas = commonService.queryAreaTree();
+			jedis.set(GlobalConstant.RedisKey.KEY_AREA_CITY_TREE, JsonUtil.bean2Json(areas));
+			
+			log.info("将三级地区树放入redis...");
+			List<Area> allAreas = commonService.queryAreaTreeNew();
+			jedis.set(GlobalConstant.RedisKey.KEY_AREA_ALL_TREE, JsonUtil.bean2Json(allAreas));
+			
+			log.info("将二级地区json树放入redis...");
+			List<Map<String, Object>> jsonPartAreas = commonService.queryAreaSelectTree(areas);
+			jedis.set(GlobalConstant.RedisKey.KEY_AREA_CITY_JSON_TREE, JsonUtil.bean2Json(jsonPartAreas));
+			
+			log.info("将三级地区json树放入redis...");
+			List<Map<String, Object>> jsonAllAreas = commonService.queryAreaSelectTree(allAreas);
+			jedis.set(GlobalConstant.RedisKey.KEY_AREA_JSON_TREE, JsonUtil.bean2Json(jsonAllAreas));
+			
 			// 查询所有省份
 			log.info("将所有省份放入redis...");
 			List<Area> province = commonService.queryAllProvince();

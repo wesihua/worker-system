@@ -20,6 +20,11 @@ $(function(){
 	$("#back").click(function(){
 		history.back();
 	});
+	// 初始化工作地区
+	initArea();
+	
+	// 初始化籍贯地区
+	initBirthplaceArea();
 	// 新的初始化工种
 	initJobType();
 	// 初始化所有下拉框
@@ -30,7 +35,7 @@ $(function(){
 	});
 	
 	// 初始化省份
-	initProvinceSelect();
+	//initProvinceSelect();
 	// 初始化时间控件
 	$('.J-yearMonthPicker-single').datePicker({
         format: 'YYYY-MM-DD'
@@ -87,6 +92,43 @@ $(function(){
 	//loadWorkerInfo();
 });
 
+function initBirthplaceArea(){
+	$.ajax({
+		url:"/common/queryCityAreaSelectTree",
+		type:"get",
+		dataType:"json",
+		async:false,
+		global: false,
+		success:function(data){
+			if(data.code == 1){
+				var infoList = JSON.parse(data.data);
+				$("#birthplaceCode").selectivity({
+				    items: infoList,
+				    placeholder: ''
+				});
+			}
+		}
+	});
+}
+
+function initArea(){
+	$.ajax({
+		url:"/common/queryAllAreaSelectTree",
+		type:"get",
+		async:false,
+		dataType:"json",
+		global: false,
+		success:function(data){
+			if(data.code == 1){
+				var infoList = JSON.parse(data.data);
+				$("#workplaceCode").selectivity({
+				    items: infoList,
+				    placeholder: ''
+				});
+			}
+		}
+	});
+}
 
 /**
  * 加载人才信息
@@ -113,8 +155,15 @@ function loadWorkerInfo(){
 				$("#workStatus").val(worker.workStatus);
 				$("#languageLevel").val(worker.languageLevel);
 				$("#nightWork").val(worker.nightWork);
-				$("#birthplaceCode").val(worker.birthplaceCode);
-				$("#workplaceCode").val(worker.workplaceCode);
+				//$("#birthplaceCode").val(worker.birthplaceCode);
+				//$("#workplaceCode").val(worker.workplaceCode);
+				if(worker.birthplaceCode){
+					$("#birthplaceCode").selectivity('data',{id:worker.birthplaceCode,"text":worker.birthplaceName});
+				}
+				if(worker.workplaceCode){
+					$("#workplaceCode").selectivity('data',{id:worker.workplaceCode,"text":worker.workplaceName});
+				}
+				
 				$("#nation").val(worker.nation);
 				$("#title").val(worker.title);
 				$("#sex").val(worker.sex);
@@ -131,7 +180,7 @@ function loadWorkerInfo(){
 				// 加载工种
 				displayJobType(worker.treeInfoList);
 				// 加载籍贯和工作地区
-				showPlace(worker.birthplaceCode,worker.workplaceCode);
+				//showPlace(worker.birthplaceCode,worker.workplaceCode);
 				// 加载教育经历
 				displayEducationList(worker.educationList);
 				// 加载工作经历
@@ -866,8 +915,11 @@ function addWorker(){
 	worker.workStatus = $("#workStatus").val();
 	worker.languageLevel = $("#languageLevel").val();
 	worker.nightWork = $("#nightWork").val();
-	worker.birthplaceCode = $("#birthplaceCode").val();
-	worker.workplaceCode = $("#workplaceCode").val();
+	//worker.birthplaceCode = $("#birthplaceCode").val();
+	//worker.workplaceCode = $("#workplaceCode").val();
+	worker.birthplaceCode = $("#birthplaceCode").selectivity('data').id;
+	worker.workplaceCode = $("#workplaceCode").selectivity('data').id;
+	
 	worker.nation = $("#nation").val();
 	worker.title = $("#title").val();
 	worker.sex = $("#sex").val();

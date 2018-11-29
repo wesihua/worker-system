@@ -1,6 +1,7 @@
 package com.wei.boot.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.wei.boot.model.Area;
 import com.wei.boot.model.Dictionary;
@@ -38,13 +39,19 @@ public interface CommonService {
 	 * 查询地区树，目前只查询两级
 	 * @return
 	 */
-	List<Area> queryAreaTree(int parentCode);
+	List<Area> queryAreaTree();
 	
 	/**
 	 * 查询地区树，查询三级
 	 * @return
 	 */
-	List<Area> queryAreaTreeNew(int parentCode);
+	List<Area> queryAreaTreeNew();
+	
+	/**
+	 * 三级下拉树结构
+	 * @return
+	 */
+	List<Map<String, Object>> queryAreaSelectTree(List<Area> provinceList);
 	
 	/**
 	 * 查询字典text
