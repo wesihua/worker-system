@@ -9,4 +9,6 @@ $(function(){
 	$("#downloadAndroid").click(function(){
 		window.open("/import_tpl/worker.apk");
 	});
+	
 });
+

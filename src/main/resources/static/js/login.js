@@ -1,4 +1,9 @@
 $(function(){
+	
+	// 进来先加载一遍json刷新下浏览器缓存。【无奈之举】
+	initArea();
+	initBirthplaceArea();
+	
 	$(".submit").click(function(){
 		login();
 	});
@@ -55,3 +60,45 @@ function login(){
 //	$("#alert_msg").text(msg);
 //	$("#public-box2").show();
 //}
+
+function initBirthplaceArea(){
+	$.ajax({
+		url:"/cityAreaTree.json",
+		type:"get",
+		dataType:"json",
+		global: false,
+		success:function(data){
+			/**
+			if(data.code == 1){
+				var infoList = data.data;
+				$("#birthplaceCode").selectivity({
+				    items: infoList,
+				    allowClear: true,
+				    placeholder: ''
+				});
+			}
+			**/
+		}
+	});
+}
+
+function initArea(){
+	$.ajax({
+		url:"/allAreaTree.json",
+		type:"get",
+		dataType:"json",
+		global: false,
+		success:function(data){
+			/**
+			if(data.code == 1){
+				var infoList = data.data;
+				$("#workplaceCode").selectivity({
+				    items: infoList,
+				    allowClear: true,
+				    placeholder: ''
+				});
+			}
+			**/
+		}
+	});
+}

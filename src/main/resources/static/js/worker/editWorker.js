@@ -104,6 +104,7 @@ function initBirthplaceArea(){
 				var infoList = data.data;
 				$("#birthplaceCode").selectivity({
 				    items: infoList,
+				    allowClear: true,
 				    placeholder: ''
 				});
 			}
@@ -123,6 +124,7 @@ function initArea(){
 				var infoList = data.data;
 				$("#workplaceCode").selectivity({
 				    items: infoList,
+				    allowClear: true,
 				    placeholder: ''
 				});
 			}
