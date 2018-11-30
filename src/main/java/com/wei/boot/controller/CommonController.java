@@ -298,51 +298,17 @@ public class CommonController {
 	@ApiOperation(value = "根据parentCode查询地区集合")
 	public Result queryAreaByParentCode(@ApiParam(value="地区父code",required = true) @RequestParam String parentCode) {
 		Result result = Result.SUCCESS;
-		Jedis jedis = null;
 		try {
-			// 先从redis中查询
-			jedis = JedisUtil.getJedis();
-			String jsonStr = jedis.get(GlobalConstant.RedisKey.KEY_AREA_ALL_TREE);
 			// 如果为空则从数据库中查询
-			if(StringUtils.isEmpty(jsonStr)) {
-				log.info("从数据库中查询地区子集合");
-				List<Area> areas = commonService.queryAreaByParentCode(parentCode);
-				result.setData(areas);
-			}
-			else {
-				List<Area> areas = JsonUtil.json2List(jsonStr, Area.class);
-				result.setData(getChildrenByParentCode(parentCode, areas));
-			}
+			log.info("从数据库中查询地区子集合");
+			List<Area> areas = commonService.queryAreaByParentCode(parentCode);
+			result.setData(areas);
 			
 		} catch (Exception e) {
 			log.error("查询地区子集失败", e);
 			result = Result.fail("查询地区子集失败");
 		}
-		finally {
-			jedis.close();
-		}
 		return result;
 	}
 	
-	/**
-	 * 递归出子集
-	 * @param parentCode
-	 * @param areas
-	 * @return
-	 */
-	private List<Area> getChildrenByParentCode(String parentCode, List<Area> areas) {
-		List<Area> list = new ArrayList<Area>();
-		if(null != areas && areas.size() > 0) {
-			for(Area area : areas) {
-				if(String.valueOf(area.getCode()).equals(parentCode)) {
-					list = area.getChildren();
-					break;
-				}
-				else {
-					list = getChildrenByParentCode(parentCode, area.getChildren());
-				}
-			}
-		}
-		return list;
-	}
 }
