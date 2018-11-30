@@ -17,6 +17,25 @@
         width:290px;
         background-color:#f8f8f8;
       }
+      #user-manage-control .party1 .base-info .inut-b #birthplaceCode .selectivity-single-select{
+        background-color: #f8f8f8;
+        border: 1px solid #dcdfe6;
+        border-radius: 5px;
+      }
+      #user-manage-control .party1 .base-info .inut-b #workplaceCode .selectivity-single-select{
+        background-color: #f8f8f8;
+        border: 1px solid #dcdfe6;
+        border-radius: 5px;
+      }
+      #user-manage-control .party1 .base-info .inut-b #jobtype_new .selectivity-multiple-input-container{
+        background-color: #f8f8f8;
+        border: 1px solid #dcdfe6;
+        border-radius: 5px;
+      }
+      #user-manage-control .party1 .base-info .inut-b #jobtype_new .selectivity-multiple-input-container input{
+        width: 90px;
+      }
+      
       #user-manage-control .party1 .base-info .inut-b .c-datepicker-date-editor .c-datepicker-data-input{
         background-color:#f8f8f8;
       }
