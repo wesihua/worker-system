@@ -94,14 +94,14 @@ $(function(){
 
 function initBirthplaceArea(){
 	$.ajax({
-		url:"/common/queryCityAreaSelectTree",
+		url:"/cityAreaTree.json",
 		type:"get",
 		dataType:"json",
-		async:false,
-		global: false,
+		//async:false,
+		global: true,
 		success:function(data){
 			if(data.code == 1){
-				var infoList = JSON.parse(data.data);
+				var infoList = data.data;
 				$("#birthplaceCode").selectivity({
 				    items: infoList,
 				    placeholder: ''
@@ -113,14 +113,14 @@ function initBirthplaceArea(){
 
 function initArea(){
 	$.ajax({
-		url:"/common/queryAllAreaSelectTree",
+		url:"/allAreaTree.json",
 		type:"get",
-		async:false,
+		//async:false,
 		dataType:"json",
-		global: false,
+		global: true,
 		success:function(data){
 			if(data.code == 1){
-				var infoList = JSON.parse(data.data);
+				var infoList = data.data;
 				$("#workplaceCode").selectivity({
 				    items: infoList,
 				    placeholder: ''
@@ -773,9 +773,9 @@ function initJobType(){
 	$.ajax({
 		url:"/jobType/queryTreeNew",
 		type:"get",
-		async:true,
+		async:false,
 		dataType:"json",
-		global: false,
+		global: true,
 		success:function(data){
 			if(data.code == 1){
 				var infoList = data.data;
@@ -917,8 +917,12 @@ function addWorker(){
 	worker.nightWork = $("#nightWork").val();
 	//worker.birthplaceCode = $("#birthplaceCode").val();
 	//worker.workplaceCode = $("#workplaceCode").val();
-	worker.birthplaceCode = $("#birthplaceCode").selectivity('data').id;
-	worker.workplaceCode = $("#workplaceCode").selectivity('data').id;
+	if($("#birthplaceCode").selectivity('data')){
+		worker.birthplaceCode = $("#birthplaceCode").selectivity('data').id;
+	}
+	if($("#workplaceCode").selectivity('data')){
+		worker.workplaceCode = $("#workplaceCode").selectivity('data').id;
+	}
 	
 	worker.nation = $("#nation").val();
 	worker.title = $("#title").val();

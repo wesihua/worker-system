@@ -220,6 +220,7 @@ public class CommonController {
 				result.setData(province);
 			}
 			else {
+				//result.setData(JSONArray.fromObject(jsonStr));
 				result.setData(jsonStr);
 			}
 		} catch (Exception e) {
@@ -252,6 +253,7 @@ public class CommonController {
 				result.setData(province);
 			}
 			else {
+				//result.setData(JSONArray.fromObject(jsonStr));
 				result.setData(jsonStr);
 			}
 		} catch (Exception e) {
