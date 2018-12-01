@@ -82,7 +82,7 @@ function queryDetail(){
 											"  <input id='jobTypeId' type=\"hidden\" name=\"jobTypeId\" value="+ firm.jobTypeId +">" +
 											"  <input id='parentJobTypeId' type=\"hidden\" name=\"parentJobTypeId\" value="+ firm.parentJobTypeId +">" +
 											"  <input id='workArea' type='hidden' name='workArea' value="+ firm.workArea +">" +
-											"  <input id='parentCode' type='hidden' name='parentCode' value="+ firm.parentCode +">" +
+											//"  <input id='parentCode' type='hidden' name='parentCode' value="+ firm.parentCode +">" +
 											"  <input id='degree' type='hidden' name='degree' value="+ firm.degree +">" +
 											"  <input id='gender' type='hidden' name='gender' value="+ firm.gender +">" +
 											"  <td><span class=\"des\" onclick=\"editJob(this)\">编辑</span><span class=\"delete\" onclick=\"deleteJob(this)\">移除</span></td>"+
@@ -90,7 +90,6 @@ function queryDetail(){
 						}
 					}
 					$("table").empty().append(tableContent);
-					
 				}
 			}
 		});
@@ -180,35 +179,6 @@ function initCompanySelection(){
 	});
 }
 
-//// 查公司
-//function queryCompany(){
-//	var name = $("#companyName").val();
-//	$("input:hidden[name='companyId']").val(0);
-//	$.ajax({
-//		url:"/company/queryByName",
-//		type:"get",
-//		data:{name:name},
-//		dataType:"json",
-//		async:false,
-//		success:function(data){
-//			if(data.code == 1){
-//				var firmArr = data.data;
-//				
-//				var divContent="";
-//				if(firmArr.length > 0){
-//				
-//					for(var i=0; i<firmArr.length; i++){
-//						var company = firmArr[i];
-//						divContent+=  "<div class='li' value_id= "+company.id+" value_name= "+company.name+"  onclick='changCompany(this)'>"+company.name +"</div>";
-//					}
-//				}
-//				$("#companyList").show();
-//				$("#companyList").empty().append(divContent);
-//			}
-//		}
-//	});
-//}
-
 function changCompany(obj){
 	var thisObj = $(obj);
 	$("#companyName").val(thisObj.attr("value_name"));
@@ -268,24 +238,24 @@ function initOtherSelect(gender,degree){
  * @param jobTypeId
  * @returns
  */
-function initJob(provinceCode,areaCode,parentJobTypeId,jobTypeId){
+function initJob(parentJobTypeId,jobTypeId){
 	
 	// 省份选中事件
-	parent.$("#province").change(function(){
-		var parentCode = this.value;
-		parent.$('#parentCode').val(parentCode);
-		queryArea(parentCode,areaCode);
-	});
+//	parent.$("#province").change(function(){
+//		var parentCode = this.value;
+//		parent.$('#parentCode').val(parentCode);
+//		queryArea(parentCode,areaCode);
+//	});
 	
 	// 地区选中事件
-	parent.$("select#workAreaList").change(function(){
-		// 选中事件
-		var workArea = parent.$('select#workAreaList option:selected').val();
-		var workAreaName = parent.$('select#workAreaList option:selected').text();
-		parent.$('#workArea').val(workArea);
-		parent.$('#workAreaName').val(workAreaName);
-		
-    });
+//	parent.$("select#workAreaList").change(function(){
+//		// 选中事件
+//		var workArea = parent.$('select#workAreaList option:selected').val();
+//		var workAreaName = parent.$('select#workAreaList option:selected').text();
+//		parent.$('#workArea').val(workArea);
+//		parent.$('#workAreaName').val(workAreaName);
+//		
+//    });
 	
 	// 学历选中
 	parent.$("select#degree").change(function(){
@@ -309,7 +279,7 @@ function initJob(provinceCode,areaCode,parentJobTypeId,jobTypeId){
     });
 	
 	// 初始化省
-	initProvinceSelect(provinceCode);
+	//initProvinceSelect(provinceCode);
 	
 	// 初始化父级工种
 	queryParentJobType(parentJobTypeId);
@@ -318,11 +288,12 @@ function initJob(provinceCode,areaCode,parentJobTypeId,jobTypeId){
 	// 二级工种选中事件
 	parent.$("#secondId").change(function(){
 		// 选中事件
-		var jobTypeId = parent.$(this).selectivity('data').id;
-		var jobTypeName = parent.$(this).selectivity('data').text;
-		parent.$('#jobTypeId').val(jobTypeId);
-		parent.$('#jobTypeName').val(jobTypeName);
-		
+		if(parent.$(this).selectivity('data')){
+			var jobTypeId = parent.$(this).selectivity('data').id;
+			var jobTypeName = parent.$(this).selectivity('data').text;
+			parent.$('#jobTypeId').val(jobTypeId);
+			parent.$('#jobTypeName').val(jobTypeName);
+		}
     });
 	
 	
@@ -413,6 +384,12 @@ function initJob(provinceCode,areaCode,parentJobTypeId,jobTypeId){
 	
 }
 
+/**
+ * 
+ * @param parentCode
+ * @param areaCode
+ * @returns
+ 
 function queryArea(parentCode,areaCode){
 	$.ajax({
 		url:"/common/queryAreaByParentCode",
@@ -423,7 +400,7 @@ function queryArea(parentCode,areaCode){
 		success:function(data){
 			if(data.code == 1){
 				var dics = data.data;
-				var content = "<option value=\"\">---请选择---</option>";
+				var content = "<option value=\"\">请选择</option>";
 				for(var i=0; i<dics.length; i++){
 					var dic = dics[i];
 					if(areaCode != undefined && areaCode == dic.code){
@@ -438,7 +415,7 @@ function queryArea(parentCode,areaCode){
 		}
 	});
 }
-
+*/
 /**
  * 添加工种
  * @returns
@@ -451,9 +428,12 @@ function addJob(){
         format: 'YYYY-MM-DD'
     });
 	//  初始化工种
-	initJob(null,null,null,null);
+	initJob(null,null);
 	
 	initOtherSelect(null,null);
+	
+	// 初始化工作地区
+	initArea();
 	
 	parent.$(".add-job-type-content").click(function(){
 		
@@ -472,16 +452,21 @@ function addJob(){
 		var degreeName ="";
 		var genderName ="";
 		var workAreaName ='';
-		var parentCode = 0;
-		if(workArea > 0){
-			workAreaName = parent.$("#workAreaName").val();
-			parentCode = parent.$("#parentCode").val();
-		}
+//		var parentCode = 0;
+//		if(workArea > 0){
+//			workAreaName = parent.$("#workAreaName").val();
+//			parentCode = parent.$("#parentCode").val();
+//		}
 		if(degree > 0){
 			degreeName = parent.$("#degreeName").val();
 		}
 		if(gender > 0){
 			genderName = parent.$("#genderName").val();
+		}
+		
+		if(parent.$("#workplaceCode").selectivity('data')){
+			workAreaName = parent.$("#workplaceCode").selectivity('data').text;
+			workArea = parent.$("#workplaceCode").selectivity('data').id;
 		}
 		
 		var p_check = checkParameter();	
@@ -514,7 +499,7 @@ function addJob(){
 						  "  <td id='degreeName'>"+degreeName+"</td>"+
 						  "  <td id='age'>"+age+"</td>"+
 						  "  <input id='workArea' type='hidden' name='workArea' value="+ workArea +">" +
-						  "  <input id='parentCode' type='hidden' name='parentCode' value="+ parentCode +">" +
+						  //"  <input id='parentCode' type='hidden' name='parentCode' value="+ parentCode +">" +
 						  "  <input id='degree' type='hidden' name='degree' value="+ degree +">" +
 						  "  <input id='gender' type='hidden' name='gender' value="+ gender +">" +
 						  "  <td id='requirement'>"+requirement+"</td>"+
@@ -550,29 +535,7 @@ function checkParameter() {
 		alert("用工人数不少于0！");
 		return false;
 	}
-	/*
-	if (!requireTime) {
-		alert("到岗日期不能为空！");
-		return false;
-	}
-	if (!salary) {
-		alert("月工资不能为空！");
-		return false;
-	}
-	if (salary <= 0) {
-		alert("月工资不能少于0！");
-		return false;
-	}
-	
-	if (!workArea) {
-		alert("工作地区不能为空！");
-		return false;
-	}
-	if (!requirement) {
-		alert("用工要求不能为空！");
-		return false;
-	}
-	*/
+
 	return true;
 
 }
@@ -582,7 +545,7 @@ function editJob(obj) {
 	parent.$('.J-yearMonthPicker-single').datePicker({
 		format : 'YYYY-MM-DD'
 	});
-
+	
 	var trobj = $(obj).parent().parent();
 	var jobTypeName = trobj.children("#jobTypeName").html();
 	var workerCount = trobj.children("#workerCount").html();
@@ -591,7 +554,7 @@ function editJob(obj) {
 	var workArea = trobj.children("#workArea").val();
 	var requirement = trobj.children("#requirement").html();
 	var jobTypeId = trobj.children("#jobTypeId").val();
-	var parentCode = trobj.children("#parentCode").val();
+	//var parentCode = trobj.children("#parentCode").val();
 	var workAreaName = trobj.children("#workAreaName").html();
 	var parentJobTypeId = trobj.children("#parentJobTypeId").val();
 	var age = trobj.children("#age").html();
@@ -600,10 +563,13 @@ function editJob(obj) {
 	var degree = trobj.children("#degree").val();
 	var gender = trobj.children("#gender").val();
     // provinceCode,areaCode,parentJobTypeId,jobTypeId
-	initJob(parentCode,workArea,parentJobTypeId, jobTypeId)
-	queryArea(parentCode, workArea);
-	//queryJobType(parentJobTypeId,jobTypeId);
+	initJob(parentJobTypeId, jobTypeId)
+	// queryArea(parentCode, workArea);
+	// queryJobType(parentJobTypeId,jobTypeId);
 	initOtherSelect(gender,degree);
+	// 初始化工作地区
+	initArea(workArea,workAreaName);
+	
 	
 	parent.$("#jobTypeName").val(jobTypeName);
 	parent.$("#workerCount").val(workerCount);
@@ -613,7 +579,7 @@ function editJob(obj) {
 	parent.$("#requirement").val(requirement);
 	parent.$("#jobTypeId").val(jobTypeId);
 	parent.$("#parentJobTypeId").val(parentJobTypeId);
-	parent.$("#parentCode").val(parentCode);
+//	parent.$("#parentCode").val(parentCode);
 	parent.$("#workAreaName").val(workAreaName);
 	parent.$("#age").val(age);
 	parent.$("#degree").val(degree);
@@ -647,9 +613,15 @@ function editJob(obj) {
 			genderName_ = parent.$("#genderName").val();
 		}
 		
-		if(workArea_ > 0){
-			workAreaName_ = parent.$("#workAreaName").val();
-			parentCode_ = parent.$("#parentCode").val();
+//		if(workArea_ > 0){
+//			workAreaName_ = parent.$("#workAreaName").val();
+//			parentCode_ = parent.$("#parentCode").val();
+//		}
+		
+		
+		if(parent.$("#workplaceCode").selectivity('data')){
+			workAreaName_ = parent.$("#workplaceCode").selectivity('data').text;
+			workArea_ = parent.$("#workplaceCode").selectivity('data').id;
 		}
 
 		var p_check = checkParameter();
@@ -683,7 +655,7 @@ function editJob(obj) {
 			trobj.children("#requireTime").html(requireTime_);
 			trobj.children("#workArea").val(workArea_);
 			trobj.children("#workAreaName").html(workAreaName_);
-			trobj.children("#parentCode").val(parentCode_);
+//			trobj.children("#parentCode").val(parentCode_);
 			trobj.children("#requirement").html(requirement_);
 			trobj.children("#age").html(age_);
 			trobj.children("#degree").val(degree_);
@@ -789,32 +761,7 @@ function addDemand(){
 }
 
 
-function initProvinceSelect(provinceCode){
-	$.ajax({
-		url:"/common/queryAllProvince",
-		type:"get",
-		dataType:"json",
-		async:false,
-		success:function(data){
-			if(data.code == 1){
-				var dics = data.data;
-				var content = "<option value=\"\">---请选择---</option>";
-				for(var i=0; i<dics.length; i++){
-					var dic = dics[i];
-					if(provinceCode != undefined && provinceCode == dic.code){
-						content += "<option value=\""+dic.code+"\" selected=\"selected\">"+dic.name+"</option>";
-					}else{
-						content += "<option value=\""+dic.code+"\">"+dic.name+"</option>";
-					}
-					
-				}
-				parent.$("#province").empty().html(content);
-			}
-		}
-	});
-}
-
-//function initParentJobType(provinceCode){
+//function initProvinceSelect(provinceCode){
 //	$.ajax({
 //		url:"/common/queryAllProvince",
 //		type:"get",
@@ -823,7 +770,7 @@ function initProvinceSelect(provinceCode){
 //		success:function(data){
 //			if(data.code == 1){
 //				var dics = data.data;
-//				var content = "<option value=\"\">---请选择---</option>";
+//				var content = "<option value=\"\">请选择</option>";
 //				for(var i=0; i<dics.length; i++){
 //					var dic = dics[i];
 //					if(provinceCode != undefined && provinceCode == dic.code){
@@ -838,5 +785,28 @@ function initProvinceSelect(provinceCode){
 //		}
 //	});
 //}
+
+function initArea(workArea,workAreaName){
+	$.ajax({
+		url:"/allAreaTree.json",
+		type:"get",
+		dataType:"json",
+		global: false,
+		success:function(data){
+			if(data.code == 1){
+				var infoList = data.data;
+				parent.$("#workplaceCode").selectivity({
+				    items: infoList,
+				    allowClear: true,
+				    placeholder: ''
+				});
+				
+				if(workArea > 0){
+					parent.$("#workplaceCode").selectivity('data',{id:workArea,"text":workAreaName});
+				}
+			}
+		}
+	});
+}
 
 

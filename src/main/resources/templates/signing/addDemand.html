@@ -121,21 +121,27 @@
 							onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value = this.value.replace(/[^\d.]/g,''); this.value = this.value.replace(/^\./g,'');this.value = this.value.replace(/\.{2,}/g,'');this.value = this.value.replace('.','$#$').replace(/\./g,'').replace('$#$','.');this.value = this.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3');}"
 							/>
 					</div>
+					<div class="">
+						<span class="name">工作地区&nbsp;&nbsp;</span>
+						<div id="workplaceCode" style="width: 280px;"></div>
+						<input  id="workArea" type="hidden"/>
+						<input  id="workAreaName" type="hidden"/>
+					</div>
+					<!-- 
 					<div class="input-block small">
 						<span class="name">工作地区&nbsp;&nbsp;</span> 
 						<select class="se" id="province">
-							<!--  <option value="1">1</option>-->
+							 <option value="1">1</option>
 						</select>
 					</div>
 					<div class="input-block">
 						<span class="name">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> 
 						<select class="se" id="workAreaList">
-							<!--  <option value="1">1</option>-->
+							 <option value="1">1</option>
 						</select>
-						<input  id="workArea" type="hidden"/>
-						<input  id="workAreaName" type="hidden"/>
 						<input  id="parentCode" type="hidden"/>
 					</div>
+					--> 
 					<div class="input-block">
 						<span class="name">性别要求&nbsp;&nbsp;</span> 
 						<select class="se" id="gender">
