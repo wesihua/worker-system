@@ -216,7 +216,7 @@
       <if test="telephone != null" >
         telephone,
       </if>
-      <if test="idcard != null" >
+      <if test="idcard != null and idcard != ''">
         idcard,
       </if>
       <if test="birthday != null" >
@@ -311,7 +311,7 @@
       <if test="telephone != null" >
         #{telephone,jdbcType=VARCHAR},
       </if>
-      <if test="idcard != null" >
+      <if test="idcard != null and idcard != ''">
         #{idcard,jdbcType=VARCHAR},
       </if>
       <if test="birthday != null" >
@@ -550,7 +550,7 @@
       <if test="telephone != null" >
         telephone = #{telephone,jdbcType=VARCHAR},
       </if>
-      <if test="idcard != null" >
+      <if test="idcard != null and idcard != ''">
         idcard = #{idcard,jdbcType=VARCHAR},
       </if>
       <if test="birthday != null" >
@@ -640,7 +640,9 @@
       sex = #{sex,jdbcType=INTEGER},
       age = #{age,jdbcType=INTEGER},
       telephone = #{telephone,jdbcType=VARCHAR},
-      idcard = #{idcard,jdbcType=VARCHAR},
+      <if test="idcard != null and idcard != ''">
+      	idcard = #{idcard,jdbcType=VARCHAR},
+      </if>
       birthday = #{birthday,jdbcType=DATE},
       birthplace_code = #{birthplaceCode,jdbcType=INTEGER},
       work_year = #{workYear,jdbcType=INTEGER},

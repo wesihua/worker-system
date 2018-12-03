@@ -178,7 +178,7 @@ function query(currentPage,onPage){
 					tableContent+=  "<tr>"+
 									"	<td>"+worker.name+"</td>"+
 									"	<td>"+worker.telephone+"</td>"+
-									"	<td>"+worker.idcard+"</td>"+
+									"	<td>"+(worker.idcard == null ? "" : worker.idcard)+"</td>"+
 									"	<td>"+worker.sexName+"</td>"+
 									"	<td>"+(worker.age == null ? "" : worker.age)+"</td>"+
 									"	<td>"+(worker.title == null ? "" : worker.title)+"</td>"+
