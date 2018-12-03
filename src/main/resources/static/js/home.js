@@ -170,8 +170,8 @@ function initIframeHeight(height) {
 	var myframe = parent.document.getElementById("myframe");
 	var subdoc = myframe.contentDocument || myframe.contentWindow.document;
 	var subbody = subdoc.body;
-	var realHeight = height;// = getIframePageHeight("myframe");
-	//alert(realHeight);
+	//var realHeight = height;// = getIframePageHeight("myframe");
+	var realHeight = subdoc.documentElement.clientHeight;
 	// 谷歌浏览器特殊处理
 	/*
 	if (userAgent.indexOf("Chrome") > -1) {
