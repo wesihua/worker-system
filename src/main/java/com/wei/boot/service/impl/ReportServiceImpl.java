@@ -14,6 +14,7 @@ import org.springframework.util.StringUtils;
 
 import com.wei.boot.mapper.DemandOrderMapper;
 import com.wei.boot.mapper.WorkerMapper;
+import com.wei.boot.model.Page;
 import com.wei.boot.model.report.CompanyReportInfo;
 import com.wei.boot.model.report.ReportInfo;
 import com.wei.boot.service.ReportService;
@@ -432,8 +433,10 @@ public class ReportServiceImpl implements ReportService {
 	}
 
 	@Override
-	public List<CompanyReportInfo> queryCompanyOrderReport(String startDate, String endDate, String companyName) {
+	public Page<CompanyReportInfo> queryCompanyOrderReport(String startDate, String endDate, String companyName, Page<CompanyReportInfo> page) {
 		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("offset", page.getOffset());
+		map.put("pageSize", page.getPageSize());
 		Date beginTime = null;
 		Date endTime = null;
 		if(!StringUtils.isEmpty(startDate)) {
@@ -449,7 +452,10 @@ public class ReportServiceImpl implements ReportService {
 		map.put("beginTime", beginTime);
 		map.put("endTime", endTime);
 		
-		return demandOrderMapper.selectCompanyOrderReport(map);
+		List<CompanyReportInfo> list = demandOrderMapper.selectCompanyOrderReport(map);
+		int totalCount = demandOrderMapper.selectCompanyOrderReportCount(map);
+		
+		return page.pageData(list, totalCount);
 	}
 
 	@Override

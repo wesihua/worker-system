@@ -101,12 +101,16 @@ public class ExcelImportController {
 					for (int i = 0; i < sheetCount; i++) {
 						Sheet sheet = wb.getSheetAt(i);
 						// 开始读取数据，excel的格式一定是固定的，否则组装的数据不对
-						for (int j = sheet.getFirstRowNum()+1; j <= sheet.getLastRowNum(); j++) {
+						for (int j = 0; j < sheet.getLastRowNum(); j++) {
 							Row row = sheet.getRow(j);
 							WorkerImportInfo info = new WorkerImportInfo();
 							if (null != row) {
-								if(row.getCell(0) == null || row.getCell(1) == null || row.getCell(3) == null || 
-										row.getCell(4) == null) {
+								if(row.getCell(0) == null || row.getCell(1) == null || row.getCell(4) == null
+										|| StringUtils.isEmpty(getValue(row.getCell(0))) || StringUtils.isEmpty(getValue(row.getCell(1)))
+										|| StringUtils.isEmpty(getValue(row.getCell(4)))) {
+									continue;
+								}
+								if("姓名".equals(getValue(row.getCell(0)))) {
 									continue;
 								}
 								info.setName(getValue(row.getCell(0)));
@@ -137,19 +141,23 @@ public class ExcelImportController {
 							continue;
 						}
 						// 身份证号不正确的
-						if (!CheckUtils.isIdCard(info.getIdcard())) {
+						if (!StringUtils.isEmpty(info.getIdcard()) && !CheckUtils.isIdCard(info.getIdcard())) {
 							wrongIdList.add(info);
 							continue;
 						}
 						// 联系电话不正确
+						/*
 						if(!CheckUtils.isPhone(info.getTelephone()) && !CheckUtils.isMobile(info.getTelephone())) {
 							wrongPhone.add(info);
 							continue;
 						}
+						*/
 						// 检查是否已存在
-						if (workerService.queryByIdcard(info.getIdcard())) {
-							existList.add(info);
-							continue;
+						if(!StringUtils.isEmpty(info.getIdcard())) {
+							if (workerService.queryByIdcard(info.getIdcard())) {
+								existList.add(info);
+								continue;
+							}
 						}
 
 						Worker worker = new Worker();

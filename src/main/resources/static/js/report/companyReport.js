@@ -11,10 +11,10 @@ $(function(){
     	parent.$("#loading").hide();
     });
 	// 进入页面自动查询
-	query();
+	query(1);
 	//按钮事件绑定
 	$("#query-bottom").click(function(){
-		query();
+		query(1);
 	});
 	$("#download").click(function(){
 		var companyName = $("#companyName").val();
@@ -51,18 +51,18 @@ $(function(){
  * 查询
  * @returns
  */
-function query(){
+function query(currentPage){
 	var companyName = $("#companyName").val();
 	var startDate = $("#startDate").val();
 	var endDate = $("#endDate").val();
 	$.ajax({
 		url:"/report/companyReport",
 		type:"get",
-		data:{companyName:companyName,startDate:startDate,endDate:endDate},
+		data:{companyName:companyName,startDate:startDate,endDate:endDate,pageNumber:currentPage},
 		dataType:"json",
 		success:function(data){
 			if(data.code == 1){
-				var orderArr = data.data;
+				var orderArr = data.data.data;
 				var tableContent="";
 				for(var i=0; i<orderArr.length; i++){
 					var order = orderArr[i];
@@ -74,6 +74,14 @@ function query(){
 									"</tr>";
 				}
 				$("#order_table").find("tbody").empty().append(tableContent);
+				$("#totalCount").text(data.data.totalCount+"个结果");
+				$("#pagination1").pagination({
+					currentPage: data.data.pageNumber,
+					totalPage: data.data.pageCount,
+					callback: function(current) {
+						query(current);
+					}
+				});
 			}
 		}
 	});

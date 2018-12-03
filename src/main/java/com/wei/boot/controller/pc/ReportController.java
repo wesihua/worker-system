@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.wei.boot.model.Page;
 import com.wei.boot.model.Result;
 import com.wei.boot.model.excel.ExcelData;
 import com.wei.boot.model.excel.ExcelRow;
@@ -314,10 +315,10 @@ public class ReportController {
 		return result;
 	}
 	@GetMapping("/companyReport")
-	public Result companyReport(String startDate, String endDate, String companyName) {
+	public Result companyReport(String startDate, String endDate, String companyName, Page<CompanyReportInfo> page) {
 		Result result = Result.SUCCESS;
 		try {
-			List<CompanyReportInfo> list = reportService.queryCompanyOrderReport(startDate, endDate, companyName);
+			Page<CompanyReportInfo> list = reportService.queryCompanyOrderReport(startDate, endDate, companyName, page);
 			result.setData(list);
 		} catch (Exception e) {
 			log.error("查询失败", e);
@@ -340,7 +341,9 @@ public class ReportController {
 	@GetMapping("/companyReport/export")
 	public void companyReportExport(String startDate, String endDate, String companyName, HttpServletResponse response) {
 		try {
-			List<CompanyReportInfo> list = reportService.queryCompanyOrderReport(startDate, endDate, companyName);
+			Page<CompanyReportInfo> page = new Page<>();
+			page.setPageSize(10000);
+			List<CompanyReportInfo> list = reportService.queryCompanyOrderReport(startDate, endDate, companyName, page).getData();
 			if(null != list && list.size() > 0) {
 				ExcelRow headers = ExcelUtil.excelHeaders("企业名称","订单数量","已签订人数","已签订金额");
 				ExcelData data = new ExcelData();
@@ -384,7 +387,7 @@ public class ReportController {
 	
 	private String getDefaultBeginDate() {
 		Calendar cal = Calendar.getInstance();
-		cal.add(Calendar.MONTH, -1);
+		cal.add(Calendar.MONTH, -6);
 		return DateUtils.formatDate(cal.getTime(), "yyyy-MM-dd");
 	}
 }

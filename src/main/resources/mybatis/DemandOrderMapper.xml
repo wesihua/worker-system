@@ -591,8 +591,28 @@
 		<if test="companyName != null">
 			and c.name like #{companyName,jdbcType=VARCHAR}
 		</if>
-	GROUP BY
-		c.NAME
+	GROUP BY c.NAME limit #{offset,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectCompanyOrderReportCount" parameterType="map" resultType="int">
+  	select count(1) from (
+  	SELECT c.name FROM
+		t_yx_demand d,
+		t_yx_demand_order o,
+		t_yx_company c 
+	WHERE
+		d.id = o.demand_id 
+		AND d.company_id = c.id 
+		<if test="beginTime != null">
+			and o.create_time &gt;= #{beginTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="endTime != null">
+			and o.create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="companyName != null">
+			and c.name like #{companyName,jdbcType=VARCHAR}
+		</if>
+	GROUP BY c.NAME) t
   </select>
   
   <select id="selectUserOrderReport" parameterType="map" resultType="com.wei.boot.model.report.CompanyReportInfo">
