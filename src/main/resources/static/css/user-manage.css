@@ -89,6 +89,9 @@
         margin-left:0px;
         vertical-align:top;
       }
+      #user-manage .chaxun .select2  #query{
+        margin-left:20px;
+      }
     #user-manage .chaxun .select2 select {
       
       background:#ffffff;  

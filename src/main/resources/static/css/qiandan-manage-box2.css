@@ -39,6 +39,10 @@
       min-height: 30px;
       margin-bottom:15px;
       font-size: 0px; }
+      #qiandan-manage-box2 .box-content .middle .input-block2{
+        min-height: 30px;
+        margin-bottom:15px;
+      }
     #qiandan-manage-box2 .box-content .middle .input-block.small{
         margin-bottom:5px;
       }
@@ -54,6 +58,11 @@
         margin-right: 20px;
         width:60px;
         font-size: 12px; }
+        #qiandan-manage-box2 .box-content .middle .input-block2 .name {
+          display:inline-block;
+          margin-right: 20px;
+          width:60px;
+          font-size: 12px; }
         #qiandan-manage-box2 .box-content .middle .input-block .name.t {
           vertical-align: top; }
       #qiandan-manage-box2 .box-content .middle .input-block .pt, #qiandan-manage-box2 .box-content .middle .input-block .se {
@@ -80,6 +89,17 @@
         line-height: 20px;
         resize: none;
         overflow: auto; }
+        #qiandan-manage-box2 .box-content .middle .input-block2 #workplaceCode{
+          display:inline-block;
+        }
+        #qiandan-manage-box2 .box-content .middle .input-block2 #workplaceCode .selectivity-single-select{
+          background-color: #f8f8f8;
+          border: 1px solid #dcdfe6;
+          height: 30px;
+          min-height: 30px;
+          padding: 0px;
+          border-radius: 5px;
+        }
 
         #qiandan-manage-box2 .box-content .middle #firstId, #qiandan-manage-box2 .box-content .middle #secondId{
           display:inline-block;
