@@ -102,6 +102,9 @@ input,select, textarea {
     height: 80px;
     line-height: 80px;
     margin: 0px auto; 
+    border-top: 2px solid #859ac4;
+    box-shadow: 0 0 1px 0px rgba(0,0,0,0.3), 0 0 10px 1px rgba(0,0,0,0.15);
+    background: rgba(255,255,255,0.94);
     /* background-color: #ccc; */
   padding:0px 50px;}
     #header .header-content .logo{
@@ -111,10 +114,10 @@ input,select, textarea {
       vertical-align: middle;
     }
     #header .header-content .logo-word{
-      font-size:25px;
-      font-weight:bold;
+      font-size:20px;
+      font-weight: normal;
       font-style:italic;
-      color: #381212;
+      color: #667290;
     }
     #header .header-content .person-info {
       float: right;
