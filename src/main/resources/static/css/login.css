@@ -13,13 +13,14 @@ html,body{
   left: 50%;
   top: 50%;
   border-radius: 5px;
-  background-color:#ffffff;
+  background-color:#f5f6f7;
   width: 600px;
   height: 340px;
   margin-left: -300px;
   margin-top: -170px;
-  opacity: 0.2;
-   box-shadow:0px 0px 20px 0px #ffffff ;
+  opacity: 0.9;
+   /* box-shadow:0px 0px 20px 0px #ffffff ; */
+  box-shadow: 0 0 8px #a7a6a9; 
 }
 #login .login-area {
   position: fixed;
@@ -59,16 +60,18 @@ html,body{
         }
     #login .login-area .head-pic .company-wd {
       font-size: 20px;
-      color: #ffffff; }
+      font-style: italic;
+      color: #f59f00; }
   #login .login-area .form-info {
     float: left;
     height: 100%;
     width: 350px;
     padding: 30px 25px 0px 25px; }
     #login .login-area .form-info h1 {
-      font-size: 18px;
+      font-size: 20px;
       line-height: 40px; 
-      color:#ffffff;
+      text-align: center;
+      /* color:#ffffff; */
     }
     #login .login-area .form-info .input-a {
       height: 40px;
@@ -91,11 +94,13 @@ html,body{
       line-height: 20px;
       margin-bottom: 20px; }
     #login .login-area .form-info .submit {
-      background-color: #01aaff;
+      /* background-color: #01aaff; */
+      background-color: #f59f00;
       color: #ffffff;
       text-align: center;
       height: 45px;
       line-height: 45px;
       border-radius: 5px;
-      font-size:20px;
+      font-size:14px;
+      font-weight: bold;
       cursor: pointer; }
