@@ -136,6 +136,7 @@ function userInfo(){
  * @returns
  */
 function logout(){
+	/*
 	$.ajax({
 		url:"/account/logout",
 		type:"get",
@@ -146,6 +147,8 @@ function logout(){
 			}
 		}
 	});
+	*/
+	location.href="/";
 }
 function handleFrame(){
 	var userAgent = navigator.userAgent;
