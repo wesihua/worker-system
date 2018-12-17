@@ -32,7 +32,7 @@ $(function(){
 		}	
 		var createUser = $("#createUser").val();
 		var source = $("#source").val();
-		//var workStatus = $("#workStatus").val();
+		var workStatus = $("#workStatus").val();
 		var beginTime = $("#beginTime").val();
 		var endTime = $("#endTime").val();
 		var company = $("#company").val();
@@ -46,16 +46,19 @@ $(function(){
 		
 		window.open("/worker/export?name="+workerName+"&telephone="+telephone+"" +
 				"&idcard="+idcard+"&firstId="+firstId+"&secondId="+secondId+"" +
-				"&company="+company+"&minAge="+minAge+"&maxAge="+maxAge+"&sex="+sex+""+
+				"&company="+company+"&minAge="+minAge+"&maxAge="+maxAge+"&sex="+sex+"&workStatus="+workStatus+"" +
 				"&degree="+degree+"&expectSalary="+expectSalary+"&workYear="+workYear+"&discipline="+discipline+""+
 				"&createUser="+createUser+"&source="+source+"&beginTime="+beginTime+"&endTime="+endTime);
 	});
 	// 初始化来源
-	initSelect("source","worker_souce");
+	initSelect();
+	
+	// 初始化工作状态
+	//initWorkStatusSelect("workStatus","work_status");
 	// 初始化学历要求
-	initDegreeSelect("degree","degree");
+	//initDegreeSelect("degree","degree");
 	// 初始化期望薪资
-	initExpectSalarySelect("expectSalary","expect_salary");
+	//initExpectSalarySelect("expectSalary","expect_salary");
 	// 初始化一级工种
 	initFirstIdSelect("firstId");
 	// 二级工种联动
@@ -160,13 +163,14 @@ function query(currentPage,onPage){
 	var expectSalary = $("#expectSalary").val();
 	var workYear = $("#workYear").val();
 	var discipline = $("#discipline").val();
+	var workStatus = $("#workStatus").val();
 	$.ajax({
 		url:"/worker/list",
 		type:"get",
 		data:{name:workerName,telephone:telephone,idcard:idcard,createUser:createUser,
 			souce:source,firstId:firstId,secondId:secondId,beginTime:beginTime,
 			minAge:minAge,maxAge:maxAge,sex:sex,degree:degree,expectSalary:expectSalary,
-			workYear:workYear,company:company,discipline:discipline,
+			workYear:workYear,company:company,discipline:discipline,workStatus:workStatus,
 			endTime:endTime,pageNumber:currentPage},
 		dataType:"json",
 		success:function(data){
@@ -231,26 +235,55 @@ function openDialog(id){
 	});
 }
 
-function initSelect(id,type){
+function initSelect(){
+	var types = "expect_salary,work_status,degree,worker_souce";
 	$.ajax({
-		url:"/common/queryDicByType",
+		url:"/common/queryDicByTypes",
 		type:"get",
+		//async:true,
 		dataType:"json",
-		data:{type:type},
+		data:{types:types},
 		global: false,
 		success:function(data){
 			if(data.code == 1){
-				var dics = data.data;
-				var content = "<option value=\"\">---请选择来源---</option>";
-				for(var i=0; i<dics.length; i++){
-					var dic = dics[i];
-					content += "<option value=\""+dic.code+"\">"+dic.name+"</option>";
+				var all = data.data;
+				// 组装期望薪资
+				var expectSalaryDics = all.expect_salary;
+				var contentexpectSalary = "<option value=\"\">---期望薪资---</option>";
+				for(var i=0; i<expectSalaryDics.length; i++){
+					var expectSalaryDic = expectSalaryDics[i];
+					contentexpectSalary += "<option value=\""+expectSalaryDic.code+"\">"+expectSalaryDic.name+"</option>";
 				}
-				$("#"+id).empty().html(content);
+				$("#expectSalary").empty().html(contentexpectSalary);
+				// 组装工作状态
+				var workStatusDics = all.work_status;
+				var contentWorkStatus = "<option value=\"\">---工作状态---</option>";
+				for(var i=0; i<workStatusDics.length; i++){
+					var workStatusDic = workStatusDics[i];
+					contentWorkStatus += "<option value=\""+workStatusDic.code+"\">"+workStatusDic.name+"</option>";
+				}
+				$("#workStatus").empty().html(contentWorkStatus);
+				// 组装学历
+				var degreeDics = all.degree;
+				var contentdegree = "<option value=\"\">---学历---</option>";
+				for(var i=0; i<degreeDics.length; i++){
+					var degreeDic = degreeDics[i];
+					contentdegree += "<option value=\""+degreeDic.code+"\">"+degreeDic.name+"</option>";
+				}
+				$("#degree").empty().html(contentdegree);
+				// 组装来源
+				var sourceDics = all.worker_souce;
+				var contentsource = "<option value=\"\">---来源---</option>";
+				for(var i=0; i<sourceDics.length; i++){
+					var sourceDic = sourceDics[i];
+					contentsource += "<option value=\""+sourceDic.code+"\">"+sourceDic.name+"</option>";
+				}
+				$("#source").empty().html(contentsource);
 			}
 		}
 	});
 }
+
 function initDegreeSelect(id,type){
 	$.ajax({
 		url:"/common/queryDicByType",
@@ -262,6 +295,27 @@ function initDegreeSelect(id,type){
 			if(data.code == 1){
 				var dics = data.data;
 				var content = "<option value=\"\">---学历要求---</option>";
+				for(var i=0; i<dics.length; i++){
+					var dic = dics[i];
+					content += "<option value=\""+dic.code+"\">"+dic.name+"</option>";
+				}
+				$("#"+id).empty().html(content);
+			}
+		}
+	});
+}
+
+function initWorkStatusSelect(id,type){
+	$.ajax({
+		url:"/common/queryDicByType",
+		type:"get",
+		dataType:"json",
+		data:{type:type},
+		global: false,
+		success:function(data){
+			if(data.code == 1){
+				var dics = data.data;
+				var content = "<option value=\"\">---工作状态---</option>";
 				for(var i=0; i<dics.length; i++){
 					var dic = dics[i];
 					content += "<option value=\""+dic.code+"\">"+dic.name+"</option>";

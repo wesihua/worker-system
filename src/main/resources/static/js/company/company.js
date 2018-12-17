@@ -46,6 +46,9 @@ function query(currentPage){
 									"	<td>"+firm.name+"</td>"+
 									"	<td>"+firm.industry+"</td>"+
 									"	<td>"+firm.contactName+"</td>"+
+									"	<td>"+(firm.creditNumber == null ? "" : firm.creditNumber)+"</td>"+
+									"	<td>"+(firm.bank == null ? "" : firm.bank)+"</td>"+
+									"	<td>"+(firm.bankAccount == null ? "" : firm.bankAccount)+"</td>"+
 									"	<td>"+firm.count+"</td>"+
 									"	<td>"+firm.contactPhone+"</td>"+
 									"	<td>"+firm.address+"</td>"+
@@ -93,6 +96,9 @@ function addCompany(){
 		var contactPhone = parent.$("#contactPhone").val();
 		var address = parent.$("#address").val();
 		var description = parent.$("#description").val();
+		var creditNumber = parent.$("#creditNumber").val();
+		var bank = parent.$("#bank").val();
+		var bankAccount = parent.$("#bankAccount").val();
 		
 		if(companyName == null || companyName.length == 0){
 			alert("企业名称不能为空！");
@@ -118,12 +124,36 @@ function addCompany(){
 			alert("联系电话长度不能超过20个字！");
 			return false;
 		}
+		if(creditNumber && creditNumber.length > 50){
+			alert("企业信用代码长度不能超过50个字！");
+			return false;
+		}
+		if(bank && bank.length > 50){
+			alert("开户行长度不能超过50个字！");
+			return false;
+		}
+		if(bankAccount && bankAccount.length > 20){
+			alert("银行卡号长度不能超过50个字！");
+			return false;
+		}
+		if(address && address.length > 255){
+			alert("企业地址长度不能超过50个字！");
+			return false;
+		}
+		if(description && description.length > 255){
+			alert("备注长度不能超过50个字！");
+			return false;
+		}
+		if(industry && industry.length > 100){
+			alert("所属行业长度不能超过50个字！");
+			return false;
+		}
 		$.ajax({
 			url:"/company/saveCompany",
 			type:"get",
 			dataType:"json",
 			data:{name:companyName,industry:industry,address:address,contactName:contactName,
-				contactPhone:contactPhone,description:description},
+				contactPhone:contactPhone,description:description,creditNumber:creditNumber,bank:bank,bankAccount:bankAccount},
 			success:function(data){
 				if(data.code == 1){
 					top.closeDialog();
@@ -155,6 +185,9 @@ function updateCompany(companyId){
 				parent.$("#contactName").val(firm.contactName);
 				parent.$("#contactPhone").val(firm.contactPhone);
 				parent.$("#description").val(firm.description);
+				parent.$("#creditNumber").val(firm.creditNumber);
+				parent.$("#bank").val(firm.bank);
+				parent.$("#bankAccount").val(firm.bankAccount);
 				
 				top.$(".add-company").click(function(){
 					var companyId = firm.id;
@@ -164,6 +197,9 @@ function updateCompany(companyId){
 					var contactPhone = parent.$("#contactPhone").val();
 					var address = parent.$("#address").val();
 					var description = parent.$("#description").val();
+					var creditNumber = parent.$("#creditNumber").val();
+					var bank = parent.$("#bank").val();
+					var bankAccount = parent.$("#bankAccount").val();
 					
 					if(companyName == null || companyName.length == 0){
 						alert("企业名称不能为空！");
@@ -189,12 +225,36 @@ function updateCompany(companyId){
 						alert("联系电话长度不能超过20个字！");
 						return false;
 					}
+					if(creditNumber && creditNumber.length > 50){
+						alert("企业信用代码长度不能超过50个字！");
+						return false;
+					}
+					if(bank && bank.length > 50){
+						alert("开户行长度不能超过50个字！");
+						return false;
+					}
+					if(bankAccount && bankAccount.length > 20){
+						alert("银行卡号长度不能超过50个字！");
+						return false;
+					}
+					if(address && address.length > 255){
+						alert("企业地址长度不能超过50个字！");
+						return false;
+					}
+					if(description && description.length > 255){
+						alert("备注长度不能超过50个字！");
+						return false;
+					}
+					if(industry && industry.length > 100){
+						alert("所属行业长度不能超过50个字！");
+						return false;
+					}
 					$.ajax({
 						url:"/company/saveCompany",
 						type:"get",
 						dataType:"json",
 						data:{id:companyId,name:companyName,industry:industry,address:address,contactName:contactName,
-							contactPhone:contactPhone,description:description},
+							contactPhone:contactPhone,description:description,creditNumber:creditNumber,bank:bank,bankAccount:bankAccount},
 						success:function(data){
 							if(data.code == 1){
 								top.closeDialog();

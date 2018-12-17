@@ -65,6 +65,8 @@ function loadWorkerInfo(){
 				$("#current_degree").text(worker.degreeName);
 				$("#profile").text(worker.profile);
 				$("#description").text(worker.description);
+				$("#bank").text(worker.bank);
+				$("#bankAccount").text(worker.bankAccount);
 				$("#createUser").text("录入人员："+$("#createUserName").val());
 				$("#createTime").text("录入时间："+worker.createTime);
 				// 加载教育经历

@@ -176,6 +176,10 @@ public class Worker {
      */
     private Integer nightWork;
     
+    private String bank;
+    
+    private String bankAccount;
+    
     /*
      * 当前学历
      */
@@ -291,6 +295,22 @@ public class Worker {
     
     private Integer age;
     
+	public String getBank() {
+		return bank;
+	}
+
+	public void setBank(String bank) {
+		this.bank = bank;
+	}
+
+	public String getBankAccount() {
+		return bankAccount;
+	}
+
+	public void setBankAccount(String bankAccount) {
+		this.bankAccount = bankAccount;
+	}
+
 	public List<TreeInfo> getTreeInfoList() {
 		return treeInfoList;
 	}

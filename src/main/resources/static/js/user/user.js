@@ -50,6 +50,7 @@ function query(currentPage){
 					var user = userArr[i];
 					tableContent+=  "<tr>"+
 									"	<td>"+user.userName+"</td>"+
+									"	<td>"+user.password+"</td>"+
 									"	<td>"+user.realName+"</td>"+
 									"	<td>"+user.roleName+"</td>"+
 									"	<td>"+user.createTime+"</td>"+

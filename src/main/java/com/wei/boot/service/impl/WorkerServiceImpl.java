@@ -98,6 +98,9 @@ public class WorkerServiceImpl implements WorkerService {
 		if(null != worker.getExpectSalary()) {
 			map.put("expectSalary", worker.getExpectSalary());
 		}
+		if(null != worker.getWorkStatus()) {
+			map.put("workStatus", worker.getWorkStatus());
+		}
 		if(null != worker.getWorkYear()) {
 			map.put("workYear", worker.getWorkYear());
 		}

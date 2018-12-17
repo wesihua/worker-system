@@ -34,6 +34,8 @@
     <result column="degree" property="degree" jdbcType="INTEGER" />
     <result column="profile" property="profile" jdbcType="VARCHAR" />
     <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="bank" property="bank" jdbcType="VARCHAR" />
+    <result column="bank_account" property="bankAccount" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="create_user" property="createUser" jdbcType="INTEGER" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
@@ -117,7 +119,7 @@
     id, name, photo, sex, age, telephone, idcard, birthday, birthplace_code, work_year, marital_status, 
     workplace_code, expect_salary, work_status, nation, position, address, language_level, 
     work_expect, email, title, night_work, souce, degree, profile, description, jobtype_name, create_time, create_user, update_time, 
-    update_user
+    update_user, bank, bank_account
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wei.boot.model.WorkerExample" >
     <!--
@@ -291,6 +293,12 @@
       <if test="jobtypeName != null" >
         jobtype_name,
       </if>
+      <if test="bank != null" >
+        bank,
+      </if>
+      <if test="bankAccount != null" >
+        bank_account,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -385,6 +393,12 @@
       </if>
       <if test="jobtypeName != null" >
         #{jobtypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="bank != null" >
+        #{bank,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAccount != null" >
+        #{bankAccount,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -625,6 +639,12 @@
       <if test="jobtypeName != null" >
         jobtype_name = #{jobtypeName,jdbcType=VARCHAR},
       </if>
+      <if test="bank != null" >
+        bank = #{bank,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAccount != null" >
+        bank_account = #{bankAccount,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -663,6 +683,8 @@
       profile = #{profile,jdbcType=VARCHAR},
       description = #{description,jdbcType=VARCHAR},
       jobtype_name = #{jobtypeName,jdbcType=VARCHAR},
+      bank = #{bank,jdbcType=VARCHAR},
+      bank_account = #{bankAccount,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_user = #{createUser,jdbcType=INTEGER},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
@@ -675,7 +697,7 @@
 		t.id, t.name, t.photo, t.sex, t.age, t.telephone, t.idcard, t.birthday, t.birthplace_code, t.work_year, t.marital_status, 
 		t.workplace_code, t.expect_salary, t.work_status, t.nation, t.position, t.address, t.language_level, jobtype_name,
 		t.work_expect, t.email, t.title, t.night_work, t.souce, t.degree, t.profile, t.description, t.create_time, t.create_user,
-		t.update_time, t.update_user,
+		t.update_time, t.update_user, t.bank, t.bank_account,
 		u.real_name 
 	FROM
 		t_yx_worker t,t_sys_user u 
@@ -719,6 +741,9 @@
 				</if>
 				<if test="workYear != null">
 					and x.work_year &gt;= #{workYear,jdbcType=INTEGER}
+				</if>
+				<if test="workStatus != null">
+					and x.work_status = #{workStatus,jdbcType=INTEGER}
 				</if>
 				<if test="createUser != null">
 					and x.create_user = #{createUser,jdbcType=INTEGER}
@@ -782,6 +807,9 @@
 		</if>
 		<if test="workYear != null">
 			and t.work_year &gt;= #{workYear,jdbcType=INTEGER}
+		</if>
+		<if test="workStatus != null">
+			and t.work_status = #{workStatus,jdbcType=INTEGER}
 		</if>
 		<if test="createUser != null">
 			and t.create_user = #{createUser,jdbcType=INTEGER}
@@ -850,6 +878,9 @@
 		</if>
 		<if test="workYear != null">
 			and t.work_year &gt;= #{workYear,jdbcType=INTEGER}
+		</if>
+		<if test="workStatus != null">
+			and t.work_status = #{workStatus,jdbcType=INTEGER}
 		</if>
 		<if test="createUser != null">
 			and t.create_user = #{createUser,jdbcType=INTEGER}

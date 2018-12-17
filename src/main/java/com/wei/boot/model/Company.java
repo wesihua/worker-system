@@ -103,8 +103,39 @@ public class Company {
      * 已录入属于该企业的的人员人数
      */
     private int count;
+    
+    
+    private String bank;
+    
+    private String bankAccount;
+    
+    private String creditNumber;
 
-    public int getCount() {
+    public String getBank() {
+		return bank;
+	}
+
+	public void setBank(String bank) {
+		this.bank = bank;
+	}
+
+	public String getBankAccount() {
+		return bankAccount;
+	}
+
+	public void setBankAccount(String bankAccount) {
+		this.bankAccount = bankAccount;
+	}
+
+	public String getCreditNumber() {
+		return creditNumber;
+	}
+
+	public void setCreditNumber(String creditNumber) {
+		this.creditNumber = creditNumber;
+	}
+
+	public int getCount() {
 		return count;
 	}
 

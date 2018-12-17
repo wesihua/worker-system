@@ -87,6 +87,24 @@ $(function(){
 			}
 		});
 	});
+	
+	// 身份证号提取性别、出生日期
+	$("#idcard").blur(
+		function() {
+		// 获取输入身份证号码
+		var UUserCard = $('#idcard').val();
+		if (UUserCard != null && UUserCard.length == 18) {
+			// 获取出生日期
+			var birthdate = UUserCard.substring(6, 10) + "-" + UUserCard.substring(10, 12) + "-" + UUserCard.substring(12, 14);
+			$("#birthday").val(birthdate);
+			// 获取性别
+			if (parseInt(UUserCard.substr(16, 1)) % 2 == 1) {
+				$("#sex").val(0);
+			} else {
+				$("#sex").val(1);
+			}
+		}
+	});
 
 });
 
@@ -349,7 +367,7 @@ function editEducationDialog(ts,school,degree,beginTime,endTime,discipline){
 function openExperienceDialog(){
 	openDialog("dialog-experience-content");
 	parent.$('.J-yearMonthPicker-single').datePicker({
-		format: 'YYYY-MM'
+		format: 'YYYY-MM-DD'
 	});
 	parent.$(".add-experience-content").click(function(){
 		if(checkWorkerExperience(parent.$("#exp_company").val(),parent.$("#exp_position").val())){
@@ -404,7 +422,7 @@ function openExperienceDialog(){
 function editExperienceDialog(ts,companyName,position,beginTime,endTime,salary_value,description){
 	openDialog("dialog-experience-content");
 	parent.$('.J-yearMonthPicker-single').datePicker({
-		format: 'YYYY-MM'
+		format: 'YYYY-MM-DD'
 	});
 	parent.$("#exp_company").val(companyName);
 	parent.$("#exp_position").val(position);
@@ -569,6 +587,8 @@ function addWorker(){
 	worker.degree = $("#current_degree").val();
 	worker.profile = $("#profile").val();
 	worker.description = $("#description").val();
+	worker.bank = $("#bank").val();
+	worker.bankAccount = $("#bankAccount").val();
 	
 	// 处理工种
 	var jobTypeArray = $("#jobtype_new").selectivity('data');
@@ -692,6 +712,14 @@ function checkWorker(worker){
 	}
 	if(worker.description && worker.description.length > 255){
 		alert("备注长度不能超过255！");
+		return false;
+	}
+	if(worker.bank && worker.bank.length > 50){
+		alert("开户行长度不能超过50！");
+		return false;
+	}
+	if(worker.bankAccount && worker.bankAccount.length > 20){
+		alert("银行卡号长度不能超过20");
 		return false;
 	}
 	return true;
