@@ -72,7 +72,8 @@ public class ExcelImportController {
 			fileName = ToolsUtil.get36UUID()
 					+ file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
 			// 该路径固定
-			//filePath = "/Users/weisihua/excel_import/";
+			filePath = "/Users/weisihua/excel_import/";
+			
 			File targetFile = new File(filePath);
 			if (!targetFile.exists()) {
 				targetFile.mkdirs();
@@ -101,7 +102,7 @@ public class ExcelImportController {
 					for (int i = 0; i < sheetCount; i++) {
 						Sheet sheet = wb.getSheetAt(i);
 						// 开始读取数据，excel的格式一定是固定的，否则组装的数据不对
-						for (int j = 0; j < sheet.getLastRowNum(); j++) {
+						for (int j = 0; j <= sheet.getLastRowNum(); j++) {
 							Row row = sheet.getRow(j);
 							WorkerImportInfo info = new WorkerImportInfo();
 							if (null != row) {
@@ -167,7 +168,7 @@ public class ExcelImportController {
 						worker.setIdcard(info.getIdcard());
 						Integer gender = translateDic("gender", info.getGender());
 						worker.setSex(gender);
-						if (null != info.getWorkYear()) {
+						if (!StringUtils.isEmpty(info.getWorkYear())) {
 							worker.setWorkYear(Integer.parseInt(info.getWorkYear()));
 						}
 						Integer degree = translateDic("degree", info.getDegree());

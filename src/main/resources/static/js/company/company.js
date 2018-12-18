@@ -45,11 +45,11 @@ function query(currentPage){
 					tableContent+=  "<tr>"+
 									"	<td>"+firm.name+"</td>"+
 									"	<td>"+firm.industry+"</td>"+
-									"	<td>"+firm.contactName+"</td>"+
 									"	<td>"+(firm.creditNumber == null ? "" : firm.creditNumber)+"</td>"+
 									"	<td>"+(firm.bank == null ? "" : firm.bank)+"</td>"+
 									"	<td>"+(firm.bankAccount == null ? "" : firm.bankAccount)+"</td>"+
 									"	<td>"+firm.count+"</td>"+
+									"	<td>"+firm.contactName+"</td>"+
 									"	<td>"+firm.contactPhone+"</td>"+
 									"	<td>"+firm.address+"</td>"+
 									"	<td>"+firm.createTime+"</td>"+

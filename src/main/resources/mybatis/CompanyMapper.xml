@@ -261,13 +261,13 @@
         #{updateUser,jdbcType=INTEGER},
       </if>
       <if test="creditNumber != null" >
-        #{credit_number,jdbcType=VARCHAR},
+        #{creditNumber,jdbcType=VARCHAR},
       </if>
       <if test="bank != null" >
         #{bank,jdbcType=VARCHAR},
       </if>
-      <if test="bankNumber != null" >
-        #{bank_number,jdbcType=VARCHAR},
+      <if test="bankAccount != null" >
+        #{bankAccount,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>

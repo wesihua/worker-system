@@ -36,8 +36,8 @@
       }
   #account-manage-box1 .box1-content .middle {
     padding: 20px;
-    /* height: 260px; */
-    /* overflow: auto; */
+    height: 260px;
+    overflow: auto;
     font-size: 0px; }
     #account-manage-box1 .box1-content .middle ul li {
       min-height: 30px;
