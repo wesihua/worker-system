@@ -1037,15 +1037,13 @@
   
   <select id="selectSourcePie" parameterType="map" resultType="com.wei.boot.model.report.ReportInfo">
   	SELECT
-		x.c count,
-		c.NAME name,
-		round( ( x.c / x.cnt * 100 ), 2 ) percentage 
+		x.c count
+		c.NAME name
 	FROM
 		(
 	SELECT
 		t.souce,
-		count( 1 ) c,
-		( SELECT count( 1 ) FROM t_yx_worker ) cnt 
+		count( 1 ) c
 	FROM
 		t_yx_worker t 
 	<where>
@@ -1066,14 +1064,12 @@
   <select id="selectCreateUserPie" parameterType="map" resultType="com.wei.boot.model.report.ReportInfo">
   	SELECT
 		x.c count,
-		u.real_name name,
-		round( ( x.c / x.cnt * 100 ), 2 ) percentage 
+		u.real_name name
 	FROM
 		(
 	SELECT
 		t.create_user,
-		count( 1 ) c,
-		( SELECT count( 1 ) FROM t_yx_worker ) cnt 
+		count( 1 ) c
 	FROM
 		t_yx_worker t 
 	<where>
@@ -1093,14 +1089,12 @@
   <select id="selectDegreePie" parameterType="map" resultType="com.wei.boot.model.report.ReportInfo">
   	SELECT
 		x.c count,
-		ifnull(c.NAME,'未知') name,
-		round( ( x.c / x.cnt * 100 ), 2 ) percentage 
+		ifnull(c.NAME,'未知') name
 	FROM
 		(
 	SELECT
 		t.degree,
-		count( 1 ) c,
-		( SELECT count( 1 ) FROM t_yx_worker ) cnt 
+		count( 1 ) c
 	FROM
 		t_yx_worker t 
 	<where>
@@ -1116,6 +1110,32 @@
 		) x
 		LEFT JOIN t_sys_dictionary c ON x.degree = c.CODE 
 		AND c.type = 'degree'
+  </select>
+  
+  <select id="selectWorkStatusPie" parameterType="map" resultType="com.wei.boot.model.report.ReportInfo">
+  	SELECT
+		x.c count,
+		ifnull(c.NAME,'未知') name
+	FROM
+		(
+	SELECT
+		t.work_status,
+		count( 1 ) c
+	FROM
+		t_yx_worker t 
+	<where>
+  		<if test="beginTime != null">
+			and t.create_time &gt;= #{beginTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="endTime != null">
+			and t.create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+		</if>
+  	</where>
+	GROUP BY
+		t.work_status
+		) x
+		LEFT JOIN t_sys_dictionary c ON x.work_status = c.CODE 
+		AND c.type = 'work_status'
   </select>
   
   <select id="selectMonthBar" parameterType="map" resultType="com.wei.boot.model.report.ReportInfo">
@@ -1175,14 +1195,12 @@
   <select id="selectDemandUnderTakerPie" parameterType="map" resultType="com.wei.boot.model.report.ReportInfo">
   	SELECT
 		x.c count,
-		ifnull(u.real_name,'其他') name,
-		round( ( x.c / x.cnt * 100 ), 2 ) percentage 
+		ifnull(u.real_name,'其他') name
 	FROM
 		(
 	SELECT
 		t.undertake_user,
-		count( 1 ) c,
-		( SELECT count( 1 ) FROM t_yx_demand ) cnt 
+		count( 1 ) c
 	FROM
 		t_yx_demand t 
 	<where>
@@ -1201,14 +1219,12 @@
   <select id="selectDemandStatePie" parameterType="map" resultType="com.wei.boot.model.report.ReportInfo">
   	SELECT
 		x.c count,
-		ifnull(c.NAME,'未知') name,
-		round( ( x.c / x.cnt * 100 ), 2 ) percentage 
+		ifnull(c.NAME,'未知') name
 	FROM
 		(
 	SELECT
 		t.state,
-		count( 1 ) c,
-		( SELECT count( 1 ) FROM t_yx_demand ) cnt 
+		count( 1 ) c
 	FROM
 		t_yx_demand t 
 	<where>

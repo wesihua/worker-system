@@ -25,6 +25,7 @@ import com.wei.boot.model.WorkerJobType;
 import com.wei.boot.model.excel.ExcelData;
 import com.wei.boot.model.excel.ExcelRow;
 import com.wei.boot.service.WorkerService;
+import com.wei.boot.util.DateUtils;
 import com.wei.boot.util.ExcelUtil;
 import com.wei.boot.util.JsonUtil;
 import com.wei.boot.util.ToolsUtil;
@@ -97,7 +98,7 @@ public class WorkerController {
 			page.setPageSize(20000);
 			List<Worker> list = workerService.queryByPage(page, worker).getData();
 			if(null != list && list.size() > 0) {
-				ExcelRow headers = ExcelUtil.excelHeaders("姓名","手机号","身份证号","性别","年龄","职称","擅长工种","工作状态","录入人","来源","录入时间");
+				ExcelRow headers = ExcelUtil.excelHeaders("姓名","手机号","身份证号","性别","年龄","职称","擅长工种","单位名称","入离职时间","开户行","银行卡号","工作状态","录入人","来源","录入时间");
 				ExcelData data = new ExcelData();
 				for(Worker info : list) {
 					ExcelRow row = new ExcelRow();
@@ -108,6 +109,20 @@ public class WorkerController {
 					row.add(info.getAge() == null ? "" : info.getAge().toString());	// 由身份证号计算得出
 					row.add(info.getTitle());
 					row.add(info.getJobtypeName());
+					// 拼接工作经历信息
+					if(null != info.getExperienceList() && !info.getExperienceList().isEmpty()) {
+						WorkerExperience experience = info.getExperienceList().get(0);
+						String beginTime = experience.getBeginTime() == null ? "暂无" : DateUtils.formatDate(experience.getBeginTime(), "yyyy-MM-dd");
+						String endTime = experience.getEndTime() == null ? "暂无" : DateUtils.formatDate(experience.getEndTime(), "yyyy-MM-dd");
+						row.add(experience.getCompany());
+						row.add(beginTime+"-"+endTime);
+					}
+					else {
+						row.add("");
+						row.add("");
+					}
+					row.add(info.getBank());
+					row.add(info.getBankAccount());
 					row.add(info.getWorkStatusName());
 					row.add(info.getCreateUserName());
 					row.add(info.getSourceName());

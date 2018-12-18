@@ -114,6 +114,8 @@ public interface WorkerMapper {
 	
 	List<ReportInfo> selectDegreePie(Map<String, Object> map);
 	
+	List<ReportInfo> selectWorkStatusPie(Map<String, Object> map);
+	
 	List<ReportInfo> selectMonthBar(Map<String, Object> map);
 	
 	List<ReportInfo> selectDayBar(Map<String, Object> map);

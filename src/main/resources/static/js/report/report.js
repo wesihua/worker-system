@@ -21,6 +21,7 @@ $(function(){
 		loadWorkerSourcePie(startDate, endDate);
 		loadWorkerCreateUserPie(startDate, endDate);
 		loadWorkerDegreePie(startDate, endDate);
+		loadWorkerStatusPie(startDate, endDate);
 	});
 	$("#today").click(function(){
 		$(this).css("background-color","#409eff");
@@ -33,6 +34,7 @@ $(function(){
 		loadWorkerSourcePie(startDate);
 		loadWorkerCreateUserPie(startDate);
 		loadWorkerDegreePie(startDate);
+		loadWorkerStatusPie(startDate);
 	});
 	$("#thisWeek").click(function(){
 		$(this).css("background-color","#409eff");
@@ -45,6 +47,7 @@ $(function(){
 		loadWorkerSourcePie(startDate);
 		loadWorkerCreateUserPie(startDate);
 		loadWorkerDegreePie(startDate);
+		loadWorkerStatusPie(startDate);
 	});
 	$("#thisMonth").click(function(){
 		$(this).css("background-color","#409eff");
@@ -57,6 +60,7 @@ $(function(){
 		loadWorkerSourcePie(startDate);
 		loadWorkerCreateUserPie(startDate);
 		loadWorkerDegreePie(startDate);
+		loadWorkerStatusPie(startDate);
 	});
 	$("#thisSeason").click(function(){
 		$(this).css("background-color","#409eff");
@@ -69,6 +73,7 @@ $(function(){
 		loadWorkerSourcePie(startDate);
 		loadWorkerCreateUserPie(startDate);
 		loadWorkerDegreePie(startDate);
+		loadWorkerStatusPie(startDate);
 	});
 	$("#thisYear").click(function(){
 		$(this).css("background-color","#409eff");
@@ -81,6 +86,7 @@ $(function(){
 		loadWorkerSourcePie(startDate);
 		loadWorkerCreateUserPie(startDate);
 		loadWorkerDegreePie(startDate);
+		loadWorkerStatusPie(startDate);
 	});
 	
 	loadCountTable();
@@ -88,6 +94,7 @@ $(function(){
 	loadWorkerSourcePie();
 	loadWorkerCreateUserPie();
 	loadWorkerDegreePie();
+	loadWorkerStatusPie();
 	
 	$("#type").change(function(){
 		var startDate = $("#startDate").val();
@@ -361,6 +368,62 @@ function loadWorkerDegreePie(startDate,endDate){
 							name: '占比',
 							colorByPoint: true,
 							data: workerDegreeSeries
+					}]
+				});
+			}
+		}
+	});
+}
+
+function loadWorkerStatusPie(startDate,endDate){
+	$.ajax({
+		url:"/report/workerStatusPie",
+		type:"get",
+		async:false,
+		dataType:"json",
+		data:{beginDate:startDate,endDate:endDate},
+		success:function(statusdata){
+			if(statusdata.code == 1){
+				var workerStatusSeries = [];
+				var data = statusdata.data;
+				for(var i=0; i<data.length; i++){
+					var info = data[i];
+					var obj = {};
+					obj.name = info.name;
+					obj.y = info.count;
+					workerStatusSeries.push(obj);
+				}
+				// 生产pie chart
+				Highcharts.chart('workerStatusPie', {
+					chart: {
+							plotBackgroundColor: null,
+							plotBorderWidth: null,
+							plotShadow: false,
+							type: 'pie'
+					},
+					title: {
+							text: '人才信息工作状态分布'
+					},
+					tooltip: {
+							pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>，数量：{point.y}'
+					},
+					plotOptions: {
+							pie: {
+									allowPointSelect: true,
+									cursor: 'pointer',
+									dataLabels: {
+											enabled: true,
+											format: '<b>{point.name}</b>: （{point.y}）{point.percentage:.1f} %',
+											style: {
+													color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+											}
+									}
+							}
+					},
+					series: [{
+							name: '占比',
+							colorByPoint: true,
+							data: workerStatusSeries
 					}]
 				});
 			}

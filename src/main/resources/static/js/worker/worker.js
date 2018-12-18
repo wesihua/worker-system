@@ -186,14 +186,25 @@ function query(currentPage,onPage){
 									"	<td>"+worker.sexName+"</td>"+
 									"	<td>"+(worker.age == null ? "" : worker.age)+"</td>"+
 									"	<td>"+(worker.title == null ? "" : worker.title)+"</td>"+
-									"	<td>"+(worker.jobtypeName == null ? "" : worker.jobtypeName)+"</td>"+
+									"	<td>"+(worker.jobtypeName == null ? "" : worker.jobtypeName)+"</td>";
+									if(worker.experienceList != null && worker.experienceList.length > 0){
+										var experience = worker.experienceList[0];
+										var beginTime = experience.beginTime == null ? "暂无" : experience.beginTime;
+										var endTime = experience.endTime == null ? "暂无" : experience.endTime;
+										tableContent += "<td>"+experience.company+"</td><td>"+beginTime+"-"+endTime+"</td>";
+									}
+									else{
+										tableContent += "<td></td><td></td>";
+									}
+									tableContent += "	<td>"+(worker.bank == null ? "" : worker.bank)+"</td>"+
+									"	<td>"+(worker.bankAccount == null ? "" : worker.bankAccount)+"</td>"+
 									"	<td>"+worker.workStatusName+"</td>"+
 									"	<td>"+worker.createUserName+"</td>"+
 									"	<td>"+worker.sourceName+"</td>"+
 									"	<td>"+worker.createTime+"</td>"+
 									"	<td><span class=\"des\" onClick=\"editWorker("+worker.id+")\">编辑</span>" +
 									"<span class=\"delete\" onClick=\"deleteWorker("+worker.id+")\">删除</span>" +
-									"<span class=\"delete\" onClick=\"downloadResume("+worker.id+")\">导出简历</span>" +
+									"<span class=\"delete\" onClick=\"downloadResume("+worker.id+")\">简历</span>" +
 									"<span class=\"delete\" onClick=\"detailWorker('"+worker.id+"','"+worker.createUserName+"')\">详情</span></td>"+
 									"</tr>";
 				}

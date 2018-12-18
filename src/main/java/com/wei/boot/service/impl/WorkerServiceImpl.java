@@ -126,6 +126,7 @@ public class WorkerServiceImpl implements WorkerService {
 		if(null != workerList && workerList.size() > 0) {
 			for(Worker info : workerList) {
 				translateWorker4Page(info);
+				info.setExperienceList(queryExperience(info.getId()));
 			}
 		}
 		int totalCount = workerMapper.selectCount(map);
@@ -474,6 +475,15 @@ public class WorkerServiceImpl implements WorkerService {
 			}
 			
 		}
+	}
+	
+	private List<WorkerExperience> queryExperience(Integer workerId){
+		List<WorkerExperience> list = new ArrayList<>();
+		WorkerExperienceExample example = new WorkerExperienceExample();
+		example.createCriteria().andWorkerIdEqualTo(workerId);
+		example.setOrderByClause(" begin_time desc ");
+		list = workerExperienceMapper.selectByExample(example);
+		return list;
 	}
 	
 	private void translateWorker4Page(Worker worker) {

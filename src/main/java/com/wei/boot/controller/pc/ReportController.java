@@ -123,6 +123,28 @@ public class ReportController {
 	}
 	
 	/**
+	 * 工作状态饼图
+	 * @param beginDate
+	 * @param endDate
+	 * @return
+	 */
+	@GetMapping("/workerStatusPie")
+	public Result workerStatusPie(String beginDate, String endDate) {
+		Result result = Result.SUCCESS;
+		try {
+			if(StringUtils.isEmpty(beginDate)) {
+				beginDate = getDefaultBeginDate();
+			}
+			List<ReportInfo> list = reportService.queryWorkerStatusPie(beginDate, endDate);
+			result.setData(list);
+		} catch (Exception e) {
+			log.error("查询失败", e);
+			result = Result.fail(e);
+		}
+		return result;
+	}
+	
+	/**
 	 * 录入人饼图
 	 * @param beginDate
 	 * @param endDate

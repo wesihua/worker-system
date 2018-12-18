@@ -479,4 +479,20 @@ public class ReportServiceImpl implements ReportService {
 		return demandOrderMapper.selectUserOrderReport(map);
 	}
 
+	@Override
+	public List<ReportInfo> queryWorkerStatusPie(String beginDate, String endDate) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Date beginTime = null;
+		Date endTime = null;
+		if(!StringUtils.isEmpty(beginDate)) {
+			beginTime = DateUtils.parseDate(beginDate+" 00:00:00", "yyyy-MM-dd HH:mm:ss");
+		}
+		if(!StringUtils.isEmpty(endDate)) {
+			endTime = DateUtils.parseDate(endDate+" 23:59:59", "yyyy-MM-dd HH:mm:ss");
+		}
+		map.put("beginTime", beginTime);
+		map.put("endTime", endTime);
+		return workerMapper.selectWorkStatusPie(map);
+	}
+
 }

@@ -73,6 +73,12 @@ public interface ReportService {
 	List<ReportInfo> queryWorkerDegreePie(String beginDate, String endDate);
 	
 	/**
+	 * 查询人才学历饼图
+	 * @return
+	 */
+	List<ReportInfo> queryWorkerStatusPie(String beginDate, String endDate);
+	
+	/**
 	 * 查询月份录入人才数量按月柱状图
 	 * @param beginDate
 	 * @param endDate
