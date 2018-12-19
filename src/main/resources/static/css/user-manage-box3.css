@@ -75,6 +75,7 @@
       #user-manage-box3 .box-content .middle .input-block  .c-datepicker-data-input{
           width: 87px;
           background-color: #f8f8f8;
+          text-indent: 0px;
         }
 
       #user-manage-box3 .box-content .middle .input-block .line {

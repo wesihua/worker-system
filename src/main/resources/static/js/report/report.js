@@ -111,6 +111,7 @@ function loadWorkerBar(startDate,endDate){
 		dataType:"json",
 		data:{beginDate:startDate,endDate:endDate,type:type},
 		success:function(workerdata){
+			var workerCount = 0;
 			if(workerdata.code == 1){
 				var workerCategories = [];
 				var workerSeries = [];
@@ -119,7 +120,9 @@ function loadWorkerBar(startDate,endDate){
 					var info = data[i];
 					workerCategories.push(info.name);
 					workerSeries.push(info.count);
+					workerCount += info.count;
 				}
+				$("#workerCount").html(workerCount);
 				// 生产bar chart
 				Highcharts.chart('workerBar', {
 				    chart: {
@@ -172,6 +175,7 @@ function loadWorkerSourcePie(startDate,endDate){
 		dataType:"json",
 		data:{beginDate:startDate,endDate:endDate},
 		success:function(sourcedata){
+			var totalCount = 0;
 			if(sourcedata.code == 1){
 				var workerSourceSeries = [];
 				var data = sourcedata.data;
@@ -181,7 +185,10 @@ function loadWorkerSourcePie(startDate,endDate){
 					obj.name = info.name;
 					obj.y = info.count;
 					workerSourceSeries.push(obj);
+					totalCount += info.count;
 				}
+				$("#totalCount").html("简历总数："+totalCount);
+				$("#sourceCount").html(totalCount);
 				// 生产pie chart
 				Highcharts.chart('workerSourcePie', {
 					chart: {
@@ -215,6 +222,7 @@ function loadWorkerSourcePie(startDate,endDate){
 							data: workerSourceSeries
 					}]
 				});
+				
 			}
 		}
 	});
@@ -229,6 +237,7 @@ function loadWorkerCreateUserPie(startDate,endDate){
 		dataType:"json",
 		data:{beginDate:startDate,endDate:endDate},
 		success:function(createUserdata){
+			var createUserCount = 0;
 			if(createUserdata.code == 1){
 				var barCategories = [];
 				var barData = [];
@@ -242,7 +251,10 @@ function loadWorkerCreateUserPie(startDate,endDate){
 					obj.name = info.name;
 					obj.y = info.count;
 					workerCreateUserSeries.push(obj);
+					createUserCount+= info.count;
 				}
+				$("#createUserCount").html(createUserCount);
+				$("#createUserBarCount").html(createUserCount);
 				// 生产pie chart
 				Highcharts.chart('workerCreateUserPie', {
 					chart: {
@@ -327,6 +339,7 @@ function loadWorkerDegreePie(startDate,endDate){
 		dataType:"json",
 		data:{beginDate:startDate,endDate:endDate},
 		success:function(degreedata){
+			var degreeCount = 0;
 			if(degreedata.code == 1){
 				var workerDegreeSeries = [];
 				var data = degreedata.data;
@@ -336,7 +349,9 @@ function loadWorkerDegreePie(startDate,endDate){
 					obj.name = info.name;
 					obj.y = info.count;
 					workerDegreeSeries.push(obj);
+					degreeCount += info.count;
 				}
+				$("#degreeCount").html(degreeCount);
 				// 生产pie chart
 				Highcharts.chart('workerDegreePie', {
 					chart: {
@@ -383,6 +398,7 @@ function loadWorkerStatusPie(startDate,endDate){
 		dataType:"json",
 		data:{beginDate:startDate,endDate:endDate},
 		success:function(statusdata){
+			var statusCount = 0;
 			if(statusdata.code == 1){
 				var workerStatusSeries = [];
 				var data = statusdata.data;
@@ -392,7 +408,9 @@ function loadWorkerStatusPie(startDate,endDate){
 					obj.name = info.name;
 					obj.y = info.count;
 					workerStatusSeries.push(obj);
+					statusCount += info.count;
 				}
+				$("#statusCount").html(statusCount);
 				// 生产pie chart
 				Highcharts.chart('workerStatusPie', {
 					chart: {
@@ -494,13 +512,13 @@ function getFirstDayOfMonth (date) {
 //获取当季第一天
 function getFirstDayOfSeason (date) {
     var month = date.getMonth();
-    if(month <3 ){
+    if(month <4 ){
         date.setMonth(0);
-    }else if(2 < month && month < 6){
+    }else if(3 < month && month < 7){
         date.setMonth(3);
-    }else if(5 < month && month < 9){
+    }else if(6 < month && month < 10){
         date.setMonth(6);
-    }else if(8 < month && month < 11){
+    }else if(9 < month && month < 13){
         date.setMonth(9);
     }
     date.setDate(1);

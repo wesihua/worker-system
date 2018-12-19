@@ -60,7 +60,7 @@ function querySignDetail(){
 									"	<th>工作地区</th>"+
 									"	<th>用工要求</th>"+
 									"	<th>用工人数</th>"+
-									"	<th>已分配人数</th>"+
+									"	<th>候选人</th>"+
 									"	<th>操作</th>"+
 									"</tr>";
 					for(var i=0; i<firmArr.length; i++){
@@ -87,8 +87,8 @@ function querySignDetail(){
 										"	<th>工作地区</th>"+
 										"	<th>用工要求</th>"+
 										"	<th>用工人数</th>"+
-										"	<th>签约人数</th>"+
-										"	<th>已分配人数</th>"+
+										"	<th>已签约人数</th>"+
+										"	<th>候选人</th>"+
 										"	<th>操作</th>"+
 										"</tr>";
 						
@@ -114,7 +114,7 @@ function querySignDetail(){
 										"	<th>工作地区</th>"+
 										"	<th>用工要求</th>"+
 										"	<th>用工人数</th>"+
-										"	<th>签约人数</th>"+
+										"	<th>已签约人数</th>"+
 										"	<th>操作</th>"+
 										"</tr>";
 						for(var i=0; i<firmArr.length; i++){

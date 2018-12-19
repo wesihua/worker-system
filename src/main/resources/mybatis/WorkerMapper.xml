@@ -1037,7 +1037,7 @@
   
   <select id="selectSourcePie" parameterType="map" resultType="com.wei.boot.model.report.ReportInfo">
   	SELECT
-		x.c count
+		x.c count,
 		c.NAME name
 	FROM
 		(

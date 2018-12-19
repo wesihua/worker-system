@@ -50,6 +50,22 @@
 						<li id="thisYear">本年</li>
 					</ul>
 				</div>
+				<div class="table-area">
+					<table cellpadding="0" cellspacing="0" id="someCount">
+						<thead>
+							<tr>
+								<th>招聘需求总数</th>
+								<th>订单总数</th>
+								<th>总签订人数</th>
+								<th>本公司总营收</th>
+								<th>员工接单总营收（已确认）</th>
+								<th>员工采集总营收（已确认）</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div>
 				<!-- <div class="data-result">
 					<span>2018-09-01</span><span>至</span><span>2018-09-02</span> <span
 						class="new">新增签单数</span><span class="n">23</span> <span
@@ -60,6 +76,7 @@
 						<option value="month">按月</option>
 						<option value="day">按日</option>
 					</select>
+					<div class="cnt" id="demandCount">0</div>
 					<div id="demandBar"></div>
 				</div>
 				<div class="oneBox1">
@@ -67,6 +84,7 @@
 						<option value="month">按月</option>
 						<option value="day">按日</option>
 					</select>
+					<div class="cnt" id="orderCount">0</div>
 					<div id="orderBar"></div>
 				</div>
 				<div class="oneBox1">
@@ -74,6 +92,7 @@
 						<option value="month">按月</option>
 						<option value="day">按日</option>
 					</select>
+					<div class="cnt" id="orderMemberCount">0</div>
 					<div id="orderMemberBar"></div>
 				</div>
 				<div class="oneBox1">
@@ -81,19 +100,24 @@
 						<option value="month">按月</option>
 						<option value="day">按日</option>
 					</select>
+					<div class="cnt" id="orderIncomeCount">0</div>
 					<div id="orderIncomeBar"></div>
 				</div>
 
 				<div class="oneBox3">
+					<div class="cnt2" id="demandTakerCount">0</div>
 					<div id="demandTakerPie"></div>
 				</div>
 				<div class="oneBox3">
+					<div class="cnt2" id="orderTakerCount">0</div>
 					<div id="orderTakerPie"></div>
 				</div>
 				<div class="oneBox3">
+					<div class="cnt2" id="orderMemberTakerCount">0</div>
 					<div id="orderMemberTakerPie"></div>
 				</div>
 				<div class="oneBox3">
+					<div class="cnt2" id="orderIncomeTakerCount">0</div>
 					<div id="orderIncomeTakerPie"></div>
 				</div>
 				<!-- <div class="twoBox">

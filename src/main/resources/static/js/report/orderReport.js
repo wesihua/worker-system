@@ -293,7 +293,7 @@ function renderOrderIncomeTakerPie(data){
 			text: '订单总收入接单人分布'
 		},
 		tooltip: {
-			pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>，数量：{point.y}'
+			pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>，金额：{point.y}元'
 		},
 		plotOptions: {
 			pie: {
@@ -301,7 +301,7 @@ function renderOrderIncomeTakerPie(data){
 				cursor: 'pointer',
 				dataLabels: {
 					enabled: true,
-					format: '<b>{point.name}</b>: （{point.y}）{point.percentage:.1f} %',
+					format: '<b>{point.name}</b>: （{point.y}元）{point.percentage:.1f} %',
 					style: {
 						color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
 					}
