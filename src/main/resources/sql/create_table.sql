@@ -256,6 +256,8 @@ CREATE TABLE t_yx_order_worker (
   order_id int(11) DEFAULT NULL COMMENT '订单id',
   sign_salary int(11) COMMENT '签约薪水',
   business_income varchar(20) DEFAULT '0.0' COMMENT '业务收入',
+  collect_user_income varchar(50) DEFAULT '0.0' COMMENT '采集人员收入',
+  undertake_user_income varchar(50) DEFAULT '0.0' COMMENT '接单人员收入',
   arrive_work_time datetime COMMENT '到岗时间',
   description varchar(255) DEFAULT NULL COMMENT '备注',
   create_user int(11) NOT NULL COMMENT '创建人',
