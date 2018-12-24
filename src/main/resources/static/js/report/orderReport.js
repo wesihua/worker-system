@@ -17,6 +17,7 @@ $(function(){
 	$("#query").click(function(){
 		var startDate = $("#startDate").val();
 		var endDate = $("#endDate").val();
+		loadTotalOrderCount(startDate,endDate);
 		loadBar(startDate, endDate);
 		loadPie(startDate, endDate);
 	});
@@ -27,6 +28,7 @@ $(function(){
 		$(this).siblings().css("color","#409eff");
 		var startDate = getNowFormatDate();
 		$("#startDate").val(startDate);
+		loadTotalOrderCount(startDate);
 		loadBar(startDate);
 		loadPie(startDate);
 	});
@@ -37,6 +39,7 @@ $(function(){
 		$(this).siblings().css("color","#409eff");
 		var startDate = getFirstDayOfWeek(new Date());
 		$("#startDate").val(startDate);
+		loadTotalOrderCount(startDate);
 		loadBar(startDate);
 		loadPie(startDate);
 	});
@@ -47,6 +50,7 @@ $(function(){
 		$(this).siblings().css("color","#409eff");
 		var startDate = getFirstDayOfMonth(new Date());
 		$("#startDate").val(startDate);
+		loadTotalOrderCount(startDate);
 		loadBar(startDate);
 		loadPie(startDate);
 	});
@@ -57,6 +61,7 @@ $(function(){
 		$(this).siblings().css("color","#409eff");
 		var startDate = getFirstDayOfSeason(new Date());
 		$("#startDate").val(startDate);
+		loadTotalOrderCount(startDate);
 		loadBar(startDate);
 		loadPie(startDate);
 	});
@@ -67,10 +72,11 @@ $(function(){
 		$(this).siblings().css("color","#409eff");
 		var startDate = getFirstDayOfYear(new Date());
 		$("#startDate").val(startDate);
+		loadTotalOrderCount(startDate);
 		loadBar(startDate);
 		loadPie(startDate);
 	});
-	
+	loadTotalOrderCount();
 	loadBar();
 	loadPie();
 	
@@ -108,7 +114,6 @@ function loadBar(startDate,endDate){
 		success:function(data){
 			if(data.code == 1){
 				var data = data.data;
-				
 				renderDemandBar(data.demandBar);
 				renderOrderBar(data.orderBar);
 				renderOrderMemberBar(data.orderMemberBar);
@@ -128,7 +133,6 @@ function loadPie(startDate,endDate){
 		success:function(data){
 			if(data.code == 1){
 				var data = data.data;
-				
 				renderDemandTakerPie(data.demandTakerPie);
 				renderOrderTakerPie(data.orderTakerPie);
 				renderOrderMemberTakerPie(data.orderMemberTakerPie);
@@ -138,8 +142,22 @@ function loadPie(startDate,endDate){
 	});
 }
 
-function loadWorkerBar(startDate,endDate){
-	var type = $("#type").val();
+function loadTotalOrderCount(startDate,endDate){
+	$.ajax({
+		url:"/report/totalOrderCountReport",
+		type:"get",
+		async:false,
+		dataType:"json",
+		data:{startDate:startDate,endDate:endDate},
+		success:function(data){
+			if(data.code == 1){
+				var data = data.data;
+				var content = "<tr><td>"+data.demandCount+"</td><td>"+data.orderCount+"</td>" +
+						"<td>"+data.orderMemberCount+"</td><td>"+data.orderIncome+"</td></tr>";
+				$("#someCount").find("tbody").empty().html(content);
+			}
+		}
+	});
 	
 }
 
@@ -322,11 +340,15 @@ function renderDemandBar(data){
 	var demandBarSeries = [];
 	
 	var demandData = data;
+	var demandCount = 0;
 	for(var i=0; i<demandData.length; i++){
 		var info = demandData[i];
 		demandBarCategories.push(info.name);
 		demandBarSeries.push(info.count);
+		demandCount += info.count;
 	}
+	$("#demandCount").text(demandCount);
+	$("#demandTakerCount").text(demandCount);
 	// 企业招聘需求bar chart
 	Highcharts.chart('demandBar', {
 	    chart: {
@@ -371,12 +393,15 @@ function renderOrderBar(data){
 	// 订单
 	var orderBarCategories = [];
 	var orderBarSeries = [];
-	
+	var orderCount = 0;
 	for(var i=0; i<orderData.length; i++){
 		var info = orderData[i];
 		orderBarCategories.push(info.name);
 		orderBarSeries.push(info.count);
+		orderCount+=info.count;
 	}
+	$("#orderCount").text(orderCount);
+	$("#orderTakerCount").text(orderCount);
 	// 订单bar chart
 	Highcharts.chart('orderBar', {
 	    chart: {
@@ -422,12 +447,15 @@ function renderOrderMemberBar(data){
 	// 订单人数
 	var orderMemberBarCategories = [];
 	var orderMemberBarSeries = [];
-	
+	var orderMemberCount = 0;
 	for(var i=0; i<orderMemberData.length; i++){
 		var info = orderMemberData[i];
 		orderMemberBarCategories.push(info.name);
 		orderMemberBarSeries.push(info.count);
+		orderMemberCount += info.count;
 	}
+	$("#orderMemberCount").text(orderMemberCount);
+	$("#orderMemberTakerCount").text(orderMemberCount);
 	// 订单签订人数bar chart
 	Highcharts.chart('orderMemberBar', {
 	    chart: {
@@ -473,11 +501,16 @@ function renderOrderIncomeBar(data){
 	// 订单金额
 	var orderIncomeBarCategories = [];
 	var orderIncomeBarSeries = [];
+	
+	var orderIncomeCount = 0;
 	for(var i=0; i<orderIncomeData.length; i++){
 		var info = orderIncomeData[i];
 		orderIncomeBarCategories.push(info.name);
 		orderIncomeBarSeries.push(info.count);
+		orderIncomeCount += info.count;
 	}
+	$("#orderIncomeCount").text(orderIncomeCount);
+	$("#orderIncomeTakerCount").text(orderIncomeCount);
 	// 订单签订金额bar chart
 	Highcharts.chart('orderIncomeBar', {
 		chart: {
@@ -552,13 +585,13 @@ function getFirstDayOfMonth (date) {
 //获取当季第一天
 function getFirstDayOfSeason (date) {
     var month = date.getMonth();
-    if(month <3 ){
+    if(month <4 ){
         date.setMonth(0);
-    }else if(2 < month && month < 6){
+    }else if(3 < month && month < 7){
         date.setMonth(3);
-    }else if(5 < month && month < 9){
+    }else if(6 < month && month < 10){
         date.setMonth(6);
-    }else if(8 < month && month < 11){
+    }else if(9 < month && month < 13){
         date.setMonth(9);
     }
     date.setDate(1);

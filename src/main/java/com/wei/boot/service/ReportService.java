@@ -183,4 +183,6 @@ public interface ReportService {
 	Page<CompanyReportInfo> queryCompanyOrderReport(String startDate, String endDate, String companyName, Page<CompanyReportInfo> page);
 	
 	List<CompanyReportInfo> queryUserOrderReport(String startDate, String endDate, String userName);
+	
+	CompanyReportInfo queryTotalOrderCount(String startDate, String endDate);
 }

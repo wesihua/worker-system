@@ -495,4 +495,20 @@ public class ReportServiceImpl implements ReportService {
 		return workerMapper.selectWorkStatusPie(map);
 	}
 
+	@Override
+	public CompanyReportInfo queryTotalOrderCount(String startDate, String endDate) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Date beginTime = null;
+		Date endTime = null;
+		if(!StringUtils.isEmpty(startDate)) {
+			beginTime = DateUtils.parseDate(startDate+" 00:00:00", "yyyy-MM-dd HH:mm:ss");
+		}
+		if(!StringUtils.isEmpty(endDate)) {
+			endTime = DateUtils.parseDate(endDate+" 23:59:59", "yyyy-MM-dd HH:mm:ss");
+		}
+		map.put("beginTime", beginTime);
+		map.put("endTime", endTime);
+		return demandOrderMapper.selectTotalOrderCount(map);
+	}
+
 }

@@ -73,6 +73,8 @@ function query(){
 									"	<td>"+order.orderCount+"</td>"+
 									"	<td>"+order.orderMemberCount+"</td>"+
 									"	<td>"+order.orderIncome+"</td>"+
+									"	<td>"+order.undertakeIncome+"</td>"+
+									"	<td>"+order.collectIncome+"</td>"+
 									"</tr>";
 				}
 				$("#order_table").find("tbody").empty().append(tableContent);

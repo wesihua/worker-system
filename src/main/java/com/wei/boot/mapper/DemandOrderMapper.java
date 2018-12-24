@@ -130,4 +130,6 @@ public interface DemandOrderMapper {
 	int selectSigningCountByDemandId(Integer demandId);
     
 	List<DemandOrder> selectByDemandId(int demandId);
+	
+	CompanyReportInfo selectTotalOrderCount(Map<String, Object> map);
 }

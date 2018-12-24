@@ -546,28 +546,28 @@
   <select id="selectOrderCount" resultType="map">
   	select '新增订单' name,
 	(select count(0) from t_yx_demand_order t where DATEDIFF(t.create_time, curdate()) = 0) day,
-	(select count(0) from t_yx_demand_order t where t.create_time >= date_sub(curdate(),interval WEEKDAY(curdate()) day)) week,
-	(select count(0) from t_yx_demand_order t where t.create_time >= date_sub(curdate(),interval DAY(curdate())-1 day)) month,
-	(select count(0) from t_yx_demand_order t where t.create_time >= date(concat(year(curdate()),'-',elt(quarter(curdate()),1,4,7,10),'-',1))) season,
-	(select count(0) from t_yx_demand_order t where t.create_time >= DATE_SUB(CURDATE(),INTERVAL dayofyear(now())-1 DAY)) year
+	(select count(0) from t_yx_demand_order t where t.create_time &gt;= date_sub(curdate(),interval WEEKDAY(curdate()) day)) week,
+	(select count(0) from t_yx_demand_order t where t.create_time &gt;= date_sub(curdate(),interval DAY(curdate())-1 day)) month,
+	(select count(0) from t_yx_demand_order t where t.create_time &gt;= date(concat(year(curdate()),'-',elt(quarter(curdate()),1,4,7,10),'-',1))) season,
+	(select count(0) from t_yx_demand_order t where t.create_time &gt;= DATE_SUB(CURDATE(),INTERVAL dayofyear(now())-1 DAY)) year
   </select>
   
   <select id="selectIncomeCount" resultType="map">
   	select '新增营收' name,
 	(select ifnull(sum(cast(t.total_income as  decimal(10,2))),0) from t_yx_demand_order t where DATEDIFF(t.create_time, curdate()) = 0) day,
-	(select ifnull(sum(cast(t.total_income as  decimal(10,2))),0) from t_yx_demand_order t where t.create_time >= date_sub(curdate(),interval WEEKDAY(curdate()) day)) week,
-	(select ifnull(sum(cast(t.total_income as  decimal(10,2))),0) from t_yx_demand_order t where t.create_time >= date_sub(curdate(),interval DAY(curdate())-1 day)) month,
-	(select ifnull(sum(cast(t.total_income as  decimal(10,2))),0) from t_yx_demand_order t where t.create_time >= date(concat(year(curdate()),'-',elt(quarter(curdate()),1,4,7,10),'-',1))) season,
-	(select ifnull(sum(cast(t.total_income as  decimal(10,2))),0) from t_yx_demand_order t where t.create_time >= DATE_SUB(CURDATE(),INTERVAL dayofyear(now())-1 DAY)) year
+	(select ifnull(sum(cast(t.total_income as  decimal(10,2))),0) from t_yx_demand_order t where t.create_time &gt;= date_sub(curdate(),interval WEEKDAY(curdate()) day)) week,
+	(select ifnull(sum(cast(t.total_income as  decimal(10,2))),0) from t_yx_demand_order t where t.create_time &gt;= date_sub(curdate(),interval DAY(curdate())-1 day)) month,
+	(select ifnull(sum(cast(t.total_income as  decimal(10,2))),0) from t_yx_demand_order t where t.create_time &gt;= date(concat(year(curdate()),'-',elt(quarter(curdate()),1,4,7,10),'-',1))) season,
+	(select ifnull(sum(cast(t.total_income as  decimal(10,2))),0) from t_yx_demand_order t where t.create_time &gt;= DATE_SUB(CURDATE(),INTERVAL dayofyear(now())-1 DAY)) year
   </select>
   
   <select id="selectOrderWorkerCount" resultType="map">
   	select '新增签订人数' name,
 	(select ifnull(sum(worker_count),0) from t_yx_demand_order t where DATEDIFF(t.create_time, curdate()) = 0) day,
-	(select ifnull(sum(worker_count),0) from t_yx_demand_order t where t.create_time >= date_sub(curdate(),interval WEEKDAY(curdate()) day)) week,
-	(select ifnull(sum(worker_count),0) from t_yx_demand_order t where t.create_time >= date_sub(curdate(),interval DAY(curdate())-1 day)) month,
-	(select ifnull(sum(worker_count),0) from t_yx_demand_order t where t.create_time >= date(concat(year(curdate()),'-',elt(quarter(curdate()),1,4,7,10),'-',1))) season,
-	(select ifnull(sum(worker_count),0) from t_yx_demand_order t where t.create_time >= DATE_SUB(CURDATE(),INTERVAL dayofyear(now())-1 DAY)) year
+	(select ifnull(sum(worker_count),0) from t_yx_demand_order t where t.create_time &gt;= date_sub(curdate(),interval WEEKDAY(curdate()) day)) week,
+	(select ifnull(sum(worker_count),0) from t_yx_demand_order t where t.create_time &gt;= date_sub(curdate(),interval DAY(curdate())-1 day)) month,
+	(select ifnull(sum(worker_count),0) from t_yx_demand_order t where t.create_time &gt;= date(concat(year(curdate()),'-',elt(quarter(curdate()),1,4,7,10),'-',1))) season,
+	(select ifnull(sum(worker_count),0) from t_yx_demand_order t where t.create_time &gt;= DATE_SUB(CURDATE(),INTERVAL dayofyear(now())-1 DAY)) year
   </select>
   <select id="selectCompanyOrderReport" parameterType="map" resultType="com.wei.boot.model.report.CompanyReportInfo">
   	SELECT
@@ -622,7 +622,9 @@
 		ifnull( y.demand_count, 0 ) demandCount,
 		ifnull( z.orderCount, 0 ) orderCount,
 		ifnull( orderMemberCount, 0 ) orderMemberCount,
-		ifnull( orderIncome, 0 ) orderIncome 
+		ifnull( orderIncome, 0 ) orderIncome, 
+		ifnull( m.undertakeIncome, 0) undertakeIncome,
+		ifnull( n.collectIncome, 0) collectIncome
 	FROM
 		t_sys_user u
 		LEFT JOIN ( SELECT count( 0 ) worker_count, create_user FROM t_yx_worker where 1=1
@@ -660,6 +662,26 @@
 				</if>
 				 group by d1.undertake_user
 				) z ON u.id = z.undertake_user
+		LEFT JOIN (select w.create_user, sum( cast( w.undertake_user_income AS DECIMAL ( 10, 2 ) ) ) undertakeIncome from t_yx_order_worker w 
+		where 1=1 
+		<if test="beginTime != null">
+			and w.create_time &gt;= #{beginTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="endTime != null">
+			and w.create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+		</if>
+		
+		 group by w.create_user) m
+		on u.id = m.create_user
+		left join (select w.create_user,sum( cast( ow.collect_user_income AS DECIMAL ( 10, 2 ) ) ) collectIncome from t_yx_order_worker ow,t_yx_worker w where ow.worker_id = w.id 
+		<if test="beginTime != null">
+			and ow.create_time &gt;= #{beginTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="endTime != null">
+			and ow.create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+		</if>
+		 group by w.create_user) n
+		on u.id = n.create_user
 		where 1=1
 		<if test="userName != null">
 			and u.real_name like #{userName,jdbcType=VARCHAR}
@@ -670,5 +692,31 @@
   <select id="selectByDemandId" parameterType="int" resultMap="BaseResultMap">
   	select u.real_name create_user_name,t.* from t_yx_demand_order t,t_sys_user u where t.create_user = u.id
   	and t.demand_id = #{demandId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectTotalOrderCount" parameterType="map" resultType="com.wei.boot.model.report.CompanyReportInfo">
+  	SELECT
+		( SELECT count( 1 ) demand_count FROM t_yx_demand where 1=1
+		<if test="beginTime != null">
+			and create_time &gt;= #{beginTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="endTime != null">
+			and create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+		</if>
+		 ) demandCount,
+		count( 1 ) orderCount,
+		sum( o.worker_count ) orderMemberCount,
+		ifnull(sum( cast( o.total_income AS DECIMAL ( 10, 2 ) ) ),0) orderIncome 
+	FROM
+		t_yx_demand d,
+		t_yx_demand_order o 
+	WHERE
+		d.id = o.demand_id
+		<if test="beginTime != null">
+			and o.create_time &gt;= #{beginTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="endTime != null">
+			and o.create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+		</if>
   </select>
 </mapper>

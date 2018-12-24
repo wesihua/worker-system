@@ -18,6 +18,26 @@ public class CompanyReportInfo {
 	
 	private int workerCount;
 	
+	private BigDecimal undertakeIncome;
+	
+	private BigDecimal collectIncome;
+	
+	public BigDecimal getUndertakeIncome() {
+		return undertakeIncome;
+	}
+
+	public void setUndertakeIncome(BigDecimal undertakeIncome) {
+		this.undertakeIncome = undertakeIncome;
+	}
+
+	public BigDecimal getCollectIncome() {
+		return collectIncome;
+	}
+
+	public void setCollectIncome(BigDecimal collectIncome) {
+		this.collectIncome = collectIncome;
+	}
+
 	public String getUserName() {
 		return userName;
 	}
