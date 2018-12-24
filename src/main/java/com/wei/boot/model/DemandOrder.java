@@ -107,8 +107,68 @@ public class DemandOrder {
     private String endTime;
     
     private String createUserName;
+    
+    private Integer confirmState;
+    
+    private Integer confirmUser;
+    
+    private Date confirmTime;
+    
+    private String rejectReason;
+    
+    private String confirmStateName;
+    
+    private String confirmUserName;
 
-    public String getCreateUserName() {
+    public Integer getConfirmState() {
+		return confirmState;
+	}
+
+	public void setConfirmState(Integer confirmState) {
+		this.confirmState = confirmState;
+	}
+
+	public Integer getConfirmUser() {
+		return confirmUser;
+	}
+
+	public void setConfirmUser(Integer confirmUser) {
+		this.confirmUser = confirmUser;
+	}
+
+	public Date getConfirmTime() {
+		return confirmTime;
+	}
+
+	public void setConfirmTime(Date confirmTime) {
+		this.confirmTime = confirmTime;
+	}
+
+	public String getRejectReason() {
+		return rejectReason;
+	}
+
+	public void setRejectReason(String rejectReason) {
+		this.rejectReason = rejectReason;
+	}
+
+	public String getConfirmStateName() {
+		return confirmStateName;
+	}
+
+	public void setConfirmStateName(String confirmStateName) {
+		this.confirmStateName = confirmStateName;
+	}
+
+	public String getConfirmUserName() {
+		return confirmUserName;
+	}
+
+	public void setConfirmUserName(String confirmUserName) {
+		this.confirmUserName = confirmUserName;
+	}
+
+	public String getCreateUserName() {
 		return createUserName;
 	}
 

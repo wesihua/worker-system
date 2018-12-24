@@ -21,6 +21,12 @@
     <result column="update_user" jdbcType="INTEGER" property="updateUser" />
     <result column="company_name" jdbcType="VARCHAR" property="companyName" />
     <result column="create_user_name" jdbcType="VARCHAR" property="createUserName" />
+    <result column="confirm_state" jdbcType="INTEGER" property="confirmState" />
+    <result column="confirm_user" jdbcType="INTEGER" property="confirmUser" />
+    <result column="confirm_time" jdbcType="TIMESTAMP" property="confirmTime" />
+    <result column="reject_reason" jdbcType="VARCHAR" property="rejectReason" />
+    <result column="confirm_state_name" jdbcType="VARCHAR" property="confirmStateName" />
+    <result column="confirm_user_name" jdbcType="VARCHAR" property="confirmUserName" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <!--
@@ -97,7 +103,8 @@
       This element was generated on Sun Oct 21 16:49:38 CST 2018.
     -->
     id, demand_id, order_number, worker_count, operator_user, customer, total_income, 
-    description, create_user, create_time, update_time, update_user
+    description, create_user, create_time, update_time, update_user, confirm_state, confirm_user,
+    confirm_time, reject_reason
   </sql>
   <select id="selectByExample" parameterType="com.wei.boot.model.DemandOrderExample" resultMap="BaseResultMap">
     <!--
@@ -158,12 +165,15 @@
     insert into t_yx_demand_order (id, demand_id, order_number, 
       worker_count, operator_user, customer, 
       total_income, description, create_user, 
-      create_time, update_time, update_user
+      create_time, update_time, update_user,
+      confirm_state, confirm_user, confirm_time, reject_reason
       )
     values (#{id,jdbcType=INTEGER}, #{demandId,jdbcType=INTEGER}, #{orderNumber,jdbcType=VARCHAR}, 
       #{workerCount,jdbcType=INTEGER}, #{operatorUser,jdbcType=INTEGER}, #{customer,jdbcType=VARCHAR}, 
       #{totalIncome,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{createUser,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=INTEGER}
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=INTEGER},
+      #{confirmState,jdbcType=INTEGER},#{confirmUser,jdbcType=INTEGER},#{confirmTime,jdbcType=TIMESTAMP},
+      #{rejectReason,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.wei.boot.model.DemandOrder">
@@ -214,6 +224,18 @@
       <if test="updateUser != null">
         update_user,
       </if>
+      <if test="confirmState != null">
+        confirm_state,
+      </if>
+      <if test="confirmUser != null">
+        confirm_user,
+      </if>
+      <if test="confirmTime != null">
+        confirm_time,
+      </if>
+      <if test="rejectReason != null">
+        reject_reason,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -251,6 +273,18 @@
       </if>
       <if test="updateUser != null">
         #{updateUser,jdbcType=INTEGER},
+      </if>
+      <if test="confirmState != null">
+        #{confirmState,jdbcType=INTEGER},
+      </if>
+      <if test="confirmUser != null">
+        #{confirmUser,jdbcType=INTEGER},
+      </if>
+      <if test="confirmTime != null">
+        #{confirmTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rejectReason != null">
+        #{rejectReason,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -378,6 +412,18 @@
       <if test="updateUser != null">
         update_user = #{updateUser,jdbcType=INTEGER},
       </if>
+      <if test="confirmState != null">
+        confirm_state = #{confirmState,jdbcType=INTEGER},
+      </if>
+      <if test="confirmUser != null">
+        confirm_user = #{confirmUser,jdbcType=INTEGER},
+      </if>
+      <if test="confirmTime != null">
+        confirm_time = #{confirmTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rejectReason != null">
+        reject_reason = #{rejectReason,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -398,7 +444,11 @@
       create_user = #{createUser,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      update_user = #{updateUser,jdbcType=INTEGER}
+      update_user = #{updateUser,jdbcType=INTEGER},
+      confirm_state = #{confirmState,jdbcType=INTEGER},
+      confirm_user = #{confirmUser,jdbcType=INTEGER},
+      confirm_time = #{confirmTime,jdbcType=TIMESTAMP},
+      reject_reason = #{rejectReason,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   

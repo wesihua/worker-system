@@ -22,6 +22,8 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="idcard" jdbcType="VARCHAR" property="idcard" />
     <result column="job_type_name" jdbcType="VARCHAR" property="jobTypeName" />
+    <result column="undertake_user_income" jdbcType="VARCHAR" property="undertakeUserIncome" />
+    <result column="collect_user_income" jdbcType="VARCHAR" property="collectUserIncome" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <!--
@@ -98,7 +100,8 @@
       This element was generated on Sun Oct 21 16:58:48 CST 2018.
     -->
     id, demand_job_id, worker_id, order_id, sign_salary, business_income, arrive_work_time, 
-    description, create_user, create_time, update_user, update_time
+    description, create_user, create_time, update_user, update_time, undertake_user_income,
+    collect_user_time
   </sql>
   <select id="selectByExample" parameterType="com.wei.boot.model.OrderWorkerExample" resultMap="BaseResultMap">
     <!--
@@ -159,12 +162,14 @@
     insert into t_yx_order_worker (id, demand_job_id, worker_id, 
       order_id, sign_salary, business_income, 
       arrive_work_time, description, create_user, 
-      create_time, update_user, update_time
+      create_time, update_user, update_time,
+      undertake_user_income, collect_user_income
       )
     values (#{id,jdbcType=INTEGER}, #{demandJobId,jdbcType=INTEGER}, #{workerId,jdbcType=INTEGER}, 
       #{orderId,jdbcType=INTEGER}, #{signSalary,jdbcType=VARCHAR}, #{businessIncome,jdbcType=VARCHAR}, 
       #{arriveWorkTime,jdbcType=TIMESTAMP}, #{description,jdbcType=VARCHAR}, #{createUser,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}
+      #{createTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP},
+      #{undertakeUserIncome,jdbcType=VARCHAR}, #{collectUserIncome,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.wei.boot.model.OrderWorker">
@@ -211,6 +216,12 @@
       <if test="updateTime != null">
         update_time,
       </if>
+      <if test="undertakeUserIncome != null">
+        undertake_user_income,
+      </if>
+      <if test="collectUserIncome != null">
+        collect_user_income,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -248,6 +259,12 @@
       </if>
       <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="undertakeUserIncome != null">
+        #{undertakeUserIncome,jdbcType=VARCHAR},
+      </if>
+      <if test="collectUserIncome != null">
+        #{collectUserIncome,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -375,6 +392,12 @@
       <if test="updateTime != null">
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="undertakeUserIncome != null">
+        undertake_user_income = #{undertakeUserIncome,jdbcType=VARCHAR},
+      </if>
+      <if test="collectUserIncome != null">
+        collect_user_income = #{collectUserIncome,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -395,7 +418,9 @@
       create_user = #{createUser,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_user = #{updateUser,jdbcType=INTEGER},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      undertake_user_income = #{undertakeUserIncome,jdbcType=VARCHAR},
+      collect_user_income = #{collectUserIncome,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   

@@ -110,7 +110,27 @@ public class OrderWorker {
     
     private Worker worker;
     
-    public String getName() {
+    private String collectUserIncome;
+    
+    private String undertakeUserIncome;
+    
+    public String getCollectUserIncome() {
+		return collectUserIncome;
+	}
+
+	public void setCollectUserIncome(String collectUserIncome) {
+		this.collectUserIncome = collectUserIncome;
+	}
+
+	public String getUndertakeUserIncome() {
+		return undertakeUserIncome;
+	}
+
+	public void setUndertakeUserIncome(String undertakeUserIncome) {
+		this.undertakeUserIncome = undertakeUserIncome;
+	}
+
+	public String getName() {
 		return name;
 	}
 
