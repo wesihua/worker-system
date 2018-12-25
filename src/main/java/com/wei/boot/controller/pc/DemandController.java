@@ -3,6 +3,7 @@ package com.wei.boot.controller.pc;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,15 +17,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wei.boot.contant.GlobalConstant.OrderWorkerState;
+import com.wei.boot.model.Company;
 import com.wei.boot.model.Demand;
 import com.wei.boot.model.DemandQuery;
 import com.wei.boot.model.DemandStateStatistic;
 import com.wei.boot.model.OrderWorker;
 import com.wei.boot.model.Page;
 import com.wei.boot.model.Result;
+import com.wei.boot.model.excel.ExcelData;
+import com.wei.boot.model.excel.ExcelRow;
 import com.wei.boot.model.signing.JobTypeModel;
 import com.wei.boot.model.signing.OrderModel;
 import com.wei.boot.service.DemandService;
+import com.wei.boot.util.ExcelUtil;
 import com.wei.boot.util.JsonUtil;
 import com.wei.boot.util.ToolsUtil;
 
@@ -386,5 +391,45 @@ public class DemandController {
 			result = Result.fail("查询需求单详情失败！");
 		}
 		return result;
+	}
+	
+	
+	/**
+	 * 导出
+	 * @param response
+	 * @param company
+	 */
+	@ApiOperation(value = "导出",notes = "")
+	@GetMapping("/export")
+	public void export(HttpServletResponse response, HttpServletRequest request, DemandQuery parameters) {
+		try {
+			Page<Demand> page = new Page<>();
+			page.setPageSize(20000);
+			int userId = ToolsUtil.getUserId(request);
+			parameters.setUserId(userId);
+			List<Demand> list = demandService.queryDemand(page, parameters).getData();
+			if (null != list && !list.isEmpty()) {
+				ExcelRow headers = ExcelUtil.excelHeaders("客户名称", "招聘编号", "状态", "创建时间", "创建人");
+				ExcelData data = new ExcelData();
+				for (Demand info : list) {
+					ExcelRow row = new ExcelRow();
+					row.add(info.getCompanyName());
+					row.add(info.getDemandNumber());
+					row.add(info.getStateName());
+					row.add(info.getCreateTime());
+					row.add(info.getCreateUserName());
+//					row.add(info.getBankAccount());
+//					row.add(info.getCount());
+//					row.add(info.getContactName());
+//					row.add(info.getContactPhone());
+//					row.add(info.getAddress());
+					
+					data.add(row);
+				}
+				ExcelUtil.exportExcel(headers, data, "订单信息.xls", response);
+			}
+		} catch (Exception e) {
+			log.error("导出失败", e);
+		}
 	}
 }

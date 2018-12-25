@@ -16,6 +16,16 @@ $(function(){
 	$("#query-bottom").click(function(){
 		query(1);
 	});
+	
+	
+	$("#download").click(function(){
+		var parameters = "companyName=" + $("#companyName").val() +
+		"&demandNumber=" + $("#demandNo").val() +
+		"&createBeginTimeStr=" + $("#beginTime").val() +
+		"&createEndTimeStr=" + $("#endTime").val() +
+		"&state=" + $("input:hidden[name='state']").val();
+		window.open("/demand/export?"+parameters);
+	});
 
 });
 
