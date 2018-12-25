@@ -221,6 +221,7 @@ CREATE TABLE t_yx_demand_job (
   gender int(11) DEFAULT NULL COMMENT '性别要求',
   age varchar(50) DEFAULT NULL COMMENT '年龄要求',
   degree int(11) DEFAULT NULL COMMENT '学历要求',
+  major varchar(50) NULL COMMENT '专业要求',
   requirement varchar(255) DEFAULT NULL COMMENT '用工要求',
   create_user int(11) NOT NULL COMMENT '创建人',
   create_time datetime NOT NULL COMMENT '创建时间',

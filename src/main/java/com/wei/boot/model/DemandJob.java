@@ -181,9 +181,17 @@ public class DemandJob {
     
     
     
-    
+    private String major;
 
-    public String getJobTypeName() {
+    public String getMajor() {
+		return major;
+	}
+
+	public void setMajor(String major) {
+		this.major = major;
+	}
+
+	public String getJobTypeName() {
 		return jobTypeName;
 	}
 
