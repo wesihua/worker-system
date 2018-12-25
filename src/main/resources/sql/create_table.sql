@@ -240,7 +240,7 @@ CREATE TABLE t_yx_demand_order (
   operator_user int(11) DEFAULT NULL COMMENT '经手人',
   customer varchar(50) DEFAULT NULL COMMENT '客户负责人',
   total_income varchar(20) DEFAULT '0.0' COMMENT '订单收入总额',
-  confirm_state int(11) NULL COMMENT '确认状态 0:待确认，1:被驳回，2：已确认',
+  confirm_state int(11) DEFAULT 0 COMMENT '确认状态 0:待确认，1:被驳回，2：已确认',
   confirm_user int(11) NULL COMMENT '确认人',
   confirm_time datetime NULL COMMENT '确认时间',
   reject_reason varchar(255) NULL COMMENT '驳回原因',

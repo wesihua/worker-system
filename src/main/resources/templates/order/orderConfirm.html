@@ -13,7 +13,7 @@
 <script src="../js/jquery.pagination.min.js"></script>
 <script src="../datepicker/js/plugins/moment.min.js"></script>
 <script src="../datepicker/js/datepicker.all.js"></script>
-<script src="../js/order/order.js"></script>
+<script src="../js/order/orderConfirm.js"></script>
 </head>
 <body>
 	<div id="content">
@@ -52,7 +52,9 @@
 							<th>订单编号</th>
 							<th>总签订人数</th>
 							<th>总签订金额</th>
-							<th>客户负责人</th>
+							<th>接单金额</th>
+							<th>采集金额</th>
+							<th>采集人</th>
 							<th>接单人</th>
 							<th>确认人</th>
 							<th>确认时间</th>
@@ -114,7 +116,25 @@
 				</div>
 			</div>
 		</div>
-
+		
+		<!-- 驳回弹框部分 -->
+		<div id="reject-order-dialog" style="display:none;z-index:9">
+			<div class="qiandan-manage-box1">
+				<div class="mask"></div>
+				<div class="box-content">
+					<div class="head">
+						<span class="title">驳回原因</span><span class="close fa fa-close" id="close-dialog"></span>
+					</div>
+					<div class="middle">
+						<textarea id="reject-order-textarea"></textarea>
+					</div>
+					<div class="bottom">
+						<span class="public-bottom1 cancel-dialog" >取消</span> 
+						<span class="public-bottom2 on" id="reject-order">确定</span>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </body>
 </html>

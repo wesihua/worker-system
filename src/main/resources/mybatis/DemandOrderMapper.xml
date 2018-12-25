@@ -452,6 +452,28 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   
+  <update id="confirmOrder" parameterType="map">
+    update t_yx_demand_order
+    <set>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="confirmState != null">
+        confirm_state = #{confirmState,jdbcType=INTEGER},
+      </if>
+      <if test="confirmUser != null">
+        confirm_user = #{confirmUser,jdbcType=INTEGER},
+      </if>
+      <if test="confirmTime != null">
+        confirm_time = #{confirmTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rejectReason != null">
+        reject_reason = #{rejectReason,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{orderId,jdbcType=INTEGER}
+  </update>
+  
   <select id="selectAllOrderCount" resultType="int">
   	select count(1) from t_yx_demand_order
   </select>

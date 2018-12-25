@@ -114,7 +114,27 @@ public class OrderWorker {
     
     private String undertakeUserIncome;
     
-    public String getCollectUserIncome() {
+    private Integer workerCreateUser;
+    
+    private String workerCreateUserName;
+    
+    public Integer getWorkerCreateUser() {
+		return workerCreateUser;
+	}
+
+	public void setWorkerCreateUser(Integer workerCreateUser) {
+		this.workerCreateUser = workerCreateUser;
+	}
+
+	public String getWorkerCreateUserName() {
+		return workerCreateUserName;
+	}
+
+	public void setWorkerCreateUserName(String workerCreateUserName) {
+		this.workerCreateUserName = workerCreateUserName;
+	}
+
+	public String getCollectUserIncome() {
 		return collectUserIncome;
 	}
 
