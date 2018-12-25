@@ -34,6 +34,7 @@ function loadDemandInfo(){
 			if(data.code == 1){
 				var info = data.data;
 				$("#companyName").text(info.companyName);
+				$("#demandNumber").text(info.demandNumber);
 				$("#undertakeUserName").text(info.undertakeUserName);
 				$("#undertakeTime").text(info.undertakeTime);
 				$("#workerCount").text(info.workCount);
@@ -67,6 +68,7 @@ function displayDemandJobTable(demandJobList){
 			"	<td>"+(job.genderName == null ? "" : job.genderName)+"</td>"+
 			"	<td>"+(job.age == null ? "" : job.age)+"</td>"+
 			"	<td>"+(job.degreeName == null ? "" : job.degreeName)+"</td>"+
+			"	<td>"+(job.major == null ? "" : job.major)+"</td>"+
 			"	<td>"+(job.requirement == null ? "" : job.requirement)+"</td>"+
 			"</tr>";
 		$("#demand-job-table").find("tbody").empty().append(tableContent);
@@ -81,6 +83,10 @@ function displayDemandOrderTable(demandOrderList){
 		"	<td>"+order.workerCount+"</td>"+
 		"	<td>"+order.totalIncome+"</td>"+
 		"	<td>"+(order.customer == null ? "" : order.customer)+"</td>"+
+		"	<td>"+(order.confirmUserName == null ? "" : order.confirmUserName)+"</td>"+
+		"	<td>"+(order.confirmTime == null ? "" : order.confirmTime)+"</td>"+
+		"	<td>"+(order.confirmStateName == null ? "" : order.confirmStateName)+"</td>"+
+		"	<td>"+(order.rejectReason == null ? "" : order.rejectReason)+"</td>"+
 		"	<td>"+(order.description == null ? "" : order.description)+"</td>"+
 		"	<td>"+(order.createUserName == null ? "" : order.createUserName)+"</td>"+
 		"	<td>"+(order.createTime == null ? "" : order.createTime)+"</td>"+
@@ -110,8 +116,10 @@ function openDialog(id){
 									"	<td>"+(order.name == null ? "" : order.name)+"</td>"+
 									"	<td>"+(order.idcard == null ? "" : order.idcard)+"</td>"+
 									"	<td>"+(order.jobTypeName == null ? "" : order.jobTypeName)+"</td>"+
-									"	<td>"+(order.businessIncome == null ? "0.0" : order.businessIncome)+"</td>"+
 									"	<td>"+(order.signSalary == null ? "" : order.signSalary)+"</td>"+
+									"	<td>"+(order.businessIncome == null ? "0" : order.businessIncome)+"</td>"+
+									"	<td>"+(order.undertakeUserIncome == null ? "0" : order.undertakeUserIncome)+"</td>"+
+									"	<td>"+(order.collectUserIncome == null ? "0" : order.collectUserIncome)+"</td>"+
 									"	<td>"+(order.description == null ? "" : order.description)+"</td>"+
 									"	<td>"+order.createTime+"</td>"+
 									"</tr>";

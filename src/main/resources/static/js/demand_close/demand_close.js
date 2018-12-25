@@ -17,19 +17,16 @@ $(function(){
 		query(1);
 	});
 	$("#download").click(function(){
-		var workerName = $("#workerName").val();
-		var telephone = $("#telephone").val();
-		var idcard = $("#idcard").val();
-		var firstId = $("#firstId").val();
-		var secondId = $("#secondId").val();
-		var createUser = $("#createUser").val();
-		var source = $("#source").val();
-		//var workStatus = $("#workStatus").val();
+		var companyName = $("#companyName").val();
+		var demandNumber = $("#demandNumber").val();
+		var undertakeUserName = $("#undertakeUserName").val();
+		var closeUserName = $("#closeUserName").val();
+		var state = $("#state").val();
 		var beginTime = $("#beginTime").val();
 		var endTime = $("#endTime").val();
-		window.open("/worker/export?name="+workerName+"&telephone="+telephone+"" +
-				"&idcard="+idcard+"&firstId="+firstId+"&secondId="+secondId+"" +
-				"&createUser="+createUser+"&source="+source+"&beginTime="+beginTime+"&endTime="+endTime);
+		window.open("/demand/queryByPage4CloseExport?companyName="+companyName+"&demandNumber="+demandNumber+"" +
+				"&undertakeUserName="+undertakeUserName+"&closeUserName="+closeUserName+"&state="+state+"" +
+				"&beginTime="+beginTime+"&endTime="+endTime);
 	});
 	
 	$('.J-datepicker-range').datePicker({
@@ -82,14 +79,28 @@ function query(currentPage){
 					var worker = workerArr[i];
 					tableContent+=  "<tr>"+
 									"	<td>"+worker.demandNumber+"</td>"+
-									"	<td>"+worker.companyName+"</td>"+
-									"	<td>"+worker.undertakeUserName+"</td>"+
-									"	<td>"+(worker.undertakeTime == null ? "" : worker.undertakeTime)+"</td>"+
+									"	<td>"+worker.companyName+"</td>";
+									if(worker.demandJobList != null && worker.demandJobList.length > 0){
+										var demandJob = worker.demandJobList[0];
+										tableContent+= "<td>"+demandJob.jobTypeName+"</td>"+
+										"<td>"+(demandJob.workerCount == null ? "" : demandJob.workerCount)+"</td>"+
+										"<td>"+(demandJob.genderName == null ? "" : demandJob.genderName)+"</td>"+
+										"<td>"+(demandJob.degreeName == null ? "" : demandJob.degreeName)+"</td>"+
+										"<td>"+(demandJob.major == null ? "" : demandJob.major)+"</td>";
+									}
+									else{
+										tableContent+= "<td></td>"+
+										"<td></td>"+
+										"<td></td>"+
+										"<td></td>"+
+										"<td></td>";
+									}
+									tableContent+= "	<td>"+worker.undertakeUserName+"</td>"+
 									"	<td>"+worker.closeUserName+"</td>"+
 									"	<td>"+(worker.closeTime == null ? "" : worker.closeTime)+"</td>"+
 									"	<td>"+(worker.closeReason == null ? "" : worker.closeReason)+"</td>"+
 									"	<td>"+worker.stateName+"</td>"+
-									"	<td>"+worker.createUserName+"</td>"+
+									//"	<td>"+worker.createUserName+"</td>"+
 									"	<td>"+worker.createTime+"</td>";
 									if(worker.state != 3){
 										tableContent += "<td><span class=\"delete\" onClick=\"closeDemand("+worker.id+")\">关单</span>"+

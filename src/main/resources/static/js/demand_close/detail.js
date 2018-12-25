@@ -34,6 +34,7 @@ function loadDemandInfo(){
 			if(data.code == 1){
 				var info = data.data;
 				$("#companyName").text(info.companyName);
+				$("#demandNumber").text(info.demandNumber);
 				$("#undertakeUserName").text(info.undertakeUserName);
 				$("#undertakeTime").text(info.undertakeTime);
 				$("#workerCount").text(info.workCount);
@@ -61,6 +62,7 @@ function displayDemandJobTable(demandJobList){
 			"	<td>"+(job.genderName == null ? "" : job.genderName)+"</td>"+
 			"	<td>"+(job.age == null ? "" : job.age)+"</td>"+
 			"	<td>"+(job.degreeName == null ? "" : job.degreeName)+"</td>"+
+			"	<td>"+(job.major == null ? "" : job.major)+"</td>"+
 			"	<td>"+(job.requirement == null ? "" : job.requirement)+"</td>"+
 			"</tr>";
 		$("#demand-job-table").find("tbody").empty().append(tableContent);

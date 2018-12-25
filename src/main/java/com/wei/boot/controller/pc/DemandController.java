@@ -2,6 +2,7 @@ package com.wei.boot.controller.pc;
 
 import java.util.Date;
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -17,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wei.boot.contant.GlobalConstant.OrderWorkerState;
-import com.wei.boot.model.Company;
 import com.wei.boot.model.Demand;
+import com.wei.boot.model.DemandJob;
 import com.wei.boot.model.DemandQuery;
 import com.wei.boot.model.DemandStateStatistic;
 import com.wei.boot.model.OrderWorker;
@@ -365,6 +366,55 @@ public class DemandController {
 			result = Result.fail("查询需求单列表失败！");
 		}
 		return result;
+	}
+	
+	/**
+	 * 导出
+	 * @param response
+	 * @param company
+	 */
+	@ApiOperation(value = "导出",notes = "")
+	@GetMapping("/queryByPage4CloseExport")
+	public void queryByPage4CloseExport(HttpServletResponse response, DemandQuery demandQuery) {
+		try {
+			Page<Demand> page = new Page<>();
+			page.setPageSize(20000);
+			List<Demand> list = demandService.queryByPage4Close(page, demandQuery).getData();
+			if (null != list && !list.isEmpty()) {
+				ExcelRow headers = ExcelUtil.excelHeaders("招聘编号","企业名称","招聘工种","招聘人数", "性别要求","学历要求","专业要求","接单人","关单人","关单时间","关单原因","状态", "创建时间");
+				ExcelData data = new ExcelData();
+				for (Demand info : list) {
+					ExcelRow row = new ExcelRow();
+					row.add(info.getDemandNumber());
+					row.add(info.getCompanyName());
+					if(!CollectionUtils.isEmpty(info.getDemandJobList())) {
+						DemandJob job = info.getDemandJobList().get(0);
+						row.add(job.getJobTypeName());
+						row.add(job.getWorkerCount());
+						row.add(job.getGenderName());
+						row.add(job.getDegreeName());
+						row.add(job.getMajor());
+					}
+					else {
+						row.add("");
+						row.add("");
+						row.add("");
+						row.add("");
+						row.add("");
+					}
+					row.add(info.getUndertakeUserName());
+					row.add(info.getCloseUserName());
+					row.add(info.getCloseTime());
+					row.add(info.getCloseReason());
+					row.add(info.getStateName());
+					row.add(info.getCreateTime());
+					data.add(row);
+				}
+				ExcelUtil.exportExcel(headers, data, "关单信息.xls", response);
+			}
+		} catch (Exception e) {
+			log.error("导出失败", e);
+		}
 	}
 	
 	@GetMapping("/queryDetail")
