@@ -22,8 +22,9 @@ $(function(){
 		var createUserName = $("#createUserName").val();
 		var beginTime = $("#beginTime").val();
 		var endTime = $("#endTime").val();
+		var confirmState = $("#confirmState").val();
 		window.open("/order/export?companyName="+companyName+"&orderNumber="+orderNumber+"&createUserName="+
-				createUserName+"&beginTime="+beginTime+"&endTime="+endTime);
+				createUserName+"&beginTime="+beginTime+"&endTime="+endTime+"&confirmState="+confirmState);
 	});
 	
 	$('.J-datepicker-range').datePicker({
@@ -60,12 +61,13 @@ function query(currentPage){
 	var createUserName = $("#createUserName").val();
 	var beginTime = $("#beginTime").val();
 	var endTime = $("#endTime").val();
+	var confirmState = $("#confirmState").val();
 	$.ajax({
 		url:"/order/list",
 		type:"get",
 		data:{companyName:companyName,orderNumber:orderNumber,
 			createUserName:createUserName,beginTime:beginTime,
-			endTime:endTime,
+			endTime:endTime,confirmState:confirmState,
 			pageNumber:currentPage},
 		dataType:"json",
 		success:function(data){
@@ -81,7 +83,10 @@ function query(currentPage){
 									"	<td>"+order.totalIncome+"</td>"+
 									"	<td>"+(order.customer == null ? "" : order.customer)+"</td>"+
 									"	<td>"+order.createUserName+"</td>"+
-									"	<td>"+(order.description == null ? "" : order.description)+"</td>"+
+									"	<td>"+(order.confirmUserName == null ? "" : order.confirmUserName)+"</td>"+
+									"	<td>"+(order.confirmTime == null ? "" : order.confirmTime)+"</td>"+
+									"	<td>"+(order.confirmStateName == null ? "" : order.confirmStateName)+"</td>"+
+									"	<td>"+(order.rejectReason == null ? "" : order.rejectReason)+"</td>"+
 									"	<td>"+order.createTime+"</td>"+
 									"	<td><span class=\"des\" onClick=\"openDialog("+order.id+")\">签订人员</span></td>"+
 									"</tr>";
@@ -121,9 +126,10 @@ function openDialog(id){
 									"	<td>"+(order.name == null ? "" : order.name)+"</td>"+
 									"	<td>"+(order.idcard == null ? "" : order.idcard)+"</td>"+
 									"	<td>"+(order.jobTypeName == null ? "" : order.jobTypeName)+"</td>"+
-									"	<td>"+(order.businessIncome == null ? "0.0" : order.businessIncome)+"</td>"+
 									"	<td>"+(order.signSalary == null ? "" : order.signSalary)+"</td>"+
-									"	<td>"+(order.description == null ? "" : order.description)+"</td>"+
+									"	<td>"+(order.businessIncome == null ? "0" : order.businessIncome)+"</td>"+
+									"	<td>"+(order.undertakeUserIncome == null ? "0" : order.undertakeUserIncome)+"</td>"+
+									"	<td>"+(order.collectUserIncome == null ? "0" : order.collectUserIncome)+"</td>"+
 									"	<td>"+order.createTime+"</td>"+
 									"</tr>";
 				}

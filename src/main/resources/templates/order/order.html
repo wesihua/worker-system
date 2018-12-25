@@ -28,6 +28,12 @@
 					<input class="pt" placeholder="企业名称" id="companyName"/>
 					<input class="pt" placeholder="订单号" id="orderNumber"/>
 					<input class="pt" placeholder="接单人" id="createUserName"/>
+					<select class="pt" id="confirmState">
+						<option value="">---确认状态---</option>
+						<option value="0">待确认</option>
+						<option value="1">被驳回</option>
+						<option value="2">已确认</option>
+					</select>
 					<br/><br/>
 					<div class="c-datepicker-date-editor J-datepicker-range mt10">
 			          <i class="c-datepicker-range__icon kxiconfont icon-clock"></i>
@@ -48,7 +54,10 @@
 							<th>总签订金额</th>
 							<th>客户负责人</th>
 							<th>接单人</th>
-							<th width="100">备注</th>
+							<th>确认人</th>
+							<th>确认时间</th>
+							<th>确认状态</th>
+							<th>驳回原因</th>
 							<th>创建时间</th>
 							<th>操作</th>
 						</tr>
@@ -84,10 +93,11 @@
 									<tr>
 										<th width="70">姓名</th>
 										<th width="176">身份证号</th>
-										<th width="">签约工种</th>
-										<th width="80">业务营收</th>
+										<th width="80">签约工种</th>
 										<th width="70">签约薪资</th>
-										<th width="100">备注</th>
+										<th width="80">业务营收</th>
+										<th width="80">接单营收</th>
+										<th width="80">采集营收</th>
 										<th width="95">创建时间</th>
 									</tr>
 								</thead>

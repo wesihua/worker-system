@@ -13,7 +13,9 @@ import com.wei.boot.mapper.OrderWorkerMapper;
 import com.wei.boot.model.DemandOrder;
 import com.wei.boot.model.OrderWorker;
 import com.wei.boot.model.Page;
+import com.wei.boot.model.User;
 import com.wei.boot.service.OrderService;
+import com.wei.boot.service.UserService;
 import com.wei.boot.util.DateUtils;
 
 @Service
@@ -24,6 +26,9 @@ public class OrderServiceImpl implements OrderService {
 	
 	@Autowired
 	private OrderWorkerMapper orderWorkerMapper;
+	
+	@Autowired
+	private UserService userService;
 	
 	@Override
 	public Page<DemandOrder> queryByPage(DemandOrder info, Page<DemandOrder> page) {
@@ -45,7 +50,17 @@ public class OrderServiceImpl implements OrderService {
 		if(!StringUtils.isEmpty(info.getEndTime())) {
 			map.put("endTime", DateUtils.parseDate(info.getEndTime()+" 23:59:59", "yyyy-MM-dd HH:mm:ss"));
 		}
+		if(null != info.getConfirmState()) {
+			map.put("confirmState", info.getConfirmState());
+		}
 		List<DemandOrder> list = demandOrderMapper.selectByPage(map);
+		// 翻一下确认人
+		for(DemandOrder order : list) {
+			if(null != order.getConfirmUser()) {
+				User user = userService.queryById(order.getConfirmUser());
+				order.setConfirmUserName(user.getRealName());
+			}
+		}
 		int totalCount = demandOrderMapper.selectCount(map);
 		return page.pageData(list, totalCount);
 	}

@@ -60,7 +60,7 @@ public class OrderController {
 			page.setPageSize(20000);
 			List<DemandOrder> list = orderService.queryByPage(order, page).getData();
 			if(null != list && list.size() > 0) {
-				ExcelRow headers = ExcelUtil.excelHeaders("企业名称","订单编号","总签订人数","总签订金额","客户负责人","创建人","备注","创建时间");
+				ExcelRow headers = ExcelUtil.excelHeaders("企业名称","订单编号","总签订人数","总签订金额","客户负责人","接单人","确认人","确认时间","确认状态","驳回原因","创建时间");
 				ExcelData data = new ExcelData();
 				for(DemandOrder info : list) {
 					ExcelRow row = new ExcelRow();
@@ -70,7 +70,10 @@ public class OrderController {
 					row.add(info.getTotalIncome());
 					row.add(info.getCustomer());
 					row.add(info.getCreateUserName());
-					row.add(info.getDescription());
+					row.add(info.getConfirmUserName());
+					row.add(info.getConfirmTime());
+					row.add(info.getConfirmStateName());
+					row.add(info.getRejectReason());
 					row.add(info.getCreateTime());
 					data.add(row);
 				}
@@ -104,16 +107,17 @@ public class OrderController {
 		try {
 			List<OrderWorker> list = orderService.queryOrderWorkerDetail(orderId);
 			if(null != list && list.size() > 0) {
-				ExcelRow headers = ExcelUtil.excelHeaders("姓名","身份证号","签约工种","业务营收","签约薪资","备注","创建时间");
+				ExcelRow headers = ExcelUtil.excelHeaders("姓名","身份证号","签约工种","签约薪资","业务营收","接单营收","采集营收","创建时间");
 				ExcelData data = new ExcelData();
 				for(OrderWorker info : list) {
 					ExcelRow row = new ExcelRow();
 					row.add(info.getName());
 					row.add(info.getIdcard());
 					row.add(info.getJobTypeName());
-					row.add(info.getBusinessIncome());
 					row.add(info.getSignSalary());
-					row.add(info.getDescription());
+					row.add(info.getBusinessIncome());
+					row.add(info.getUndertakeUserIncome());
+					row.add(info.getCollectUserIncome());
 					row.add(info.getCreateTime());
 					data.add(row);
 				}
