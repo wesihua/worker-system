@@ -83,8 +83,8 @@ function query(currentPage){
 									"	<td>"+order.totalIncome+"</td>";
 									if(null != order.orderWorkerList && order.orderWorkerList.length > 0){
 										var orderWorker = order.orderWorkerList[0];
-										tableContent+= "<td>"+(orderWorker.undertakeUserIncome == null ? "0" : orderWorker.undertakeUserIncome)+"</td>"+
-														"<td>"+(orderWorker.collectUserIncome == null ? "0" : orderWorker.collectUserIncome)+"</td>"+
+										tableContent+= "<td>"+(orderWorker.undertakeUserIncome == null ? "" : orderWorker.undertakeUserIncome)+"</td>"+
+														"<td>"+(orderWorker.collectUserIncome == null ? "" : orderWorker.collectUserIncome)+"</td>"+
 														"<td>"+orderWorker.workerCreateUserName+"</td>";
 									}
 									else{
@@ -95,11 +95,17 @@ function query(currentPage){
 									"	<td>"+(order.confirmTime == null ? "" : order.confirmTime)+"</td>"+
 									"	<td>"+(order.confirmStateName == null ? "" : order.confirmStateName)+"</td>"+
 									"	<td>"+(order.rejectReason == null ? "" : order.rejectReason)+"</td>"+
-									"	<td>"+order.createTime+"</td>"+
-									"	<td><span class=\"des\" onClick=\"confirmOrder("+order.id+")\">确认</span>" +
-											"<span class=\"des\" onClick=\"rejectOrder("+order.id+")\">驳回</span>"+
-											"<span class=\"des\" onClick=\"openDialog("+order.id+")\">签订人员</span></td>"+
-									"</tr>";
+									"	<td>"+order.createTime+"</td>";
+									if(order.confirmState == 2){
+										tableContent+= "<td><span class=\"des\" onClick=\"openDialog("+order.id+")\">签订人员</span></td>";
+									}
+									else{
+										tableContent+= "<td><span class=\"des\" onClick=\"confirmOrder("+order.id+")\">确认</span>" +
+										"<span class=\"des\" onClick=\"rejectOrder("+order.id+")\">驳回</span>"+
+										"<span class=\"des\" onClick=\"openDialog("+order.id+")\">签订人员</span></td>";
+									}
+									
+									tableContent+= "</tr>";
 				}
 				$("#order_table").find("tbody").empty().append(tableContent);
 				$("#totalCount").text(data.data.totalCount+"个结果");

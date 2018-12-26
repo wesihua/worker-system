@@ -735,7 +735,7 @@
 				t_yx_demand d1,
 				t_yx_demand_order o1
 			WHERE
-				d1.id = o1.demand_id
+				d1.id = o1.demand_id and o1.confirm_state = 2 
 				<if test="beginTime != null">
 					and o1.create_time &gt;= #{beginTime,jdbcType=TIMESTAMP}
 				</if>
@@ -744,8 +744,9 @@
 				</if>
 				 group by d1.undertake_user
 				) z ON u.id = z.undertake_user
-		LEFT JOIN (select w.create_user, sum( cast( w.undertake_user_income AS DECIMAL ( 10, 2 ) ) ) undertakeIncome from t_yx_order_worker w 
-		where 1=1 
+		LEFT JOIN (select w.create_user, sum( cast( w.undertake_user_income AS DECIMAL ( 10, 2 ) ) ) undertakeIncome from t_yx_order_worker w,
+		t_yx_demand_order do 
+		where w.order_id = do.id and do.confirm_state = 2 
 		<if test="beginTime != null">
 			and w.create_time &gt;= #{beginTime,jdbcType=TIMESTAMP}
 		</if>
@@ -755,7 +756,9 @@
 		
 		 group by w.create_user) m
 		on u.id = m.create_user
-		left join (select w.create_user,sum( cast( ow.collect_user_income AS DECIMAL ( 10, 2 ) ) ) collectIncome from t_yx_order_worker ow,t_yx_worker w where ow.worker_id = w.id 
+		left join (select w.create_user,sum( cast( ow.collect_user_income AS DECIMAL ( 10, 2 ) ) ) collectIncome from 
+		t_yx_order_worker ow, t_yx_worker w, t_yx_demand_order do
+		where ow.worker_id = w.id and ow.order_id = do.id and do.confirm_state = 2  
 		<if test="beginTime != null">
 			and ow.create_time &gt;= #{beginTime,jdbcType=TIMESTAMP}
 		</if>
