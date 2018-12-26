@@ -136,7 +136,7 @@ public class DemandServiceImpl implements DemandService {
 		if(Objects.nonNull(demandQuery.getUserId()) 
 				&& Objects.nonNull(demandQuery.getState()) 
 				&& (Objects.equals(GlobalConstant.DemandState.SIGNING, demandQuery.getState()) 
-						|| Objects.equals(GlobalConstant.DemandState.SIGNING, demandQuery.getState()))) {
+						|| Objects.equals(GlobalConstant.DemandState.PROCESSING, demandQuery.getState()))) {
 
 			User user = userMapper.selectByPrimaryKey(demandQuery.getUserId());
 			if (!Objects.equals(GlobalConstant.UserRole.ADMIN, user.getRoleId())) {

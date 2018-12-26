@@ -34,13 +34,17 @@ $(function () {
 					            '<div class="select-title">'+
 					                '<span class="a">签约月工资（元)</span>'+
 					                '<span class="b">到岗日期</span>'+
-					               ' <span class="c">业务收入（元）</span>'+
+					                '<span class="c">业务收入（元）</span>'+
+					                '<span class="b">采集金额（元）</span>'+
+					                '<span class="c">接单金额（元）</span>'+
 					            '</div>'+
 					            '<div class="select-input">'+
-					                '<input class="a signSalary" style="width: 80px;" type="text" value="" />'+
+					                '<input class="a signSalary" style="width: 8px;" type="text" value="" />'+
 					                '<div class="c-datepicker-date-editor c-datepicker-single-editor J-yearMonthPicker-single mt10">'+
-									'<input autocomplete="off" style="width: 90px;" type="text" placeholder="选择到岗日期"  class="b arriveWorkTime" id="requireTime" name="createTime"/>'+
+									'<input autocomplete="off" style="width: 9px;" type="text" placeholder="选择到岗日期"  class="b arriveWorkTime" id="requireTime" name="createTime"/>'+
 							        '</div>'+
+					                '<input class="c businessIncome" style="width: 80px;" type="text" value="" />'+
+					                '<input class="c businessIncome" style="width: 80px;" type="text" value="" />'+
 					                '<input class="c businessIncome" style="width: 80px;" type="text" value="" />'+
 					           ' </div>'+
 					        '</li>';

@@ -25,6 +25,7 @@
     <result column="job_type_name" jdbcType="VARCHAR" property="jobTypeName" />
     <result column="undertake_user_income" jdbcType="VARCHAR" property="undertakeUserIncome" />
     <result column="collect_user_income" jdbcType="VARCHAR" property="collectUserIncome" />
+    
   </resultMap>
   <sql id="Example_Where_Clause">
     <!--
@@ -102,7 +103,7 @@
     -->
     id, demand_job_id, worker_id, order_id, sign_salary, business_income, arrive_work_time, 
     description, create_user, create_time, update_user, update_time, undertake_user_income,
-    collect_user_time
+    collect_user_income
   </sql>
   <select id="selectByExample" parameterType="com.wei.boot.model.OrderWorkerExample" resultMap="BaseResultMap">
     <!--
