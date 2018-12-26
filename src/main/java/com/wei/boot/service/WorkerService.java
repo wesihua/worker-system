@@ -121,5 +121,5 @@ public interface WorkerService {
 	
 	int queryAllCount();
 
-	Page<Worker> queryAssignByPage(Page<Worker> page, Worker worker, Integer demandId);
+	Page<Worker> queryAssignByPage(Page<Worker> page, Worker worker, Integer demandId, Integer demandJobId);
 }

@@ -931,6 +931,14 @@
 				<if test="name != null and name != ''">
 					and x.name like #{name,jdbcType=VARCHAR}
 				</if>
+				
+				<if test="secondId != null">
+					AND EXISTS ( 
+						SELECT 1 FROM t_yx__worker_jobtype j WHERE x.id = j.worker_id 
+						AND j.second_id = #{secondId,jdbcType=INTEGER}
+					)
+				</if>
+				
 				<if test="demandId != null">
 					and x.id NOT IN (
 					SELECT
@@ -940,6 +948,7 @@
 					WHERE
 						t_yx_order_worker.demand_job_id IN ( SELECT t_yx_demand_job.id FROM t_yx_demand_job WHERE t_yx_demand_job.demand_id = #{demandId,jdbcType=INTEGER} ))
 				</if>
+				
 				
 			</where>
 			 order by x.id desc limit #{offset,jdbcType=INTEGER},1
@@ -953,6 +962,12 @@
 		<if test="name != null and name != ''">
 			and t.name like #{name,jdbcType=VARCHAR}
 		</if>
+		<if test="secondId != null">
+			AND EXISTS ( 
+				SELECT 1 FROM t_yx__worker_jobtype j WHERE t.id = j.worker_id 
+					AND j.second_id = #{secondId,jdbcType=INTEGER}
+			)
+		</if>
 		<if test="demandId != null">
 			and t.id NOT IN (
 			SELECT
@@ -961,8 +976,7 @@
 				t_yx_order_worker
 			WHERE
 				t_yx_order_worker.demand_job_id IN ( SELECT t_yx_demand_job.id FROM t_yx_demand_job WHERE t_yx_demand_job.demand_id = #{demandId,jdbcType=INTEGER} ))
-		</if>
-		
+		</if>	
 	</where>
 	order by t.id desc limit #{pageSize,jdbcType=INTEGER}
   </select>
@@ -978,6 +992,12 @@
 		</if>
 		<if test="name != null and name != ''">
 			and t.name like #{name,jdbcType=VARCHAR}
+		</if>
+		<if test="secondId != null">
+			AND EXISTS ( 
+				SELECT 1 FROM t_yx__worker_jobtype j WHERE t.id = j.worker_id 
+					AND j.second_id = #{secondId,jdbcType=INTEGER}
+			)
 		</if>
 		<if test="demandId != null">
 			and t.id NOT IN (

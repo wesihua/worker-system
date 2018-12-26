@@ -157,18 +157,18 @@ function querySignDetail(){
 /**
  * 分配用工
  */
-function assignWorker(jobTypeId){
+function assignWorker(demandJobId){
 	// 打开弹框
 	openDialog("add-worker-box-wp-div");
 	
 	// 搜索工人 按钮
 	parent.$(".select-worker").click(function(){
-    	queryWorkerList(1);
+    	queryWorkerList(1,null);
     });
 	
-	queryWorkerList(1);
+	queryWorkerList(1,demandJobId);
 	
-	$("input[name='jobTypeId']").val(jobTypeId)
+	$("input[name='jobTypeId']").val(demandJobId)
 	
 	
 	parent.$("#confirm-addWorker-botton").on("click",function(){
@@ -225,7 +225,7 @@ function assignWorker(jobTypeId){
 			type:"post",
 			dataType:"json",
 			async:false,
-			data:{json:JSON.stringify(workers),demandJobId:jobTypeId},
+			data:{json:JSON.stringify(workers),demandJobId:demandJobId},
 			success:function(data){
 				if(data.code == 1){
 					alert("添加用工信息成功！");
@@ -242,7 +242,7 @@ function assignWorker(jobTypeId){
 }
 
 // 查工人
-function queryWorkerList(pageNum){
+function queryWorkerList(pageNum,demandJobId){
 
 
     var workerName = parent.$("#workerName").val();
@@ -255,7 +255,7 @@ function queryWorkerList(pageNum){
     $.ajax({
 		url:"/worker/assignList",
 		type:"get",
-		data:{name:workerName,telephone:telephone,idcard:idcard,pageNumber:pageNum,demandId:demandId},
+		data:{name:workerName,telephone:telephone,idcard:idcard,pageNumber:pageNum,demandId:demandId,demandJobId:demandJobId},
 		dataType:"json",
 		success:function(data){
 			if(data.code == 1){
@@ -265,7 +265,7 @@ function queryWorkerList(pageNum){
 					var worker = workerArr[i];
 					tableContent+=  "<tr>"+
 									"	<td class='worker-name'>"+worker.name+"</td>"+
-									"	<td class='worker-idcard'>"+worker.idcard+"</td>"+
+									"	<td class='worker-idcard'>"+(worker.idcard == null ? "" : worker.idcard)+"</td>"+
 									//"	<td>"+worker.birthplaceName+"</td>"+
 									"	<td>"+(worker.jobtypeName == null ? "" : worker.jobtypeName)+"</td>"+
 									"	<td>"+worker.expectSalaryName+"</td>"+
@@ -280,7 +280,7 @@ function queryWorkerList(pageNum){
 					currentPage: data.data.pageNumber,
 					totalPage: data.data.pageCount,
 					callback: function(current) {
-						queryWorkerList(current);
+						queryWorkerList(current,null);
 					}
 				});
 				

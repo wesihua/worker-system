@@ -18,12 +18,14 @@ import org.springframework.util.StringUtils;
 
 import com.wei.boot.contant.GlobalConstant;
 import com.wei.boot.exception.NormalException;
+import com.wei.boot.mapper.DemandJobMapper;
 import com.wei.boot.mapper.JobTypeMapper;
 import com.wei.boot.mapper.WorkerEducationMapper;
 import com.wei.boot.mapper.WorkerExperienceMapper;
 import com.wei.boot.mapper.WorkerJobTypeMapper;
 import com.wei.boot.mapper.WorkerMapper;
 import com.wei.boot.model.Area;
+import com.wei.boot.model.DemandJob;
 import com.wei.boot.model.JobType;
 import com.wei.boot.model.Page;
 import com.wei.boot.model.Worker;
@@ -65,6 +67,9 @@ public class WorkerServiceImpl implements WorkerService {
 	
 	@Autowired
 	private CommonService commonService;
+	
+	@Autowired
+	private DemandJobMapper demandJobMapper;
 	
 	@Override
 	public Page<Worker> queryByPage(Page<Worker> page, Worker worker) {
@@ -700,7 +705,7 @@ public class WorkerServiceImpl implements WorkerService {
 	}
 
 	@Override
-	public Page<Worker> queryAssignByPage(Page<Worker> page, Worker worker, Integer demandId) {
+	public Page<Worker> queryAssignByPage(Page<Worker> page, Worker worker, Integer demandId,Integer demandJobId) {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("offset", page.getOffset());
@@ -717,6 +722,12 @@ public class WorkerServiceImpl implements WorkerService {
 	
 		if(Objects.nonNull(demandId)) {
 			map.put("demandId", demandId);
+		}
+		if(Objects.nonNull(demandJobId)) {
+			DemandJob demandJob = demandJobMapper.selectByPrimaryKey(demandJobId);
+			if(Objects.nonNull(demandJob)) {
+				map.put("secondId", demandJob.getJobTypeId());
+			}
 		}
 		List<Worker> workerList = workerMapper.selectAssignByPage(map);
 		if(null != workerList && workerList.size() > 0) {

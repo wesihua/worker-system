@@ -55,10 +55,10 @@ public class WorkerController {
 	 * @return
 	 */
 	@RequestMapping("/assignList")
-	public Result assignList(Page<Worker> page, Worker worker,Integer demandId ) {
+	public Result assignList(Page<Worker> page, Worker worker,Integer demandId ,Integer demandJobId) {
 		Result result = Result.SUCCESS;
 		try {
-			Page<Worker> data = workerService.queryAssignByPage(page, worker,demandId);
+			Page<Worker> data = workerService.queryAssignByPage(page, worker,demandId,demandJobId);
 			result.setData(data);
 		} catch (Exception e) {
 			log.error("查询失败", e);
