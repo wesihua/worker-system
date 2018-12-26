@@ -132,4 +132,7 @@ public interface DemandOrderMapper {
 	List<DemandOrder> selectByDemandId(int demandId);
 	
 	CompanyReportInfo selectTotalOrderCount(Map<String, Object> map);
+	
+	void confirmOrder(Map<String, Object> map);
+	
 }

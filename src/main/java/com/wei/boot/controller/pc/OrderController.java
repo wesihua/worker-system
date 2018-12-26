@@ -2,6 +2,7 @@ package com.wei.boot.controller.pc;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
@@ -19,6 +20,7 @@ import com.wei.boot.model.excel.ExcelData;
 import com.wei.boot.model.excel.ExcelRow;
 import com.wei.boot.service.OrderService;
 import com.wei.boot.util.ExcelUtil;
+import com.wei.boot.util.ToolsUtil;
 
 @RestController
 @RequestMapping("/order")
@@ -49,6 +51,61 @@ public class OrderController {
 	}
 	
 	/**
+	 * 列表
+	 * @param page
+	 * @param worker
+	 * @return
+	 */
+	@GetMapping("/confirmList")
+	public Result confirmList(Page<DemandOrder> page, DemandOrder order) {
+		Result result = Result.SUCCESS;
+		try {
+			Page<DemandOrder> data = orderService.queryByPage4Confirm(order, page);
+			result.setData(data);
+		} catch (Exception e) {
+			log.error("查询失败", e);
+			result = Result.fail(e);
+		}
+		return result;
+	}
+	
+	/**
+	 * 确认订单
+	 * @param orderId
+	 * @return
+	 */
+	@GetMapping("/confirm")
+	public Result confirm(int orderId, HttpServletRequest request) {
+		Result result = Result.SUCCESS;
+		try {
+			int userId = ToolsUtil.getUserId(request);
+			orderService.confirmOrder(orderId, userId);
+		} catch (Exception e) {
+			log.error("确认订单失败", e);
+			result = Result.fail(e);
+		}
+		return result;
+	}
+	
+	/**
+	 * 驳回订单
+	 * @param orderId
+	 * @return
+	 */
+	@GetMapping("/reject")
+	public Result reject(int orderId, String rejectReason, HttpServletRequest request) {
+		Result result = Result.SUCCESS;
+		try {
+			int userId = ToolsUtil.getUserId(request);
+			orderService.rejectOrder(orderId, rejectReason, userId);
+		} catch (Exception e) {
+			log.error("驳回订单失败", e);
+			result = Result.fail(e);
+		}
+		return result;
+	}
+	
+	/**
 	 * 导出订单
 	 * @param response
 	 * @param order
@@ -60,7 +117,53 @@ public class OrderController {
 			page.setPageSize(20000);
 			List<DemandOrder> list = orderService.queryByPage(order, page).getData();
 			if(null != list && list.size() > 0) {
-				ExcelRow headers = ExcelUtil.excelHeaders("企业名称","订单编号","总签订人数","总签订金额","客户负责人","创建人","备注","创建时间");
+				ExcelRow headers = ExcelUtil.excelHeaders("企业名称","订单编号","总签订人数","总签订金额","接单金额","采集金额","采集人","接单人","确认人","确认时间","确认状态","驳回原因","创建时间");
+				ExcelData data = new ExcelData();
+				for(DemandOrder info : list) {
+					ExcelRow row = new ExcelRow();
+					row.add(info.getCompanyName());
+					row.add(info.getOrderNumber());
+					row.add(info.getWorkerCount());
+					row.add(info.getTotalIncome());
+					if(null != info.getOrderWorkerList() && !info.getOrderWorkerList().isEmpty()) {
+						OrderWorker worker = info.getOrderWorkerList().get(0);
+						row.add(worker.getUndertakeUserIncome());
+						row.add(worker.getCollectUserIncome());
+						row.add(worker.getWorkerCreateUserName());
+					}
+					else {
+						row.add("");
+						row.add("");
+						row.add("");
+					}
+					row.add(info.getCreateUserName());
+					row.add(info.getConfirmUserName());
+					row.add(info.getConfirmTime());
+					row.add(info.getConfirmStateName());
+					row.add(info.getRejectReason());
+					row.add(info.getCreateTime());
+					data.add(row);
+				}
+				ExcelUtil.exportExcel(headers, data, "订单确认信息.xls", response);
+			}
+		} catch (Exception e) {
+			log.error("导出失败", e);
+		}
+	}
+	
+	/**
+	 * 导出订单
+	 * @param response
+	 * @param order
+	 */
+	@GetMapping("/confirmList/export")
+	public void confirmExport(HttpServletResponse response, DemandOrder order) {
+		try {
+			Page<DemandOrder> page = new Page<DemandOrder>();
+			page.setPageSize(20000);
+			List<DemandOrder> list = orderService.queryByPage4Confirm(order, page).getData();
+			if(null != list && list.size() > 0) {
+				ExcelRow headers = ExcelUtil.excelHeaders("企业名称","订单编号","总签订人数","总签订金额","客户负责人","接单人","确认人","确认时间","确认状态","驳回原因","创建时间");
 				ExcelData data = new ExcelData();
 				for(DemandOrder info : list) {
 					ExcelRow row = new ExcelRow();
@@ -70,7 +173,10 @@ public class OrderController {
 					row.add(info.getTotalIncome());
 					row.add(info.getCustomer());
 					row.add(info.getCreateUserName());
-					row.add(info.getDescription());
+					row.add(info.getConfirmUserName());
+					row.add(info.getConfirmTime());
+					row.add(info.getConfirmStateName());
+					row.add(info.getRejectReason());
 					row.add(info.getCreateTime());
 					data.add(row);
 				}
@@ -104,16 +210,18 @@ public class OrderController {
 		try {
 			List<OrderWorker> list = orderService.queryOrderWorkerDetail(orderId);
 			if(null != list && list.size() > 0) {
-				ExcelRow headers = ExcelUtil.excelHeaders("姓名","身份证号","签约工种","业务营收","签约薪资","备注","创建时间");
+				ExcelRow headers = ExcelUtil.excelHeaders("姓名","身份证号","采集人","签约工种","签约薪资","业务营收","接单营收","采集营收","创建时间");
 				ExcelData data = new ExcelData();
 				for(OrderWorker info : list) {
 					ExcelRow row = new ExcelRow();
 					row.add(info.getName());
 					row.add(info.getIdcard());
+					row.add(info.getWorkerCreateUserName());
 					row.add(info.getJobTypeName());
-					row.add(info.getBusinessIncome());
 					row.add(info.getSignSalary());
-					row.add(info.getDescription());
+					row.add(info.getBusinessIncome());
+					row.add(info.getUndertakeUserIncome());
+					row.add(info.getCollectUserIncome());
 					row.add(info.getCreateTime());
 					data.add(row);
 				}

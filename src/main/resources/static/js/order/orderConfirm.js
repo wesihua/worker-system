@@ -63,7 +63,7 @@ function query(currentPage){
 	var endTime = $("#endTime").val();
 	var confirmState = $("#confirmState").val();
 	$.ajax({
-		url:"/order/list",
+		url:"/order/confirmList",
 		type:"get",
 		data:{companyName:companyName,orderNumber:orderNumber,
 			createUserName:createUserName,beginTime:beginTime,
@@ -80,16 +80,32 @@ function query(currentPage){
 									"	<td>"+order.companyName+"</td>"+
 									"	<td>"+(order.orderNumber == null ? "" : order.orderNumber)+"</td>"+
 									"	<td>"+order.workerCount+"</td>"+
-									"	<td>"+order.totalIncome+"</td>"+
-									"	<td>"+(order.customer == null ? "" : order.customer)+"</td>"+
-									"	<td>"+order.createUserName+"</td>"+
+									"	<td>"+order.totalIncome+"</td>";
+									if(null != order.orderWorkerList && order.orderWorkerList.length > 0){
+										var orderWorker = order.orderWorkerList[0];
+										tableContent+= "<td>"+(orderWorker.undertakeUserIncome == null ? "" : orderWorker.undertakeUserIncome)+"</td>"+
+														"<td>"+(orderWorker.collectUserIncome == null ? "" : orderWorker.collectUserIncome)+"</td>"+
+														"<td>"+orderWorker.workerCreateUserName+"</td>";
+									}
+									else{
+										tableContent+= "<td></td><td></td><td></td>";
+									}
+									tableContent+= "	<td>"+order.createUserName+"</td>"+
 									"	<td>"+(order.confirmUserName == null ? "" : order.confirmUserName)+"</td>"+
 									"	<td>"+(order.confirmTime == null ? "" : order.confirmTime)+"</td>"+
 									"	<td>"+(order.confirmStateName == null ? "" : order.confirmStateName)+"</td>"+
 									"	<td>"+(order.rejectReason == null ? "" : order.rejectReason)+"</td>"+
-									"	<td>"+order.createTime+"</td>"+
-									"	<td><span class=\"des\" onClick=\"openDialog("+order.id+")\">签订人员</span></td>"+
-									"</tr>";
+									"	<td>"+order.createTime+"</td>";
+									if(order.confirmState == 2){
+										tableContent+= "<td><span class=\"des\" onClick=\"openDialog("+order.id+")\">签订人员</span></td>";
+									}
+									else{
+										tableContent+= "<td><span class=\"des\" onClick=\"confirmOrder("+order.id+")\">确认</span>" +
+										"<span class=\"des\" onClick=\"rejectOrder("+order.id+")\">驳回</span>"+
+										"<span class=\"des\" onClick=\"openDialog("+order.id+")\">签订人员</span></td>";
+									}
+									
+									tableContent+= "</tr>";
 				}
 				$("#order_table").find("tbody").empty().append(tableContent);
 				$("#totalCount").text(data.data.totalCount+"个结果");
@@ -102,6 +118,63 @@ function query(currentPage){
 				});
 			}
 		}
+	});
+}
+
+function confirmOrder(orderId){
+	var b = confirm("是否确认该笔订单？");
+	if(b){
+		$.ajax({
+			url:"/order/confirm",
+			type:"get",
+			dataType:"json",
+			data:{orderId:orderId},
+			success:function(data){
+				if(data.code == 1){
+					alert("订单确认成功！");
+					query(1);
+				}
+				else{
+					alert("订单确认失败！原因："+data.msg);
+				}
+			}
+		});
+	}
+}
+
+function rejectOrder(orderId){
+	openRejectDialog("reject-order-dialog");
+	parent.$("#reject-order").click(function(){
+		var content = parent.$("#reject-order-textarea").val();
+		$.ajax({
+			url:"/order/reject",
+			type:"get",
+			data:{orderId:orderId,rejectReason:content},
+			dataType:"json",
+			success:function(data){
+				if(data.code == 1){
+					alert("驳回成功！");
+					top.closeDialog();
+					query(1);
+				}
+			}
+		});
+	});
+}
+/**
+ * 打开弹窗
+ * @returns
+ */
+function openRejectDialog(id){
+	var content = $("#"+id).html();
+	top.$("#dialog").html(content);
+	top.$("#dialog").show();
+	// 因为弹窗页面是重新渲染到top页面的。所以事件绑定只能在渲染之后。否则不起作用！
+	top.$(".cancel-dialog").click(function(){
+		top.closeDialog();
+	});
+	top.$("#close-dialog").click(function(){
+		top.closeDialog();
 	});
 }
 

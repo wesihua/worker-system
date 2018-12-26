@@ -25,6 +25,10 @@
 			</div>
 			<div class="qiandan-add-content small">
 				<div class="input-block">
+					<span class="name">招聘编号</span> 
+					<span class="word companyName" id="demandNumber"></span>
+				</div>
+				<div class="input-block">
 					<span class="name">企业</span> 
 					<span class="word companyName" id="companyName"></span>
 				</div>
@@ -92,6 +96,7 @@
 								<th>性别要求</th>
 								<th>年龄要求</th>
 								<th>学历要求</th>
+								<th>专业要求</th>
 								<th width="300">用工要求</th>
 							</tr>
 						</thead>
@@ -110,6 +115,10 @@
 								<th>签订人数</th>
 								<th>签订金额</th>
 								<th>客户负责人</th>
+								<th>确认人</th>
+								<th>确认时间</th>
+								<th>确认状态</th>
+								<th>驳回原因</th>
 								<th width="100">备注</th>
 								<th>创建人</th>
 								<th>创建时间</th>
@@ -139,8 +148,10 @@
 									<th width="70">姓名</th>
 									<th width="176">身份证号</th>
 									<th width="">签约工种</th>
-									<th width="80">业务营收</th>
 									<th width="70">签约薪资</th>
+									<th width="80">业务营收</th>
+									<th width="80">接单营收</th>
+									<th width="80">采集营收</th>
 									<th width="100">备注</th>
 									<th width="95">创建时间</th>
 								</tr>
@@ -151,7 +162,7 @@
 					</div>
 				</div>
 				<div class="bottom">
-					<span class="public-bottom2 on" id="export_workers">导出</span> 
+					<!-- <span class="public-bottom2 on" id="export_workers">导出</span>  -->
 					<span class="public-bottom2" id="cancel-dialog">确定</span>
 				</div>
 			</div>

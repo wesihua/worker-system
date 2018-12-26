@@ -30,4 +30,25 @@ public interface OrderService {
 	 * @return
 	 */
 	List<OrderWorker> queryOrderWorkerDetail(int orderId);
+	
+	/**
+	 * 分页查询订单-用于确认
+	 * @param info
+	 * @param page
+	 * @return
+	 */
+	Page<DemandOrder> queryByPage4Confirm(DemandOrder info, Page<DemandOrder> page);
+	
+	/**
+	 * 确认订单
+	 * @param orderId
+	 */
+	void confirmOrder(int orderId, int userId);
+	
+	/**
+	 * 驳回订单
+	 * @param orderId
+	 * @param rejectReason
+	 */
+	void rejectOrder(int orderId, String rejectReason, int userId);
 }

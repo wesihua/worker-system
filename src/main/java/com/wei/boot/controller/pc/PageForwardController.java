@@ -153,6 +153,10 @@ public class PageForwardController {
 	public String demandClose() {
 		return "demand_close/demand_close";
 	}
+	@GetMapping("/demand/confirm")
+	public String demandConfirm() {
+		return "order/orderConfirm";
+	}
 	
 	@GetMapping("/demand/detail")
 	public String demandDetail(Model model, String demandId) {

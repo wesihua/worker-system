@@ -1,6 +1,7 @@
 package com.wei.boot.model;
 
 import java.util.Date;
+import java.util.List;
 
 public class DemandOrder {
     /**
@@ -119,8 +120,18 @@ public class DemandOrder {
     private String confirmStateName;
     
     private String confirmUserName;
+    
+    private List<OrderWorker> orderWorkerList;
 
-    public Integer getConfirmState() {
+    public List<OrderWorker> getOrderWorkerList() {
+		return orderWorkerList;
+	}
+
+	public void setOrderWorkerList(List<OrderWorker> orderWorkerList) {
+		this.orderWorkerList = orderWorkerList;
+	}
+
+	public Integer getConfirmState() {
 		return confirmState;
 	}
 

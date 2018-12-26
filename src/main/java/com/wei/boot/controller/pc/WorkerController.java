@@ -174,6 +174,20 @@ public class WorkerController {
 		return result;
 	}
 	
+	@PostMapping("/addOutterWorker")
+	public Result addOutterWorker(@RequestBody Worker worker) {
+		Result result = Result.SUCCESS;
+		try {
+			worker.setCreateUser(2);
+			worker.setSouce(GlobalConstant.Source.QRCODE);
+			workerService.addWorker(worker);
+		} catch (Exception e) {
+			log.error("查询失败", e);
+			result = Result.fail(e);
+		}
+		return result;
+	}
+	
 	/**
 	 * 删除人才
 	 * @param workerId

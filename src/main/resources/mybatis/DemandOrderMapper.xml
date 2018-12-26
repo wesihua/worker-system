@@ -452,6 +452,28 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   
+  <update id="confirmOrder" parameterType="map">
+    update t_yx_demand_order
+    <set>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="confirmState != null">
+        confirm_state = #{confirmState,jdbcType=INTEGER},
+      </if>
+      <if test="confirmUser != null">
+        confirm_user = #{confirmUser,jdbcType=INTEGER},
+      </if>
+      <if test="confirmTime != null">
+        confirm_time = #{confirmTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rejectReason != null">
+        reject_reason = #{rejectReason,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{orderId,jdbcType=INTEGER}
+  </update>
+  
   <select id="selectAllOrderCount" resultType="int">
   	select count(1) from t_yx_demand_order
   </select>
@@ -516,13 +538,14 @@
   	SELECT
 		o.id, o.demand_id, o.order_number, o.worker_count, o.operator_user, o.customer, o.total_income, 
     	o.description, o.create_user, o.create_time,
-		u.real_name create_user_name,
-		c.NAME company_name
+		u.real_name create_user_name, o.confirm_state, o.confirm_user, o.confirm_time, o.reject_reason,
+		c.NAME company_name, 
+		(case when o.confirm_state = 0 then '待确认' when o.confirm_state = 1 then '被驳回' when o.confirm_state = 2 then '已确认' end) confirm_state_name
 	FROM
 		t_yx_demand_order o,
 		t_yx_demand d,
 		t_yx_company c,
-		t_sys_user u 
+		t_sys_user u
 	WHERE
 		o.demand_id = d.id 
 		AND d.company_id = c.id
@@ -545,6 +568,9 @@
 			<if test="createUserName != null">
 				and u1.real_name like #{createUserName,jdbcType=VARCHAR}
 			</if>
+			<if test="confirmState != null">
+				and o1.confirm_state = #{confirmState,jdbcType=INTEGER}
+			</if>
 			order by o1.id desc limit #{offset,jdbcType=INTEGER},1
 		 )
 	<if test="beginTime != null">
@@ -561,6 +587,9 @@
 	</if>
 	<if test="createUserName != null">
 		and u.real_name like #{createUserName,jdbcType=VARCHAR}
+	</if>
+	<if test="confirmState != null">
+		and o.confirm_state = #{confirmState,jdbcType=INTEGER}
 	</if>	
   	order by o.id desc limit #{pageSize,jdbcType=INTEGER}
   </select>
@@ -591,6 +620,9 @@
 	<if test="createUserName != null">
 		and u.real_name like #{createUserName,jdbcType=VARCHAR}
 	</if>	
+	<if test="confirmState != null">
+		and o.confirm_state = #{confirmState,jdbcType=INTEGER}
+	</if>
   </select>
   
   <select id="selectOrderCount" resultType="map">
@@ -703,7 +735,7 @@
 				t_yx_demand d1,
 				t_yx_demand_order o1
 			WHERE
-				d1.id = o1.demand_id
+				d1.id = o1.demand_id and o1.confirm_state = 2 
 				<if test="beginTime != null">
 					and o1.create_time &gt;= #{beginTime,jdbcType=TIMESTAMP}
 				</if>
@@ -712,8 +744,9 @@
 				</if>
 				 group by d1.undertake_user
 				) z ON u.id = z.undertake_user
-		LEFT JOIN (select w.create_user, sum( cast( w.undertake_user_income AS DECIMAL ( 10, 2 ) ) ) undertakeIncome from t_yx_order_worker w 
-		where 1=1 
+		LEFT JOIN (select w.create_user, sum( cast( w.undertake_user_income AS DECIMAL ( 10, 2 ) ) ) undertakeIncome from t_yx_order_worker w,
+		t_yx_demand_order do 
+		where w.order_id = do.id and do.confirm_state = 2 
 		<if test="beginTime != null">
 			and w.create_time &gt;= #{beginTime,jdbcType=TIMESTAMP}
 		</if>
@@ -723,7 +756,9 @@
 		
 		 group by w.create_user) m
 		on u.id = m.create_user
-		left join (select w.create_user,sum( cast( ow.collect_user_income AS DECIMAL ( 10, 2 ) ) ) collectIncome from t_yx_order_worker ow,t_yx_worker w where ow.worker_id = w.id 
+		left join (select w.create_user,sum( cast( ow.collect_user_income AS DECIMAL ( 10, 2 ) ) ) collectIncome from 
+		t_yx_order_worker ow, t_yx_worker w, t_yx_demand_order do
+		where ow.worker_id = w.id and ow.order_id = do.id and do.confirm_state = 2  
 		<if test="beginTime != null">
 			and ow.create_time &gt;= #{beginTime,jdbcType=TIMESTAMP}
 		</if>

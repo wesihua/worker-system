@@ -724,6 +724,12 @@ public class DemandServiceImpl implements DemandService {
 			map.put("closeUserName", "%" + demandQuery.getCloseUserName() + "%");
 		}
 		List<Demand> list = demandMapper.selectByPage4Close(map);
+		if(!CollectionUtils.isEmpty(list)) {
+			for(Demand demand : list) {
+				List<DemandJob> jobList = demandJobMapper.selectByDemandId(demand.getId());
+				demand.setDemandJobList(jobList);
+			}
+		}
 		int totalCount = demandMapper.selectCount4Close(map);
 		page.pageData(list, totalCount);
 		return page;

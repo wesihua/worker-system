@@ -28,6 +28,7 @@
     <result column="degree_name" property="degreeName" jdbcType="VARCHAR" />
     <result column="parent_job_type_id" property="parentJobTypeId" jdbcType="INTEGER" />
     <result column="parent_code" property="parentCode" jdbcType="INTEGER" />	
+    <result column="major" property="major" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <!--
@@ -104,7 +105,7 @@
       This element was generated on Sat Sep 15 21:46:36 CST 2018.
     -->
     id, demand_id, job_type_id, worker_count, salary, require_time, work_area, gender, 
-    age, degree, requirement, create_user, create_time, update_user, update_time
+    age, degree, requirement, create_user, create_time, update_user, update_time, major
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wei.boot.model.DemandJobExample" >
     <!--
@@ -166,13 +167,14 @@
       worker_count, salary, require_time, 
       work_area, gender, age, 
       degree, requirement, create_user, 
-      create_time, update_user, update_time
+      create_time, update_user, update_time,major
       )
     values (#{id,jdbcType=INTEGER}, #{demandId,jdbcType=INTEGER}, #{jobTypeId,jdbcType=INTEGER}, 
       #{workerCount,jdbcType=INTEGER}, #{salary,jdbcType=VARCHAR}, #{requireTime,jdbcType=TIMESTAMP}, 
       #{workArea,jdbcType=INTEGER}, #{gender,jdbcType=INTEGER}, #{age,jdbcType=VARCHAR}, 
       #{degree,jdbcType=INTEGER}, #{requirement,jdbcType=VARCHAR}, #{createUser,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}
+      #{createTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP},
+      #{major,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.wei.boot.model.DemandJob" >
@@ -228,6 +230,9 @@
       <if test="updateTime != null" >
         update_time,
       </if>
+      <if test="major != null" >
+        major,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -274,6 +279,9 @@
       </if>
       <if test="updateTime != null" >
         #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="major != null" >
+        #{major,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -340,6 +348,9 @@
       </if>
       <if test="record.updateTime != null" >
         update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.major != null" >
+        major = #{record.major,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -422,6 +433,9 @@
       <if test="updateTime != null" >
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="major != null" >
+        major = #{major,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -445,6 +459,7 @@
       create_user = #{createUser,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_user = #{updateUser,jdbcType=INTEGER},
+      major = #{major,jdbcType=VARCHAR},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
