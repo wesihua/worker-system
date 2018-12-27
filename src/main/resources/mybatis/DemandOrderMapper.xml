@@ -775,7 +775,8 @@
   </select>
   
   <select id="selectByDemandId" parameterType="int" resultMap="BaseResultMap">
-  	select u.real_name create_user_name,t.* from t_yx_demand_order t,t_sys_user u where t.create_user = u.id
+  	select u.real_name create_user_name,(case when t.confirm_state = 0 then '待确认' when t.confirm_state = 1 then '被驳回' when t.confirm_state = 2 then '已确认' end) confirm_state_name,
+  	t.* from t_yx_demand_order t,t_sys_user u where t.create_user = u.id
   	and t.demand_id = #{demandId,jdbcType=INTEGER}
   </select>
   

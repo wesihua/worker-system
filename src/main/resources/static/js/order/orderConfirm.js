@@ -122,7 +122,7 @@ function query(currentPage){
 }
 
 function confirmOrder(orderId){
-	var b = confirm("是否确认该笔订单？");
+	var b = confirm("是否确认该笔订单？确认后该订单信息不可更改！");
 	if(b){
 		$.ajax({
 			url:"/order/confirm",

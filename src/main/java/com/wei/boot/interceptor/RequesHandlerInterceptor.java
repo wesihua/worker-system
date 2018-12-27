@@ -36,7 +36,8 @@ public class RequesHandlerInterceptor implements HandlerInterceptor {
 			log.info("拦截到请求URL： [ {} ]，开始验证权限...", path);
 			if("/".equals(servletPath) || "/logout".equals(servletPath) || "/error".equals(servletPath)
 					|| "/account/login".equals(servletPath) || "/home.html".equals(servletPath)
-					|| "/worker/addOutterWorker".equals(servletPath)) {
+					|| "/worker/addOutterWorker".equals(servletPath) || "/mobile/resume".equals(servletPath)
+					|| servletPath.startsWith("/common")) {
 				return true;
 			}
 			// 首先确认token是否传递

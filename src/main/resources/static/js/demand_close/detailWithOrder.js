@@ -115,6 +115,7 @@ function openDialog(id){
 					tableContent+=  "<tr>"+
 									"	<td>"+(order.name == null ? "" : order.name)+"</td>"+
 									"	<td>"+(order.idcard == null ? "" : order.idcard)+"</td>"+
+									"	<td>"+(order.workerCreateUserName == null ? "" : order.workerCreateUserName)+"</td>"+
 									"	<td>"+(order.jobTypeName == null ? "" : order.jobTypeName)+"</td>"+
 									"	<td>"+(order.signSalary == null ? "" : order.signSalary)+"</td>"+
 									"	<td>"+(order.businessIncome == null ? "0" : order.businessIncome)+"</td>"+

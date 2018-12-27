@@ -49,6 +49,7 @@ import com.wei.boot.model.signing.OrderModel;
 import com.wei.boot.service.CommonService;
 import com.wei.boot.service.CompanyService;
 import com.wei.boot.service.DemandService;
+import com.wei.boot.service.UserService;
 import com.wei.boot.util.DateUtils;
 
 @Service
@@ -85,6 +86,9 @@ public class DemandServiceImpl implements DemandService {
 	
 	@Autowired
 	private UserMapper userMapper;
+	
+	@Autowired
+	private UserService userService;
 
 	@Override
 	@Transactional
@@ -775,6 +779,11 @@ public class DemandServiceImpl implements DemandService {
 				for(DemandOrder order : orderList) {
 					signCount += order.getWorkerCount();
 					totalIncome = totalIncome.add(new BigDecimal(order.getTotalIncome()));
+					// 翻译确认人
+					if(null != order.getConfirmUser()) {
+						User user = userService.queryById(order.getConfirmUser());
+						order.setConfirmUserName(user.getRealName());
+					}
 				}
 			}
 			demand.setSigningCount(signCount);

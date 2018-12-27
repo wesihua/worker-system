@@ -80,6 +80,11 @@ public class PageForwardController {
 		return "import/importSuccess";
 	}
 	
+	@GetMapping("/mobile/resume")
+	public String mobileResume() {
+		return "mobile/mobile";
+	}
+	
 	@GetMapping("/worker/edit")
 	public String workerEdit(Model model, String workerId) {
 		model.addAttribute("workerId", workerId);
