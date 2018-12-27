@@ -482,4 +482,17 @@ public class DemandController {
 			log.error("导出失败", e);
 		}
 	}
+	
+	@GetMapping("/isDemandConfirmed")
+	public Result isDemandConfirmed(Integer demandId) {
+		Result result = Result.SUCCESS;
+		try {
+			boolean b = demandService.hasUnConfirmedDemand(demandId);
+			result.setData(b);
+		} catch (Exception e) {
+			log.error("", e);
+			result = Result.fail("查询失败！");
+		}
+		return result;
+	}
 }

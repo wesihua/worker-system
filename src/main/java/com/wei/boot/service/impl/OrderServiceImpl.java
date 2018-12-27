@@ -55,6 +55,9 @@ public class OrderServiceImpl implements OrderService {
 		if(null != info.getConfirmState()) {
 			map.put("confirmState", info.getConfirmState());
 		}
+		if(!StringUtils.isEmpty(info.getDemandNumber())) {
+			map.put("demandNumber", info.getDemandNumber());
+		}
 		List<DemandOrder> list = demandOrderMapper.selectByPage(map);
 		// 翻译确认人
 		for(DemandOrder order : list) {
@@ -101,6 +104,9 @@ public class OrderServiceImpl implements OrderService {
 		}
 		if(null != info.getConfirmState()) {
 			map.put("confirmState", info.getConfirmState());
+		}
+		if(!StringUtils.isEmpty(info.getDemandNumber())) {
+			map.put("demandNumber", info.getDemandNumber());
 		}
 		List<DemandOrder> list = demandOrderMapper.selectByPage(map);
 		

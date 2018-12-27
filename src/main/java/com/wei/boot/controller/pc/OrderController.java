@@ -144,7 +144,7 @@ public class OrderController {
 					row.add(info.getCreateTime());
 					data.add(row);
 				}
-				ExcelUtil.exportExcel(headers, data, "订单确认信息.xls", response);
+				ExcelUtil.exportExcel(headers, data, "订单信息.xls", response);
 			}
 		} catch (Exception e) {
 			log.error("导出失败", e);
@@ -180,7 +180,7 @@ public class OrderController {
 					row.add(info.getCreateTime());
 					data.add(row);
 				}
-				ExcelUtil.exportExcel(headers, data, "订单信息.xls", response);
+				ExcelUtil.exportExcel(headers, data, "订单确认信息.xls", response);
 			}
 		} catch (Exception e) {
 			log.error("导出失败", e);

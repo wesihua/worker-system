@@ -116,4 +116,6 @@ public interface DemandMapper {
 	
 	Demand selectDetail(int demandId);
 	
+	List<Demand> selectUnConfirmedDemand(int demandId);
+	
 }

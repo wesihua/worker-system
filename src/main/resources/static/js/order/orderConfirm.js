@@ -19,12 +19,13 @@ $(function(){
 	$("#download").click(function(){
 		var companyName = $("#companyName").val();
 		var orderNumber = $("#orderNumber").val();
+		var demandNumber = $("#demandNumber").val();
 		var createUserName = $("#createUserName").val();
 		var beginTime = $("#beginTime").val();
 		var endTime = $("#endTime").val();
 		var confirmState = $("#confirmState").val();
 		window.open("/order/export?companyName="+companyName+"&orderNumber="+orderNumber+"&createUserName="+
-				createUserName+"&beginTime="+beginTime+"&endTime="+endTime+"&confirmState="+confirmState);
+				createUserName+"&beginTime="+beginTime+"&endTime="+endTime+"&confirmState="+confirmState+"&demandNumber="+demandNumber);
 	});
 	
 	$('.J-datepicker-range').datePicker({
@@ -58,6 +59,7 @@ $(function(){
 function query(currentPage){
 	var companyName = $("#companyName").val();
 	var orderNumber = $("#orderNumber").val();
+	var demandNumber = $("#demandNumber").val();
 	var createUserName = $("#createUserName").val();
 	var beginTime = $("#beginTime").val();
 	var endTime = $("#endTime").val();
@@ -67,7 +69,7 @@ function query(currentPage){
 		type:"get",
 		data:{companyName:companyName,orderNumber:orderNumber,
 			createUserName:createUserName,beginTime:beginTime,
-			endTime:endTime,confirmState:confirmState,
+			endTime:endTime,confirmState:confirmState,demandNumber:demandNumber,
 			pageNumber:currentPage},
 		dataType:"json",
 		success:function(data){

@@ -837,4 +837,15 @@ public class DemandServiceImpl implements DemandService {
 
 		return orderModel;
 	}
+
+	@Override
+	public boolean hasUnConfirmedDemand(Integer demandId) {
+		List<Demand> list = demandMapper.selectUnConfirmedDemand(demandId);
+		if(null != list && !list.isEmpty()) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 }

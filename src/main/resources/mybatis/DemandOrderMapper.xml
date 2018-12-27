@@ -571,6 +571,9 @@
 			<if test="confirmState != null">
 				and o1.confirm_state = #{confirmState,jdbcType=INTEGER}
 			</if>
+			<if test="demandNumber != null">
+				and d1.demand_number = #{demandNumber,jdbcType=VARCHAR}
+			</if>
 			order by o1.id desc limit #{offset,jdbcType=INTEGER},1
 		 )
 	<if test="beginTime != null">
@@ -591,6 +594,9 @@
 	<if test="confirmState != null">
 		and o.confirm_state = #{confirmState,jdbcType=INTEGER}
 	</if>	
+	<if test="demandNumber != null">
+		and d.demand_number = #{demandNumber,jdbcType=VARCHAR}
+	</if>
   	order by o.id desc limit #{pageSize,jdbcType=INTEGER}
   </select>
   
@@ -622,6 +628,9 @@
 	</if>	
 	<if test="confirmState != null">
 		and o.confirm_state = #{confirmState,jdbcType=INTEGER}
+	</if>
+	<if test="demandNumber != null">
+		and d.demand_number = #{demandNumber,jdbcType=VARCHAR}
 	</if>
   </select>
   

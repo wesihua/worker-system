@@ -124,4 +124,11 @@ public interface DemandService {
 	Demand queryDetailWithOrder(int demandId);
 
 	public OrderModel demandAssignList(Integer demandId);
+	
+	/**
+	 * 查询确定该招聘需求是否含有未确认的订单
+	 * @param demandId
+	 * @return
+	 */
+	boolean hasUnConfirmedDemand(Integer demandId);
 }

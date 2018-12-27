@@ -135,23 +135,40 @@ function detailDemand(demandId,state){
 }
 
 function closeDemand(demandId){
-	openDialog("close-demand-dialog");
-	parent.$("#confirm-close-demand").click(function(){
-		var content = parent.$("#close-demand-textarea").val();
-		$.ajax({
-			url:"/demand/closeDemand",
-			type:"get",
-			data:{demandId:demandId,closeReason:content},
-			dataType:"json",
-			success:function(data){
-				if(data.code == 1){
-					alert("关单成功！");
-					top.closeDialog();
-					query(1);
+	
+	$.ajax({
+		url:"/demand/isDemandConfirmed",
+		type:"get",
+		data:{demandId:demandId},
+		dataType:"json",
+		success:function(data){
+			if(data.code == 1){
+				if(data.data){
+					alert("该招聘需求下有未确认的订单，请先确认订单相关金额再关闭该招聘！");
+				}
+				else{
+					openDialog("close-demand-dialog");
+					parent.$("#confirm-close-demand").click(function(){
+						var content = parent.$("#close-demand-textarea").val();
+						$.ajax({
+							url:"/demand/closeDemand",
+							type:"get",
+							data:{demandId:demandId,closeReason:content},
+							dataType:"json",
+							success:function(data){
+								if(data.code == 1){
+									alert("关单成功！");
+									top.closeDialog();
+									query(1);
+								}
+							}
+						});
+					});
 				}
 			}
-		});
+		}
 	});
+	
 }
 /**
  * 打开弹窗

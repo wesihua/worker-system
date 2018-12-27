@@ -724,4 +724,10 @@
 	where d.id = #{demandId,jdbcType=INTEGER}
   </select>
   
+  <select id="selectUnConfirmedDemand" resultMap="BaseResultMap" parameterType="int" >
+  	select <include refid="Base_Column_List" /> 
+  	from t_yx_demand t where exists (select 1 from t_yx_demand_order o where o.demand_id = t.id and o.confirm_state != 2)
+  	and t.id = #{demandId,jdbcType=INTEGER}
+  </select>
+  
 </mapper>

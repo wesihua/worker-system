@@ -100,6 +100,7 @@ public class DemandOrder {
      */
     private Integer updateUser;
     
+    private String demandNumber;
     
     private String companyName;
     
@@ -123,7 +124,15 @@ public class DemandOrder {
     
     private List<OrderWorker> orderWorkerList;
 
-    public List<OrderWorker> getOrderWorkerList() {
+    public String getDemandNumber() {
+		return demandNumber;
+	}
+
+	public void setDemandNumber(String demandNumber) {
+		this.demandNumber = demandNumber;
+	}
+
+	public List<OrderWorker> getOrderWorkerList() {
 		return orderWorkerList;
 	}
 
