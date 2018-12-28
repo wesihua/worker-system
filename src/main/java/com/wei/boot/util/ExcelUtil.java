@@ -2,6 +2,7 @@ package com.wei.boot.util;
 
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -73,6 +74,18 @@ public class ExcelUtil {
 		ExcelRow row = new ExcelRow();
 		for(int i = 0; i < headers.length; ++i)
 			row.add(headers[i]);
+		return row;
+	}
+	
+	/**
+	 * 组装表头
+	 * @param headers
+	 * @return
+	 */
+	public static ExcelRow excelHeaders4List(List<String> headers) {
+		ExcelRow row = new ExcelRow();
+		for(int i = 0; i < headers.size(); i++)
+			row.add(headers.get(i));
 		return row;
 	}
 }

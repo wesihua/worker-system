@@ -1,7 +1,9 @@
 package com.wei.boot.controller.pc;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.wei.boot.contant.GlobalConstant;
 import com.wei.boot.contant.GlobalConstant.OrderWorkerState;
 import com.wei.boot.model.Demand;
 import com.wei.boot.model.DemandJob;
@@ -459,24 +462,76 @@ public class DemandController {
 			parameters.setUserId(userId);
 			List<Demand> list = demandService.queryDemand(page, parameters).getData();
 			if (null != list && !list.isEmpty()) {
-				ExcelRow headers = ExcelUtil.excelHeaders("客户名称", "招聘编号", "状态", "创建时间", "创建人");
 				ExcelData data = new ExcelData();
+				
+				List<String> headerList = new ArrayList<String>();
+				headerList.add("招聘编号");
+				headerList.add("状态");
+				headerList.add("企业名称");
+				headerList.add("创建时间");
+				headerList.add("创建人");
+				headerList.add("招聘工种");
+				headerList.add("招聘人数");
+				headerList.add("性别要求");
+				headerList.add("学历要求");
+				headerList.add("专业要求");
+				
+				
+				if (Objects.nonNull(parameters.getState()) && parameters.getState() >= GlobalConstant.DemandState.PROCESSING) {
+					headerList.add("接单人");
+					headerList.add("接单时间");
+				}
+
+				
+				if (Objects.nonNull(parameters.getState()) && parameters.getState() >= GlobalConstant.DemandState.CLOSE) {
+					headerList.add("关单人");
+					headerList.add("关单时间");
+					headerList.add("关单原因");
+				}
+				
+				headerList.add("备注");
+				ExcelRow headers = ExcelUtil.excelHeaders4List(headerList);
+				
 				for (Demand info : list) {
 					ExcelRow row = new ExcelRow();
-					row.add(info.getCompanyName());
+					
 					row.add(info.getDemandNumber());
 					row.add(info.getStateName());
+					row.add(info.getCompanyName());
 					row.add(info.getCreateTime());
 					row.add(info.getCreateUserName());
-//					row.add(info.getBankAccount());
-//					row.add(info.getCount());
-//					row.add(info.getContactName());
-//					row.add(info.getContactPhone());
-//					row.add(info.getAddress());
+					if(!CollectionUtils.isEmpty(info.getDemandJobList())) {
+						DemandJob job = info.getDemandJobList().get(0);
+						row.add(job.getJobTypeName());
+						row.add(job.getWorkerCount());
+						row.add(job.getGenderName());
+						row.add(job.getDegreeName());
+						row.add(job.getMajor());
+					}
+					else {
+						row.add("");
+						row.add("");
+						row.add("");
+						row.add("");
+						row.add("");
+					}
 					
+					if (Objects.nonNull(parameters.getState()) && parameters.getState() >= GlobalConstant.DemandState.PROCESSING) {
+						row.add(info.getUndertakeUserName());
+						row.add(info.getUndertakeTime());
+					}
+					
+					if (Objects.nonNull(parameters.getState()) && parameters.getState() >= GlobalConstant.DemandState.CLOSE) {
+						row.add(info.getCloseUserName());
+						row.add(info.getCloseTime());
+						row.add(info.getCloseReason());
+					}
+					row.add(info.getDescription());					
 					data.add(row);
 				}
-				ExcelUtil.exportExcel(headers, data, "订单信息.xls", response);
+				
+				ExcelUtil.exportExcel(headers, data, "需求单信息.xls", response);
+			
 			}
 		} catch (Exception e) {
 			log.error("导出失败", e);

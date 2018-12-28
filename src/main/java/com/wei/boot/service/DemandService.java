@@ -8,6 +8,7 @@ import com.wei.boot.model.DemandQuery;
 import com.wei.boot.model.DemandStateStatistic;
 import com.wei.boot.model.OrderWorker;
 import com.wei.boot.model.Page;
+import com.wei.boot.model.Result;
 import com.wei.boot.model.signing.JobTypeModel;
 import com.wei.boot.model.signing.OrderModel;
 
@@ -132,4 +133,6 @@ public interface DemandService {
 	 * @return
 	 */
 	boolean hasUnConfirmedDemand(Integer demandId);
+
+	public List<Demand> exportQuery(DemandQuery parameters);
 }
