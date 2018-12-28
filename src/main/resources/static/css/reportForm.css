@@ -118,12 +118,13 @@
       line-height: 20px;
       margin:10px 0px 0px 10px;
 }
-.cnt{
+
+#reportForm .a-m-content .oneBox1 .cnt,#reportForm .a-m-content .oneBox3 .cnt{
 	border: 1px solid #dcdfe6;
 	background:#f8f8f8;
 	margin:-2px 0px 0px 10px;
 	height:28px;
-	width:50px;
+	padding:0px 10px;
     line-height: 30px;
     display: inline-block;
     text-align: center;
@@ -132,12 +133,26 @@
     font-weight: bold;
     color: #7CB5EC;
 }
-.cnt2{
+#reportForm .a-m-content .oneBox1 .cnt2,#reportForm .a-m-content .oneBox3 .cnt2{
 	border: 1px solid #dcdfe6;
 	background:#f8f8f8;
 	margin: 10px 0px 0px 10px;
 	height:28px;
-	width:50px;
+	padding:0px 10px;
+    line-height: 30px;
+    display: inline-block;
+    text-align: center;
+    vertical-align:middle;
+    border-radius: 5px;
+    font-weight: bold;
+    color: #7CB5EC;
+}
+#reportForm .a-m-content .oneBox .cnt2,#reportForm .a-m-content .oneBox .cnt1{
+      border: 1px solid #dcdfe6;
+	background:#f8f8f8;
+	margin: 10px 0px 0px 10px;
+	height:28px;
+	padding:0px 10px;
     line-height: 30px;
     display: inline-block;
     text-align: center;
