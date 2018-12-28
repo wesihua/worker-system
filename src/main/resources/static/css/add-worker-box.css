@@ -16,9 +16,9 @@
     position: fixed;
     left:50%;
     top:20px;
-    margin-left:-500px;
+    margin-left:-555px;
     /* margin-top:-237px; */
-    width: 1000px;
+    width: 1110px;
     /* height:475px; */
     background-color: #ffffff;
     border-radius:5px;
@@ -108,7 +108,7 @@
             float: right;
             height: 500px;
             overflow: auto;
-            width:320px;
+            width:430px;
             background-color: #f8f8f8;
             padding-left: 10px;
           }
@@ -135,7 +135,8 @@
             #qiandan-select-result .result-area ul li .select-title span {
               display: inline-block;
               font-size: 12px;
-              width:90px;
+              width:80px;
+              float: left;
               line-height: 40px; 
               text-align: center;
               margin-right:5px;
@@ -155,10 +156,10 @@
             #qiandan-select-result .result-area ul li .select-input input {
               line-height: 30px;
               font-size: 12px;
-              width: 90px;
+              width: 78px;
               border: 1px solid #cccccc;
               margin-right:5px;
-              text-indent:11px;
+              text-indent:0px;
                }
                #qiandan-select-result .result-area ul li .select-input input:last-child{
                  margin-right:0px;

@@ -333,11 +333,11 @@ function queryWorkerList(pageNum,demandJobId){
 								            	"<span style=\"float:right;\" id=\"delete-worker-x\" class=\"fa fa-close\"" + " data="+ id +" >&nbsp&nbsp;</span>" +
 								            "</div>"+
 								            "<div class=\"select-title\">"+
-								                "<span class=\"a\">签约月工资（元)</span>"+
+								                "<span class=\"a\">签约月工资(元)</span>"+
 								                "<span class=\"b\">到岗日期</span>"+
-								                "<span class=\"c\">业务收入（元）</span>"+
-								                "<span class=\"b\">采集金额（元）</span>"+
-								                "<span class=\"c\">接单金额（元）</span>"+
+								                "<span class=\"c\">业务收入(元)</span>"+
+								                "<span class=\"b\">采集金额(元)</span>"+
+								                "<span class=\"c\">接单金额(元)</span>"+
 								            "</div>"+
 								            "<div class=\"select-input\">"+
 								                "<input name='xiaoshu' class=\"a signSalary\" type=\"text\" value=''/>"+

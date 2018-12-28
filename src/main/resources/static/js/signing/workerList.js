@@ -251,9 +251,9 @@ function queryWorkerList(pageNum){
 			    		var content = '<li class="order-worder" id=check_'+id+' data="'+ id +'">'+
 								            '<div class="select-name">'+name+'（'+ idcard +'）</div>'+
 								            '<div class="select-title">'+
-								                '<span class="a">签约月工资（元)</span>'+
+								                '<span class="a">签约月工资(元)</span>'+
 								                '<span class="b">到岗日期</span>'+
-								               ' <span class="c">业务收入（元）</span>'+
+								               ' <span class="c">业务收入(元)</span>'+
 								            '</div>'+
 								            '<div class="select-input">'+
 								                '<input class="a signSalary" type="text" value="" />'+
