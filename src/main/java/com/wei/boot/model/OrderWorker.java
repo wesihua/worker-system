@@ -118,7 +118,37 @@ public class OrderWorker {
     
     private String workerCreateUserName;
     
-    public Integer getWorkerCreateUser() {
+    private Integer confirmState;
+    
+    private String confirmStateName;
+    
+    private String orderNumber;
+    
+    public String getOrderNumber() {
+		return orderNumber;
+	}
+
+	public void setOrderNumber(String orderNumber) {
+		this.orderNumber = orderNumber;
+	}
+
+	public Integer getConfirmState() {
+		return confirmState;
+	}
+
+	public void setConfirmState(Integer confirmState) {
+		this.confirmState = confirmState;
+	}
+
+	public String getConfirmStateName() {
+		return confirmStateName;
+	}
+
+	public void setConfirmStateName(String confirmStateName) {
+		this.confirmStateName = confirmStateName;
+	}
+
+	public Integer getWorkerCreateUser() {
 		return workerCreateUser;
 	}
 

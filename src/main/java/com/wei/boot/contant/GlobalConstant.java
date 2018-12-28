@@ -84,6 +84,7 @@ public interface GlobalConstant {
 		String DEMAND_STATE= "demand_state"; // 需求单状态
 		String DEGREE_DEMAND= "degree_demand"; // 学历要求
 		String GENDER_DEMAND= "gender_demand"; // 性别要求
+		String ORDER_CONFIRM_STATE = "order_confirm_state"; // 订单确认状态
 	}
 	
 	interface DemandState {
@@ -98,6 +99,15 @@ public interface GlobalConstant {
 		Integer ASSIGN = 0;
 		// 签约状态
 		Integer SIGNING = 1;
+	}
+	
+	interface OrderConfirmState {
+		// 待确认
+		Integer WAITING = 0;
+		// 驳回
+		Integer REJECT = 1;
+		// 已确认
+		Integer SUCCESS = 2;
 	}
 	
 	

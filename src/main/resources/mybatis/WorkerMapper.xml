@@ -915,9 +915,9 @@
     <select id="selectAssignByPage" resultMap="BaseResultMap" parameterType="map" >
   	SELECT
 		t.id, t.name, t.photo, t.sex, t.telephone, t.idcard, t.birthplace_code, t.work_year, t.marital_status, 
-		t.workplace_code, t.expect_salary,jobtype_name,t.work_expect
+		t.workplace_code, t.expect_salary,jobtype_name,t.work_expect,u.real_name
 	FROM
-		t_yx_worker t 
+		t_yx_worker t left join t_sys_user u on t.create_user = u.id
 	<where>
 		 t.id &lt;= (
 			select id from t_yx_worker x

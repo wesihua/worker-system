@@ -393,6 +393,12 @@ public class DemandServiceImpl implements DemandService {
 				worker.setBirthplaceName(area.getName());
 			}
 		}
+		
+		if(Objects.nonNull(orderWorker.getConfirmState())) {
+			String confirmStateName = commonService.queryDicText(GlobalConstant.DictionaryType.ORDER_CONFIRM_STATE, orderWorker.getConfirmState());
+			orderWorker.setConfirmStateName(confirmStateName);
+		}
+		
 		orderWorker.setWorker(worker);
 	}
 
@@ -447,14 +453,23 @@ public class DemandServiceImpl implements DemandService {
 	}
 
 	@Override
-	public void editOrderWorker(OrderWorker orderWorker) {
+	public void editOrderWorker(OrderWorker orderWorker) throws NormalException {
 		// 
 		OrderWorker orderWorkerDb = orderWorkerMapper.selectByPrimaryKey(orderWorker.getId());
+		if(Objects.nonNull(orderWorkerDb.getOrderId())) {
+			DemandOrder demandOrder = demandOrderMapper.selectByPrimaryKey(orderWorkerDb.getOrderId());
+			if(Objects.nonNull(demandOrder) && Objects.equals(GlobalConstant.OrderConfirmState.SUCCESS, demandOrder.getConfirmState())) {
+				throw new NormalException("订单已确认不能进行修改！");
+			}
+		}
+		
 		orderWorkerDb.setBusinessIncome(orderWorker.getBusinessIncome());
 		orderWorkerDb.setUpdateTime(new Date());
 		orderWorkerDb.setUpdateUser(orderWorker.getUpdateUser());
 		orderWorkerDb.setArriveWorkTime(orderWorker.getArriveWorkTime());
 		orderWorkerDb.setSignSalary(orderWorker.getSignSalary());
+		orderWorkerDb.setCollectUserIncome(orderWorker.getCollectUserIncome());
+		orderWorkerDb.setUndertakeUserIncome(orderWorker.getUndertakeUserIncome());
 		orderWorkerMapper.updateByPrimaryKey(orderWorkerDb);
 	}
 
@@ -576,9 +591,12 @@ public class DemandServiceImpl implements DemandService {
 		List<OrderWorker> orderWorkerList = orderWorkerMapper.selectByExample(example);
 		
 		if(!CollectionUtils.isEmpty(orderWorkerList)) {
+			// 翻译
 			for (OrderWorker orderWorker : orderWorkerList) {
 				translateOrderWorker(orderWorker);
 			}
+			
+			// 订单状态
 		}
 		
 		DemandJob demandJob = queryDemandJobById(demandJobId);
@@ -814,6 +832,7 @@ public class DemandServiceImpl implements DemandService {
 		if (!CollectionUtils.isEmpty(orderWorkerList)) {
 			for (OrderWorker orderWorker : orderWorkerList) {
 				Worker worker = workerMapper.selectByPrimaryKey(orderWorker.getWorkerId());
+				worker.setCreateUserName(commonService.queryUserName(worker.getCreateUser()));
 				orderWorker.setWorker(worker);
 			}
 			

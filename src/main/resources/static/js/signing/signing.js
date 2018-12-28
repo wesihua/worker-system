@@ -207,11 +207,12 @@ function assignWorker(demandJobId){
     		var collectUserIncome= $that.find(".collectUserIncome").val();
     		if(collectUserIncome!=""&&collectUserIncome.length>0){
     			orderWorker.collectUserIncome = collectUserIncome;
-    		}else{
-    			alert("采集收入不能为空");
-    			flag=true;
-    			return;
     		}
+//    		else{
+//    			alert("采集收入不能为空");
+//    			flag=true;
+//    			return;
+//    		}
     		
     		
     		var undertakeUserIncome= $that.find(".undertakeUserIncome").val();
@@ -289,7 +290,7 @@ function queryWorkerList(pageNum,demandJobId){
 									//"	<td>"+worker.birthplaceName+"</td>"+
 									"	<td>"+(worker.jobtypeName == null ? "" : worker.jobtypeName)+"</td>"+
 									"	<td>"+worker.expectSalaryName+"</td>"+
-									//"	<td>"+worker.workplaceName+"</td>"+
+									"	<td>"+worker.createUserName+"</td>"+
 									"	<td><input class='check-input' type=\"checkbox\" name=\"check\" value="+worker.id+" ></td>"+
 									"</tr>";
 				}
@@ -424,9 +425,12 @@ function signingDetail(){
                     "	<th>身份证号</th>" +
                     "	<th>联系电话</th>" +
                     "	<th>擅长工种</th>" +
+                    "	<th>采集人</th>" +
                     "	<th>签约月工资（元）</th>" +
                     "	<th>到岗日期</th>" +
                     "	<th width='120'>业务收入（元）</th>" +
+                    "	<th width='120'>采集收入（元）</th>" +
+                    "	<th width='120'>接单收入（元）</th>" +
                     "</tr>";
 
                 for (var i = 0; i < firmArr.length; i++) {
@@ -437,9 +441,12 @@ function signingDetail(){
                         "	<td>" + worker.idcard + "</td>" +
                         "	<td>" + worker.telephone + "</td>" +
                         "	<td>" + (worker.jobtypeName == null ? "" : worker.jobtypeName) + "</td>" +
+                        "	<td>" + (worker.createUserName == null ? "" : worker.createUserName) + "</td>" +
                         "	<td>" + firm.signSalary + "</td>" +
                         "	<td>" + (firm.arriveWorkTime == null ? "" : firm.arriveWorkTime) + "</td>" +
                         "	<td width='120'>" + firm.businessIncome + "</td>" +
+                        "	<td width='120'>" + firm.collectUserIncome + "</td>" +
+                        "	<td width='120'>" + firm.undertakeUserIncome + "</td>" +
                         "</tr>";
                 }
                 
@@ -524,17 +531,6 @@ function openDialog(id){
 function showAssignList(jobTypeId){
 	var url = "/demand/orderWorkerAssignList";
 	var text = "本次已分配用工";
-	showAssignList1(jobTypeId,url,text,1);
-}
-
-/**
- * 
- * @param jobTypeId
- * @returns
- */
-function showAssignList1(jobTypeId,url,text,isCanDel){
-	
-	var pageNum = 1;
     $.ajax({
         url: url,
         type: "get",
@@ -575,12 +571,212 @@ function showAssignList1(jobTypeId,url,text,isCanDel){
                         "	<td id=\"arriveWorkTime\">" + (firm.arriveWorkTime == null ? "" : firm.arriveWorkTime) + "</td>" +
                         "	<td id=\"businessIncome\" width='80'>" + (firm.businessIncome == null ? "" : firm.businessIncome) + "</td>" +
                         "	<td id=\"collectUserIncome\" width='80'>" + (firm.collectUserIncome == null ? "" : firm.collectUserIncome) + "</td>" +
-                        "	<td id=\"undertakeUserIncome\" width='80'>" + (firm.undertakeUserIncome == null ? "" : firm.undertakeUserIncome) + "</td>" ;
-                        
-                        if(isCanDel == 1){
-                        	tableContent +="   <td><span class='delete' id='delete-worker'>移除</span><span class='edit' id='edit-worker'>编辑</span><span class='edit' style ='display:none' id='confirm-edit'>确定</span></td>" ;
-                        }else{
-                        	tableContent +="   <td><span class='edit' id='edit-worker'>编辑</span><span class='edit' style ='display:none' id='confirm-edit'>确定</span></td>";
+                        "	<td id=\"undertakeUserIncome\" width='80'>" + (firm.undertakeUserIncome == null ? "" : firm.undertakeUserIncome) + "</td>" +
+                        "   <td><span class='delete' id='delete-worker'>移除</span><span class='edit' id='edit-worker'>编辑</span><span class='edit' style ='display:none' id='confirm-edit'>确定</span></td>" +
+                        "</tr>";
+                    
+                    // <span class=\"edit\" id=\"edit-worker\">编辑</span>
+                }
+                
+                if(firmArr.length > 0){
+                	openDialog("yifenpei-list");
+                    parent.$("#worker-list-table").empty().append(tableContent);
+                }else{
+                	alert("暂无分配用工！");
+                }
+                // 分配工人的操作
+                orderWorkerOperate();
+            }
+        }
+    });
+}
+
+function orderWorkerOperate(){
+	// 删除           
+    parent.$("#worker-list-table").on("click","#delete-worker",function(){
+    	deleteOrderWorker(this);
+    });
+    
+    // 点击编辑
+    parent.$("#worker-list-table").on("click","#edit-worker",function(){
+    	 $(this).parents('td').children('#confirm-edit').show();
+    	 $(this).hide();
+    	 
+    	// 签约工资变成可输入框
+    	var signSalary = $(this).parents('tr').children('#signSalary').text();
+    	var signSalaryTd = $(this).parents('tr').children('#signSalary');
+		var signSalaryTxt = $("<input id='signSalary-input' type='text'>").val(signSalary);
+		signSalaryTd.text("");
+		signSalaryTd.append(signSalaryTxt);
+		
+		// 业务收入变成可输入框
+    	var businessIncome = $(this).parents('tr').children('#businessIncome').text();
+    	var businessIncomeTd = $(this).parents('tr').children('#businessIncome');
+    	var businessIncomeTxt = $("<input id='businessIncome-input' type='text'>").val(businessIncome);
+    	businessIncomeTd.text("");
+    	businessIncomeTd.append(businessIncomeTxt);
+    	
+    	// 采集收入
+    	var collectUserIncome = $(this).parents('tr').children('#collectUserIncome').text();
+    	var collectUserIncomeTd = $(this).parents('tr').children('#collectUserIncome');
+    	var collectUserIncomeTxt = $("<input id='collectUserIncome-input' type='text'>").val(collectUserIncome);
+    	collectUserIncomeTd.text("");
+    	collectUserIncomeTd.append(collectUserIncomeTxt);
+    	
+    	// 接单收入
+    	var undertakeUserIncome = $(this).parents('tr').children('#undertakeUserIncome').text();
+    	var undertakeUserIncomeTd = $(this).parents('tr').children('#undertakeUserIncome');
+    	var undertakeUserIncomeTxt = $("<input id='undertakeUserIncome-input' type='text'>").val(undertakeUserIncome);
+    	undertakeUserIncomeTd.text("");
+    	undertakeUserIncomeTd.append(undertakeUserIncomeTxt);
+    	
+    	// 到岗日期变成可输入框
+    	var arriveWorkTime = $(this).parents('tr').children('#arriveWorkTime').text();
+    	var arriveWorkTimeTd = $(this).parents('tr').children('#arriveWorkTime');
+    	
+    	var arriveWorkTimeDev = $('<div class="c-datepicker-date-editor c-datepicker-single-editor J-yearMonthPicker-single mt10">');
+     	
+     	var arriveWorkTimeTxt = $("<input id='arriveWorkTime-input' type='text' style='width:100px' placeholder='选择到岗日期'  onchange=''>").val(arriveWorkTime);
+     	arriveWorkTimeTd.text("");
+     	arriveWorkTimeDev.append(arriveWorkTimeTxt);
+     	arriveWorkTimeTd.append(arriveWorkTimeDev);
+     	parent.$('.J-yearMonthPicker-single').datePicker({
+     		format : 'YYYY-MM-DD'
+     	});
+     	
+     	parent.$("#worker-list-table").on("keyup afterpaste","#businessIncome-input,#signSalary-input,#undertakeUserIncome-input,#collectUserIncome-input",function(){
+    		
+    		if(this.value.length==1){
+    			this.value=this.value.replace(/[^1-9]/g,'')
+    		}else{
+    			this.value = this.value.replace(/[^\d.]/g,''); 
+    			this.value = this.value.replace(/^\./g,'');
+    			this.value = this.value.replace(/\.{2,}/g,'');
+    			this.value = this.value.replace('.','$#$').replace(/\./g,'').replace('$#$','.');
+    			this.value = this.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3');
+    		}
+    	});
+    });
+    
+    
+ 
+    // 确认编辑
+	parent.$("#worker-list-table").on("click","#confirm-edit",function(){
+		
+		var id = $(this).parents('tr').children('#id').val();
+        	
+        // 隐藏确定  恢复编辑按钮	
+       	$(this).parents('td').children('#edit-worker').show();
+       	$(this).hide();
+       	 // 取值
+       	var signSalary = $(this).parents('tr').find('#signSalary-input').val();
+       	$(this).parents('tr').children('#signSalary-input').remove();
+       	$(this).parents('tr').children('#signSalary').text(signSalary);
+
+       	var businessIncome = $(this).parents('tr').find('#businessIncome-input').val();
+       	$(this).parents('tr').children('#businessIncome').text(businessIncome);;
+       	$(this).parents('tr').children('#businessIncome-input').remove();
+       	
+       	var arriveWorkTime = $(this).parents('tr').find('#arriveWorkTime-input').val();
+       	$(this).parents('tr').children('#arriveWorkTime-input').remove();
+       	$(this).parents('tr').children('#arriveWorkTime').text(arriveWorkTime);
+      
+       	var undertakeUserIncome = $(this).parents('tr').find('#undertakeUserIncome-input').val();
+       	$(this).parents('tr').children('#undertakeUserIncome-input').remove();
+       	$(this).parents('tr').children('#undertakeUserIncome').text(undertakeUserIncome);
+       	
+       	var collectUserIncome = $(this).parents('tr').find('#collectUserIncome-input').val();
+       	$(this).parents('tr').children('#collectUserIncome-input').remove();
+       	$(this).parents('tr').children('#collectUserIncome').text(collectUserIncome);
+       	
+       	// 加校验
+       	if (!signSalary) {
+			alert("签约工资不能为空！");
+			return;
+		}
+       		
+   		if (!businessIncome) {
+			alert("业务收入不能为空！");
+			return;
+		}
+   		
+   		if (!undertakeUserIncome) {
+			alert("接单收入不能为空！");
+			return;
+		}
+       	
+       	updateOrderWorker(id,signSalary,businessIncome,arriveWorkTime,collectUserIncome,undertakeUserIncome);
+   });
+}
+
+function showSigningList(jobTypeId){
+	
+	var url = "/demand/orderWorkerSigningList";
+	var text = "已签约用工";
+    $.ajax({
+        url: url,
+        type: "get",
+        data: { demandJobId: jobTypeId},
+        dataType: "json",
+        success: function (data) {
+            if (data.code == 1) {
+
+                var firmArr = data.data.orderWorkerList;
+                var tableContent = "";
+                $("#order-worker-list-span").text(text);
+                // 是否显示操作
+                var isShowOpButton = 0;
+                for (var i = 0; i < firmArr.length; i++) {
+                	var firm = firmArr[i];
+                	if(firm.confirmState != null && firm.confirmState != 2){
+                		isShowOpButton = 1;
+                		break;
+                	}
+                }
+                
+                tableContent += "<tr>" +
+                    "	<th width='62'>用工姓名</th>" +
+                    "	<th width='40'>籍贯</th>" +
+                    "	<th width='120'>身份证号</th>" +
+                    "	<th width='93'>联系电话</th>" +
+                    "	<th width='90'>擅长工种</th>" +
+                    "	<th width='90'>签约月工资(元)</th>" +
+                    "	<th width='96'>到岗日期</th>" +
+                    "	<th width='80'>业务收入（元）</th>" +
+                    "	<th width='80'>采集收入（元）</th>" +
+                    "	<th width='80'>接单收入（元）</th>" +
+                    "	<th width='80'>订单编号</th>" +
+                    "	<th width='80'>订单状态</th>";
+                if(isShowOpButton == 1){
+                	tableContent += "	<th width='100'>操作</th>";
+                }
+                    tableContent += "</tr>";
+                
+               
+
+                for (var i = 0; i < firmArr.length; i++) {
+                    var firm = firmArr[i];
+                    var worker = firm.worker;
+                    tableContent += "<tr>" +
+                        "   <input id=\"id\" type=\"hidden\" value="+ firm.id +">" +
+                        "	<td id=\"id\">" + worker.name + "</td>" +
+                        "	<td>" + worker.birthplaceName + "</td>" +
+                        "	<td>" + worker.idcard + "</td>" +
+                        "	<td>" + worker.telephone + "</td>" +
+                        "	<td>" + (worker.jobtypeName == null ? "" : worker.jobtypeName) + "</td>" +
+                        "	<td id=\"signSalary\">" + firm.signSalary + "</td>" +
+                        "	<td id=\"arriveWorkTime\">" + (firm.arriveWorkTime == null ? "" : firm.arriveWorkTime) + "</td>" +
+                        "	<td id=\"businessIncome\" width='80'>" + (firm.businessIncome == null ? "" : firm.businessIncome) + "</td>" +
+                        "	<td id=\"collectUserIncome\" width='80'>" + (firm.collectUserIncome == null ? "" : firm.collectUserIncome) + "</td>" +
+                        "	<td id=\"undertakeUserIncome\" width='80'>" + (firm.undertakeUserIncome == null ? "" : firm.undertakeUserIncome) + "</td>" +
+                        "	<td>" + (firm.orderNumber == null ? "" : firm.orderNumber) + "</td>"+
+                        "	<td>" + (firm.confirmStateName == null ? "" : firm.confirmStateName) + "</td>";
+                        if(isShowOpButton == 1){
+                        	if(firm.confirmState == 2){
+                            	tableContent +="   <td></td>" ;
+                            }else{
+                            	tableContent +="   <td><span class='edit' id='edit-worker'>编辑</span><span class='edit' style ='display:none' id='confirm-edit'>确定</span></td>";
+                            }
                         }
                         tableContent += "</tr>";
                     
@@ -594,195 +790,12 @@ function showAssignList1(jobTypeId,url,text,isCanDel){
                 	alert("暂无分配用工！");
                 }
                 
-                // 删除           
-                parent.$("#worker-list-table").on("click","#delete-worker",function(){
-                	deleteOrderWorker(this);
-                });
-                
-                // 点击编辑
-                parent.$("#worker-list-table").on("click","#edit-worker",function(){
-                	 $(this).parents('td').children('#confirm-edit').show();
-                	 $(this).hide();
-                	 
-                	// 签约工资变成可输入框
-                	var signSalary = $(this).parents('tr').children('#signSalary').text();
-                	var signSalaryTd = $(this).parents('tr').children('#signSalary');
-            		var signSalaryTxt = $("<input id='signSalary-input' type='text'>").val(signSalary);
-            		signSalaryTd.text("");
-            		signSalaryTd.append(signSalaryTxt);
-            		
-            		// 业务收入变成可输入框
-                	var businessIncome = $(this).parents('tr').children('#businessIncome').text();
-                	var businessIncomeTd = $(this).parents('tr').children('#businessIncome');
-                	var businessIncomeTxt = $("<input id='businessIncome-input' type='text'>").val(businessIncome);
-                	businessIncomeTd.text("");
-                	businessIncomeTd.append(businessIncomeTxt);
-                	
-                	// 采集收入
-                	var collectUserIncome = $(this).parents('tr').children('#collectUserIncome').text();
-                	var collectUserIncomeTd = $(this).parents('tr').children('#collectUserIncome');
-                	var collectUserIncomeTxt = $("<input id='collectUserIncome-input' type='text'>").val(collectUserIncome);
-                	collectUserIncomeTd.text("");
-                	collectUserIncomeTd.append(collectUserIncomeTxt);
-                	
-                	// 接单收入
-                	var undertakeUserIncome = $(this).parents('tr').children('#undertakeUserIncome').text();
-                	var undertakeUserIncomeTd = $(this).parents('tr').children('#undertakeUserIncome');
-                	var undertakeUserIncomeTxt = $("<input id='undertakeUserIncome-input' type='text'>").val(undertakeUserIncome);
-                	undertakeUserIncomeTd.text("");
-                	undertakeUserIncomeTd.append(undertakeUserIncomeTxt);
-                	
-                	// 到岗日期变成可输入框
-                	var arriveWorkTime = $(this).parents('tr').children('#arriveWorkTime').text();
-                	var arriveWorkTimeTd = $(this).parents('tr').children('#arriveWorkTime');
-                	
-                	var arriveWorkTimeDev = $('<div class="c-datepicker-date-editor c-datepicker-single-editor J-yearMonthPicker-single mt10">');
-                 	
-                 	var arriveWorkTimeTxt = $("<input id='arriveWorkTime-input' type='text' style='width:100px' placeholder='选择到岗日期'  onchange=''>").val(arriveWorkTime);
-                 	arriveWorkTimeTd.text("");
-                 	arriveWorkTimeDev.append(arriveWorkTimeTxt);
-                 	arriveWorkTimeTd.append(arriveWorkTimeDev);
-                 	parent.$('.J-yearMonthPicker-single').datePicker({
-                 		format : 'YYYY-MM-DD'
-                 	});
-                 	
-                 	parent.$("#worker-list-table").on("keyup afterpaste","#businessIncome-input,#signSalary-input,#undertakeUserIncome-input,#collectUserIncome-input",function(){
-			    		
-			    		if(this.value.length==1){
-			    			this.value=this.value.replace(/[^1-9]/g,'')
-			    		}else{
-			    			this.value = this.value.replace(/[^\d.]/g,''); 
-			    			this.value = this.value.replace(/^\./g,'');
-			    			this.value = this.value.replace(/\.{2,}/g,'');
-			    			this.value = this.value.replace('.','$#$').replace(/\./g,'').replace('$#$','.');
-			    			this.value = this.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3');
-			    		}
-			    	});
-                });
-                
-                
-             
-                // 确认编辑
-            	parent.$("#worker-list-table").on("click","#confirm-edit",function(){
-            		
-            		var id = $(this).parents('tr').children('#id').val();
-	                	
-	                // 隐藏确定  恢复编辑按钮	
-	               	$(this).parents('td').children('#edit-worker').show();
-	               	$(this).hide();
-	               	 // 取值
-	               	var signSalary = $(this).parents('tr').find('#signSalary-input').val();
-	               	$(this).parents('tr').children('#signSalary-input').remove();
-	               	$(this).parents('tr').children('#signSalary').text(signSalary);
-	
-	               	var businessIncome = $(this).parents('tr').find('#businessIncome-input').val();
-	               	$(this).parents('tr').children('#businessIncome').text(businessIncome);;
-	               	$(this).parents('tr').children('#businessIncome-input').remove();
-	               	
-	               	var arriveWorkTime = $(this).parents('tr').find('#arriveWorkTime-input').val();
-	               	$(this).parents('tr').children('#arriveWorkTime-input').remove();
-	               	$(this).parents('tr').children('#arriveWorkTime').text(arriveWorkTime);
-	              
-	               	var undertakeUserIncome = $(this).parents('tr').find('#undertakeUserIncome-input').val();
-	               	$(this).parents('tr').children('#undertakeUserIncome-input').remove();
-	               	$(this).parents('tr').children('#undertakeUserIncome').text(undertakeUserIncome);
-	               	
-	               	var collectUserIncome = $(this).parents('tr').find('#collectUserIncome-input').val();
-	               	$(this).parents('tr').children('#collectUserIncome-input').remove();
-	               	$(this).parents('tr').children('#collectUserIncome').text(collectUserIncome);
-	               	
-	               	// 加校验
-	               	if (!signSalary) {
-        				alert("签约工资不能为空！");
-        				return;
-        			}
-	               		
-               		if (!businessIncome) {
-        				alert("业务收入不能为空！");
-        				return;
-        			}
-               		
-               		if (!undertakeUserIncome) {
-        				alert("接单收入不能为空！");
-        				return;
-        			}
-	               		
-               		if (!collectUserIncome) {
-        				alert("采集收入不能为空！");
-        				return;
-        			}
-	               	
-	               	
-	               	updateOrderWorker(id,signSalary,businessIncome,arriveWorkTime,collectUserIncome,undertakeUserIncome);
-               });
+                // 分配工人的操作
+                orderWorkerOperate();
             }
         }
     });
-}
 
-function showSigningList(jobTypeId){
-	
-	var url = "/demand/orderWorkerSigningList";
-	var text = "已签约用工";
-	showAssignList1(jobTypeId,url,text,0);
-}
-function showSigningList1(jobTypeId){
-	
-    $.ajax({
-        url: "/demand/orderWorkerSigningList",
-        type: "get",
-        data: { demandJobId: jobTypeId},
-        dataType: "json",
-        success: function (data) {
-            if (data.code == 1) {
-
-                var firmArr = data.data.orderWorkerList;
-                var tableContent = "";
-                $("#order-worker-list-span").text("已签约用工");
-                tableContent += "<tr>" +
-                "	<th width='62'>用工姓名</th>" +
-                "	<th width='40'>籍贯</th>" +
-                "	<th width='120'>身份证号</th>" +
-                "	<th width='93'>联系电话</th>" +
-                "	<th width='90'>擅长工种</th>" +
-                "	<th width='90'>签约月工资(元)</th>" +
-                "	<th width='96'>到岗日期</th>" +
-                "	<th width='140'>业务收入（元）</th>" +
-                "	<th width='140'>采集收入（元）</th>" +
-                "	<th width='140'>接单收入（元）</th>" +
-                "	<th width='100'>操作</th>" +
-                "</tr>";
-
-            for (var i = 0; i < firmArr.length; i++) {
-                var firm = firmArr[i];
-                var worker = firm.worker;
-                tableContent += "<tr>" +
-                    "   <input id=\"id\" type=\"hidden\" value="+ firm.id +">" +
-                    "	<td id=\"id\">" + worker.name + "</td>" +
-                    "	<td>" + worker.birthplaceName + "</td>" +
-                    "	<td>" + worker.idcard + "</td>" +
-                    "	<td>" + worker.telephone + "</td>" +
-                    "	<td>" + (worker.jobtypeName == null ? "" : worker.jobtypeName) + "</td>" +
-                    "	<td id=\"signSalary\">" + firm.signSalary + "</td>" +
-                    "	<td id=\"arriveWorkTime\">" + (firm.arriveWorkTime == null ? "" : firm.arriveWorkTime) + "</td>" +
-                    "	<td id=\"businessIncome\" width='40'>" + (firm.businessIncome == null ? "" : firm.businessIncome) + "</td>" +
-                    "	<td id=\"collectUserIncome\" width='40'>" + (firm.collectUserIncome == null ? "" : firm.collectUserIncome) + "</td>" +
-                    "	<td id=\"undertakeUserIncome\" width='40'>" + (firm.undertakeUserIncome == null ? "" : firm.undertakeUserIncome) + "</td>" +
-                    "   <td><span class='delete' id='delete-worker'>移除</span><span class='edit' id='edit-worker'>编辑</span><span class='edit' style ='display:none' id='confirm-edit'>确定</span></td>" +
-                    "</tr>";
-                
-                // <span class=\"edit\" id=\"edit-worker\">编辑</span>
-            }
-                
-                if(firmArr.length > 0){
-                	openDialog("yifenpei-list");
-                    parent.$("#worker-list-table").empty().append(tableContent);
-                }else{
-                	alert("暂无分配用工！");
-                }
-            }
-        }
-    });
 }
 
 /**

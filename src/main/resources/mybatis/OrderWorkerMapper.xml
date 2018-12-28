@@ -25,6 +25,8 @@
     <result column="job_type_name" jdbcType="VARCHAR" property="jobTypeName" />
     <result column="undertake_user_income" jdbcType="VARCHAR" property="undertakeUserIncome" />
     <result column="collect_user_income" jdbcType="VARCHAR" property="collectUserIncome" />
+    <result column="confirm_state" jdbcType="INTEGER" property="confirmState" />
+    <result column="order_number" jdbcType="VARCHAR" property="orderNumber" />
     
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -115,8 +117,10 @@
     <if test="distinct">
       distinct
     </if>
-    <include refid="Base_Column_List" />
-    from t_yx_order_worker
+    w.id, w.demand_job_id, w.worker_id, w.order_id, w.sign_salary, w.business_income, w.arrive_work_time, 
+    w.description, w.create_user, w.create_time, w.update_user, w.update_time, w.undertake_user_income,
+    w.collect_user_income,o.confirm_state,o.order_number
+    from t_yx_order_worker w left join t_yx_demand_order o on o.id = w.order_id
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>

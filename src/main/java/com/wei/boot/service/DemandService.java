@@ -81,8 +81,9 @@ public interface DemandService {
 	/**
 	 * 编辑签约用工
 	 * @param orderWorker
+	 * @throws NormalException 
 	 */
-	public void editOrderWorker(OrderWorker orderWorker);
+	public void editOrderWorker(OrderWorker orderWorker) throws NormalException;
 
 	/**
 	 * 分配用工
