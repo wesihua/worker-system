@@ -59,8 +59,13 @@ function query(currentPage) {
 				if (firmArr.length > 0) {
 
 					tableContent+= "<tr>"+
-									"	<th>企业客户</th>"+
 									"	<th>招聘编号</th>"+
+									"	<th>企业客户</th>"+
+									"   <th>招聘工种</th>"+ 
+								    "	<th>招聘人数</th>"+ 
+									"	<th>性别要求</th>"+ 
+									"	<th>学历要求</th>"+ 
+									"	<th>专业要求</th>"+ 
 									"	<th>状态</th>"+
 									"	<th>接单人</th>"+
 									"	<th>接单时间</th>"+
@@ -74,9 +79,24 @@ function query(currentPage) {
 					for(var i=0; i<firmArr.length; i++){
 						var firm = firmArr[i];
 						tableContent+=  "<tr>"+
-										"	<td>"+firm.companyName+"</td>"+
 										"	<td>"+firm.demandNumber+"</td>"+
-										"	<td>"+firm.stateName+"</td>"+
+										"	<td>"+firm.companyName+"</td>";
+						if(firm.demandJobList != null && firm.demandJobList.length > 0){
+							var demandJob = firm.demandJobList[0];
+							tableContent+= "<td>"+demandJob.jobTypeName+"</td>"+
+							"<td>"+(demandJob.workerCount == null ? "" : demandJob.workerCount)+"</td>"+
+							"<td>"+(demandJob.genderName == null ? "" : demandJob.genderName)+"</td>"+
+							"<td>"+(demandJob.degreeName == null ? "" : demandJob.degreeName)+"</td>"+
+							"<td>"+(demandJob.major == null ? "" : demandJob.major)+"</td>";
+						}
+						else{
+							tableContent+= "<td></td>"+
+							"<td></td>"+
+							"<td></td>"+
+							"<td></td>"+
+							"<td></td>";
+						}
+						 tableContent+= "	<td>"+firm.stateName+"</td>"+
 										"	<td>"+firm.undertakeUserName+"</td>"+
 										"	<td>"+(firm.undertakeTime == null ? "" : firm.undertakeTime)+"</td>"+
 										"	<td>"+firm.closeUserName+"</td>"+

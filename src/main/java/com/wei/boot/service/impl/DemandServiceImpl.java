@@ -184,6 +184,12 @@ public class DemandServiceImpl implements DemandService {
 		List<Demand> list = demandMapper.selectByPage(map);
 		if (!CollectionUtils.isEmpty(list)) {
 			translateDemandList(list);
+
+			for (Demand demand : list) {
+				List<DemandJob> jobList = demandJobMapper.selectByDemandId(demand.getId());
+				demand.setDemandJobList(jobList);
+			}
+
 		}
 		
 		page.pageData(list, totalCount);
