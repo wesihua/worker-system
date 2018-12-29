@@ -66,6 +66,8 @@ function query(currentPage) {
 									"	<th>性别要求</th>"+ 
 									"	<th>学历要求</th>"+ 
 									"	<th>专业要求</th>"+ 
+									"	<th>签约状态</th>"+
+									"	<th>驳回原因</th>"+
 									"	<th>状态</th>"+
 									"	<th>接单人</th>"+
 									"	<th>接单时间</th>"+
@@ -94,6 +96,20 @@ function query(currentPage) {
 							"<td></td>"+
 							"<td></td>"+
 							"<td></td>"+
+							"<td></td>";
+						}
+						
+						if(firm.demandOrderList != null && firm.demandOrderList.length > 0){
+							var demandOrder = firm.demandOrderList[0];
+							tableContent+= "<td>"+(demandOrder.confirmStateName == null ? "" : demandOrder.confirmStateName)+"</td>";
+							if(demandOrder.confirmState == 1){
+								tableContent+= "<td>"+(demandOrder.rejectReason == null ? "" : demandOrder.rejectReason)+"</td>";
+							}else{
+								tableContent+= "<td></td>";
+							}
+						}
+						else{
+							tableContent+= "<td></td>"+
 							"<td></td>";
 						}
 						 tableContent+= "	<td>"+firm.stateName+"</td>"+
