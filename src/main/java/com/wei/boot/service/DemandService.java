@@ -134,5 +134,4 @@ public interface DemandService {
 	 */
 	boolean hasUnConfirmedDemand(Integer demandId);
 
-	public List<Demand> exportQuery(DemandQuery parameters);
 }

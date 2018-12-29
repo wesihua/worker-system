@@ -672,7 +672,7 @@ function addDemand(){
 		demandJob.age =  $(this).children("#age").html();
 		demandJob.degree =  $(this).children("#degree").val();
 		demandJob.gender =  $(this).children("#gender").val();
-		demandJob.major =  $(this).children("#major").val();
+		demandJob.major =  $(this).children("#major").html();
 		demandJobList.push(demandJob);
 	});
 	

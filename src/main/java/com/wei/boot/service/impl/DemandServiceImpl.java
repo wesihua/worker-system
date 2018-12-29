@@ -470,12 +470,15 @@ public class DemandServiceImpl implements DemandService {
 	public void editOrderWorker(OrderWorker orderWorker) throws NormalException {
 		// 
 		OrderWorker orderWorkerDb = orderWorkerMapper.selectByPrimaryKey(orderWorker.getId());
+		DemandOrder demandOrder = null;
 		if(Objects.nonNull(orderWorkerDb.getOrderId())) {
-			DemandOrder demandOrder = demandOrderMapper.selectByPrimaryKey(orderWorkerDb.getOrderId());
+			demandOrder = demandOrderMapper.selectByPrimaryKey(orderWorkerDb.getOrderId());
 			if(Objects.nonNull(demandOrder) && Objects.equals(GlobalConstant.OrderConfirmState.SUCCESS, demandOrder.getConfirmState())) {
 				throw new NormalException("订单已确认不能进行修改！");
 			}
 		}
+		
+		String oldBusinessIncome = orderWorkerDb.getBusinessIncome();
 		
 		orderWorkerDb.setBusinessIncome(orderWorker.getBusinessIncome());
 		orderWorkerDb.setUpdateTime(new Date());
@@ -485,6 +488,11 @@ public class DemandServiceImpl implements DemandService {
 		orderWorkerDb.setCollectUserIncome(orderWorker.getCollectUserIncome());
 		orderWorkerDb.setUndertakeUserIncome(orderWorker.getUndertakeUserIncome());
 		orderWorkerMapper.updateByPrimaryKey(orderWorkerDb);
+		
+		if(Objects.nonNull(demandOrder) && !Objects.equals(oldBusinessIncome, orderWorker.getBusinessIncome())) {
+			demandOrder.setTotalIncome((new BigDecimal(demandOrder.getTotalIncome()).add(new BigDecimal(orderWorker.getBusinessIncome())).subtract(new BigDecimal(oldBusinessIncome))).toString());
+			demandOrderMapper.updateByPrimaryKeySelective(demandOrder);
+		}
 	}
 
 	@Override
@@ -882,73 +890,5 @@ public class DemandServiceImpl implements DemandService {
 		}
 	}
 
-	@Override
-	public List<Demand> exportQuery(DemandQuery parameters) {
-
-		/**
-		 * 
-		 
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		
-		// 签约中管理员只能选自己的
-		if(Objects.nonNull(parameters.getUserId()) 
-				&& Objects.nonNull(parameters.getState()) 
-				&& (Objects.equals(GlobalConstant.DemandState.SIGNING, demandQuery.getState()) 
-						|| Objects.equals(GlobalConstant.DemandState.PROCESSING, demandQuery.getState()))) {
-
-			User user = userMapper.selectByPrimaryKey(parameters.getUserId());
-			if (!Objects.equals(GlobalConstant.UserRole.ADMIN, user.getRoleId())) {
-				map.put("undertakeUser", parameters.getUserId());
-			}
-		}
-		
-		if(!StringUtils.isEmpty(parameters.getCompanyName())) {
-			map.put("companyName","%" + parameters.getCompanyName() + "%");
-		}
-		
-		if(!StringUtils.isEmpty(parameters.getDemandNumber())) {
-			map.put("demandNumber","%" + parameters.getDemandNumber() + "%");
-		}
-		
-		if(Objects.nonNull(parameters.getCompanyId())) {
-			map.put("companyId", parameters.getCompanyId());
-		}
-		if(Objects.nonNull(parameters.getCreateBeginTime())) {
-			map.put("createBeginTime", parameters.getCreateBeginTime());
-		}
-		if(Objects.nonNull(parameters.getCreateEndTime())) {
-			map.put("createEndTime", parameters.getCreateEndTime());
-		}
-
-		if(Objects.nonNull(parameters.getCloseBeginTime())) {
-			map.put("closeBeginTime", parameters.getCloseBeginTime());
-		}
-		if(Objects.nonNull(parameters.getCloseEndTime())) {
-			map.put("closeEndTime", parameters.getCloseEndTime());
-		}
-		
-		if(Objects.nonNull(parameters.getState())) {
-			map.put("state", parameters.getState());
-		}
-		
-		int totalCount = demandMapper.selectCount(map);
-		
-		
-		List<Demand> list = demandMapper.selectExport(map);
-		if (!CollectionUtils.isEmpty(list)) {
-			translateDemandList(list);
-
-			for (Demand demand : list) {
-				List<DemandJob> jobList = demandJobMapper.selectByDemandId(demand.getId());
-				demand.setDemandJobList(jobList);
-			}
-
-		}
-		
-		
-		return list;*/
-		
-	    return null;
-	}
+	
 }
