@@ -370,7 +370,7 @@ function renderDemandBar(data){
 	    tooltip: {
 	        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
 	        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-	            '<td style="padding:0"><b>{point.y:.1f} 个</b></td></tr>',
+	            '<td style="padding:0"><b>{point.y:.0f} 个</b></td></tr>',
 	        footerFormat: '</table>',
 	        shared: true,
 	        useHTML: true
@@ -423,7 +423,7 @@ function renderOrderBar(data){
 	    tooltip: {
 	        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
 	        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-	            '<td style="padding:0"><b>{point.y:.1f} 个</b></td></tr>',
+	            '<td style="padding:0"><b>{point.y:.0f} 个</b></td></tr>',
 	        footerFormat: '</table>',
 	        shared: true,
 	        useHTML: true
@@ -477,7 +477,7 @@ function renderOrderMemberBar(data){
 	    tooltip: {
 	        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
 	        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-	            '<td style="padding:0"><b>{point.y:.1f} 人</b></td></tr>',
+	            '<td style="padding:0"><b>{point.y:.0f} 人</b></td></tr>',
 	        footerFormat: '</table>',
 	        shared: true,
 	        useHTML: true
@@ -532,7 +532,7 @@ function renderOrderIncomeBar(data){
 		tooltip: {
 			headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
 			pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-			'<td style="padding:0"><b>{point.y:.1f} 元</b></td></tr>',
+			'<td style="padding:0"><b>{point.y:.2f} 元</b></td></tr>',
 			footerFormat: '</table>',
 			shared: true,
 			useHTML: true
