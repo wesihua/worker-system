@@ -66,6 +66,8 @@ function query(currentPage) {
 									"	<th width='200'>性别要求</th>"+
 									"	<th width='250'>学历要求</th>"+
 									"	<th width='250'>专业要求</th>"+
+									"	<th width='250'>签约状态</th>"+
+									"	<th width='250'>驳回原因</th>"+
 									"	<th width='120'>接单人</th>"+
 									"	<th width='220'>接单时间</th>"+
 									"	<th width='120'>创建人</th>"+
@@ -92,6 +94,20 @@ function query(currentPage) {
 							"<td></td>"+
 							"<td></td>"+
 							"<td></td>"+
+							"<td></td>";
+						}
+						
+						if(firm.demandOrderList != null && firm.demandOrderList.length > 0){
+							var demandOrder = firm.demandOrderList[0];
+							tableContent+= "<td>"+(demandOrder.confirmStateName == null ? "" : demandOrder.confirmStateName)+"</td>";
+							if(demandOrder.confirmState == 1){
+								tableContent+= "<td>"+(demandOrder.rejectReason == null ? "" : demandOrder.rejectReason)+"</td>";
+							}else{
+								tableContent+= "<td></td>";
+							}
+						}
+						else{
+							tableContent+= "<td></td>"+
 							"<td></td>";
 						}
 		tableContent+="	<td>"+firm.undertakeUserName+"</td>"+

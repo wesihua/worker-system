@@ -95,6 +95,20 @@ function query(currentPage){
 										"<td></td>"+
 										"<td></td>";
 									}
+									
+									if(worker.demandOrderList != null && worker.demandOrderList.length > 0){
+										var demandOrder = worker.demandOrderList[0];
+										tableContent+= "<td>"+(demandOrder.confirmStateName == null ? "" : demandOrder.confirmStateName)+"</td>";
+										if(demandOrder.confirmState == 1){
+											tableContent+= "<td>"+(demandOrder.rejectReason == null ? "" : demandOrder.rejectReason)+"</td>";
+										}else{
+											tableContent+= "<td></td>";
+										}
+									}
+									else{
+										tableContent+= "<td></td>"+
+										"<td></td>";
+									}
 									tableContent+= "	<td>"+worker.undertakeUserName+"</td>"+
 									"	<td>"+worker.closeUserName+"</td>"+
 									"	<td>"+(worker.closeTime == null ? "" : worker.closeTime)+"</td>"+

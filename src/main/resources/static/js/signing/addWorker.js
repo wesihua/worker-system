@@ -74,10 +74,6 @@ $(function () {
     		var signSalary = $that.find(".signSalary").val();
 			if(signSalary!=""&&signSalary.length>0){
 				orderWorker.signSalary=signSalary;
-    		}else{
-    			alert("签约月工资不能为空");
-    			flag=true;
-    			return;
     		}
     		var arriveWorkTime = $that.find(".arriveWorkTime").val();
     		if(arriveWorkTime!=""&&arriveWorkTime.length>0){

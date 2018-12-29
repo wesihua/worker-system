@@ -23,4 +23,7 @@ $(function(){
 	$("#downloadTemplate").click(function(){
 		window.open("/import_tpl/import_template.xls");
 	});
+	$("#downloadQrcode").click(function(){
+		window.open("/import_tpl/qr.png");
+	});
 });

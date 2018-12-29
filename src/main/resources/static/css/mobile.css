@@ -6,6 +6,7 @@
 }
 body{
 	padding-bottom: 40px;
+	background: white;
 }
 .mobile-header{
 	height: 30px;
@@ -26,25 +27,35 @@ body{
 	float: left;
 	line-height: 35px;
 	margin-left: -80px;
-	
+	color: #777777;
+	font-weight: bold;
+}
+.mobile-enter-area .line-input span i{
+	color: red;
+	font-weight: bold;
+	margin-right: 5px;
 }
 
 .mobile-enter-area .line-input input{
-	border:1px solid #cccccc;
+	border:1px solid #abd390;
 	height:35px;
 	line-height: 35px;
 	width: 100%;
 	border-radius: 5px;
-	background: #fafafa;
+	background-color:transparent;
 	text-indent: 5px;
-	
 }
 
 .mobile-enter-area .line-input select{
 	height:35px;
 	line-height: 35px;
 	width: 100%;
-	background: #fafafa;
+	background-color: transparent;
+	border: 1px solid #abd390;
+	padding-left: 5px;
+}
+.mobile-enter-area .line-input select:selected{
+	/* background-color: red; */
 }
 .mobile-enter-area .line-input select option{
 	height: 35px;
@@ -58,8 +69,8 @@ body{
 	line-height: 20px;
 	width: 100%;
 	height: 60px;
-	background: #fafafa;
-	border:1px solid #cccccc;
+	background: transparent;
+	border:1px solid #abd390;
 	resize: none;
 	overflow: auto;
 }
@@ -72,12 +83,11 @@ body{
 	height: 40px;
 	line-height: 40px;
 	text-align: center;
-	background:red;
+	background:#4caf50;
 	color: #ffffff;
 	font-size: 14px;
 	margin-bottom: 15px;
 	margin:0px 20px 15px 20px;
-	background: #e13a3a;
 	border-radius: 5px;
 }
 

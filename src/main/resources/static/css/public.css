@@ -38,12 +38,12 @@ input,select, textarea {
 
 #main {
   min-width: 1130px;
-  padding-left:200px;
+  padding-left:190px;
   margin: 0px auto; }
 
 #nav {
   float:left;
-  margin-left:-200px;
+  margin-left:-190px;
   width: 170px;
   float: left;
   /* background: #474b4d; */
@@ -102,7 +102,7 @@ input,select, textarea {
     height: 80px;
     line-height: 80px;
     margin: 0px auto; 
-    border-top: 2px solid #859ac4;
+    border-top: 1px solid #4caf50;
     box-shadow: 0 0 1px 0px rgba(0,0,0,0.3), 0 0 10px 1px rgba(0,0,0,0.15);
     background: rgba(255,255,255,0.94);
     /* background-color: #ccc; */

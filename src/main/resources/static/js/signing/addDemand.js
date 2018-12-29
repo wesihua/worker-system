@@ -63,6 +63,7 @@ function queryDetail(){
 										"	<th>性别要求</th>"+
 										"	<th>学历要求</th>"+
 										"	<th>年龄要求</th>"+
+										"	<th>专业要求</th>"+
 										"	<th>用工要求</th>"+
 										"	<th>操作</th>"+
 										"</tr>";
@@ -77,6 +78,7 @@ function queryDetail(){
 											"  <td id='genderName'>"+(firm.genderName == null ? '': firm.genderName)+"</td>"+
 											"  <td id='degreeName'>"+(firm.degreeName == null ? '': firm.degreeName)+"</td>"+
 											"  <td id='age'>"+(firm.age == null ? '':firm.age)+"</td>"+
+											"  <td id='major'>"+(firm.major == null ? '':firm.major)+"</td>"+
 											"  <td id='requirement'>"+firm.requirement+"</td>"+
 											"  <input id='id' type=\"hidden\" name=\"id\" value="+ firm.id +">" +
 											"  <input id='jobTypeId' type=\"hidden\" name=\"jobTypeId\" value="+ firm.jobTypeId +">" +
@@ -240,23 +242,6 @@ function initOtherSelect(gender,degree){
  */
 function initJob(parentJobTypeId,jobTypeId){
 	
-	// 省份选中事件
-//	parent.$("#province").change(function(){
-//		var parentCode = this.value;
-//		parent.$('#parentCode').val(parentCode);
-//		queryArea(parentCode,areaCode);
-//	});
-	
-	// 地区选中事件
-//	parent.$("select#workAreaList").change(function(){
-//		// 选中事件
-//		var workArea = parent.$('select#workAreaList option:selected').val();
-//		var workAreaName = parent.$('select#workAreaList option:selected').text();
-//		parent.$('#workArea').val(workArea);
-//		parent.$('#workAreaName').val(workAreaName);
-//		
-//    });
-	
 	// 学历选中
 	parent.$("select#degree").change(function(){
 		// 选中事件
@@ -278,8 +263,6 @@ function initJob(parentJobTypeId,jobTypeId){
 		
     });
 	
-	// 初始化省
-	//initProvinceSelect(provinceCode);
 	
 	// 初始化父级工种
 	queryParentJobType(parentJobTypeId);
@@ -381,41 +364,9 @@ function initJob(parentJobTypeId,jobTypeId){
 			}
 		});
 	}
-	
 }
 
-/**
- * 
- * @param parentCode
- * @param areaCode
- * @returns
- 
-function queryArea(parentCode,areaCode){
-	$.ajax({
-		url:"/common/queryAreaByParentCode",
-		type:"get",
-		dataType:"json",
-		async:false,
-		data:{parentCode:parentCode},
-		success:function(data){
-			if(data.code == 1){
-				var dics = data.data;
-				var content = "<option value=\"\">请选择</option>";
-				for(var i=0; i<dics.length; i++){
-					var dic = dics[i];
-					if(areaCode != undefined && areaCode == dic.code){
-						content += "<option value=\""+dic.code+"\" selected=\"selected\">"+dic.name+"</option>";
-					} else {
-						content += "<option value=\""+dic.code+"\">"+dic.name+"</option>";
-					}
-					
-				}
-				parent.$("#workAreaList").empty().html(content);
-			}
-		}
-	});
-}
-*/
+
 /**
  * 添加工种
  * @returns
@@ -449,6 +400,7 @@ function addJob(){
 		var degree = parent.$("#degree").val();
 		var gender = parent.$("#gender").val();
 		var age = parent.$("#age").val();
+		var major = parent.$("#major").val();
 		var degreeName ="";
 		var genderName ="";
 		var workAreaName ='';
@@ -498,6 +450,7 @@ function addJob(){
 						  "  <td id='genderName'>"+genderName+"</td>"+
 						  "  <td id='degreeName'>"+degreeName+"</td>"+
 						  "  <td id='age'>"+age+"</td>"+
+						  "  <td id='major'>"+major+"</td>"+
 						  "  <input id='workArea' type='hidden' name='workArea' value="+ workArea +">" +
 						  //"  <input id='parentCode' type='hidden' name='parentCode' value="+ parentCode +">" +
 						  "  <input id='degree' type='hidden' name='degree' value="+ degree +">" +
@@ -562,6 +515,7 @@ function editJob(obj) {
 	var genderName = trobj.children("#genderName").html();
 	var degree = trobj.children("#degree").val();
 	var gender = trobj.children("#gender").val();
+	var major = trobj.children("#major").html();
     // provinceCode,areaCode,parentJobTypeId,jobTypeId
 	initJob(parentJobTypeId, jobTypeId)
 	// queryArea(parentCode, workArea);
@@ -584,6 +538,7 @@ function editJob(obj) {
 	parent.$("#age").val(age);
 	parent.$("#degree").val(degree);
 	parent.$("#gender").val(gender);
+	parent.$("#major").val(major);
 	parent.$("#degreeName").val(degreeName);
 	parent.$("#genderName").val(genderName);
 	
@@ -603,6 +558,7 @@ function editJob(obj) {
 		var age_ = parent.$("#age").val();
 		var degree_ = parent.$("#degree").val();
 		var gender_ = parent.$("#gender").val();
+		var major_ = parent.$("#major").val();
 		var degreeName_ = "";
 		var genderName_ = "";
 		
@@ -612,12 +568,6 @@ function editJob(obj) {
 		if(gender_ > 0){
 			genderName_ = parent.$("#genderName").val();
 		}
-		
-//		if(workArea_ > 0){
-//			workAreaName_ = parent.$("#workAreaName").val();
-//			parentCode_ = parent.$("#parentCode").val();
-//		}
-		
 		
 		if(parent.$("#workplaceCode").selectivity('data')){
 			workAreaName_ = parent.$("#workplaceCode").selectivity('data').text;
@@ -660,6 +610,7 @@ function editJob(obj) {
 			trobj.children("#age").html(age_);
 			trobj.children("#degree").val(degree_);
 			trobj.children("#gender").val(gender_);
+			trobj.children("#major").html(major_);
 			trobj.children("#degreeName").html(degreeName_);
 			trobj.children("#genderName").html(genderName_);
 		}
@@ -688,6 +639,13 @@ function openDialog(id){
 function addDemand(){
 
 	var demand = {};
+	
+	if($("#companyName").selectivity('data') == null ||
+			$("#companyName").selectivity('data') == undefined){
+		alert("请选择企业！");
+		return false;
+	}
+	
 	demand.id=$("input:hidden[name='demandId']").val();
 	demand.companyId =$("#companyName").selectivity('data').id;
 	demand.description =$("#description").val();
@@ -709,11 +667,12 @@ function addDemand(){
 		demandJob.workerCount =  $(this).children("#workerCount").html();
 		demandJob.salary =  $(this).children("#salary").html();
 		demandJob.requireTime =  $(this).children("#requireTime").html();
-		demandJob.workArea =  $(this).children("#workArea").val();
+		demandJob.workArea =  $(this).children("#workArea").val() == "undefined" ? "":$(this).children("#workArea").val() ;
 		demandJob.requirement =  $(this).children("#requirement").html();
 		demandJob.age =  $(this).children("#age").html();
 		demandJob.degree =  $(this).children("#degree").val();
 		demandJob.gender =  $(this).children("#gender").val();
+		demandJob.major =  $(this).children("#major").html();
 		demandJobList.push(demandJob);
 	});
 	

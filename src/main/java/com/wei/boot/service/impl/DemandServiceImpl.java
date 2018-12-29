@@ -140,7 +140,8 @@ public class DemandServiceImpl implements DemandService {
 		if(Objects.nonNull(demandQuery.getUserId()) 
 				&& Objects.nonNull(demandQuery.getState()) 
 				&& (Objects.equals(GlobalConstant.DemandState.SIGNING, demandQuery.getState()) 
-						|| Objects.equals(GlobalConstant.DemandState.PROCESSING, demandQuery.getState()))) {
+						|| Objects.equals(GlobalConstant.DemandState.PROCESSING, demandQuery.getState())
+						|| Objects.equals(GlobalConstant.DemandState.CLOSE, demandQuery.getState()))) {
 
 			User user = userMapper.selectByPrimaryKey(demandQuery.getUserId());
 			if (!Objects.equals(GlobalConstant.UserRole.ADMIN, user.getRoleId())) {
@@ -188,6 +189,13 @@ public class DemandServiceImpl implements DemandService {
 			for (Demand demand : list) {
 				List<DemandJob> jobList = demandJobMapper.selectByDemandId(demand.getId());
 				demand.setDemandJobList(jobList);
+			}
+			
+			if (Objects.nonNull(demandQuery.getState()) && demandQuery.getState() >= GlobalConstant.DemandState.SIGNING) {
+				for (Demand demand : list) {
+					List<DemandOrder> demandOrders = demandOrderMapper.selectByDemandId(demand.getId());
+					demand.setDemandOrderList(demandOrders);
+				}
 			}
 
 		}
@@ -462,12 +470,15 @@ public class DemandServiceImpl implements DemandService {
 	public void editOrderWorker(OrderWorker orderWorker) throws NormalException {
 		// 
 		OrderWorker orderWorkerDb = orderWorkerMapper.selectByPrimaryKey(orderWorker.getId());
+		DemandOrder demandOrder = null;
 		if(Objects.nonNull(orderWorkerDb.getOrderId())) {
-			DemandOrder demandOrder = demandOrderMapper.selectByPrimaryKey(orderWorkerDb.getOrderId());
+			demandOrder = demandOrderMapper.selectByPrimaryKey(orderWorkerDb.getOrderId());
 			if(Objects.nonNull(demandOrder) && Objects.equals(GlobalConstant.OrderConfirmState.SUCCESS, demandOrder.getConfirmState())) {
 				throw new NormalException("订单已确认不能进行修改！");
 			}
 		}
+		
+		String oldBusinessIncome = orderWorkerDb.getBusinessIncome();
 		
 		orderWorkerDb.setBusinessIncome(orderWorker.getBusinessIncome());
 		orderWorkerDb.setUpdateTime(new Date());
@@ -477,6 +488,11 @@ public class DemandServiceImpl implements DemandService {
 		orderWorkerDb.setCollectUserIncome(orderWorker.getCollectUserIncome());
 		orderWorkerDb.setUndertakeUserIncome(orderWorker.getUndertakeUserIncome());
 		orderWorkerMapper.updateByPrimaryKey(orderWorkerDb);
+		
+		if(Objects.nonNull(demandOrder) && !Objects.equals(oldBusinessIncome, orderWorker.getBusinessIncome())) {
+			demandOrder.setTotalIncome((new BigDecimal(demandOrder.getTotalIncome()).add(new BigDecimal(orderWorker.getBusinessIncome())).subtract(new BigDecimal(oldBusinessIncome))).toString());
+			demandOrderMapper.updateByPrimaryKeySelective(demandOrder);
+		}
 	}
 
 	@Override
@@ -873,4 +889,6 @@ public class DemandServiceImpl implements DemandService {
 			return false;
 		}
 	}
+
+	
 }

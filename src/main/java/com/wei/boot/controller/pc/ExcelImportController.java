@@ -72,7 +72,7 @@ public class ExcelImportController {
 			fileName = ToolsUtil.get36UUID()
 					+ file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
 			// 该路径固定
-			filePath = "/Users/weisihua/excel_import/";
+			//filePath = "/Users/weisihua/excel_import/";
 			
 			File targetFile = new File(filePath);
 			if (!targetFile.exists()) {
@@ -123,9 +123,10 @@ public class ExcelImportController {
 								info.setDegree(getValue(row.getCell(6)));
 								info.setMaritalStatus(getValue(row.getCell(7)));
 								info.setPosition(getValue(row.getCell(8)));
-								info.setAddress(getValue(row.getCell(9)));
-								info.setProfile(getValue(row.getCell(10)));
-								info.setDescription(getValue(row.getCell(11)));
+								info.setTitle(getValue(row.getCell(9)));
+								info.setAddress(getValue(row.getCell(10)));
+								info.setProfile(getValue(row.getCell(11)));
+								info.setDescription(getValue(row.getCell(12)));
 								infoList.add(info);
 							}
 						}
@@ -166,6 +167,7 @@ public class ExcelImportController {
 						worker.setTelephone(info.getTelephone());
 						worker.setEmail(info.getEmail());
 						worker.setIdcard(info.getIdcard());
+						worker.setTitle(info.getTitle());
 						Integer gender = translateDic("gender", info.getGender());
 						worker.setSex(gender);
 						if (!StringUtils.isEmpty(info.getWorkYear())) {
