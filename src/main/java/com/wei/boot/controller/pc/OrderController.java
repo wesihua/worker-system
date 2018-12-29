@@ -163,7 +163,7 @@ public class OrderController {
 			page.setPageSize(20000);
 			List<DemandOrder> list = orderService.queryByPage4Confirm(order, page).getData();
 			if(null != list && list.size() > 0) {
-				ExcelRow headers = ExcelUtil.excelHeaders("企业名称","订单编号","总签订人数","总签订金额","客户负责人","接单人","确认人","确认时间","确认状态","驳回原因","创建时间");
+				ExcelRow headers = ExcelUtil.excelHeaders("企业名称","订单编号","总签订人数","总签订金额","接单金额","采集金额","采集人","接单人","确认人","确认时间","确认状态","驳回原因","创建时间");
 				ExcelData data = new ExcelData();
 				for(DemandOrder info : list) {
 					ExcelRow row = new ExcelRow();
@@ -171,7 +171,17 @@ public class OrderController {
 					row.add(info.getOrderNumber());
 					row.add(info.getWorkerCount());
 					row.add(info.getTotalIncome());
-					row.add(info.getCustomer());
+					if(null != info.getOrderWorkerList() && !info.getOrderWorkerList().isEmpty()) {
+						OrderWorker worker = info.getOrderWorkerList().get(0);
+						row.add(worker.getUndertakeUserIncome());
+						row.add(worker.getCollectUserIncome());
+						row.add(worker.getWorkerCreateUserName());
+					}
+					else {
+						row.add("");
+						row.add("");
+						row.add("");
+					}
 					row.add(info.getCreateUserName());
 					row.add(info.getConfirmUserName());
 					row.add(info.getConfirmTime());

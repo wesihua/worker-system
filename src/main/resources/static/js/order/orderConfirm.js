@@ -24,7 +24,7 @@ $(function(){
 		var beginTime = $("#beginTime").val();
 		var endTime = $("#endTime").val();
 		var confirmState = $("#confirmState").val();
-		window.open("/order/export?companyName="+companyName+"&orderNumber="+orderNumber+"&createUserName="+
+		window.open("/order/confirmList/export?companyName="+companyName+"&orderNumber="+orderNumber+"&createUserName="+
 				createUserName+"&beginTime="+beginTime+"&endTime="+endTime+"&confirmState="+confirmState+"&demandNumber="+demandNumber);
 	});
 	
