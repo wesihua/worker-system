@@ -873,4 +873,74 @@ public class DemandServiceImpl implements DemandService {
 			return false;
 		}
 	}
+
+	@Override
+	public List<Demand> exportQuery(DemandQuery parameters) {
+
+		/**
+		 * 
+		 
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		// 签约中管理员只能选自己的
+		if(Objects.nonNull(parameters.getUserId()) 
+				&& Objects.nonNull(parameters.getState()) 
+				&& (Objects.equals(GlobalConstant.DemandState.SIGNING, demandQuery.getState()) 
+						|| Objects.equals(GlobalConstant.DemandState.PROCESSING, demandQuery.getState()))) {
+
+			User user = userMapper.selectByPrimaryKey(parameters.getUserId());
+			if (!Objects.equals(GlobalConstant.UserRole.ADMIN, user.getRoleId())) {
+				map.put("undertakeUser", parameters.getUserId());
+			}
+		}
+		
+		if(!StringUtils.isEmpty(parameters.getCompanyName())) {
+			map.put("companyName","%" + parameters.getCompanyName() + "%");
+		}
+		
+		if(!StringUtils.isEmpty(parameters.getDemandNumber())) {
+			map.put("demandNumber","%" + parameters.getDemandNumber() + "%");
+		}
+		
+		if(Objects.nonNull(parameters.getCompanyId())) {
+			map.put("companyId", parameters.getCompanyId());
+		}
+		if(Objects.nonNull(parameters.getCreateBeginTime())) {
+			map.put("createBeginTime", parameters.getCreateBeginTime());
+		}
+		if(Objects.nonNull(parameters.getCreateEndTime())) {
+			map.put("createEndTime", parameters.getCreateEndTime());
+		}
+
+		if(Objects.nonNull(parameters.getCloseBeginTime())) {
+			map.put("closeBeginTime", parameters.getCloseBeginTime());
+		}
+		if(Objects.nonNull(parameters.getCloseEndTime())) {
+			map.put("closeEndTime", parameters.getCloseEndTime());
+		}
+		
+		if(Objects.nonNull(parameters.getState())) {
+			map.put("state", parameters.getState());
+		}
+		
+		int totalCount = demandMapper.selectCount(map);
+		
+		
+		List<Demand> list = demandMapper.selectExport(map);
+		if (!CollectionUtils.isEmpty(list)) {
+			translateDemandList(list);
+
+			for (Demand demand : list) {
+				List<DemandJob> jobList = demandJobMapper.selectByDemandId(demand.getId());
+				demand.setDemandJobList(jobList);
+			}
+
+		}
+		
+		
+		return list;*/
+		
+	    return null;
+	}
 }
