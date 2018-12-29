@@ -610,7 +610,7 @@ function editJob(obj) {
 			trobj.children("#age").html(age_);
 			trobj.children("#degree").val(degree_);
 			trobj.children("#gender").val(gender_);
-			trobj.children("#major").val(major_);
+			trobj.children("#major").html(major_);
 			trobj.children("#degreeName").html(degreeName_);
 			trobj.children("#genderName").html(genderName_);
 		}
@@ -639,6 +639,13 @@ function openDialog(id){
 function addDemand(){
 
 	var demand = {};
+	
+	if($("#companyName").selectivity('data') == null ||
+			$("#companyName").selectivity('data') == undefined){
+		alert("请选择企业！");
+		return false;
+	}
+	
 	demand.id=$("input:hidden[name='demandId']").val();
 	demand.companyId =$("#companyName").selectivity('data').id;
 	demand.description =$("#description").val();
@@ -660,7 +667,7 @@ function addDemand(){
 		demandJob.workerCount =  $(this).children("#workerCount").html();
 		demandJob.salary =  $(this).children("#salary").html();
 		demandJob.requireTime =  $(this).children("#requireTime").html();
-		demandJob.workArea =  $(this).children("#workArea").val();
+		demandJob.workArea =  $(this).children("#workArea").val() == "undefined" ? "":$(this).children("#workArea").val() ;
 		demandJob.requirement =  $(this).children("#requirement").html();
 		demandJob.age =  $(this).children("#age").html();
 		demandJob.degree =  $(this).children("#degree").val();
