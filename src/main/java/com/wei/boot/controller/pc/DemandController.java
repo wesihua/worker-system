@@ -23,6 +23,7 @@ import com.wei.boot.contant.GlobalConstant;
 import com.wei.boot.contant.GlobalConstant.OrderWorkerState;
 import com.wei.boot.model.Demand;
 import com.wei.boot.model.DemandJob;
+import com.wei.boot.model.DemandOrder;
 import com.wei.boot.model.DemandQuery;
 import com.wei.boot.model.DemandStateStatistic;
 import com.wei.boot.model.OrderWorker;
@@ -481,7 +482,11 @@ public class DemandController {
 					headerList.add("接单人");
 					headerList.add("接单时间");
 				}
-
+				
+				if (Objects.nonNull(parameters.getState()) && parameters.getState() >= GlobalConstant.DemandState.SIGNING) {
+					headerList.add("确认状态");
+					headerList.add("驳回原因");
+				}
 				
 				if (Objects.nonNull(parameters.getState()) && parameters.getState() >= GlobalConstant.DemandState.CLOSE) {
 					headerList.add("关单人");
@@ -494,7 +499,6 @@ public class DemandController {
 				
 				for (Demand info : list) {
 					ExcelRow row = new ExcelRow();
-					
 					row.add(info.getDemandNumber());
 					row.add(info.getStateName());
 					row.add(info.getCompanyName());
@@ -519,6 +523,18 @@ public class DemandController {
 					if (Objects.nonNull(parameters.getState()) && parameters.getState() >= GlobalConstant.DemandState.PROCESSING) {
 						row.add(info.getUndertakeUserName());
 						row.add(info.getUndertakeTime());
+					}
+					
+					if (Objects.nonNull(parameters.getState()) && parameters.getState() >= GlobalConstant.DemandState.SIGNING) {
+						if(!CollectionUtils.isEmpty(info.getDemandOrderList())) {
+							DemandOrder demandOrder = info.getDemandOrderList().get(0);
+							row.add(demandOrder.getConfirmStateName());
+							row.add(demandOrder.getRejectReason());
+						}
+						else {
+							row.add("");
+							row.add("");
+						}
 					}
 					
 					if (Objects.nonNull(parameters.getState()) && parameters.getState() >= GlobalConstant.DemandState.CLOSE) {

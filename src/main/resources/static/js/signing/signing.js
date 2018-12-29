@@ -185,11 +185,12 @@ function assignWorker(demandJobId){
     		var signSalary = $that.find(".signSalary").val();
 			if(signSalary!=""&&signSalary.length>0){
 				orderWorker.signSalary=signSalary;
-    		}else{
-    			alert("签约月工资不能为空");
-    			flag=true;
-    			return;
     		}
+//			else{
+//    			alert("签约月工资不能为空");
+//    			flag=true;
+//    			return;
+//    		}
     		var arriveWorkTime = $that.find(".arriveWorkTime").val();
     		if(arriveWorkTime!=""&&arriveWorkTime.length>0){
     			orderWorker.arriveWorkTime = arriveWorkTime;
@@ -442,11 +443,11 @@ function signingDetail(){
                         "	<td>" + worker.telephone + "</td>" +
                         "	<td>" + (worker.jobtypeName == null ? "" : worker.jobtypeName) + "</td>" +
                         "	<td>" + (worker.createUserName == null ? "" : worker.createUserName) + "</td>" +
-                        "	<td>" + firm.signSalary + "</td>" +
+                        "	<td>" + (firm.signSalary== null? "":firm.signSalary) + "</td>" +
                         "	<td>" + (firm.arriveWorkTime == null ? "" : firm.arriveWorkTime) + "</td>" +
-                        "	<td width='120'>" + firm.businessIncome + "</td>" +
-                        "	<td width='120'>" + firm.collectUserIncome + "</td>" +
-                        "	<td width='120'>" + firm.undertakeUserIncome + "</td>" +
+                        "	<td width='120'>" + (firm.businessIncome ==null ?"":firm.businessIncome)+ "</td>" +
+                        "	<td width='120'>" + (firm.collectUserIncome == null ? "":firm.collectUserIncome)+ "</td>" +
+                        "	<td width='120'>" + (firm.undertakeUserIncome == null ? "":firm.undertakeUserIncome )+ "</td>" +
                         "</tr>";
                 }
                 
@@ -567,7 +568,7 @@ function showAssignList(jobTypeId){
                         "	<td>" + worker.idcard + "</td>" +
                         "	<td>" + worker.telephone + "</td>" +
                         "	<td>" + (worker.jobtypeName == null ? "" : worker.jobtypeName) + "</td>" +
-                        "	<td id=\"signSalary\">" + firm.signSalary + "</td>" +
+                        "	<td id=\"signSalary\">" + (firm.signSalary==null?"":firm.signSalary) + "</td>" +
                         "	<td id=\"arriveWorkTime\">" + (firm.arriveWorkTime == null ? "" : firm.arriveWorkTime) + "</td>" +
                         "	<td id=\"businessIncome\" width='80'>" + (firm.businessIncome == null ? "" : firm.businessIncome) + "</td>" +
                         "	<td id=\"collectUserIncome\" width='80'>" + (firm.collectUserIncome == null ? "" : firm.collectUserIncome) + "</td>" +
@@ -690,10 +691,10 @@ function orderWorkerOperate(){
        	$(this).parents('tr').children('#collectUserIncome').text(collectUserIncome);
        	
        	// 加校验
-       	if (!signSalary) {
-			alert("签约工资不能为空！");
-			return;
-		}
+//       	if (!signSalary) {
+//			alert("签约工资不能为空！");
+//			return;
+//		}
        		
    		if (!businessIncome) {
 			alert("业务收入不能为空！");

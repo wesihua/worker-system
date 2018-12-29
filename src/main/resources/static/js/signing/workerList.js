@@ -137,10 +137,10 @@ function updateOrderWorker(id, name, signSalary, arriveWorkTime, businessIncome)
 		var arriveWorkTime_ = parent.$("#worker-arriveWorkTime").val();
 		var businessIncome_ = parent.$("#worker-businessIncome").val();
 		
-		if (!signSalary_) {
-			alert("签约工资不能为空！");
-			return false;
-		}
+//		if (!signSalary_) {
+//			alert("签约工资不能为空！");
+//			return false;
+//		}
 		if (!businessIncome_) {
 			alert("业务收入不能为空！");
 			return false;
@@ -289,11 +289,12 @@ function queryWorkerList(pageNum){
 				    		var signSalary = $that.find(".signSalary").val();
 							if(signSalary!=""&&signSalary.length>0){
 								orderWorker.signSalary=signSalary;
-				    		}else{
-				    			alert("签约月工资不能为空");
-				    			flag=true;
-				    			return;
 				    		}
+//							else{
+//				    			alert("签约月工资不能为空");
+//				    			flag=true;
+//				    			return;
+//				    		}
 				    		var arriveWorkTime = $that.find(".arriveWorkTime").val();
 				    		if(arriveWorkTime!=""&&arriveWorkTime.length>0){
 				    			orderWorker.arriveWorkTime = arriveWorkTime;
