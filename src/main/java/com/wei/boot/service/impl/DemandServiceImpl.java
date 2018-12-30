@@ -408,6 +408,10 @@ public class DemandServiceImpl implements DemandService {
 			}
 		}
 		
+		if(Objects.nonNull(worker.getCreateUser())) {
+			worker.setCreateUserName(commonService.queryUserName(worker.getCreateUser()));
+		}
+		
 		if(Objects.nonNull(orderWorker.getConfirmState())) {
 			String confirmStateName = commonService.queryDicText(GlobalConstant.DictionaryType.ORDER_CONFIRM_STATE, orderWorker.getConfirmState());
 			orderWorker.setConfirmStateName(confirmStateName);
