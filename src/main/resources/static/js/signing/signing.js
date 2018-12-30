@@ -743,6 +743,7 @@ function showSigningList(jobTypeId){
                     "	<th width='120'>身份证号</th>" +
                     "	<th width='93'>联系电话</th>" +
                     "	<th width='90'>擅长工种</th>" +
+                    "	<th width='90'>采集人</th>" +
                     "	<th width='90'>签约月工资(元)</th>" +
                     "	<th width='96'>到岗日期</th>" +
                     "	<th width='80'>业务收入（元）</th>" +
@@ -767,6 +768,7 @@ function showSigningList(jobTypeId){
                         "	<td>" + worker.idcard + "</td>" +
                         "	<td>" + worker.telephone + "</td>" +
                         "	<td>" + (worker.jobtypeName == null ? "" : worker.jobtypeName) + "</td>" +
+                        "	<td>" + (worker.createUserName == null ? "" : worker.createUserName) + "</td>" +
                         "	<td id=\"signSalary\">" + firm.signSalary + "</td>" +
                         "	<td id=\"arriveWorkTime\">" + (firm.arriveWorkTime == null ? "" : firm.arriveWorkTime) + "</td>" +
                         "	<td id=\"businessIncome\" width='80'>" + (firm.businessIncome == null ? "" : firm.businessIncome) + "</td>" +
