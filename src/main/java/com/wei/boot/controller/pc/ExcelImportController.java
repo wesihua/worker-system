@@ -30,9 +30,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.wei.boot.contant.GlobalConstant;
+import com.wei.boot.model.JobType;
 import com.wei.boot.model.Result;
 import com.wei.boot.model.Worker;
 import com.wei.boot.model.excel.WorkerImportInfo;
+import com.wei.boot.service.JobTypeService;
 import com.wei.boot.service.WorkerService;
 import com.wei.boot.util.CheckUtils;
 import com.wei.boot.util.JsonUtil;
@@ -55,6 +57,9 @@ public class ExcelImportController {
 
 	@Autowired
 	private WorkerService workerService;
+	
+	@Autowired
+	private JobTypeService jobTypeService;
 
 	@Value("${excel.upload.path}")
 	private String importPath;
@@ -72,7 +77,7 @@ public class ExcelImportController {
 			fileName = ToolsUtil.get36UUID()
 					+ file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
 			// 该路径固定
-			//filePath = "/Users/weisihua/excel_import/";
+			filePath = "/Users/weisihua/excel_import/";
 			
 			File targetFile = new File(filePath);
 			if (!targetFile.exists()) {
@@ -127,6 +132,9 @@ public class ExcelImportController {
 								info.setAddress(getValue(row.getCell(10)));
 								info.setProfile(getValue(row.getCell(11)));
 								info.setDescription(getValue(row.getCell(12)));
+								info.setBank(getValue(row.getCell(13)));
+								info.setBankAccount(getValue(row.getCell(14)));
+								info.setWorkStatusName(getValue(row.getCell(15)));
 								infoList.add(info);
 							}
 						}
@@ -181,6 +189,10 @@ public class ExcelImportController {
 						worker.setAddress(info.getAddress());
 						worker.setProfile(info.getProfile());
 						worker.setDescription(info.getDescription());
+						worker.setBank(info.getBank());
+						worker.setBankAccount(info.getBankAccount());
+						Integer workStatus = translateDic("workStatus", info.getWorkStatusName());
+						worker.setWorkStatus(workStatus);
 						worker.setSouce(GlobalConstant.Source.IMPORT);
 						worker.setCreateTime(new Date());
 						worker.setCreateUser(userId);
@@ -247,6 +259,16 @@ public class ExcelImportController {
 		return str;
 	}
 
+	
+	private Integer getJobTypeId(String jobTypeName) {
+		Integer id = null;
+		JobType jobType = jobTypeService.queryByName(jobTypeName);
+		if(null != jobType) {
+			id = jobType.getId();
+		}
+		return id;
+	}
+	
 	/**
 	 * 翻译字段字段
 	 * 
@@ -300,6 +322,23 @@ public class ExcelImportController {
 			}
 			if ("丧偶".equals(text.trim())) {
 				return 3;
+			}
+		}
+		if("workStatus".equals(type) && !StringUtils.isEmpty(text)) {
+			if ("已入职工作".equals(text.trim())) {
+				return 0;
+			}
+			if ("正在找工作".equals(text.trim())) {
+				return 1;
+			}
+			if ("寻求更好的工作".equals(text.trim())) {
+				return 2;
+			}
+			if ("寻求兼职".equals(text.trim())) {
+				return 3;
+			}
+			if ("已离职".equals(text.trim())) {
+				return 4;
 			}
 		}
 		return null;

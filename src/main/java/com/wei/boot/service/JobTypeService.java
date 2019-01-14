@@ -57,6 +57,13 @@ public interface JobTypeService {
 	List<JobType> selectChildJobType();
 	
 	/**
+	 * 根据名称查工种
+	 * @param jobTypeName
+	 * @return
+	 */
+	JobType queryByName(String jobTypeName);
+	
+	/**
 	 * 导入工种
 	 * @param list
 	 */

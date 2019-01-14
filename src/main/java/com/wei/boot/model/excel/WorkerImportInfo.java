@@ -20,7 +20,28 @@ public class WorkerImportInfo {
 	private String profile;
 	private String description;
 	private String title;
+	private String bank;
+	private String bankAccount;
+	private String workStatusName;
 	
+	public String getBank() {
+		return bank;
+	}
+	public void setBank(String bank) {
+		this.bank = bank;
+	}
+	public String getBankAccount() {
+		return bankAccount;
+	}
+	public void setBankAccount(String bankAccount) {
+		this.bankAccount = bankAccount;
+	}
+	public String getWorkStatusName() {
+		return workStatusName;
+	}
+	public void setWorkStatusName(String workStatusName) {
+		this.workStatusName = workStatusName;
+	}
 	public String getTitle() {
 		return title;
 	}

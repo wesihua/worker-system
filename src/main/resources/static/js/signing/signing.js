@@ -346,8 +346,8 @@ function queryWorkerList(pageNum,demandJobId){
 												"<input autocomplete=\"off\" type=\"text\" placeholder=\"选择到岗日期\"  class=\"b arriveWorkTime\" id=\"requireTime\" name=\"createTime\"/>"+
 										        "</div>"+
 								                "<input name='xiaoshu' class=\"c businessIncome\" type=\"text\" value=''/>"+
-								                "<input name='xiaoshu' class=\"c collectUserIncome\" type=\"text\" value=''/>"+
-								                "<input name='xiaoshu' class=\"c undertakeUserIncome\" type=\"text\" value=''/>"+
+								                "<input name='xiaoshu' class=\"c collectUserIncome\" type=\"text\" value='10'/>"+
+								                "<input name='xiaoshu' class=\"c undertakeUserIncome\" type=\"text\" value='20'/>"+
 								           "</div>"+
 								        "</li>";
 			    	}else{

@@ -1043,11 +1043,11 @@ function checkWorker(worker){
 		alert("工作意向长度不能超过100！");
 		return false;
 	}
-	if(worker.profile && worker.profile.length > 100){
-		alert("个人简介长度不能超过100！");
+	if(worker.profile && worker.profile.length > 500){
+		alert("个人简介长度不能超过500！");
 		return false;
 	}
-	if(worker.description && worker.description.length > 255){
+	if(worker.description && worker.description.length > 500){
 		alert("备注长度不能超过255！");
 		return false;
 	}

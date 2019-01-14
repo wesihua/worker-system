@@ -1016,7 +1016,7 @@
     insert into t_yx_worker (
     	name, telephone, email, idcard, sex, work_year, degree,
       	marital_status, position, address,souce, create_time, create_user, 
-      	profile, description, title
+      	profile, description, title, bank, bank_account, work_status
     )
     values 
     <foreach collection ="list" item="worker" index= "index" separator =",">
@@ -1036,7 +1036,10 @@
     		#{worker.createUser,jdbcType=INTEGER}, 
     		#{worker.profile,jdbcType=VARCHAR}, 
     		#{worker.description,jdbcType=VARCHAR},
-    		#{worker.title,jdbcType=VARCHAR}
+    		#{worker.title,jdbcType=VARCHAR},
+    		#{worker.bank,jdbcType=VARCHAR},
+    		#{worker.bankAccount,jdbcType=VARCHAR},
+    		#{worker.workStatus,jdbcType=VARCHAR}
     	)
     </foreach>
   </insert>

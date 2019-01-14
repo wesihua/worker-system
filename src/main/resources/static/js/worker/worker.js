@@ -15,6 +15,9 @@ $(function(){
 	$("#query").click(function(){
 		query(1);
 	});
+	$("#reset").click(function(){
+		resetQuery();
+	});
 	$("#add-worker").click(function(){
 		location.href="/worker/add"
 	});
@@ -130,6 +133,32 @@ $(function(){
 	// 进入页面自动查询
 	query(1,1);
 });
+
+function resetQuery(){
+	$("#createUser").val("");
+	$("#source").val("");
+	$("#company").val("");
+	$("#beginTime").val("");
+	$("#endTime").val("");
+	$("#minAge").val("");
+	$("#maxAge").val("");
+	$("#sex").val("");
+	$("#degree").val("");
+	$("#expectSalary").val("");
+	$("#workYear").val("");
+	$("#discipline").val("");
+	$("#workStatus").val("");
+	$("#workerName").val("");
+	$("#telephone").val("");
+	$("#idcard").val("");
+	if($("#firstId").selectivity('data')){
+		$("#firstId").selectivity('clear');
+	}
+	var secondId = "";
+	if($("#secondId").selectivity('data')){
+		$("#secondId").selectivity('clear');
+	}
+}
 
 /**
  * 查询
