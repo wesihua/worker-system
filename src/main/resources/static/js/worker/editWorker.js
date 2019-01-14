@@ -1048,7 +1048,7 @@ function checkWorker(worker){
 		return false;
 	}
 	if(worker.description && worker.description.length > 500){
-		alert("备注长度不能超过255！");
+		alert("备注长度不能超过500！");
 		return false;
 	}
 	if(worker.bank && worker.bank.length > 50){
