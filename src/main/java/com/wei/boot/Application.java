@@ -1,8 +1,12 @@
 package com.wei.boot;
 
+import javax.servlet.MultipartConfigElement;
+
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.MultipartConfigFactory;
+import org.springframework.context.annotation.Bean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
@@ -12,6 +16,15 @@ public class Application {
 
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
+	}
+	
+	
+	@Bean
+	MultipartConfigElement multipartConfigElement() {
+	    MultipartConfigFactory factory = new MultipartConfigFactory();
+	    factory.setLocation("/opt/excel_import/tmp");
+	    //factory.setLocation("/Users/weisihua/excel_import/tmp");
+	    return factory.createMultipartConfig();
 	}
 	
 	/*
