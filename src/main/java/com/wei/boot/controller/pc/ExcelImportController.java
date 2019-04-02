@@ -76,8 +76,6 @@ public class ExcelImportController {
 		try {
 			fileName = ToolsUtil.get36UUID()
 					+ file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
-			// 该路径固定
-			//filePath = "/Users/weisihua/excel_import/";
 			
 			File targetFile = new File(filePath);
 			if (!targetFile.exists()) {
