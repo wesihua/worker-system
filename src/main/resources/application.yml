@@ -54,7 +54,7 @@ redis:
   testOnBorrow: true
 excel:
   upload:
-    path: /opt/excel_import/  #导入excel时，上传到服务器的路径
+    path: /Users/weisihua/excel_import/  #导入excel时，上传到服务器的路径 生产上用 /opt/excel_import/
     
 token: 
   secret: yx_guowen_worker_system #token加密secret
