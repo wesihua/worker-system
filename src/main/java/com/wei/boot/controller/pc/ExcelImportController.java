@@ -175,7 +175,7 @@ public class ExcelImportController {
 						worker.setIdcard(info.getIdcard());
 						worker.setTitle(info.getTitle());
 						Integer gender = translateDic("gender", info.getGender());
-						worker.setSex(gender);
+						worker.setSex(gender == null ? 0 : gender);
 						if (!StringUtils.isEmpty(info.getWorkYear())) {
 							worker.setWorkYear(Integer.parseInt(info.getWorkYear()));
 						}
