@@ -15,10 +15,54 @@ $(function(){
 		addWorker();
 	});
 	$("#cancel").click(function(){
-		location.href="/worker/index";
+		var current = $("#current_rem").val();
+		var workerName = $("#workerName_rem").val();
+		var telephone = $("#telephone_rem").val();
+		var idcard = $("#idcard_rem").val();
+		var firstId = $("#firstId_rem").val();
+		var secondId = $("#secondId_rem").val();
+		var createUser = $("#createUser_rem").val();
+		var source = $("#source_rem").val();
+		var company = $("#company_rem").val();
+		var beginTime = $("#beginTime_rem").val();
+		var endTime = $("#endTime_rem").val();
+		var minAge = $("#minAge_rem").val();
+		var maxAge = $("#maxAge_rem").val();
+		var sex = $("#sex_rem").val();
+		var degree = $("#degree_rem").val();
+		var expectSalary = $("#expectSalary_rem").val();
+		var workYear = $("#workYear_rem").val();
+		var discipline = $("#discipline_rem").val();
+		var workStatus = $("#workStatus_rem").val();
+		location.href="/worker/index?workerName="+workerName+"&telephone="+telephone+"&idcard="+idcard
+		+"&firstId="+firstId+"&secondId="+secondId+"&createUser="+createUser+"&source="+source+"&company="+company
+		+"&beginTime="+beginTime+"&endTime="+endTime+"&minAge="+minAge+"&maxAge="+maxAge+"&sex="+sex+"&degree="+degree
+		+"&expectSalary="+expectSalary+"&workYear="+workYear+"&discipline="+discipline+"&workStatus="+workStatus+"&current="+current;
 	});
 	$("#back").click(function(){
-		history.back();
+		var current = $("#current_rem").val();
+		var workerName = $("#workerName_rem").val();
+		var telephone = $("#telephone_rem").val();
+		var idcard = $("#idcard_rem").val();
+		var firstId = $("#firstId_rem").val();
+		var secondId = $("#secondId_rem").val();
+		var createUser = $("#createUser_rem").val();
+		var source = $("#source_rem").val();
+		var company = $("#company_rem").val();
+		var beginTime = $("#beginTime_rem").val();
+		var endTime = $("#endTime_rem").val();
+		var minAge = $("#minAge_rem").val();
+		var maxAge = $("#maxAge_rem").val();
+		var sex = $("#sex_rem").val();
+		var degree = $("#degree_rem").val();
+		var expectSalary = $("#expectSalary_rem").val();
+		var workYear = $("#workYear_rem").val();
+		var discipline = $("#discipline_rem").val();
+		var workStatus = $("#workStatus_rem").val();
+		location.href="/worker/index?workerName="+workerName+"&telephone="+telephone+"&idcard="+idcard
+		+"&firstId="+firstId+"&secondId="+secondId+"&createUser="+createUser+"&source="+source+"&company="+company
+		+"&beginTime="+beginTime+"&endTime="+endTime+"&minAge="+minAge+"&maxAge="+maxAge+"&sex="+sex+"&degree="+degree
+		+"&expectSalary="+expectSalary+"&workYear="+workYear+"&discipline="+discipline+"&workStatus="+workStatus+"&current="+current;
 	});
 	// 初始化工作地区
 	initArea();
@@ -925,6 +969,26 @@ function initProvinceSelect(){
 
 
 function addWorker(){
+	var current = $("#current_rem").val();
+	var workerName = $("#workerName_rem").val();
+	var telephone = $("#telephone_rem").val();
+	var idcard = $("#idcard_rem").val();
+	var firstId = $("#firstId_rem").val();
+	var secondId = $("#secondId_rem").val();
+	var createUser = $("#createUser_rem").val();
+	var source = $("#source_rem").val();
+	var company = $("#company_rem").val();
+	var beginTime = $("#beginTime_rem").val();
+	var endTime = $("#endTime_rem").val();
+	var minAge = $("#minAge_rem").val();
+	var maxAge = $("#maxAge_rem").val();
+	var sex = $("#sex_rem").val();
+	var degree = $("#degree_rem").val();
+	var expectSalary = $("#expectSalary_rem").val();
+	var workYear = $("#workYear_rem").val();
+	var discipline = $("#discipline_rem").val();
+	var workStatus = $("#workStatus_rem").val();
+	
 	var worker = {};
 	worker.id = $("#workerId").val();
 	worker.name = $("#name").val();
@@ -987,7 +1051,10 @@ function addWorker(){
 			success:function(data){
 				if(data.code == 1){
 					alert("更改人才信息成功！");
-					location.href="/worker/index";
+					location.href="/worker/index?workerName="+workerName+"&telephone="+telephone+"&idcard="+idcard
+					+"&firstId="+firstId+"&secondId="+secondId+"&createUser="+createUser+"&source="+source+"&company="+company
+					+"&beginTime="+beginTime+"&endTime="+endTime+"&minAge="+minAge+"&maxAge="+maxAge+"&sex="+sex+"&degree="+degree
+					+"&expectSalary="+expectSalary+"&workYear="+workYear+"&discipline="+discipline+"&workStatus="+workStatus+"&current="+current;
 				}
 				else{
 					alert("新增人才信息失败！原因："+data.msg);

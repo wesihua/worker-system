@@ -1,3 +1,4 @@
+var currentPage = 1;
 $(function(){
 	// 超时跳到登录
 	$(document).ajaxSuccess(function(event, xhr, settings){
@@ -16,6 +17,7 @@ $(function(){
 		query(1);
 	});
 	$("#reset").click(function(){
+		currentPage = 1;
 		resetQuery();
 	});
 	$("#add-worker").click(function(){
@@ -55,7 +57,31 @@ $(function(){
 	});
 	// 初始化来源
 	initSelect();
+	// 初始化创建人
+	initCreateUserSelect("createUser");
 	
+	$('.J-datepicker-range').datePicker({
+        hasShortcut: true,
+        format : 'YYYY-MM-DD HH:mm',
+        isRange: true,
+        shortcutOptions: [{
+          name: '昨天',
+          day: '-1,-1',
+          time: '00:00,23:59'
+        },{
+          name: '最近一周',
+          day: '-7,0',
+          time:'00:00,'
+        }, {
+          name: '最近一个月',
+          day: '-30,0',
+          time: '00:00,'
+        }, {
+          name: '最近三个月',
+          day: '-90, 0',
+          time: '00:00,'
+        }]
+      });
 	// 初始化工作状态
 	//initWorkStatusSelect("workStatus","work_status");
 	// 初始化学历要求
@@ -104,37 +130,32 @@ $(function(){
 		}
 		
 	});
-	// 初始化创建人
-	initCreateUserSelect("createUser");
 	
-	$('.J-datepicker-range').datePicker({
-        hasShortcut: true,
-        format : 'YYYY-MM-DD HH:mm',
-        isRange: true,
-        shortcutOptions: [{
-          name: '昨天',
-          day: '-1,-1',
-          time: '00:00,23:59'
-        },{
-          name: '最近一周',
-          day: '-7,0',
-          time:'00:00,'
-        }, {
-          name: '最近一个月',
-          day: '-30,0',
-          time: '00:00,'
-        }, {
-          name: '最近三个月',
-          day: '-90, 0',
-          time: '00:00,'
-        }]
-      });
 	
-	// 进入页面自动查询
-	query(1,1);
 });
 
 function resetQuery(){
+	
+	$("#current_rem").val("");
+	$("#workerName_rem").val("");
+	$("#telephone_rem").val("");
+	$("#idcard_rem").val("");
+	$("#firstId_rem").val("");
+	$("#secondId_rem").val("");
+	$("#createUser_rem").val("");
+	$("#source_rem").val("");
+	$("#company_rem").val("");
+	$("#beginTime_rem").val("");
+	$("#endTime_rem").val("");
+	$("#minAge_rem").val("");
+	$("#maxAge_rem").val("");
+	$("#sex_rem").val("");
+	$("#degree_rem").val("");
+	$("#expectSalary_rem").val("");
+	$("#workYear_rem").val("");
+	$("#discipline_rem").val("");
+	$("#workStatus_rem").val("");
+	
 	$("#createUser").val("");
 	$("#source").val("");
 	$("#company").val("");
@@ -165,6 +186,7 @@ function resetQuery(){
  * @returns
  */
 function query(currentPage,onPage){
+	
 	var workerName = $("#workerName").val();
 	var telephone = $("#telephone").val();
 	var idcard = $("#idcard").val();
@@ -209,6 +231,7 @@ function query(currentPage,onPage){
 				for(var i=0; i<workerArr.length; i++){
 					var worker = workerArr[i];
 					tableContent+=  "<tr>"+
+									"<td>"+(i+1)+"</td>"+
 									"	<td>"+worker.name+"</td>"+
 									"	<td>"+worker.telephone+"</td>"+
 									"	<td>"+(worker.idcard == null ? "" : worker.idcard)+"</td>"+
@@ -231,10 +254,10 @@ function query(currentPage,onPage){
 									"	<td>"+worker.createUserName+"</td>"+
 									"	<td>"+worker.sourceName+"</td>"+
 									"	<td>"+worker.createTime+"</td>"+
-									"	<td><span class=\"des\" onClick=\"editWorker("+worker.id+")\">编辑</span>" +
-									"<span class=\"delete\" onClick=\"deleteWorker("+worker.id+")\">删除</span>" +
+									"	<td><span class=\"des\" onClick=\"editWorker("+worker.id+","+data.data.pageNumber+")\">编辑</span>" +
+									"<span class=\"delete\" onClick=\"deleteWorker("+worker.id+","+data.data.pageNumber+")\">删除</span>" +
 									"<span class=\"delete\" onClick=\"downloadResume("+worker.id+")\">简历</span>" +
-									"<span class=\"delete\" onClick=\"detailWorker('"+worker.id+"','"+worker.createUserName+"')\">详情</span></td>"+
+									"<span class=\"delete\" onClick=\"detailWorker('"+worker.id+"','"+worker.createUserName+"','"+data.data.pageNumber+"')\">详情</span></td>"+
 									"</tr>";
 				}
 				$("tbody").empty().append(tableContent);
@@ -251,11 +274,66 @@ function query(currentPage,onPage){
 	});
 }
 
-function editWorker(workerId){
-	location.href="/worker/edit?workerId="+workerId
+function editWorker(workerId,current){
+	var workerName = $("#workerName").val();
+	var telephone = $("#telephone").val();
+	var idcard = $("#idcard").val();
+	var firstId = "";
+	if($("#firstId").selectivity('data')){
+		firstId = $("#firstId").selectivity('data').id;
+	}
+	var secondId = "";
+	if($("#secondId").selectivity('data')){
+		secondId = $("#secondId").selectivity('data').id;
+	}
+	var createUser = $("#createUser").val();
+	var source = $("#source").val();
+	var company = $("#company").val();
+	var beginTime = $("#beginTime").val();
+	var endTime = $("#endTime").val();
+	var minAge = $("#minAge").val();
+	var maxAge = $("#maxAge").val();
+	var sex = $("#sex").val();
+	var degree = $("#degree").val();
+	var expectSalary = $("#expectSalary").val();
+	var workYear = $("#workYear").val();
+	var discipline = $("#discipline").val();
+	var workStatus = $("#workStatus").val();
+	
+	location.href="/worker/edit?workerId="+workerId+"&workerName="+workerName+"&telephone="+telephone+"&idcard="+idcard
+	+"&firstId="+firstId+"&secondId="+secondId+"&createUser="+createUser+"&source="+source+"&company="+company
+	+"&beginTime="+beginTime+"&endTime="+endTime+"&minAge="+minAge+"&maxAge="+maxAge+"&sex="+sex+"&degree="+degree
+	+"&expectSalary="+expectSalary+"&workYear="+workYear+"&discipline="+discipline+"&workStatus="+workStatus+"&current="+current;
 }
-function detailWorker(workerId,createUserName){
-	location.href="/worker/detail?workerId="+workerId+"&createUserName="+createUserName;
+function detailWorker(workerId,createUserName,current){
+	var workerName = $("#workerName").val();
+	var telephone = $("#telephone").val();
+	var idcard = $("#idcard").val();
+	var firstId = "";
+	if($("#firstId").selectivity('data')){
+		firstId = $("#firstId").selectivity('data').id;
+	}
+	var secondId = "";
+	if($("#secondId").selectivity('data')){
+		secondId = $("#secondId").selectivity('data').id;
+	}
+	var createUser = $("#createUser").val();
+	var source = $("#source").val();
+	var company = $("#company").val();
+	var beginTime = $("#beginTime").val();
+	var endTime = $("#endTime").val();
+	var minAge = $("#minAge").val();
+	var maxAge = $("#maxAge").val();
+	var sex = $("#sex").val();
+	var degree = $("#degree").val();
+	var expectSalary = $("#expectSalary").val();
+	var workYear = $("#workYear").val();
+	var discipline = $("#discipline").val();
+	var workStatus = $("#workStatus").val();
+	location.href="/worker/detail?workerId="+workerId+"&createUserName="+createUserName+"&workerName="+workerName+"&telephone="+telephone+"&idcard="+idcard
+	+"&firstId="+firstId+"&secondId="+secondId+"&createUser="+createUser+"&source="+source+"&company="+company
+	+"&beginTime="+beginTime+"&endTime="+endTime+"&minAge="+minAge+"&maxAge="+maxAge+"&sex="+sex+"&degree="+degree
+	+"&expectSalary="+expectSalary+"&workYear="+workYear+"&discipline="+discipline+"&workStatus="+workStatus+"&current="+current;
 }
 
 /**
@@ -433,12 +511,17 @@ function initFirstIdSelect(id){
 				    items: [],
 				    placeholder: '二级工种'
 				});
+				
+				// 设置条件历史
+				setHistory();
+				// 进入页面自动查询
+				query(currentPage,1);
 			}
 		}
 	});
 }
 
-function deleteWorker(workerId){
+function deleteWorker(workerId, current){
 	var b = confirm("是否删除该人才？");
 	if(b){
 		$.ajax({
@@ -449,7 +532,7 @@ function deleteWorker(workerId){
 			success:function(data){
 				if(data.code == 1){
 					alert("删除人才成功！");
-					query(1);
+					query(current);
 				}
 				else{
 					alert("删除人才失败！原因："+data.msg);
@@ -461,4 +544,59 @@ function deleteWorker(workerId){
 
 function downloadResume(workerId){
 	window.open("/word/export?workerId="+workerId);
+}
+
+function setHistory(){
+	// 设置条件记录
+	if($("#current_rem").val()){
+		currentPage = $("#current_rem").val();
+	}
+	if($("#workerName_rem").val()){
+		$("#workerName").val($("#workerName_rem").val());
+	}
+	if($("#telephone_rem").val()){
+		$("#telephone").val($("#telephone_rem").val());
+	}
+	if($("#idcard_rem").val()){
+		$("#idcard").val($("#idcard_rem").val());
+	}
+	if($("#createUser_rem").val()){
+		$("#createUser").val($("#createUser_rem").val());
+	}
+	if($("#source_rem").val()){
+		$("#source").val($("#source_rem").val());
+	}
+	if($("#company_rem").val()){
+		$("#company").val($("#company_rem").val());
+	}
+	if($("#beginTime_rem").val()){
+		$("#beginTime").val($("#beginTime_rem").val());
+	}
+	if($("#endTime_rem").val()){
+		$("#endTime").val($("#endTime_rem").val());
+	}
+	if($("#minAge_rem").val()){
+		$("#minAge").val($("#minAge_rem").val());
+	}
+	if($("#maxAge_rem").val()){
+		$("#maxAge").val($("#maxAge_rem").val());
+	}
+	if($("#sex_rem").val()){
+		$("#sex").val($("#sex_rem").val());
+	}
+	if($("#degree_rem").val()){
+		$("#degree").val($("#degree_rem").val());
+	}
+	if($("#expectSalary_rem").val()){
+		$("#expectSalary").val($("#expectSalary_rem").val());
+	}
+	if($("#workYear_rem").val()){
+		$("#workYear").val($("#workYear_rem").val());
+	}
+	if($("#discipline_rem").val()){
+		$("#discipline").val($("#discipline_rem").val());
+	}
+	if($("#workStatus_rem").val()){
+		$("#workStatus").val($("#workStatus_rem").val());
+	}
 }

@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -118,9 +119,13 @@ public class ExcelImportController {
 									continue;
 								}
 								info.setName(getValue(row.getCell(0)));
-								info.setTelephone(getValue(row.getCell(1)));
+								Cell telephoneCell = row.getCell(1);
+								telephoneCell.setCellType(CellType.STRING);
+								info.setTelephone(getValue(telephoneCell));
 								info.setEmail(getValue(row.getCell(2)));
-								info.setIdcard(getValue(row.getCell(3)));
+								Cell idcardCell = row.getCell(3);
+								idcardCell.setCellType(CellType.STRING);
+								info.setIdcard(getValue(idcardCell));
 								info.setGender(getValue(row.getCell(4)));
 								info.setWorkYear(getValue(row.getCell(5)));
 								info.setDegree(getValue(row.getCell(6)));
@@ -131,7 +136,9 @@ public class ExcelImportController {
 								info.setProfile(getValue(row.getCell(11)));
 								info.setDescription(getValue(row.getCell(12)));
 								info.setBank(getValue(row.getCell(13)));
-								info.setBankAccount(getValue(row.getCell(14)));
+								Cell bankAccountCell = row.getCell(14);
+								bankAccountCell.setCellType(CellType.STRING);
+								info.setBankAccount(getValue(bankAccountCell));
 								info.setWorkStatusName(getValue(row.getCell(15)));
 								infoList.add(info);
 							}
@@ -284,28 +291,28 @@ public class ExcelImportController {
 		}
 		if ("degree".equals(type) && !StringUtils.isEmpty(text)) {
 			if ("小学".equals(text.trim())) {
-				return 6;
-			}
-			if ("初中".equals(text.trim())) {
-				return 7;
-			}
-			if ("高中".equals(text.trim())) {
-				return 8;
-			}
-			if ("大专".equals(text.trim())) {
 				return 1;
 			}
-			if ("本科".equals(text.trim())) {
+			if ("初中".equals(text.trim())) {
 				return 2;
 			}
-			if ("硕士".equals(text.trim())) {
+			if ("高中".equals(text.trim())) {
 				return 3;
 			}
-			if ("博士".equals(text.trim())) {
+			if ("大专".equals(text.trim())) {
 				return 4;
 			}
-			if ("其他".equals(text.trim())) {
+			if ("本科".equals(text.trim())) {
 				return 5;
+			}
+			if ("硕士".equals(text.trim())) {
+				return 6;
+			}
+			if ("博士".equals(text.trim())) {
+				return 7;
+			}
+			if ("其他".equals(text.trim())) {
+				return 8;
 			}
 		}
 		if ("maritalStatus".equals(type) && !StringUtils.isEmpty(text)) {

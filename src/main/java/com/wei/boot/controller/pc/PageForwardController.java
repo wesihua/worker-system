@@ -51,7 +51,28 @@ public class PageForwardController {
 		return "company/company";
 	}
 	@GetMapping("/worker/index")
-	public String workerIndex() {
+	public String workerIndex(Model model, String current,String workerName,String telephone,String idcard,String firstId,
+			String secondId,String createUser,String source, String company,String beginTime,String endTime,String minAge,String maxAge,
+			String sex,String degree,String expectSalary,String workYear,String discipline,String workStatus) {
+		model.addAttribute("current", current);
+		model.addAttribute("workerName", workerName);
+		model.addAttribute("telephone", telephone);
+		model.addAttribute("idcard", idcard);
+		model.addAttribute("firstId", firstId);
+		model.addAttribute("secondId", secondId);
+		model.addAttribute("createUser", createUser);
+		model.addAttribute("source", source);
+		model.addAttribute("company", company);
+		model.addAttribute("beginTime", beginTime);
+		model.addAttribute("endTime", endTime);
+		model.addAttribute("minAge", minAge);
+		model.addAttribute("maxAge", maxAge);
+		model.addAttribute("sex", sex);
+		model.addAttribute("degree", degree);
+		model.addAttribute("expectSalary", expectSalary);
+		model.addAttribute("workYear", workYear);
+		model.addAttribute("discipline", discipline);
+		model.addAttribute("workStatus", workStatus);
 		return "worker/worker";
 	}
 	@GetMapping("/order/index")
@@ -86,14 +107,57 @@ public class PageForwardController {
 	}
 	
 	@GetMapping("/worker/edit")
-	public String workerEdit(Model model, String workerId) {
+	public String workerEdit(Model model, String workerId,String current,String workerName,String telephone,String idcard,String firstId,
+			String secondId,String createUser,String source, String company,String beginTime,String endTime,String minAge,String maxAge,
+			String sex,String degree,String expectSalary,String workYear,String discipline,String workStatus) {
+		
+		model.addAttribute("current", current);
 		model.addAttribute("workerId", workerId);
+		model.addAttribute("workerName", workerName);
+		model.addAttribute("telephone", telephone);
+		model.addAttribute("idcard", idcard);
+		model.addAttribute("firstId", firstId);
+		model.addAttribute("secondId", secondId);
+		model.addAttribute("createUser", createUser);
+		model.addAttribute("source", source);
+		model.addAttribute("company", company);
+		model.addAttribute("beginTime", beginTime);
+		model.addAttribute("endTime", endTime);
+		model.addAttribute("minAge", minAge);
+		model.addAttribute("maxAge", maxAge);
+		model.addAttribute("sex", sex);
+		model.addAttribute("degree", degree);
+		model.addAttribute("expectSalary", expectSalary);
+		model.addAttribute("workYear", workYear);
+		model.addAttribute("discipline", discipline);
+		model.addAttribute("workStatus", workStatus);
 		return "worker/editWorker";
 	}
 	@GetMapping("/worker/detail")
-	public String workerDetail(Model model, String workerId, String createUserName) {
+	public String workerDetail(Model model, String workerId, String createUserName,String current,String workerName,String telephone,String idcard,String firstId,
+			String secondId,String createUser,String source, String company,String beginTime,String endTime,String minAge,String maxAge,
+			String sex,String degree,String expectSalary,String workYear,String discipline,String workStatus) {
 		model.addAttribute("workerId", workerId);
 		model.addAttribute("createUserName", createUserName);
+		model.addAttribute("current", current);
+		model.addAttribute("workerName", workerName);
+		model.addAttribute("telephone", telephone);
+		model.addAttribute("idcard", idcard);
+		model.addAttribute("firstId", firstId);
+		model.addAttribute("secondId", secondId);
+		model.addAttribute("createUser", createUser);
+		model.addAttribute("source", source);
+		model.addAttribute("company", company);
+		model.addAttribute("beginTime", beginTime);
+		model.addAttribute("endTime", endTime);
+		model.addAttribute("minAge", minAge);
+		model.addAttribute("maxAge", maxAge);
+		model.addAttribute("sex", sex);
+		model.addAttribute("degree", degree);
+		model.addAttribute("expectSalary", expectSalary);
+		model.addAttribute("workYear", workYear);
+		model.addAttribute("discipline", discipline);
+		model.addAttribute("workStatus", workStatus);
 		return "worker/detail";
 	}
 
