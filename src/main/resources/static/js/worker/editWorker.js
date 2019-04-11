@@ -34,9 +34,10 @@ $(function(){
 		var workYear = $("#workYear_rem").val();
 		var discipline = $("#discipline_rem").val();
 		var workStatus = $("#workStatus_rem").val();
+		var agent = $("#agent_rem").val();
 		location.href="/worker/index?workerName="+workerName+"&telephone="+telephone+"&idcard="+idcard
 		+"&firstId="+firstId+"&secondId="+secondId+"&createUser="+createUser+"&source="+source+"&company="+company
-		+"&beginTime="+beginTime+"&endTime="+endTime+"&minAge="+minAge+"&maxAge="+maxAge+"&sex="+sex+"&degree="+degree
+		+"&beginTime="+beginTime+"&endTime="+endTime+"&minAge="+minAge+"&maxAge="+maxAge+"&sex="+sex+"&degree="+degree+"&agent="+agent
 		+"&expectSalary="+expectSalary+"&workYear="+workYear+"&discipline="+discipline+"&workStatus="+workStatus+"&current="+current;
 	});
 	$("#back").click(function(){
@@ -59,9 +60,10 @@ $(function(){
 		var workYear = $("#workYear_rem").val();
 		var discipline = $("#discipline_rem").val();
 		var workStatus = $("#workStatus_rem").val();
+		var agent = $("#agent_rem").val();
 		location.href="/worker/index?workerName="+workerName+"&telephone="+telephone+"&idcard="+idcard
 		+"&firstId="+firstId+"&secondId="+secondId+"&createUser="+createUser+"&source="+source+"&company="+company
-		+"&beginTime="+beginTime+"&endTime="+endTime+"&minAge="+minAge+"&maxAge="+maxAge+"&sex="+sex+"&degree="+degree
+		+"&beginTime="+beginTime+"&endTime="+endTime+"&minAge="+minAge+"&maxAge="+maxAge+"&sex="+sex+"&degree="+degree+"&agent="+agent
 		+"&expectSalary="+expectSalary+"&workYear="+workYear+"&discipline="+discipline+"&workStatus="+workStatus+"&current="+current;
 	});
 	// 初始化工作地区
@@ -240,6 +242,7 @@ function loadWorkerInfo(){
 				$("#description").val(worker.description);
 				$("#bank").val(worker.bank);
 				$("#bankAccount").val(worker.bankAccount);
+				$("#agent").val(worker.agent);
 				//$("#jobtype").val(worker.jobtypeName);
 				//$("#jobtype_value").val(JSON.stringify(worker.jobTypeList));
 				
@@ -988,6 +991,7 @@ function addWorker(){
 	var workYear = $("#workYear_rem").val();
 	var discipline = $("#discipline_rem").val();
 	var workStatus = $("#workStatus_rem").val();
+	var agent = $("#agent_rem").val();
 	
 	var worker = {};
 	worker.id = $("#workerId").val();
@@ -1023,6 +1027,7 @@ function addWorker(){
 	worker.description = $("#description").val();
 	worker.bank = $("#bank").val();
 	worker.bankAccount = $("#bankAccount").val();
+	worker.agent = $("#agent").val();
 	
 	// 处理工种
 	var jobTypeArray = $("#jobtype_new").selectivity('data');
@@ -1053,7 +1058,7 @@ function addWorker(){
 					alert("更改人才信息成功！");
 					location.href="/worker/index?workerName="+workerName+"&telephone="+telephone+"&idcard="+idcard
 					+"&firstId="+firstId+"&secondId="+secondId+"&createUser="+createUser+"&source="+source+"&company="+company
-					+"&beginTime="+beginTime+"&endTime="+endTime+"&minAge="+minAge+"&maxAge="+maxAge+"&sex="+sex+"&degree="+degree
+					+"&beginTime="+beginTime+"&endTime="+endTime+"&minAge="+minAge+"&maxAge="+maxAge+"&sex="+sex+"&degree="+degree+"&agent="+agent
 					+"&expectSalary="+expectSalary+"&workYear="+workYear+"&discipline="+discipline+"&workStatus="+workStatus+"&current="+current;
 				}
 				else{
@@ -1124,6 +1129,10 @@ function checkWorker(worker){
 	}
 	if(worker.bankAccount && worker.bankAccount.length > 20){
 		alert("银行卡号长度不能超过20");
+		return false;
+	}
+	if(worker.agent && worker.agent.length > 30){
+		alert("代理人长度不能超过30");
 		return false;
 	}
 	return true;

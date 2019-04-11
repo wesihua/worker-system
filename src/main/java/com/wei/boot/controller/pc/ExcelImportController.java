@@ -140,6 +140,7 @@ public class ExcelImportController {
 								bankAccountCell.setCellType(CellType.STRING);
 								info.setBankAccount(getValue(bankAccountCell));
 								info.setWorkStatusName(getValue(row.getCell(15)));
+								info.setAgent(getValue(row.getCell(16)));
 								infoList.add(info);
 							}
 						}
@@ -198,6 +199,7 @@ public class ExcelImportController {
 						worker.setBankAccount(info.getBankAccount());
 						Integer workStatus = translateDic("workStatus", info.getWorkStatusName());
 						worker.setWorkStatus(workStatus);
+						worker.setAgent(info.getAgent());
 						worker.setSouce(GlobalConstant.Source.IMPORT);
 						worker.setCreateTime(new Date());
 						worker.setCreateUser(userId);

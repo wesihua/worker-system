@@ -155,6 +155,7 @@ function resetQuery(){
 	$("#workYear_rem").val("");
 	$("#discipline_rem").val("");
 	$("#workStatus_rem").val("");
+	$("#agent_rem").val("");
 	
 	$("#createUser").val("");
 	$("#source").val("");
@@ -172,6 +173,7 @@ function resetQuery(){
 	$("#workerName").val("");
 	$("#telephone").val("");
 	$("#idcard").val("");
+	$("#agent").val("");
 	if($("#firstId").selectivity('data')){
 		$("#firstId").selectivity('clear');
 	}
@@ -215,11 +217,12 @@ function query(currentPage,onPage){
 	var workYear = $("#workYear").val();
 	var discipline = $("#discipline").val();
 	var workStatus = $("#workStatus").val();
+	var agent = $("#agent").val();
 	$.ajax({
 		url:"/worker/list",
 		type:"get",
 		data:{name:workerName,telephone:telephone,idcard:idcard,createUser:createUser,
-			souce:source,firstId:firstId,secondId:secondId,beginTime:beginTime,
+			souce:source,firstId:firstId,secondId:secondId,beginTime:beginTime,agent:agent,
 			minAge:minAge,maxAge:maxAge,sex:sex,degree:degree,expectSalary:expectSalary,
 			workYear:workYear,company:company,discipline:discipline,workStatus:workStatus,
 			endTime:endTime,pageNumber:currentPage},
@@ -241,15 +244,16 @@ function query(currentPage,onPage){
 									"	<td>"+(worker.jobtypeName == null ? "" : worker.jobtypeName)+"</td>";
 									if(worker.experienceList != null && worker.experienceList.length > 0){
 										var experience = worker.experienceList[0];
-										var beginTime = experience.beginTime == null ? "暂无" : experience.beginTime;
-										var endTime = experience.endTime == null ? "暂无" : experience.endTime;
-										tableContent += "<td>"+experience.company+"</td><td>"+beginTime+"-"+endTime+"</td>";
+										var beginTime = experience.beginTime == null ? "-" : experience.beginTime;
+										var endTime = experience.endTime == null ? "-" : experience.endTime;
+										tableContent += "<td>"+experience.company+"</td><td>"+beginTime+"至"+endTime+"</td>";
 									}
 									else{
 										tableContent += "<td></td><td></td>";
 									}
 									tableContent += "	<td>"+(worker.bank == null ? "" : worker.bank)+"</td>"+
 									"	<td>"+(worker.bankAccount == null ? "" : worker.bankAccount)+"</td>"+
+									"	<td>"+(worker.agent == null ? "" : worker.agent)+"</td>"+
 									"	<td>"+worker.workStatusName+"</td>"+
 									"	<td>"+worker.createUserName+"</td>"+
 									"	<td>"+worker.sourceName+"</td>"+
@@ -299,10 +303,11 @@ function editWorker(workerId,current){
 	var workYear = $("#workYear").val();
 	var discipline = $("#discipline").val();
 	var workStatus = $("#workStatus").val();
+	var agent = $("#agent").val();
 	
 	location.href="/worker/edit?workerId="+workerId+"&workerName="+workerName+"&telephone="+telephone+"&idcard="+idcard
 	+"&firstId="+firstId+"&secondId="+secondId+"&createUser="+createUser+"&source="+source+"&company="+company
-	+"&beginTime="+beginTime+"&endTime="+endTime+"&minAge="+minAge+"&maxAge="+maxAge+"&sex="+sex+"&degree="+degree
+	+"&beginTime="+beginTime+"&endTime="+endTime+"&minAge="+minAge+"&maxAge="+maxAge+"&sex="+sex+"&degree="+degree+"&agent="+agent
 	+"&expectSalary="+expectSalary+"&workYear="+workYear+"&discipline="+discipline+"&workStatus="+workStatus+"&current="+current;
 }
 function detailWorker(workerId,createUserName,current){
@@ -330,9 +335,10 @@ function detailWorker(workerId,createUserName,current){
 	var workYear = $("#workYear").val();
 	var discipline = $("#discipline").val();
 	var workStatus = $("#workStatus").val();
+	var agent = $("#agent").val();
 	location.href="/worker/detail?workerId="+workerId+"&createUserName="+createUserName+"&workerName="+workerName+"&telephone="+telephone+"&idcard="+idcard
 	+"&firstId="+firstId+"&secondId="+secondId+"&createUser="+createUser+"&source="+source+"&company="+company
-	+"&beginTime="+beginTime+"&endTime="+endTime+"&minAge="+minAge+"&maxAge="+maxAge+"&sex="+sex+"&degree="+degree
+	+"&beginTime="+beginTime+"&endTime="+endTime+"&minAge="+minAge+"&maxAge="+maxAge+"&sex="+sex+"&degree="+degree+"&agent="+agent
 	+"&expectSalary="+expectSalary+"&workYear="+workYear+"&discipline="+discipline+"&workStatus="+workStatus+"&current="+current;
 }
 
@@ -598,5 +604,8 @@ function setHistory(){
 	}
 	if($("#workStatus_rem").val()){
 		$("#workStatus").val($("#workStatus_rem").val());
+	}
+	if($("#agent_rem").val()){
+		$("#agent").val($("#agent_rem").val());
 	}
 }

@@ -277,3 +277,5 @@ ALTER TABLE t_yx_order_worker ADD INDEX index_demand_jobtype_id (demand_job_id);
 ALTER TABLE t_yx_order_worker ADD INDEX index_order_id (order_id);
 ALTER TABLE t_yx_order_worker ADD INDEX index_worker_id (worker_id);
 
+-- 更改sql
+ALTER TABLE t_yx_worker ADD COLUMN agent varchar(30) NULL COMMENT '代理人' AFTER souce;

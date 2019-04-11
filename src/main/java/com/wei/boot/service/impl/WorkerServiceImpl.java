@@ -85,6 +85,9 @@ public class WorkerServiceImpl implements WorkerService {
 		if(!StringUtils.isEmpty(worker.getName())) {
 			map.put("name", "%"+worker.getName()+"%");
 		}
+		if(!StringUtils.isEmpty(worker.getAgent())) {
+			map.put("agent", "%"+worker.getAgent()+"%");
+		}
 		if(!StringUtils.isEmpty(worker.getBeginTime())) {
 			map.put("beginTime", worker.getBeginTime());
 		}

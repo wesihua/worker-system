@@ -30,9 +30,10 @@ $(function(){
 		var workYear = $("#workYear_rem").val();
 		var discipline = $("#discipline_rem").val();
 		var workStatus = $("#workStatus_rem").val();
+		var agent = $("#agent_rem").val();
 		location.href="/worker/index?workerName="+workerName+"&telephone="+telephone+"&idcard="+idcard
 		+"&firstId="+firstId+"&secondId="+secondId+"&createUser="+createUser+"&source="+source+"&company="+company
-		+"&beginTime="+beginTime+"&endTime="+endTime+"&minAge="+minAge+"&maxAge="+maxAge+"&sex="+sex+"&degree="+degree
+		+"&beginTime="+beginTime+"&endTime="+endTime+"&minAge="+minAge+"&maxAge="+maxAge+"&sex="+sex+"&degree="+degree+"&agent="+agent
 		+"&expectSalary="+expectSalary+"&workYear="+workYear+"&discipline="+discipline+"&workStatus="+workStatus+"&current="+current;
 	});
 	$("#exportResume").click(function(){
@@ -89,6 +90,7 @@ function loadWorkerInfo(){
 				$("#description").text(worker.description);
 				$("#bank").text(worker.bank);
 				$("#bankAccount").text(worker.bankAccount);
+				$("#agent").text(worker.agent);
 				$("#createUser").text("录入人员："+$("#createUserName").val());
 				$("#createTime").text("录入时间："+worker.createTime);
 				// 加载教育经历

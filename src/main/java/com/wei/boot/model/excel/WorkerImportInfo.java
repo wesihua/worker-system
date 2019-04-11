@@ -23,7 +23,14 @@ public class WorkerImportInfo {
 	private String bank;
 	private String bankAccount;
 	private String workStatusName;
+	private String agent;
 	
+	public String getAgent() {
+		return agent;
+	}
+	public void setAgent(String agent) {
+		this.agent = agent;
+	}
 	public String getBank() {
 		return bank;
 	}

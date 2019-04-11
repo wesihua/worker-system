@@ -295,6 +295,16 @@ public class Worker {
     
     private Integer age;
     
+    private String agent;
+    
+	public String getAgent() {
+		return agent;
+	}
+
+	public void setAgent(String agent) {
+		this.agent = agent;
+	}
+
 	public String getBank() {
 		return bank;
 	}

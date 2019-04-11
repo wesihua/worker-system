@@ -41,6 +41,7 @@
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="update_user" property="updateUser" jdbcType="INTEGER" />
     <result column="real_name" property="createUserName" jdbcType="VARCHAR" />
+    <result column="agent" property="agent" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <!--
@@ -119,7 +120,7 @@
     id, name, photo, sex, age, telephone, idcard, birthday, birthplace_code, work_year, marital_status, 
     workplace_code, expect_salary, work_status, nation, position, address, language_level, 
     work_expect, email, title, night_work, souce, degree, profile, description, jobtype_name, create_time, create_user, update_time, 
-    update_user, bank, bank_account
+    update_user, bank, bank_account, agent
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wei.boot.model.WorkerExample" >
     <!--
@@ -183,7 +184,7 @@
       address, language_level, work_expect, 
       email, title, night_work, 
       souce, create_time, create_user, 
-      update_time, update_user)
+      update_time, update_user,agent)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{photo,jdbcType=VARCHAR}, 
       #{sex,jdbcType=INTEGER}, #{telephone,jdbcType=VARCHAR}, #{idcard,jdbcType=VARCHAR}, 
       #{birthday,jdbcType=DATE}, #{birthplaceCode,jdbcType=INTEGER}, #{workYear,jdbcType=INTEGER}, 
@@ -192,7 +193,7 @@
       #{address,jdbcType=VARCHAR}, #{languageLevel,jdbcType=INTEGER}, #{workExpect,jdbcType=VARCHAR}, 
       #{email,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{nightWork,jdbcType=INTEGER}, 
       #{souce,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=INTEGER}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=INTEGER})
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=INTEGER}, #{agent,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.wei.boot.model.Worker">
 	  <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -299,6 +300,9 @@
       <if test="bankAccount != null" >
         bank_account,
       </if>
+      <if test="agent != null" >
+        agent,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -400,6 +404,9 @@
       <if test="bankAccount != null" >
         #{bankAccount,jdbcType=VARCHAR},
       </if>
+      <if test="agent != null" >
+        #{agent,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.wei.boot.model.WorkerExample" resultType="java.lang.Integer" >
@@ -499,6 +506,9 @@
       <if test="record.updateUser != null" >
         update_user = #{record.updateUser,jdbcType=INTEGER},
       </if>
+      <if test="record.agent != null" >
+        agent = #{record.agent,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -536,7 +546,8 @@
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       create_user = #{record.createUser,jdbcType=INTEGER},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      update_user = #{record.updateUser,jdbcType=INTEGER}
+      update_user = #{record.updateUser,jdbcType=INTEGER},
+      agent = #{record.agent,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -645,6 +656,9 @@
       <if test="bankAccount != null" >
         bank_account = #{bankAccount,jdbcType=VARCHAR},
       </if>
+      <if test="agent != null" >
+        agent = #{agent,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -685,6 +699,7 @@
       jobtype_name = #{jobtypeName,jdbcType=VARCHAR},
       bank = #{bank,jdbcType=VARCHAR},
       bank_account = #{bankAccount,jdbcType=VARCHAR},
+      agent = #{agent,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_user = #{createUser,jdbcType=INTEGER},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
@@ -697,7 +712,7 @@
 		t.id, t.name, t.photo, t.sex, t.age, t.telephone, t.idcard, t.birthday, t.birthplace_code, t.work_year, t.marital_status, 
 		t.workplace_code, t.expect_salary, t.work_status, t.nation, t.position, t.address, t.language_level, jobtype_name,
 		t.work_expect, t.email, t.title, t.night_work, t.souce, t.degree, t.profile, t.description, t.create_time, t.create_user,
-		t.update_time, t.update_user, t.bank, t.bank_account,
+		t.update_time, t.update_user, t.bank, t.bank_account,t.agent,
 		u.real_name 
 	FROM
 		t_yx_worker t,t_sys_user u 
@@ -720,6 +735,9 @@
 				</if>
 				<if test="name != null and name != ''">
 					and x.name like #{name,jdbcType=VARCHAR}
+				</if>
+				<if test="agent != null and agent != ''">
+					and x.agent like #{agent,jdbcType=VARCHAR}
 				</if>
 				<if test="beginTime != null and beginTime != ''">
 					and x.create_time &gt;= #{beginTime,jdbcType=VARCHAR}
@@ -786,6 +804,9 @@
 		</if>
 		<if test="name != null and name != ''">
 			and t.name like #{name,jdbcType=VARCHAR}
+		</if>
+		<if test="agent != null and agent != ''">
+			and t.agent like #{agent,jdbcType=VARCHAR}
 		</if>
 		<if test="beginTime != null and beginTime != ''">
 			and t.create_time &gt;= #{beginTime,jdbcType=VARCHAR}
@@ -857,6 +878,9 @@
 		</if>
 		<if test="name != null and name != ''">
 			and t.name like #{name,jdbcType=VARCHAR}
+		</if>
+		<if test="agent != null and agent != ''">
+			and t.agent like #{agent,jdbcType=VARCHAR}
 		</if>
 		<if test="beginTime != null and beginTime != ''">
 			and t.create_time &gt;= #{beginTime,jdbcType=VARCHAR}
@@ -1016,7 +1040,7 @@
     insert into t_yx_worker (
     	name, telephone, email, idcard, sex, work_year, degree,
       	marital_status, position, address,souce, create_time, create_user, 
-      	profile, description, title, bank, bank_account, work_status
+      	profile, description, title, bank, bank_account, work_status, agent
     )
     values 
     <foreach collection ="list" item="worker" index= "index" separator =",">
@@ -1039,7 +1063,8 @@
     		#{worker.title,jdbcType=VARCHAR},
     		#{worker.bank,jdbcType=VARCHAR},
     		#{worker.bankAccount,jdbcType=VARCHAR},
-    		#{worker.workStatus,jdbcType=VARCHAR}
+    		#{worker.workStatus,jdbcType=VARCHAR},
+    		#{worker.agent,jdbcType=VARCHAR}
     	)
     </foreach>
   </insert>

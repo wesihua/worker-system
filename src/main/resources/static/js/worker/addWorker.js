@@ -589,6 +589,7 @@ function addWorker(){
 	worker.description = $("#description").val();
 	worker.bank = $("#bank").val();
 	worker.bankAccount = $("#bankAccount").val();
+	worker.agent = $("#agent").val();
 	
 	// 处理工种
 	var jobTypeArray = $("#jobtype_new").selectivity('data');
@@ -720,6 +721,10 @@ function checkWorker(worker){
 	}
 	if(worker.bankAccount && worker.bankAccount.length > 20){
 		alert("银行卡号长度不能超过20");
+		return false;
+	}
+	if(worker.agent && worker.agent.length > 30){
+		alert("代理人长度不能超过30");
 		return false;
 	}
 	return true;

@@ -53,7 +53,7 @@ public class PageForwardController {
 	@GetMapping("/worker/index")
 	public String workerIndex(Model model, String current,String workerName,String telephone,String idcard,String firstId,
 			String secondId,String createUser,String source, String company,String beginTime,String endTime,String minAge,String maxAge,
-			String sex,String degree,String expectSalary,String workYear,String discipline,String workStatus) {
+			String sex,String degree,String expectSalary,String workYear,String discipline,String workStatus,String agent) {
 		model.addAttribute("current", current);
 		model.addAttribute("workerName", workerName);
 		model.addAttribute("telephone", telephone);
@@ -73,6 +73,7 @@ public class PageForwardController {
 		model.addAttribute("workYear", workYear);
 		model.addAttribute("discipline", discipline);
 		model.addAttribute("workStatus", workStatus);
+		model.addAttribute("agent", agent);
 		return "worker/worker";
 	}
 	@GetMapping("/order/index")
@@ -109,7 +110,7 @@ public class PageForwardController {
 	@GetMapping("/worker/edit")
 	public String workerEdit(Model model, String workerId,String current,String workerName,String telephone,String idcard,String firstId,
 			String secondId,String createUser,String source, String company,String beginTime,String endTime,String minAge,String maxAge,
-			String sex,String degree,String expectSalary,String workYear,String discipline,String workStatus) {
+			String sex,String degree,String expectSalary,String workYear,String discipline,String workStatus,String agent) {
 		
 		model.addAttribute("current", current);
 		model.addAttribute("workerId", workerId);
@@ -131,12 +132,13 @@ public class PageForwardController {
 		model.addAttribute("workYear", workYear);
 		model.addAttribute("discipline", discipline);
 		model.addAttribute("workStatus", workStatus);
+		model.addAttribute("agent", agent);
 		return "worker/editWorker";
 	}
 	@GetMapping("/worker/detail")
 	public String workerDetail(Model model, String workerId, String createUserName,String current,String workerName,String telephone,String idcard,String firstId,
 			String secondId,String createUser,String source, String company,String beginTime,String endTime,String minAge,String maxAge,
-			String sex,String degree,String expectSalary,String workYear,String discipline,String workStatus) {
+			String sex,String degree,String expectSalary,String workYear,String discipline,String workStatus,String agent) {
 		model.addAttribute("workerId", workerId);
 		model.addAttribute("createUserName", createUserName);
 		model.addAttribute("current", current);
@@ -158,6 +160,7 @@ public class PageForwardController {
 		model.addAttribute("workYear", workYear);
 		model.addAttribute("discipline", discipline);
 		model.addAttribute("workStatus", workStatus);
+		model.addAttribute("agent", agent);
 		return "worker/detail";
 	}
 

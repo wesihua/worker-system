@@ -37,6 +37,7 @@
 <input type="hidden" id="workYear_rem" th:value="${workYear}"/>
 <input type="hidden" id="discipline_rem" th:value="${discipline}"/>
 <input type="hidden" id="workStatus_rem" th:value="${workStatus}"/>
+<input type="hidden" id="agent_rem" th:value="${agent}"/>
 
 	<div id="content">
 		<div id="content-nav">
@@ -75,6 +76,7 @@
 							<option value="0">男</option>
 							<option value="1">女</option>
 						</select> 
+						<input placeholder="代理人" id="agent"/>
 					</div>
 					<div class="select1">
 						<span class="n"></span>
@@ -119,23 +121,24 @@
 				<table cellpadding="0" cellspacing="0">
 					<thead>
 						<tr>
-							<th width="40">序号</th>
+							<th width="50">序号</th>
 							<th width="70">姓名</th>
 							<th width="90">手机号</th>
 							<th width="144">身份证号</th>
 							<th width="40">性别</th>
 							<th width="40">年龄</th>
-							<th width="70">职称</th>
-							<th width="100">擅长工种</th>
-							<th width="100">单位名称</th>
-							<th width="100">入离职时间</th>
+							<th width="100">职称</th>
+							<th width="80">擅长工种</th>
+							<th width="150">单位名称</th>
+							<th width="150">入离职时间</th>
 							<th width="100">开户行</th>
 							<th width="100">银行卡号</th>
+							<th width="80">代理人</th>
 							<th width="100">工作状态</th>
-							<th width="63">录入人员</th>
+							<th width="70">录入人</th>
 							<th width="50">来源</th>
-							<th width="130">录入时间</th>
-							<th width="90">操作</th>
+							<th width="100">录入时间</th>
+							<th width="100">操作</th>
 						</tr>
 					</thead>
 					<tbody></tbody>
